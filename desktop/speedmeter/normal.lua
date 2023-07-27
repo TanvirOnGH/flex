@@ -44,7 +44,7 @@ local default_args = {
 	autoscale = true,
 	label = "NETWORK",
 	timeout = 5,
-	interface = "eth0",
+	interface = "enp42s0",
 	meter_function = system.net_speed
 }
 

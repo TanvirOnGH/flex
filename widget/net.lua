@@ -22,7 +22,7 @@ local net = { mt = {} }
 local default_args = {
 	speed     = { up = 10*1024, down = 10*1024 },
 	autoscale = true,
-	interface = "eth0"
+	interface = "enp42s0"
 }
 
 -- Generate default theme vars
