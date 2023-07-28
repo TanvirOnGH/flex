@@ -35,11 +35,15 @@ local all_icon_sizes   = { '128x128' , '96x96', '72x72', '64x64', '48x48',
 -----------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
-		icons             = { custom_only = false, scalable_only = false, df_icon = nil, theme = nil },
+        icons             = { custom_only = false, scalable_only = false, df_icon = nil, theme = nil },
+		-- list of path to check desktop files
         desktop_file_dirs = {
 			-- On NixOS systems
             '/run/current-system/sw/share/applications/', -- For nix applications
-			'~/.local/state/home-manager/gcroots/current-home/home-path/share/applications' -- For home-manager applications
+			'~/.local/state/home-manager/gcroots/current-home/home-path/share/applications', -- For home-manager applications
+			-- '/usr/share/applications/',
+			-- '/usr/local/share/applications/',
+			'~/.local/share/applications',
 		},
 		wm_name           = nil,
 	}
