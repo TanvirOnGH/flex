@@ -90,9 +90,9 @@ local function default_style()
 		update_timeout  = 1,
 		min_icon_number = 4,
 		keytip          = { geometry = { width = 400 }, exit = false },
-		title_font      = "Sans 12",
+		title_font      = "Fira Code 12",
 		hotkeys         = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" },
-		font            = { font = "Sans", size = 16, face = 0, slant = 0 },
+		font            = { font = "Fira Code", size = 16, face = 0, slant = 0 },
 		color           = { border = "#575757", text = "#aaaaaa", main = "#b1222b", preview_bg = "#b1222b80",
 		                    wibox  = "#202020", icon = "#a0a0a0", bg   = "#161616", gray = "#575757" },
 		shape           = nil

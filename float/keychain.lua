@@ -32,7 +32,7 @@ keychain.service = { close = { "Escape" }, help = { "F1" }, stepback = { "BackSp
 local function default_style()
 	local style = {
 		geometry        = { width = 220, height = 60 },
-		font            = "Sans 14 bold",
+		font            = "Fira Code 14 bold",
 		border_width    = 2,
 		keytip          = { geometry = { width = 500 }, exit = false },
 		color           = { border = "#575757", wibox = "#202020" },

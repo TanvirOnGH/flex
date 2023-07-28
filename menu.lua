@@ -53,7 +53,7 @@ local function default_theme()
 		submenu_icon = redutil.base.placeholder({ txt = "▶" }),
 		height       = 20,
 		width        = 200,
-		font         = "Sans 12",
+		font         = "Fira Code 12",
 		margin       = { 0, 0, 0, 0},  -- whole menu margin
 		icon_margin  = { 0, 0, 0, 0 }, -- left icon margin
 		ricon_margin = { 0, 0, 0, 0 }, -- right icon margin

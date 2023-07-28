@@ -27,7 +27,7 @@ local function default_style()
 		draw      = "by_left",
 		separator = '%s',
 		color     = "#404040",
-		font      = { font = "Sans", size = 20, face = 0, slant = 0 }
+		font      = { font = "Fira Code", size = 20, face = 0, slant = 0 }
 	}
 
 	return redutil.table.merge(style, redutil.table.check(beautiful, "desktop.common.textbox") or {})
@@ -74,7 +74,7 @@ function align.by_width(cr, width, _, text)
 
 		local c_ext = cr:text_extents(c)
 		gap = gap + text_gap + c_ext.width + c_ext.x_bearing
-		-- !!! WORKAROUND for space character width only for font size = 24 font = "Play bold" !!!
+		-- !!! WORKAROUND for space character width only for font size = 24 font = "Fira Code" !!!
 		--if c == " " then
 		--  gap = gap + 6
 		--end

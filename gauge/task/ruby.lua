@@ -24,7 +24,7 @@ local rubytask = { mt = {} }
 local function default_style()
 	local style = {
 		width      = 80,
-		font       = { font = "Sans", size = 16, face = 0, slant = 0 },
+		font       = { font = "Fira Code", size = 16, face = 0, slant = 0 },
 		text_shift = 26,
 		point      = { size = 4, space = 3, gap = 3 },
 		underline  = { height = 20, thickness = 4, gap = 36, dh = 4 },

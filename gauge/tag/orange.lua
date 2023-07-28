@@ -32,7 +32,7 @@ local function default_style()
 		show_min     = true,
 		min_sections = 1,
 		text         = false,
-		font         = { font = "Sans", size = 16, face = 0, slant = 0 },
+		font         = { font = "Fira Code", size = 16, face = 0, slant = 0 },
 		color        = { main  = "#b1222b", gray  = "#575757", icon = "#a0a0a0", urgent = "#32882d" }
 	}
 

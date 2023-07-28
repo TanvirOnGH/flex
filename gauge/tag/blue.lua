@@ -24,7 +24,7 @@ local bluetag = { mt = {} }
 local function default_style()
 	local style = {
 		width      = 80,
-		font       = { font = "Sans", size = 16, face = 0, slant = 0 },
+		font       = { font = "Fira Code", size = 16, face = 0, slant = 0 },
 		text_shift = 32,
 		point      = { height = 4, gap = 8, dx = 6, width = 40 },
 		show_min   = false,

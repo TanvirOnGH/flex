@@ -34,7 +34,7 @@ titlebar.list = setmetatable({}, { __mode = 'k' })
 local default_style = {
 	size          = 8,
 	position      = "top",
-	font          = "Sans 12 bold",
+	font          = "Fira Code 12 bold",
 	border_margin = { 0, 0, 0, 4 },
 	color         = { main = "#b1222b", wibox = "#202020", gray = "#575757",
 	                  text = "#aaaaaa", icon = "#a0a0a0", urgent = "#32882d" }

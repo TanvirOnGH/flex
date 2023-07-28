@@ -30,7 +30,7 @@ local function default_style()
 		border_margin   = { 20, 20, 20, 20 },
 		elements_margin = { 20, 0, 10, 10 },
 		bar_width       = 8,
-		font            = "Sans 14",
+		font            = "Fira Code 14",
 		border_width    = 2,
 		timeout         = 5,
 		icon            = nil,
