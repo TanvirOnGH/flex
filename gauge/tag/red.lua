@@ -73,7 +73,7 @@ end
 local function default_style()
 	local style = {
 		width        = 80,
-		font         = { font = "Sans", size = 16, face = 0, slant = 0 },
+		font         = { font = "Fira Code", size = 16, face = 0, slant = 0 },
 		text_shift   = 22,
 		counter      = { size = 12, margin = 2, coord = { 40, 35 } },
 		show_counter = true,

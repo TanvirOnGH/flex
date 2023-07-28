@@ -94,7 +94,7 @@ local function default_style()
 		appline         = { iwidth = 160, im = { 10, 10, 5, 5 }, igap = { 0, 0, 10, 10 }, lheight = 30 },
 		state           = { gap = 4, radius = 3, size = 10, height = 20, width = 20 },
 		configfile      = os.getenv("HOME") .. "/.cache/awesome/applist",
-		label_font      = "Sans 14",
+		label_font      = "Fira Code 14",
 		border_width    = 2,
 		keytip          = { geometry = { width = 500 }, exit = false },
 		color           = { border = "#575757", text = "#aaaaaa", main = "#b1222b", urgent = "#32882d",

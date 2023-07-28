@@ -27,7 +27,7 @@ local function default_style()
 		width        = 40,
 		margin       = { 0, 0, 0, 0 },
 		df_icon      = redutil.base.placeholder(),
-		counter      = { font = "Sans 10", mask = "%d" },
+		counter      = { font = "Fira Code 10", mask = "%d" },
 		color        = { main = "#b1222b", gray = "#575757", icon = "#a0a0a0", urgent = "#32882d", wibox = "#202020" },
 	}
 	return redutil.table.merge(style, redutil.table.check(beautiful, "gauge.task.green") or {})

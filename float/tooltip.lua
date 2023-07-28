@@ -32,7 +32,7 @@ local function default_style()
 		padding      = { vertical = 3, horizontal = 5 },
 		margin       = 0,
 		timeout      = 1,
-		font  = "Sans 12",
+		font  = "Fira Code 12",
 		border_width = 2,
 		set_position = nil,
 		color        = { border = "#404040", text = "#aaaaaa", wibox = "#202020" },

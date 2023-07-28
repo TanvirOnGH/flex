@@ -25,7 +25,7 @@ local textclock = { mt = {} }
 -----------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
-		font  = "Sans 12",
+		font  = "Fira Code 12",
 		tooltip = {},
 		color = { text = "#aaaaaa" }
 	}

@@ -24,7 +24,7 @@ local function default_style()
 	local style = {
 		width      = 40,
 		line       = { height = 4, y = 30 },
-		font       = { font = "Sans", size = 16, face = 0, slant = 0 },
+		font       = { font = "Fira Code", size = 16, face = 0, slant = 0 },
 		text_shift = 22,
 		counter    = { size = 12, margin = 2 },
 		color      = { main = "#b1222b", gray = "#575757", icon = "#a0a0a0",

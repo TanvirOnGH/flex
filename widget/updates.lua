@@ -37,8 +37,8 @@ local function default_style()
 		wibox = {
 			geometry     = { width = 400, height = 200 },
 			border_width = 2,
-			title_font   = "Sans 14 bold",
-			tip_font     = "Sans 10",
+			title_font   = "Fira Code 14 bold",
+			tip_font     = "Fira Code 10",
 			set_position = nil,
 			separator    = {},
 			shape        = nil,

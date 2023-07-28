@@ -27,7 +27,7 @@ local function default_style()
 	local style = {
 		geometry      = { width = 400, height = 60 },
 		border_width  = 2,
-		font          = "Sans 14",
+		font          = "Fira Code 14",
 		set_position  = nil,
 		names         = {},
 		keytip        = { geometry = { width = 600 } },
