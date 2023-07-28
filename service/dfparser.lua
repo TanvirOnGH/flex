@@ -83,7 +83,7 @@ local function all_icon_path(style)
 	end
 
 	-- add fallback theme
-	if not style.custom_only then table.insert(icon_theme_paths, '/usr/share/icons/hicolor/') end
+	if not style.custom_only then table.insert(icon_theme_paths, '/run/current-system/sw/share/icons/hicolor/') end -- Standard NixOS Path
 
 	-- seach only svg icons if need
 	local current_icon_sizes = style.scalable_only and { 'scalable' } or all_icon_sizes
@@ -101,8 +101,8 @@ local function all_icon_path(style)
 
 	-- lowest priority fallbacks
 	if not style.custom_only then
-		table.insert(icon_path, '/usr/share/pixmaps/')
-		table.insert(icon_path, '/usr/share/icons/')
+		table.insert(icon_path, '/run/current-system/sw/share/pixmaps/') -- Standard NixOS Path
+		table.insert(icon_path, '/run/current-system/sw/share/icons/') -- Standard NixOS Path
 	end
 
 	return icon_path
