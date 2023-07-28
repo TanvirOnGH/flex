@@ -467,7 +467,7 @@ end
 function system.thermal.hddtemp(args)
 	args = args or {}
 	local port = args.port or "7634"
-	local disk = args.disk or "/dev/sda"
+	local disk = args.disk or "/dev/sdb"
 
 	local output = redutil.read.output("echo | curl --connect-timeout 1 -fsm 3 telnet://127.0.0.1:" .. port)
 
