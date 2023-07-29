@@ -40,10 +40,10 @@ local function default_style()
         desktop_file_dirs = {
 			-- On NixOS systems
             '/run/current-system/sw/share/applications/', -- For nix applications
-			'~/.local/state/home-manager/gcroots/current-home/home-path/share/applications', -- For home-manager applications
+			'~/.local/state/home-manager/gcroots/current-home/home-path/share/applications/', -- For home-manager applications
 			-- '/usr/share/applications/',
 			-- '/usr/local/share/applications/',
-			'~/.local/share/applications',
+			'~/.local/share/applications/',
 		},
 		wm_name           = nil,
 	}
