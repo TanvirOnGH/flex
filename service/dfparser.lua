@@ -25,7 +25,7 @@ local gears = require("gears")
 local dfparser = {}
 local cache = {}
 
-dfparser.terminal = 'alacritty'
+dfparser.terminal = 'kitty'
 
 local all_icon_folders = { "apps", "actions", "devices", "places", "categories", "status" }
 local all_icon_sizes   = { '128x128' , '96x96', '72x72', '64x64', '48x48',
