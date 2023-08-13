@@ -254,10 +254,10 @@ function titlebar.toggle_all(cl, position)
 	for _, c in pairs(cl) do titlebar.toggle(c, position) end
 end
 
---function titlebar.switch_all(cl, position)
---	cl = cl or titlebar.get_clients()
---	for _, c in pairs(cl) do titlebar.switch(c, position) end
---end
+function titlebar.switch_all(cl, position)
+	cl = cl or titlebar.get_clients()
+	for _, c in pairs(cl) do titlebar.switch(c, position) end
+end
 
 function titlebar.show_all(cl, position)
 	cl = cl or titlebar.get_clients()
