@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                         RedFlat titlebar helper widget                                            --
+--                                         awsmx titlebar helper widget                                            --
 -----------------------------------------------------------------------------------------------------------------------
 -- Titlebar info widget
 -----------------------------------------------------------------------------------------------------------------------
@@ -12,10 +12,10 @@ local beautiful = require("beautiful")
 local awful     = require("awful")
 local wibox     = require("wibox")
 
-local redutil  = require("redflat.util")
-local redtitle = require("redflat.titlebar")
-local redtip   = require("redflat.float.hotkeys")
-local svgbox   = require("redflat.gauge.svgbox")
+local redutil  = require("awsmx.util")
+local redtitle = require("awsmx.titlebar")
+local redtip   = require("awsmx.float.hotkeys")
+local svgbox   = require("awsmx.gauge.svgbox")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------

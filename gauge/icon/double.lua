@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                           RedFlat indicator widget                                                --
+--                                           awsmx indicator widget                                                --
 -----------------------------------------------------------------------------------------------------------------------
 -- Double mage indicator
 -----------------------------------------------------------------------------------------------------------------------
@@ -13,8 +13,8 @@ local math = math
 local wibox = require("wibox")
 local beautiful = require("beautiful")
 
-local redutil = require("redflat.util")
-local svgbox = require("redflat.gauge.svgbox")
+local redutil = require("awsmx.util")
+local svgbox = require("awsmx.gauge.svgbox")
 
 
 -- Initialize tables for module

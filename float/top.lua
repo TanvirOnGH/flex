@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                                  RedFlat top widget                                               --
+--                                                  awsmx top widget                                               --
 -----------------------------------------------------------------------------------------------------------------------
 -- Widget with list of top processes
 -----------------------------------------------------------------------------------------------------------------------
@@ -13,10 +13,10 @@ local beautiful = require("beautiful")
 local wibox = require("wibox")
 local timer = require("gears.timer")
 
-local redutil = require("redflat.util")
-local system = require("redflat.system")
-local decoration = require("redflat.float.decoration")
-local redtip = require("redflat.float.hotkeys")
+local redutil = require("awsmx.util")
+local system = require("awsmx.system")
+local decoration = require("awsmx.float.decoration")
+local redtip = require("awsmx.float.hotkeys")
 
 
 -- Initialize tables for module

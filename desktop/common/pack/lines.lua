@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                               RedFlat barpack widget                                              --
+--                                               awsmx barpack widget                                              --
 -----------------------------------------------------------------------------------------------------------------------
 -- Group of indicators with progressbar, label and text in every line
 -----------------------------------------------------------------------------------------------------------------------
@@ -10,9 +10,9 @@ local setmetatable = setmetatable
 local wibox = require("wibox")
 local beautiful = require("beautiful")
 
-local redutil = require("redflat.util")
-local dcommon = require("redflat.desktop.common")
-local tooltip = require("redflat.float.tooltip")
+local redutil = require("awsmx.util")
+local dcommon = require("awsmx.desktop.common")
+local tooltip = require("awsmx.float.tooltip")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------

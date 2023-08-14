@@ -1,10 +1,10 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                                   RedFlat library                                                 --
+--                                                   awsmx library                                                 --
 -----------------------------------------------------------------------------------------------------------------------
 
-local wrequire = require("redflat.util").wrequire
+local wrequire = require("awsmx.util").wrequire
 local setmetatable = setmetatable
 
-local lib = { _NAME = "redflat.gauge.icon" }
+local lib = { _NAME = "awsmx.gauge.icon" }
 
 return setmetatable(lib, { __index = wrequire })

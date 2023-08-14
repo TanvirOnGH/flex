@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                                 RedFlat battery widget                                            --
+--                                                 awsmx battery widget                                            --
 -----------------------------------------------------------------------------------------------------------------------
 -- Battery charge monitoring widget
 -----------------------------------------------------------------------------------------------------------------------
@@ -10,10 +10,10 @@ local setmetatable = setmetatable
 local beautiful = require("beautiful")
 local timer = require("gears.timer")
 
-local rednotify = require("redflat.float.notify")
-local tooltip = require("redflat.float.tooltip")
-local monitor = require("redflat.gauge.monitor.plain")
-local redutil = require("redflat.util")
+local rednotify = require("awsmx.float.notify")
+local tooltip = require("awsmx.float.tooltip")
+local monitor = require("awsmx.gauge.monitor.plain")
+local redutil = require("awsmx.util")
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------

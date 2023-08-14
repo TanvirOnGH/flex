@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                        RedFlat volume indicator widget                                            --
+--                                        awsmx volume indicator widget                                            --
 -----------------------------------------------------------------------------------------------------------------------
 -- Indicator with audio icon
 -----------------------------------------------------------------------------------------------------------------------
@@ -12,9 +12,9 @@ local unpack = unpack or table.unpack
 local wibox = require("wibox")
 local beautiful = require("beautiful")
 
-local redutil = require("redflat.util")
-local svgbox = require("redflat.gauge.svgbox")
-local reddash = require("redflat.gauge.graph.dash")
+local redutil = require("awsmx.util")
+local svgbox = require("awsmx.gauge.svgbox")
+local reddash = require("awsmx.gauge.graph.dash")
 
 
 -- Initialize tables for module

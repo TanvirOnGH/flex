@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                        RedFlat volume indicator widget                                            --
+--                                        awsmx volume indicator widget                                            --
 -----------------------------------------------------------------------------------------------------------------------
 -- Indicator with audio icon
 -----------------------------------------------------------------------------------------------------------------------
@@ -13,8 +13,8 @@ local math = math
 local wibox = require("wibox")
 local beautiful = require("beautiful")
 
-local redutil = require("redflat.util")
-local svgbox = require("redflat.gauge.svgbox")
+local redutil = require("awsmx.util")
+local svgbox = require("awsmx.gauge.svgbox")
 
 
 -- Initialize tables for module

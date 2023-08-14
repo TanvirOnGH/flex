@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                           RedFlat prefix hotkey manager                                           --
+--                                           awsmx prefix hotkey manager                                           --
 -----------------------------------------------------------------------------------------------------------------------
 -- Emacs like key key sequences
 -----------------------------------------------------------------------------------------------------------------------
@@ -13,9 +13,9 @@ local wibox = require("wibox")
 local awful = require("awful")
 local beautiful = require("beautiful")
 
-local redflat = require("redflat")
-local redutil = require("redflat.util")
-local redtip = require("redflat.float.hotkeys")
+local awsmx = require("awsmx")
+local redutil = require("awsmx.util")
+local redtip = require("awsmx.float.hotkeys")
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------
@@ -39,7 +39,7 @@ local function default_style()
 		shape           = nil
 	}
 
-	return redflat.util.table.merge(style, redflat.util.table.check(beautiful, "float.keychain") or {})
+	return awsmx.util.table.merge(style, awsmx.util.table.check(beautiful, "float.keychain") or {})
 end
 
 -- Support functions
@@ -97,7 +97,7 @@ function keychain:init(style)
 	self.parents = {}
 	self.sequence = ""
 
-	style = redflat.util.table.merge(default_style(), style or {})
+	style = awsmx.util.table.merge(default_style(), style or {})
 	self.style = style
 
 	-- Wibox

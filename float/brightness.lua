@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                        RedFlat brightness control widget                                          --
+--                                        awsmx brightness control widget                                          --
 -----------------------------------------------------------------------------------------------------------------------
 -- Brightness control using xbacklight or other tools
 -----------------------------------------------------------------------------------------------------------------------
@@ -10,8 +10,8 @@ local string = string
 local awful = require("awful")
 local beautiful = require("beautiful")
 
-local rednotify = require("redflat.float.notify")
-local redutil = require("redflat.util")
+local rednotify = require("awsmx.float.notify")
+local redutil = require("awsmx.util")
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------

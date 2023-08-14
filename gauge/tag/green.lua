@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                                   RedFlat tag widget                                              --
+--                                                   awsmx tag widget                                              --
 -----------------------------------------------------------------------------------------------------------------------
 -- Custom widget to display tag info
 -----------------------------------------------------------------------------------------------------------------------
@@ -13,8 +13,8 @@ local awful = require("awful")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
 
-local redutil = require("redflat.util")
-local svgbox = require("redflat.gauge.svgbox")
+local redutil = require("awsmx.util")
+local svgbox = require("awsmx.gauge.svgbox")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------

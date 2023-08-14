@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                          RedFlat hotkeys helper widget                                            --
+--                                          awsmx hotkeys helper widget                                            --
 -----------------------------------------------------------------------------------------------------------------------
 -- Widget with list of hotkeys
 -----------------------------------------------------------------------------------------------------------------------
@@ -14,8 +14,8 @@ local beautiful = require("beautiful")
 local wibox = require("wibox")
 local timer = require("gears.timer")
 
-local redflat = require("redflat")
-local redutil = require("redflat.util")
+local awsmx = require("awsmx")
+local redutil = require("awsmx.util")
 
 
 -- Initialize tables for module
@@ -235,7 +235,7 @@ function hotkeys:init()
 			{
 				self.title,
 				subtitle,
-				redflat.gauge.separator.horizontal(style.separator),
+				awsmx.gauge.separator.horizontal(style.separator),
 				spacing = style.tspace,
 				layout = wibox.layout.fixed.vertical,
 			},

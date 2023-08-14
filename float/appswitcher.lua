@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                             RedFlat appswitcher widget                                            --
+--                                             awsmx appswitcher widget                                            --
 -----------------------------------------------------------------------------------------------------------------------
 -- Advanced application switcher
 -----------------------------------------------------------------------------------------------------------------------
@@ -28,9 +28,9 @@ local function load_pixbuf()
 end
 local is_pixbuf_loaded = pcall(load_pixbuf)
 
-local dfparser = require("redflat.service.dfparser")
-local redutil = require("redflat.util")
-local redtip = require("redflat.float.hotkeys")
+local dfparser = require("awsmx.service.dfparser")
+local redutil = require("awsmx.util")
+local redtip = require("awsmx.float.hotkeys")
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------

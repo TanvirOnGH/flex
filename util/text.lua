@@ -1,4 +1,4 @@
--- RedFlat util submodule
+-- awsmx util submodule
 
 local math = math
 local string = string

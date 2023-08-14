@@ -1,10 +1,10 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                                   RedFlat library                                                 --
+--                                                   awsmx library                                                 --
 -----------------------------------------------------------------------------------------------------------------------
 
-local wrequire = require("redflat.util").wrequire
+local wrequire = require("awsmx.util").wrequire
 local setmetatable = setmetatable
 
-local lib = { _NAME = "redflat.desktop.common.bar" }
+local lib = { _NAME = "awsmx.desktop.common.bar" }
 
 return setmetatable(lib, { __index = wrequire })

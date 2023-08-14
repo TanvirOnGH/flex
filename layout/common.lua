@@ -1,20 +1,20 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                          RedFlat layout shared functions                                          --
+--                                          awsmx layout shared functions                                          --
 -----------------------------------------------------------------------------------------------------------------------
 -- Hotkeys for layout manipulation
--- Handlers adapted for work with redflat navigator widget
+-- Handlers adapted for work with awsmx navigator widget
 -----------------------------------------------------------------------------------------------------------------------
 
 -- Grab environment
 -----------------------------------------------------------------------------------------------------------------------
 local awful = require("awful")
-local navigator = require("redflat.service.navigator")
+local navigator = require("awsmx.service.navigator")
 
 local ipairs = ipairs
 
 local alayout = awful.layout
-local redutil = require("redflat.util")
-local redtip = require("redflat.float.hotkeys")
+local redutil = require("awsmx.util")
+local redtip = require("awsmx.float.hotkeys")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------

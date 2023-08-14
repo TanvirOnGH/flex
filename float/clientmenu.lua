@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                         RedFlat client menu widget                                               --
+--                                         awsmx client menu widget                                               --
 -----------------------------------------------------------------------------------------------------------------------
 -- Custom float widget that provides client actions like the tasklist's window
 -- menu but may be used outside of the tasklist context on any client. Useful
@@ -8,7 +8,7 @@
 -----------------------------------------------------------------------------------------------------------------------
 -- Authored by M4he
 -- Some code was taken from
------- redflat.widget.tasklist
+------ awsmx.widget.tasklist
 -----------------------------------------------------------------------------------------------------------------------
 
 -- Grab environment
@@ -22,10 +22,10 @@ local beautiful = require("beautiful")
 local awful = require("awful")
 local wibox = require("wibox")
 
-local redutil = require("redflat.util")
-local separator = require("redflat.gauge.separator")
-local redmenu = require("redflat.menu")
-local svgbox = require("redflat.gauge.svgbox")
+local redutil = require("awsmx.util")
+local separator = require("awsmx.gauge.separator")
+local redmenu = require("awsmx.menu")
+local svgbox = require("awsmx.gauge.svgbox")
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------

@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                           RedFlat desctop file parser                                             --
+--                                           awsmx desctop file parser                                             --
 -----------------------------------------------------------------------------------------------------------------------
 -- Create application menu analyzing .desktop files in given directories
 -----------------------------------------------------------------------------------------------------------------------
@@ -17,7 +17,7 @@ local string = string
 local awful = require("awful")
 local beautiful = require("beautiful")
 
-local redutil = require("redflat.util")
+local redutil = require("awsmx.util")
 local gears = require("gears")
 
 -- Initialize tables and vars for module

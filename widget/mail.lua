@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                               RedFlat mail widget                                                 --
+--                                               awsmx mail widget                                                 --
 -----------------------------------------------------------------------------------------------------------------------
 -- Check if new mail available using python scripts or curl shell command
 -----------------------------------------------------------------------------------------------------------------------
@@ -15,11 +15,11 @@ local beautiful = require("beautiful")
 local timer = require("gears.timer")
 local naughty = require("naughty")
 
-local rednotify = require("redflat.float.notify")
-local tooltip = require("redflat.float.tooltip")
-local redutil = require("redflat.util")
-local svgbox = require("redflat.gauge.svgbox")
-local startup = require("redflat.startup")
+local rednotify = require("awsmx.float.notify")
+local tooltip = require("awsmx.float.tooltip")
+local redutil = require("awsmx.util")
+local svgbox = require("awsmx.gauge.svgbox")
+local startup = require("awsmx.startup")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------

@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                                   RedFlat system                                                  --
+--                                                   awsmx system                                                  --
 -----------------------------------------------------------------------------------------------------------------------
 -- System monitoring functions collected here
 -----------------------------------------------------------------------------------------------------------------------
@@ -22,7 +22,7 @@ local math = math
 
 local timer = require("gears.timer")
 local awful = require("awful")
-local redutil = require("redflat.util")
+local redutil = require("awsmx.util")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------
@@ -57,7 +57,7 @@ function system.fs_info(args)
 	fs_info.mount = string.match(line, "%%[%s]([%p%w]+)")
 	fs_info.used, fs_info.avail, fs_info.use_p = string.match(line, "([%d]+)[%D]+([%d]+)[%D]+([%d]+)%%")
 
-	-- Format output special for redflat desktop widget
+	-- Format output special for awsmx desktop widget
 	------------------------------------------------------------
    return { tonumber(fs_info.use_p) or 0, tonumber(fs_info.used) or 0}
 end
@@ -84,7 +84,7 @@ function system.qemu_image_size(args)
 	img_info.virtual_size = q_format(vsize, vk)
 	img_info.use_p = img_info.virtual_size > 0 and math.floor(img_info.size / img_info.virtual_size * 100) or 0
 
-	-- Format output special for redflat desktop widget
+	-- Format output special for awsmx desktop widget
 	------------------------------------------------------------
    return { img_info.use_p, img_info.size, off = img_info.size == 0 }
 end
@@ -298,7 +298,7 @@ function system.cpu_usage(storage)
 		storage.cpu_active[i] = active_new
 	end
 
-	-- Format output special for redflat widgets and other system functions
+	-- Format output special for awsmx widgets and other system functions
 	------------------------------------------------------------
 	local total_usage = cpu_usage[1]
 	local core_usage = awful.util.table.clone(cpu_usage)
@@ -599,7 +599,7 @@ function system.transmission.parse(output, show_active_only)
 		table.sort(torrent.list, system.transmission.sort_torrent)
 	end
 
-	-- Format output special for redflat desktop widget
+	-- Format output special for awsmx desktop widget
 	------------------------------------------------------------
 	local sorted_prog = {}
 	for _, t in ipairs(torrent.list) do

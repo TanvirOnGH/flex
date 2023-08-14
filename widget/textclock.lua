@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                               RedFlat clock widget                                                --
+--                                               awsmx clock widget                                                --
 -----------------------------------------------------------------------------------------------------------------------
 -- Text clock widget with date in tooltip (optional)
 -----------------------------------------------------------------------------------------------------------------------
@@ -14,8 +14,8 @@ local textbox = require("wibox.widget.textbox")
 local beautiful = require("beautiful")
 local gears = require("gears")
 
-local tooltip = require("redflat.float.tooltip")
-local redutil = require("redflat.util")
+local tooltip = require("awsmx.float.tooltip")
+local redutil = require("awsmx.util")
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------

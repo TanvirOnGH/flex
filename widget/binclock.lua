@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                        RedFlat binary clock widget                                                --
+--                                        awsmx binary clock widget                                                --
 -----------------------------------------------------------------------------------------------------------------------
 -- Why not?
 -----------------------------------------------------------------------------------------------------------------------
@@ -12,8 +12,8 @@ local beautiful = require("beautiful")
 local gears = require("gears")
 local color = require("gears.color")
 
-local tooltip = require("redflat.float.tooltip")
-local redutil = require("redflat.util")
+local tooltip = require("awsmx.float.tooltip")
+local redutil = require("awsmx.util")
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------

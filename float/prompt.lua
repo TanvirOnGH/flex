@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                              RedFlat promt widget                                                 --
+--                                              awsmx promt widget                                                 --
 -----------------------------------------------------------------------------------------------------------------------
 -- Promt widget with his own wibox placed on center of screen
 -----------------------------------------------------------------------------------------------------------------------
@@ -18,8 +18,8 @@ local beautiful = require("beautiful")
 local wibox = require("wibox")
 local naughty = require("naughty")
 
-local redutil = require("redflat.util")
-local decoration = require("redflat.float.decoration")
+local redutil = require("awsmx.util")
+local decoration = require("awsmx.float.decoration")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------

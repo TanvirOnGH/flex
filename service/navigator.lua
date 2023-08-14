@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                            RedFlat focus switch util                                              --
+--                                            awsmx focus switch util                                              --
 -----------------------------------------------------------------------------------------------------------------------
 -- Visual clinet managment helper
 -----------------------------------------------------------------------------------------------------------------------
@@ -14,10 +14,10 @@ local color = require("gears.color")
 local beautiful = require("beautiful")
 local timer = require("gears.timer")
 
-local redflat = require("redflat")
-local redutil = require("redflat.util")
-local redtip = require("redflat.float.hotkeys")
-local rednotify = require("redflat.float.notify")
+local awsmx = require("awsmx")
+local redutil = require("awsmx.util")
+local redtip = require("awsmx.float.hotkeys")
+local rednotify = require("awsmx.float.notify")
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------
@@ -278,7 +278,7 @@ function navigator:run()
 
 	-- check handler
 	local l = awful.layout.get(s)
-	local handler = l.key_handler or redflat.layout.common.handler[l]
+	local handler = l.key_handler or awsmx.layout.common.handler[l]
 	if not handler then
 		rednotify:show(redutil.table.merge({ text = "Layout not supported" }, self.style.notify))
 		return
@@ -286,7 +286,7 @@ function navigator:run()
 
 	-- layout setup if needed
 	if l.startup then l.startup() end
-	local tip = l.tip or redflat.layout.common.tips[l]
+	local tip = l.tip or awsmx.layout.common.tips[l]
 
 	-- activate navition widgets
 	for i, c in ipairs(self.cls) do
@@ -309,7 +309,7 @@ function navigator:run()
 		local tip_style = self.style.keytip[awful.layout.getname(l)] or self.style.keytip.base
 		redtip:set_pack(
 			"Layout " .. l.name, tip, tip_style.column, tip_style.geometry,
-			self.style.keytip.base.exit and function() redflat.layout.common.action.exit() end -- fix this?
+			self.style.keytip.base.exit and function() awsmx.layout.common.action.exit() end -- fix this?
 		)
 	end
 

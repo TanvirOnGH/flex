@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                         RedFlat dashpack desktop widget                                           --
+--                                         awsmx dashpack desktop widget                                           --
 -----------------------------------------------------------------------------------------------------------------------
 -- Multi monitoring widget
 -- Several lines with progressbar, label and text
@@ -15,9 +15,9 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 local timer = require("gears.timer")
 
-local redutil = require("redflat.util")
-local svgbox = require("redflat.gauge.svgbox")
-local lines = require("redflat.desktop.common.pack.lines")
+local redutil = require("awsmx.util")
+local svgbox = require("awsmx.gauge.svgbox")
+local lines = require("awsmx.desktop.common.pack.lines")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------

@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                       RedFlat desktop progressbar widget                                          --
+--                                       awsmx desktop progressbar widget                                          --
 -----------------------------------------------------------------------------------------------------------------------
 -- Dashed horizontal progress bar
 -----------------------------------------------------------------------------------------------------------------------
@@ -12,7 +12,7 @@ local wibox = require("wibox")
 local color = require("gears.color")
 local beautiful = require("beautiful")
 
-local redutil = require("redflat.util")
+local redutil = require("awsmx.util")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------

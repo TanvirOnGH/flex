@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                             RedFlat logout screen                                                 --
+--                                             awsmx logout screen                                                 --
 -----------------------------------------------------------------------------------------------------------------------
 
 -- Grab environment
@@ -8,9 +8,9 @@ local wibox = require("wibox")
 local gears = require("gears")
 local beautiful = require("beautiful")
 
-local redutil = require("redflat.util")
-local redtip = require("redflat.float.hotkeys")
-local svgbox = require("redflat.gauge.svgbox")
+local redutil = require("awsmx.util")
+local redtip = require("awsmx.float.hotkeys")
+local svgbox = require("awsmx.gauge.svgbox")
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------

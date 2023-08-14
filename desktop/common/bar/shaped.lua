@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                             RedFlat corners widget                                                --
+--                                             awsmx corners widget                                                --
 -----------------------------------------------------------------------------------------------------------------------
 -- Vertical progress indicator with custom shape
 -----------------------------------------------------------------------------------------------------------------------
@@ -12,8 +12,8 @@ local wibox = require("wibox")
 local color = require("gears.color")
 local beautiful = require("beautiful")
 
-local redutil = require("redflat.util")
-local tooltip = require("redflat.float.tooltip")
+local redutil = require("awsmx.util")
+local tooltip = require("awsmx.float.tooltip")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------

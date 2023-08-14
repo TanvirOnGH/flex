@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                                RedFlat notify widget                                              --
+--                                                awsmx notify widget                                              --
 -----------------------------------------------------------------------------------------------------------------------
 -- Floating widget with icon, text, and progress bar
 -- special for volume and brightness indication
@@ -12,9 +12,9 @@ local beautiful = require("beautiful")
 local wibox = require("wibox")
 local timer = require("gears.timer")
 
-local redutil = require("redflat.util")
-local svgbox = require("redflat.gauge.svgbox")
-local progressbar = require("redflat.gauge.graph.bar")
+local redutil = require("awsmx.util")
+local svgbox = require("awsmx.gauge.svgbox")
+local progressbar = require("awsmx.gauge.graph.bar")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------
