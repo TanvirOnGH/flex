@@ -17,7 +17,7 @@ local redutil = require("awsmx.util")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------
-local rubytask = { mt = {} }
+local purpletask = { mt = {} }
 
 -- Generate default theme vars
 -----------------------------------------------------------------------------------------------------------------------
@@ -28,17 +28,17 @@ local function default_style()
 		text_shift = 26,
 		point      = { size = 4, space = 3, gap = 3 },
 		underline  = { height = 20, thickness = 4, gap = 36, dh = 4 },
-		color      = { main  = "#b1222b", gray = "#575757", icon = "#a0a0a0", urgent = "#32882d" }
+		color      = { main  = "#5906D3", gray = "#575757", icon = "#a0a0a0", urgent = "#864DDC" }
 	}
 
-	return redutil.table.merge(style, redutil.table.check(beautiful, "gauge.task.ruby") or {})
+	return redutil.table.merge(style, redutil.table.check(beautiful, "gauge.task.purple") or {})
 end
 
 
 -- Create a new tag widget
 -- @param style Table containing colors and geometry parameters for all elemets
 -----------------------------------------------------------------------------------------------------------------------
-function rubytask.new(style)
+function purpletask.new(style)
 
 	-- Initialize vars
 	--------------------------------------------------------------------------------
@@ -128,10 +128,10 @@ function rubytask.new(style)
 	return widg
 end
 
--- Config metatable to call rubytask module as function
+-- Config metatable to call purpletask module as function
 -----------------------------------------------------------------------------------------------------------------------
-function rubytask.mt:__call(...)
-	return rubytask.new(...)
+function purpletask.mt:__call(...)
+	return purpletask.new(...)
 end
 
-return setmetatable(rubytask, rubytask.mt)
+return setmetatable(purpletask, purpletask.mt)

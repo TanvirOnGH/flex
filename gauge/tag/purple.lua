@@ -17,7 +17,7 @@ local redutil = require("awsmx.util")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------
-local rubytag = { mt = {} }
+local purpletag = { mt = {} }
 
 -- Generate default theme vars
 -----------------------------------------------------------------------------------------------------------------------
@@ -26,16 +26,16 @@ local function default_style()
 		width        = 50,
 		base = { pad = 5, height = 12, thickness = 2 },
 		mark = { pad = 10, height = 4 },
-		color        = { main  = "#b1222b", gray  = "#575757", icon = "#a0a0a0", urgent = "#32882d" }
+		color        = { main  = "#5906D3", gray  = "#575757", icon = "#a0a0a0", urgent = "#864DDC" }
 	}
 
-	return redutil.table.merge(style, redutil.table.check(beautiful, "gauge.tag.ruby") or {})
+	return redutil.table.merge(style, redutil.table.check(beautiful, "gauge.tag.purple") or {})
 end
 
 -- Create a new tag widget
 -- @param style Table containing colors and geometry parameters for all elemets
 -----------------------------------------------------------------------------------------------------------------------
-function rubytag.new(style)
+function purpletag.new(style)
 
 	-- Initialize vars
 	--------------------------------------------------------------------------------
@@ -105,10 +105,10 @@ function rubytag.new(style)
 	return widg
 end
 
--- Config metatable to call rubytag module as function
+-- Config metatable to call purpletag module as function
 -----------------------------------------------------------------------------------------------------------------------
-function rubytag.mt:__call(...)
-	return rubytag.new(...)
+function purpletag.mt:__call(...)
+	return purpletag.new(...)
 end
 
-return setmetatable(rubytag, rubytag.mt)
+return setmetatable(purpletag, purpletag.mt)
