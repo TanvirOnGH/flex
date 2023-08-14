@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                             RedFlat calendar widget                                               --
+--                                             awsmx calendar widget                                               --
 -----------------------------------------------------------------------------------------------------------------------
 -- A stylable widget wrapping wibox.widget.calendar
 -----------------------------------------------------------------------------------------------------------------------
@@ -19,9 +19,9 @@ local PangoCairo = lgi.PangoCairo
 local DateTime = lgi.GLib.DateTime
 local TimeZone = lgi.GLib.TimeZone
 
-local redutil = require("redflat.util")
-local svgbox = require("redflat.gauge.svgbox")
-local separator = require("redflat.gauge.separator")
+local redutil = require("awsmx.util")
+local svgbox = require("awsmx.gauge.svgbox")
+local separator = require("awsmx.gauge.separator")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------

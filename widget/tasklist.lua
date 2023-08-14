@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                             RedFlat tasklist widget                                               --
+--                                             awsmx tasklist widget                                               --
 -----------------------------------------------------------------------------------------------------------------------
 -- Custom widget used to show apps, see redtask.lua for more info
 -- No icons; labels can be customized in beautiful theme file
@@ -28,12 +28,12 @@ local wibox = require("wibox")
 local timer = require("gears.timer")
 local geometry = require("gears.geometry")
 
-local basetask = require("redflat.gauge.tag.blue")
-local redutil = require("redflat.util")
-local separator = require("redflat.gauge.separator")
-local redmenu = require("redflat.menu")
-local svgbox = require("redflat.gauge.svgbox")
-local dfparser = require("redflat.service.dfparser")
+local basetask = require("awsmx.gauge.tag.blue")
+local redutil = require("awsmx.util")
+local separator = require("awsmx.gauge.separator")
+local redmenu = require("awsmx.menu")
+local svgbox = require("awsmx.gauge.svgbox")
+local dfparser = require("awsmx.service.dfparser")
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------

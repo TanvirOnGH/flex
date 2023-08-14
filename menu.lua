@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                                  RedFlat menu                                                     --
+--                                                  awsmx menu                                                     --
 -----------------------------------------------------------------------------------------------------------------------
 -- awful.menu modification
 -- Custom widget support added
@@ -34,9 +34,9 @@ local table = table
 local type = type
 local unpack = unpack or table.unpack
 
-local redutil = require("redflat.util")
-local svgbox = require("redflat.gauge.svgbox")
-local redtip = require("redflat.float.hotkeys")
+local redutil = require("awsmx.util")
+local svgbox = require("awsmx.gauge.svgbox")
+local redtip = require("awsmx.float.hotkeys")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------
@@ -403,7 +403,7 @@ function menu:replace_items(items)
 end
 
 -- Add a new menu entry.
--- args.new (Default: redflat.menu.entry) The menu entry constructor.
+-- args.new (Default: awsmx.menu.entry) The menu entry constructor.
 -- args.theme (Optional) The menu entry theme.
 -- args.* params needed for the menu entry constructor.
 -- @param args The item params

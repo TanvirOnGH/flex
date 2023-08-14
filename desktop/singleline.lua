@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                      RedFlat simple line desktop widget                                           --
+--                                      awsmx simple line desktop widget                                           --
 -----------------------------------------------------------------------------------------------------------------------
 -- Multi monitoring widget
 -----------------------------------------------------------------------------------------------------------------------
@@ -13,9 +13,9 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 local timer = require("gears.timer")
 
-local redutil = require("redflat.util")
-local svgbox = require("redflat.gauge.svgbox")
-local textbox = require("redflat.desktop.common.textbox")
+local redutil = require("awsmx.util")
+local svgbox = require("awsmx.gauge.svgbox")
+local textbox = require("awsmx.desktop.common.textbox")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------

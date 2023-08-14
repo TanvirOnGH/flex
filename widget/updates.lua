@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                              RedFlat updates widget                                               --
+--                                              awsmx updates widget                                               --
 -----------------------------------------------------------------------------------------------------------------------
 -- Show if system updates available using apt-get
 -----------------------------------------------------------------------------------------------------------------------
@@ -17,13 +17,13 @@ local wibox = require("wibox")
 local awful = require("awful")
 local timer = require("gears.timer")
 
-local rednotify = require("redflat.float.notify")
-local tooltip = require("redflat.float.tooltip")
-local redutil = require("redflat.util")
-local svgbox = require("redflat.gauge.svgbox")
-local separator = require("redflat.gauge.separator")
-local redtip = require("redflat.float.hotkeys")
-local startup = require("redflat.startup")
+local rednotify = require("awsmx.float.notify")
+local tooltip = require("awsmx.float.tooltip")
+local redutil = require("awsmx.util")
+local svgbox = require("awsmx.gauge.svgbox")
+local separator = require("awsmx.gauge.separator")
+local redtip = require("awsmx.float.hotkeys")
+local startup = require("awsmx.startup")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------

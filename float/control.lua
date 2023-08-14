@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                        RedFlat floating window manager                                            --
+--                                        awsmx floating window manager                                            --
 -----------------------------------------------------------------------------------------------------------------------
 -- Widget to control single flating window size and posioning
 -----------------------------------------------------------------------------------------------------------------------
@@ -12,10 +12,10 @@ local beautiful = require("beautiful")
 local awful     = require("awful")
 local wibox     = require("wibox")
 
-local rednotify = require("redflat.float.notify")
-local redutil   = require("redflat.util")
-local redtip    = require("redflat.float.hotkeys")
-local svgbox    = require("redflat.gauge.svgbox")
+local rednotify = require("awsmx.float.notify")
+local redutil   = require("awsmx.util")
+local redtip    = require("awsmx.float.hotkeys")
+local svgbox    = require("awsmx.gauge.svgbox")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------

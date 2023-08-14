@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                   RedFlat pulseaudio volume control widget                                        --
+--                                   awsmx pulseaudio volume control widget                                        --
 -----------------------------------------------------------------------------------------------------------------------
 -- Indicate and change volume level using pacmd
 -----------------------------------------------------------------------------------------------------------------------
@@ -20,10 +20,10 @@ local beautiful = require("beautiful")
 local gears = require("gears")
 local naughty = require("naughty")
 
-local tooltip = require("redflat.float.tooltip")
-local audio = require("redflat.gauge.audio.blue")
-local rednotify = require("redflat.float.notify")
-local redutil = require("redflat.util")
+local tooltip = require("awsmx.float.tooltip")
+local audio = require("awsmx.gauge.audio.blue")
+local rednotify = require("awsmx.float.notify")
+local redutil = require("awsmx.util")
 
 
 -- Initialize tables and vars for module

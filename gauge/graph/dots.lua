@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                               RedFlat dotcount widget                                             --
+--                                               awsmx dotcount widget                                             --
 -----------------------------------------------------------------------------------------------------------------------
 -- Simple graphical counter
 -- Displaying current value by dots number
@@ -13,7 +13,7 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 local color = require("gears.color")
 
-local redutil = require("redflat.util")
+local redutil = require("awsmx.util")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------

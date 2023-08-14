@@ -1,4 +1,4 @@
--- RedFlat util submodule
+-- awsmx util submodule
 
 local cairo = require("lgi").cairo
 local gears = require("gears")

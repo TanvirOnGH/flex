@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                                  RedFlat tooltip                                                  --
+--                                                  awsmx tooltip                                                  --
 -----------------------------------------------------------------------------------------------------------------------
 -- Slightly modded awful tooltip
 -- padding added
@@ -19,7 +19,7 @@ local awful = require("awful")
 local beautiful = require("beautiful")
 local timer = require("gears.timer")
 
-local redutil = require("redflat.util")
+local redutil = require("awsmx.util")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------

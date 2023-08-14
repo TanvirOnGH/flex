@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                           RedFlat audio player widget                                             --
+--                                           awsmx audio player widget                                             --
 -----------------------------------------------------------------------------------------------------------------------
 -- Music player widget
 -- Display audio track information with mpris2
@@ -17,10 +17,10 @@ local wibox = require("wibox")
 local timer = require("gears.timer")
 local gstring = require("gears.string")
 
-local redutil = require("redflat.util")
-local progressbar = require("redflat.gauge.graph.bar")
-local dashcontrol = require("redflat.gauge.graph.dash")
-local svgbox = require("redflat.gauge.svgbox")
+local redutil = require("awsmx.util")
+local progressbar = require("awsmx.gauge.graph.bar")
+local dashcontrol = require("awsmx.gauge.graph.dash")
+local svgbox = require("awsmx.gauge.svgbox")
 
 -- Initialize and vars for module
 -----------------------------------------------------------------------------------------------------------------------

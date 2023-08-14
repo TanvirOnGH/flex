@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                             RedFlat doublemonitor widget                                          --
+--                                             awsmx doublemonitor widget                                          --
 -----------------------------------------------------------------------------------------------------------------------
 -- Widget with two progressbar and icon
 -----------------------------------------------------------------------------------------------------------------------
@@ -14,8 +14,8 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 local color = require("gears.color")
 
-local redutil = require("redflat.util")
-local svgbox = require("redflat.gauge.svgbox")
+local redutil = require("awsmx.util")
+local svgbox = require("awsmx.gauge.svgbox")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------

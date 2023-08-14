@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                       RedFlat speed meter deskotp widget                                          --
+--                                       awsmx speed meter deskotp widget                                          --
 -----------------------------------------------------------------------------------------------------------------------
 -- Network or disk i/o speed indicators
 -----------------------------------------------------------------------------------------------------------------------
@@ -12,10 +12,10 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 local timer = require("gears.timer")
 
-local system = require("redflat.system")
-local redutil = require("redflat.util")
-local dcommon = require("redflat.desktop.common")
-local svgbox = require("redflat.gauge.svgbox")
+local system = require("awsmx.system")
+local redutil = require("awsmx.util")
+local dcommon = require("awsmx.desktop.common")
+local svgbox = require("awsmx.gauge.svgbox")
 
 
 -- Initialize tables for module

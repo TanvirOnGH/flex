@@ -1,4 +1,4 @@
--- RedFlat util submodule
+-- awsmx util submodule
 
 local wibox = require("wibox")
 local awful = require("awful")

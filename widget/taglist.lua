@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                            RedFlat taglist widget                                                 --
+--                                            awsmx taglist widget                                                 --
 -----------------------------------------------------------------------------------------------------------------------
 -- Custom widget used to display tag info
 -- Separators added
@@ -21,9 +21,9 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 local timer = require("gears.timer")
 
-local redutil = require("redflat.util")
-local basetag = require("redflat.gauge.tag")
-local tooltip = require("redflat.float.tooltip")
+local redutil = require("awsmx.util")
+local basetag = require("awsmx.gauge.tag")
+local tooltip = require("awsmx.float.tooltip")
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------

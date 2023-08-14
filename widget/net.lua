@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                               RedFlat network widget                                              --
+--                                               awsmx network widget                                              --
 -----------------------------------------------------------------------------------------------------------------------
 -- Network speed monitoring widget
 -----------------------------------------------------------------------------------------------------------------------
@@ -10,10 +10,10 @@ local setmetatable = setmetatable
 local beautiful = require("beautiful")
 local timer = require("gears.timer")
 
-local redutil = require("redflat.util")
-local monitor = require("redflat.gauge.icon.double")
-local tooltip = require("redflat.float.tooltip")
-local system = require("redflat.system")
+local redutil = require("awsmx.util")
+local monitor = require("awsmx.gauge.icon.double")
+local tooltip = require("awsmx.float.tooltip")
+local system = require("awsmx.system")
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------

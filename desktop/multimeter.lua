@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                     RedFlat multi monitoring deskotp widget                                       --
+--                                     awsmx multi monitoring deskotp widget                                       --
 -----------------------------------------------------------------------------------------------------------------------
 -- Multi monitoring widget
 -- Pack of vertical indicators and two lines with labeled progressbar
@@ -14,9 +14,9 @@ local beautiful = require("beautiful")
 local timer = require("gears.timer")
 local unpack = unpack or table.unpack
 
-local dcommon = require("redflat.desktop.common")
-local redutil = require("redflat.util")
-local svgbox = require("redflat.gauge.svgbox")
+local dcommon = require("awsmx.desktop.common")
+local redutil = require("awsmx.util")
+local svgbox = require("awsmx.gauge.svgbox")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------

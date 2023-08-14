@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                                   RedFlat library                                                 --
+--                                                   awsmx library                                                 --
 -----------------------------------------------------------------------------------------------------------------------
 
 local wrequire = function(table_, key)
@@ -9,6 +9,6 @@ end
 
 local setmetatable = setmetatable
 
-local lib = { _NAME = "redflat.util", wrequire = wrequire }
+local lib = { _NAME = "awsmx.util", wrequire = wrequire }
 
 return setmetatable(lib, { __index = wrequire })

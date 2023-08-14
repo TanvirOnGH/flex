@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                            RedFlat dashcontrol widget                                             --
+--                                            awsmx dashcontrol widget                                             --
 -----------------------------------------------------------------------------------------------------------------------
 -- Horizontal progresspar with stairs form
 -----------------------------------------------------------------------------------------------------------------------
@@ -12,7 +12,7 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 local color = require("gears.color")
 
-local redutil = require("redflat.util")
+local redutil = require("awsmx.util")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------

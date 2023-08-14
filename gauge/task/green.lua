@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                                RedFlat task widget                                                --
+--                                                awsmx task widget                                                --
 -----------------------------------------------------------------------------------------------------------------------
 -- Widget includes colored icon
 -----------------------------------------------------------------------------------------------------------------------
@@ -11,8 +11,8 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 local unpack = unpack or table.unpack
 
-local redutil = require("redflat.util")
-local svgbox = require("redflat.gauge.svgbox")
+local redutil = require("awsmx.util")
+local svgbox = require("awsmx.gauge.svgbox")
 
 
 -- Initialize tables for module

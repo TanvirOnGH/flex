@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                            RedFlat layoutbox widget                                               --
+--                                            awsmx layoutbox widget                                               --
 -----------------------------------------------------------------------------------------------------------------------
 -- Paintbox widget used to display layout
 -- Layouts menu added
@@ -18,10 +18,10 @@ local awful = require("awful")
 local layout = require("awful.layout")
 local beautiful = require("beautiful")
 
-local redmenu = require("redflat.menu")
-local tooltip = require("redflat.float.tooltip")
-local redutil = require("redflat.util")
-local svgbox = require("redflat.gauge.svgbox")
+local redmenu = require("awsmx.menu")
+local tooltip = require("awsmx.float.tooltip")
+local redutil = require("awsmx.util")
+local svgbox = require("awsmx.gauge.svgbox")
 
 
 -- Initialize tables and vars for module

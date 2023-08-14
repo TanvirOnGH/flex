@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                                RedFlat titlebar                                                   --
+--                                                awsmx titlebar                                                   --
 -----------------------------------------------------------------------------------------------------------------------
 -- model titlebar with two view: light and full
 -- Only simple indicators avaliable, no buttons
@@ -20,8 +20,8 @@ local drawable = require("wibox.drawable")
 local color = require("gears.color")
 local wibox = require("wibox")
 
-local redutil = require("redflat.util")
-local svgbox = require("redflat.gauge.svgbox")
+local redutil = require("awsmx.util")
+local svgbox = require("awsmx.gauge.svgbox")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------

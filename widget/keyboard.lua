@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                     RedFlat keyboard layout indicator widget                                      --
+--                                     awsmx keyboard layout indicator widget                                      --
 -----------------------------------------------------------------------------------------------------------------------
 -- Indicate and switch keybord layout
 -----------------------------------------------------------------------------------------------------------------------
@@ -11,10 +11,10 @@ local table = table
 local awful = require("awful")
 local beautiful = require("beautiful")
 
-local tooltip = require("redflat.float.tooltip")
-local redmenu = require("redflat.menu")
-local redutil = require("redflat.util")
-local svgbox = require("redflat.gauge.svgbox")
+local tooltip = require("awsmx.float.tooltip")
+local redmenu = require("awsmx.menu")
+local redutil = require("awsmx.util")
+local svgbox = require("awsmx.gauge.svgbox")
 
 
 -- Initialize tables and vars for module

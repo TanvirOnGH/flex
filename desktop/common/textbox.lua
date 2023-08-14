@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                              RedFlat textbox widget                                               --
+--                                              awsmx textbox widget                                               --
 -----------------------------------------------------------------------------------------------------------------------
 -- Custom textbox for desktop widgets
 -----------------------------------------------------------------------------------------------------------------------
@@ -11,7 +11,7 @@ local wibox = require("wibox")
 local color = require("gears.color")
 local beautiful = require("beautiful")
 
-local redutil = require("redflat.util")
+local redutil = require("awsmx.util")
 
 
 -- Initialize tables for module

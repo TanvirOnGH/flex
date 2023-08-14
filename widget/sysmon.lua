@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                                 RedFlat sysmon widget                                             --
+--                                                 awsmx sysmon widget                                             --
 -----------------------------------------------------------------------------------------------------------------------
 -- Monitoring widget
 -----------------------------------------------------------------------------------------------------------------------
@@ -10,9 +10,9 @@ local setmetatable = setmetatable
 local beautiful = require("beautiful")
 local timer = require("gears.timer")
 
-local monitor = require("redflat.gauge.monitor.plain")
-local tooltip = require("redflat.float.tooltip")
-local redutil = require("redflat.util")
+local monitor = require("awsmx.gauge.monitor.plain")
+local tooltip = require("awsmx.float.tooltip")
+local redutil = require("awsmx.util")
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------

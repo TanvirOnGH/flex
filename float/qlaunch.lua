@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                           RedFlat quick laucnher widget                                           --
+--                                           awsmx quick laucnher widget                                           --
 -----------------------------------------------------------------------------------------------------------------------
 -- Quick application launch or switch
 -----------------------------------------------------------------------------------------------------------------------
@@ -18,15 +18,15 @@ local awful = require("awful")
 local beautiful = require("beautiful")
 local color = require("gears.color")
 
-local redflat = require("redflat")
-local redutil = require("redflat.util")
-local redtip = require("redflat.float.hotkeys")
+local awsmx = require("awsmx")
+local redutil = require("awsmx.util")
+local redtip = require("awsmx.float.hotkeys")
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------
 local qlaunch = { history = {}, store = {}, keys = {} }
 
-local sw = redflat.float.appswitcher
+local sw = awsmx.float.appswitcher
 local TPI = math.pi * 2
 
 local switcher_keys = {}
@@ -227,7 +227,7 @@ local function build_item(key, style)
 
 	-- Icon
 	------------------------------------------------------------
-	widg.svgbox = redflat.gauge.svgbox()
+	widg.svgbox = awsmx.gauge.svgbox()
 	local icon_align = wibox.widget({
 		nil,
 		widg.svgbox,
@@ -288,7 +288,7 @@ local function build_switcher(keys, style)
 			local icon = data.app == "" and style.no_icon or idb[data.app] or style.df_icon
 			-- force manually set icon
 			if data.icon ~= "" then
-				icon = redflat.service.dfparser.lookup_icon(data.icon, style)
+				icon = awsmx.service.dfparser.lookup_icon(data.icon, style)
 			end
 			self.items[key].svgbox:set_image(icon)
 			if style.recoloring then self.items[key].svgbox:set_color(style.color.icon) end
@@ -342,7 +342,7 @@ function qlaunch:init(args, style)
 	style = redutil.table.merge(default_style(), style or {})
 	self.style = style
 	self.default_switcher_keys = keys
-	self.icon_db = redflat.service.dfparser.icon_list(style.parser)
+	self.icon_db = awsmx.service.dfparser.icon_list(style.parser)
 
 	self:load_config()
 
@@ -451,11 +451,11 @@ function qlaunch:set_new_app(key, c)
 		local run_command = redutil.read.output(string.format("tr '\\0' ' ' < /proc/%s/cmdline", c.pid))
 		self.store[key] = { app = c.class:lower(), run = run_command, icon = "" }
 		local note = redutil.table.merge({text = string.format("%s binded with '%s'", c.class, key)}, self.style.notify)
-		redflat.float.notify:show(note)
+		awsmx.float.notify:show(note)
 	else
 		self.store[key] = { app = "", run = "", icon = "" }
 		local note = redutil.table.merge({text = string.format("'%s' key unbinded", key)}, self.style.notify)
-		redflat.float.notify:show(note)
+		awsmx.float.notify:show(note)
 	end
 
 	self.switcher:reset()

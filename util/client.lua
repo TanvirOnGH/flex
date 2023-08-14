@@ -1,4 +1,4 @@
--- RedFlat util submodule
+-- awsmx util submodule
 
 local awful = require("awful")
 local client = { floatset = {} }

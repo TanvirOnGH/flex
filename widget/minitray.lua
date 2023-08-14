@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                               RedFlat minitray                                                    --
+--                                               awsmx minitray                                                    --
 -----------------------------------------------------------------------------------------------------------------------
 -- Tray located on separate wibox
 -- minitray:toggle() used to show/hide wibox
@@ -19,9 +19,9 @@ local wibox = require("wibox")
 local awful = require("awful")
 local beautiful = require("beautiful")
 
-local redutil = require("redflat.util")
-local dotcount = require("redflat.gauge.graph.dots")
-local tooltip = require("redflat.float.tooltip")
+local redutil = require("awsmx.util")
+local dotcount = require("awsmx.gauge.graph.dots")
+local tooltip = require("awsmx.float.tooltip")
 
 -- Initialize tables and wibox
 -----------------------------------------------------------------------------------------------------------------------
