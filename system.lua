@@ -575,7 +575,6 @@ function system.transmission.info(setup, args)
 end
 
 -- Get processes list and cpu and memory usage for every process
--- !!! Fixes is needed !!!
 -----------------------------------------------------------------------------------------------------------------------
 local proc_storage = {}
 
@@ -583,48 +582,30 @@ function system.proc_info(cpu_storage)
 	local process = {}
 	local mem_page_size = 4
 
-	-- get processes list with ps utility
-	-- !!! TODO: get processes list from fs directly !!!
-	local output = modutil.read.output("ps -eo pid | tail -n +2")
+	-- get processes list directly from /proc filesystem
+	for pid_entry in io.popen("ls -d /proc/[0-9]*/"):lines() do
+		local pid = tonumber(pid_entry:match("/proc/(%d+)/"))
 
-	-- get total cpu time diff from previous call
-	local cpu_diff = system.cpu_usage(cpu_storage).diff
-
-	-- handle every line in ps output
-	for line in string.gmatch(output, "[^\n]+") do
-		local pid = tonumber(line)
-
-		-- try to get info from /proc
+		-- read process status file directly
 		local stat = modutil.read.file("/proc/" .. pid .. "/stat")
 
-		-- if process with given pid exist in /proc
 		if stat then
-			-- get process name
-			local name = string.match(stat, ".+%((.+)%).+")
+			local name = stat:match(".+%((.-)%)")
 			local proc_stat = { name }
 
-			-- remove process name from stat data to simplify following parsing
 			stat = stat:gsub("%s%(.+%)", "", 1)
 
-			-- the rest of 'stat' data can be splitted by whitespaces
-			-- first chunk is pid so just skip it
 			for m in string.gmatch(stat, "[%s]+([^%s]+)") do
 				table.insert(proc_stat, m)
 			end
 
-			-- get memory usage (RSS)
-			-- !!! RSS is a very crude approximation for memory usage !!!
-			-- !!! TODO: find a more accurate method for real memory usage calculation !!!
-			local mem = proc_stat[23] * mem_page_size
+			local mem = proc_stat[24] * mem_page_size       -- Adjusted index for memory usage
 
-			-- calculate cpu usage for process
-			local proc_time = proc_stat[13] + proc_stat[14]
+			local proc_time = proc_stat[14] + proc_stat[15] -- Adjusted indices for proc_time
 			local pcpu = (proc_time - (proc_storage[pid] or 0)) / cpu_diff
 
-			-- save current cpu time for future
 			proc_storage[pid] = proc_time
 
-			-- save results
 			table.insert(process, { pid = pid, name = name, mem = mem, pcpu = pcpu })
 		end
 	end
