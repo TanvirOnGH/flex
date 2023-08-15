@@ -12,7 +12,7 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 local color = require("gears.color")
 
-local redutil = require("awsmx.util")
+local modutil = require("awsmx.util")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------
@@ -30,7 +30,7 @@ local function default_style()
 		step       = 0.05,
 		color      = { main = "#b1222b", gray = "#575757", icon = "#a0a0a0" }
 	}
-	return redutil.table.merge(style, redutil.table.check(beautiful, "gauge.monitor.plain") or {})
+	return modutil.table.merge(style, modutil.table.check(beautiful, "gauge.monitor.plain") or {})
 end
 
 -- Create a new monitor widget
@@ -40,7 +40,7 @@ function monitor.new(style)
 
 	-- Initialize vars
 	--------------------------------------------------------------------------------
-	style = redutil.table.merge(default_style(), style or {})
+	style = modutil.table.merge(default_style(), style or {})
 
 	-- Create custom widget
 	--------------------------------------------------------------------------------
@@ -88,8 +88,8 @@ function monitor.new(style)
 
 		-- label
 		cr:set_source(color(self._data.color))
-		redutil.cairo.set_font(cr, style.font)
-		redutil.cairo.textcentre.horizontal(cr, { width/2, style.text_shift }, self._data.label)
+		modutil.cairo.set_font(cr, style.font)
+		modutil.cairo.textcentre.horizontal(cr, { width/2, style.text_shift }, self._data.label)
 
 		-- progressbar
 		local wd = { width, width * self._data.level }

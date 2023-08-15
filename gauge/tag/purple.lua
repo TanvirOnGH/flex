@@ -13,7 +13,7 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 local color = require("gears.color")
 
-local redutil = require("awsmx.util")
+local modutil = require("awsmx.util")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------
@@ -29,7 +29,7 @@ local function default_style()
 		color        = { main  = "#5906D3", gray  = "#575757", icon = "#a0a0a0", urgent = "#864DDC" }
 	}
 
-	return redutil.table.merge(style, redutil.table.check(beautiful, "gauge.tag.purple") or {})
+	return modutil.table.merge(style, modutil.table.check(beautiful, "gauge.tag.purple") or {})
 end
 
 -- Create a new tag widget
@@ -39,7 +39,7 @@ function purpletag.new(style)
 
 	-- Initialize vars
 	--------------------------------------------------------------------------------
-	style = redutil.table.merge(default_style(), style or {})
+	style = modutil.table.merge(default_style(), style or {})
 
 	-- updating values
 	local data = {

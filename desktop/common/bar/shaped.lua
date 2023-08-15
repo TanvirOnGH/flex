@@ -12,7 +12,7 @@ local wibox = require("wibox")
 local color = require("gears.color")
 local beautiful = require("beautiful")
 
-local redutil = require("awsmx.util")
+local modutil = require("awsmx.util")
 local tooltip = require("awsmx.float.tooltip")
 
 -- Initialize tables for module
@@ -34,7 +34,7 @@ local function default_style()
 		color     = { main = "#b1222b", gray = "#404040" }
 	}
 
-	return redutil.table.merge(style, redutil.table.check(beautiful, "desktop.common.bar.shaped") or {})
+	return modutil.table.merge(style, modutil.table.check(beautiful, "desktop.common.bar.shaped") or {})
 end
 
 -- Cairo drawing functions
@@ -74,7 +74,7 @@ function progressbar.new(style)
 
 	-- Initialize vars
 	--------------------------------------------------------------------------------
-	style = redutil.table.merge(default_style(), style or {})
+	style = modutil.table.merge(default_style(), style or {})
 	local maxm = style.maxm
 
 	--style aliases

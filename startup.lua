@@ -8,7 +8,7 @@
 -----------------------------------------------------------------------------------------------------------------------
 local io = io
 
-local redutil = require("awsmx.util")
+local modutil = require("awsmx.util")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------
@@ -31,7 +31,7 @@ end
 
 function startup:activate()
 	-- check if it is first start
-	local reason = redutil.read.file(startup.path)
+	local reason = modutil.read.file(startup.path)
 	self.is_startup = (not reason or reason == REASON.EXIT) and not self.locked
 
 	-- save reason on exit

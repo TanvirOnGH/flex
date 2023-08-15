@@ -12,7 +12,7 @@ local beautiful = require("beautiful")
 local awful     = require("awful")
 local wibox     = require("wibox")
 
-local redutil  = require("awsmx.util")
+local modutil  = require("awsmx.util")
 local redtitle = require("awsmx.titlebar")
 local redtip   = require("awsmx.float.hotkeys")
 local svgbox   = require("awsmx.gauge.svgbox")
@@ -34,18 +34,18 @@ local function default_style()
 		shape         = nil,
 		margin        = { icon = { title = { 10, 10, 2, 2 }, state = { 10, 10, 2, 2 } } },
 		icon          = {
-			title    = redutil.base.placeholder({ txt = "[]" }),
-			active   = redutil.base.placeholder({ txt = "+" }),
-			absent   = redutil.base.placeholder({ txt = "!" }),
-			disabled = redutil.base.placeholder({ txt = "X" }),
-			hidden   = redutil.base.placeholder({ txt = "*" }),
-			unknown  = redutil.base.placeholder({ txt = "?" }),
+			title    = modutil.base.placeholder({ txt = "[]" }),
+			active   = modutil.base.placeholder({ txt = "+" }),
+			absent   = modutil.base.placeholder({ txt = "!" }),
+			disabled = modutil.base.placeholder({ txt = "X" }),
+			hidden   = modutil.base.placeholder({ txt = "*" }),
+			unknown  = modutil.base.placeholder({ txt = "?" }),
 		},
 		color         = { border = "#575757", text = "#aaaaaa", main = "#b1222b", wibox = "#202020",
 		                  gray = "#575757", icon = "#a0a0a0" },
 	}
 
-	return redutil.table.merge(style, redutil.table.check(beautiful, "float.bartip") or {})
+	return modutil.table.merge(style, modutil.table.check(beautiful, "float.bartip") or {})
 end
 
 -- key bindings
@@ -127,11 +127,11 @@ function bartip:init()
 	self.keygrabber = function(mod, key, event)
 		if event == "release" then
 			for _, k in ipairs(self.keys.action) do
-				if redutil.key.match_grabber(k, mod, key) then k[3](); return end
+				if modutil.key.match_grabber(k, mod, key) then k[3](); return end
 			end
 		else
 			for _, k in ipairs(self.keys.all) do
-				if redutil.key.match_grabber(k, mod, key) then k[3](); return end
+				if modutil.key.match_grabber(k, mod, key) then k[3](); return end
 			end
 		end
 	end
@@ -181,9 +181,9 @@ function bartip:show()
 		if self.style.set_position then
 			self.style.set_position(self.wibox)
 		else
-			redutil.placement.centered(self.wibox, nil, mouse.screen.workarea)
+			modutil.placement.centered(self.wibox, nil, mouse.screen.workarea)
 		end
-		redutil.placement.no_offscreen(self.wibox, self.style.screen_gap, screen[mouse.screen].workarea)
+		modutil.placement.no_offscreen(self.wibox, self.style.screen_gap, screen[mouse.screen].workarea)
 
 		self:update()
 		self.wibox.visible = true

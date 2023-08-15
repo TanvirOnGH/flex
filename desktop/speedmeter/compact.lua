@@ -14,7 +14,7 @@ local timer = require("gears.timer")
 local unpack = unpack or table.unpack
 
 local system = require("awsmx.system")
-local redutil = require("awsmx.util")
+local modutil = require("awsmx.util")
 local dcommon = require("awsmx.desktop.common")
 local svgbox = require("awsmx.gauge.svgbox")
 
@@ -37,7 +37,7 @@ local function default_style()
 		unit             = { { "B", -1 }, { "KB", 1024 }, { "MB", 1024^2 }, { "GB", 1024^3 } },
 		color            = { main = "#b1222b", wibox = "#161616", gray = "#404040" }
 	}
-	return redutil.table.merge(style, redutil.table.check(beautiful, "desktop.speedmeter.compact") or {})
+	return modutil.table.merge(style, modutil.table.check(beautiful, "desktop.speedmeter.compact") or {})
 end
 
 local default_args = {
@@ -57,8 +57,8 @@ local default_maxspeed = { up = 10 * 1024, down = 10 * 1024 }
 -- Construct chart with support elements
 --------------------------------------------------------------------------------
 local function value_chart(style, image, maxspeed)
-	local chart = dcommon.chart(redutil.table.merge(style.chart, { maxm = maxspeed }))
-	local progressbar = dcommon.bar.plain(redutil.table.merge(style.progressbar, { maxm = maxspeed }))
+	local chart = dcommon.chart(modutil.table.merge(style.chart, { maxm = maxspeed }))
+	local progressbar = dcommon.bar.plain(modutil.table.merge(style.progressbar, { maxm = maxspeed }))
 
 	local text = dcommon.textbox("", style.label)
 	local icon = image and svgbox(image) or nil
@@ -107,13 +107,13 @@ function speedmeter.new(args, style)
 	local storage = {}
 	local last_state = { false, false }
 
-	args = redutil.table.merge(default_args, args or {})
-	style = redutil.table.merge(default_style(), style or {})
-	local maxspeed = redutil.table.merge(default_maxspeed, args.maxspeed or {})
+	args = modutil.table.merge(default_args, args or {})
+	style = modutil.table.merge(default_style(), style or {})
+	local maxspeed = modutil.table.merge(default_maxspeed, args.maxspeed or {})
 
-	style.chart = redutil.table.merge(style.chart, { autoscale = args.autoscale, color = style.color.gray })
-	style.progressbar = redutil.table.merge(style.progressbar, { autoscale = args.autoscale, color = style.color })
-	style.label = redutil.table.merge(style.label, { draw = "by_edges", color = style.color.gray })
+	style.chart = modutil.table.merge(style.chart, { autoscale = args.autoscale, color = style.color.gray })
+	style.progressbar = modutil.table.merge(style.progressbar, { autoscale = args.autoscale, color = style.color })
+	style.label = modutil.table.merge(style.label, { draw = "by_edges", color = style.color.gray })
 
 	dwidget.style = style
 
@@ -139,7 +139,7 @@ function speedmeter.new(args, style)
 		for i = 1, 2 do
 			widg[i].chart:set_value(state[i])
 			widg[i].progressbar:set_value(state[i])
-			widg[i].text:set_text(redutil.text.dformat(state[i], style.unit, style.digits))
+			widg[i].text:set_text(modutil.text.dformat(state[i], style.unit, style.digits))
 
 			if widg[i].icon and args.crit then
 				local st = state[i] > args.crit[placement[i]]

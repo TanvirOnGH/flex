@@ -13,7 +13,7 @@ local beautiful = require("beautiful")
 local wibox = require("wibox")
 local timer = require("gears.timer")
 
-local redutil = require("awsmx.util")
+local modutil = require("awsmx.util")
 local system = require("awsmx.system")
 local decoration = require("awsmx.float.decoration")
 local redtip = require("awsmx.float.hotkeys")
@@ -84,7 +84,7 @@ local function default_style()
 		shape         = nil
 
 	}
-	return redutil.table.merge(style, redutil.table.check(beautiful, "float.top") or {})
+	return modutil.table.merge(style, modutil.table.check(beautiful, "float.top") or {})
 end
 
 -- Support functions
@@ -235,7 +235,7 @@ function top:init()
 	self.keygrabber = function(mod, key, event)
 		if     event ~= "press" then return end
 		for _, k in ipairs(self.keys.all) do
-			if redutil.key.match_grabber(k, mod, key) then k[3](); return end
+			if modutil.key.match_grabber(k, mod, key) then k[3](); return end
 		end
 		if string.match("123456789", key) then select_item(tonumber(key)) end
 	end
@@ -277,7 +277,7 @@ function top:init()
 				name = proc[i].name,
 				cpu = string.format("%.1f", proc[i].pcpu * 100),
 				--mem = string.format("%.0f", proc[i].mem) .. " MB",
-				mem = redutil.text.dformat(proc[i].mem, style.unit, 2, " "),
+				mem = modutil.text.dformat(proc[i].mem, style.unit, 2, " "),
 				pid = proc[i].pid
 			})
 
@@ -352,7 +352,7 @@ function top:show(srt)
 		else
 			awful.placement.under_mouse(self.wibox)
 		end
-		redutil.placement.no_offscreen(self.wibox, self.style.screen_gap, screen[mouse.screen].workarea)
+		modutil.placement.no_offscreen(self.wibox, self.style.screen_gap, screen[mouse.screen].workarea)
 
 		self.wibox.visible = true
 		self.update_timer:start()

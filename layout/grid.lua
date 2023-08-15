@@ -15,7 +15,7 @@ local unpack = unpack or table.unpack
 
 local awful = require("awful")
 local common = require("awsmx.layout.common")
-local redutil = require("awsmx.util")
+local modutil = require("awsmx.util")
 
 local hasitem = awful.util.table.hasitem
 
@@ -146,7 +146,7 @@ local function get_rail(c)
 	table.remove(cls, hasitem(cls, c))
 
 	for _, v in ipairs(cls) do
-		local lg = redutil.client.fullgeometry(v)
+		local lg = modutil.client.fullgeometry(v)
 		local xr = lg.x + lg.width
 		local yb = lg.y + lg.height
 
@@ -220,7 +220,7 @@ function grid.move_to(dir, is_rail, k)
 		update_rail(c)
 	end
 
-	local g = redutil.client.fullgeometry(c)
+	local g = modutil.client.fullgeometry(c)
 	k = k or 1
 
 	if dir == "left" then
@@ -269,7 +269,7 @@ function grid.move_to(dir, is_rail, k)
 		end
 	end
 
-	redutil.client.fullgeometry(c, ng)
+	modutil.client.fullgeometry(c, ng)
 end
 
 -- Resize client
@@ -285,7 +285,7 @@ grid.resize_to = function(dir, is_rail, is_reverse)
 		update_rail(c)
 	end
 
-	local g = redutil.client.fullgeometry(c)
+	local g = modutil.client.fullgeometry(c)
 	local sign = is_reverse and -1 or 1
 
 	if dir == "up" then
@@ -341,14 +341,14 @@ grid.resize_to = function(dir, is_rail, is_reverse)
 		end
 	end
 
-	redutil.client.fullgeometry(c, ng)
+	modutil.client.fullgeometry(c, ng)
 end
 
 -- Keygrabber
 -----------------------------------------------------------------------------------------------------------------------
 grid.maingrabber = function(mod, key)
 	for _, k in ipairs(grid.keys.all) do
-		if redutil.key.match_grabber(k, mod, key) then k[3](); return true end
+		if modutil.key.match_grabber(k, mod, key) then k[3](); return true end
 	end
 end
 
@@ -379,10 +379,10 @@ function grid.arrange(p)
 
 	-- tile
 	for _, c in ipairs(cls) do
-		local g = redutil.client.fullgeometry(c)
+		local g = modutil.client.fullgeometry(c)
 
 		g = fit_cell(g, grid.data.cell)
-		redutil.client.fullgeometry(c, g)
+		modutil.client.fullgeometry(c, g)
 	end
 end
 
@@ -390,10 +390,10 @@ end
 -- Mouse moving function
 -----------------------------------------------------------------------------------------------------------------------
 function grid.move_handler(c, _, hints)
-	local g = redutil.client.fullgeometry(c)
+	local g = modutil.client.fullgeometry(c)
 	local hg = { x = hints.x, y = hints.y, width = g.width, height = g.height }
 	if is_diff(hg, g, grid.data.cell) then
-		redutil.client.fullgeometry(c, fit_cell(hg, grid.data.cell))
+		modutil.client.fullgeometry(c, fit_cell(hg, grid.data.cell))
 	end
 end
 
@@ -401,7 +401,7 @@ end
 -- Mouse resizing function
 -----------------------------------------------------------------------------------------------------------------------
 function grid.mouse_resize_handler(c, corner)
-	local g = redutil.client.fullgeometry(c)
+	local g = modutil.client.fullgeometry(c)
 	local cg = g
 
 	-- set_mouse_on_corner(g, corner)
@@ -443,7 +443,7 @@ function grid.mouse_resize_handler(c, corner)
 					-- if c.maximized_vertical   then ng.height = g.height ng.y = g.y end
 
 					if is_diff(ng, cg, grid.data.cell) then
-						cg = redutil.client.fullgeometry(c, fit_cell(ng, grid.data.cell))
+						cg = modutil.client.fullgeometry(c, fit_cell(ng, grid.data.cell))
 					end
 
 					return true

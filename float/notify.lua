@@ -12,7 +12,7 @@ local beautiful = require("beautiful")
 local wibox = require("wibox")
 local timer = require("gears.timer")
 
-local redutil = require("awsmx.util")
+local modutil = require("awsmx.util")
 local svgbox = require("awsmx.gauge.svgbox")
 local progressbar = require("awsmx.gauge.graph.bar")
 
@@ -38,7 +38,7 @@ local function default_style()
 		color           = { border = "#575757", icon = "#aaaaaa", wibox = "#202020" },
 		shape           = nil
 	}
-	return redutil.table.merge(style, redutil.table.check(beautiful, "float.notify") or {})
+	return modutil.table.merge(style, modutil.table.check(beautiful, "float.notify") or {})
 end
 
 -- Initialize notify widget
@@ -130,7 +130,7 @@ function notify:show(args)
 
 	if not self.wibox.visible or target_screen.index ~= self.last.screen then
 		if set_position then set_position(self.wibox) end
-		redutil.placement.no_offscreen(self.wibox, self.style.screen_gap, target_screen.workarea)
+		modutil.placement.no_offscreen(self.wibox, self.style.screen_gap, target_screen.workarea)
 		self.wibox.visible = true
 	end
 

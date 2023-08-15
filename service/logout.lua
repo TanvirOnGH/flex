@@ -8,7 +8,7 @@ local wibox = require("wibox")
 local gears = require("gears")
 local beautiful = require("beautiful")
 
-local redutil = require("awsmx.util")
+local modutil = require("awsmx.util")
 local redtip = require("awsmx.float.hotkeys")
 local svgbox = require("awsmx.gauge.svgbox")
 
@@ -31,18 +31,18 @@ local function default_style()
 		color               = { wibox = "#202020", text = "#a0a0a0", icon = "#a0a0a0",
 		                        gray = "#575757", main = "#b1222b" },
 		icons               = {
-			poweroff = redutil.base.placeholder({ txt = "↯" }),
-			reboot   = redutil.base.placeholder({ txt = "⊛" }),
-			suspend  = redutil.base.placeholder({ txt = "⊖" }),
-			lock     = redutil.base.placeholder({ txt = "⊙" }),
-			logout   = redutil.base.placeholder({ txt = "←" }),
+			poweroff = modutil.base.placeholder({ txt = "↯" }),
+			reboot   = modutil.base.placeholder({ txt = "⊛" }),
+			suspend  = modutil.base.placeholder({ txt = "⊖" }),
+			lock     = modutil.base.placeholder({ txt = "⊙" }),
+			logout   = modutil.base.placeholder({ txt = "←" }),
 		},
 		keytip                    = { geometry = { width = 400 } },
 		graceful_shutdown         = true,
 		double_key_activation     = false,
 		client_kill_timeout       = 2,
 	}
-	return redutil.table.merge(style, redutil.table.check(beautiful, "service.logout") or {})
+	return modutil.table.merge(style, modutil.table.check(beautiful, "service.logout") or {})
 end
 
 -- Support functions
@@ -203,7 +203,7 @@ end
 -- Button for layout option
 --------------------------------------------------------------------------------
 function logout:_make_button(icon_name)
-	local icon = self.style.icons[icon_name] or redutil.base.placeholder({ txt = "?" })
+	local icon = self.style.icons[icon_name] or modutil.base.placeholder({ txt = "?" })
 
 	local image = wibox.container.margin(svgbox(icon, nil, self.style.color.icon))
 	image.margins = self.style.icon_margin
@@ -308,7 +308,7 @@ function logout:init()
 	self.keygrabber = function(mod, key, event)
 		if event == "press" then
 			for _, k in ipairs(self.keys) do
-				if redutil.key.match_grabber(k, mod, key) then k[3](); return end
+				if modutil.key.match_grabber(k, mod, key) then k[3](); return end
 			end
 		end
 	end

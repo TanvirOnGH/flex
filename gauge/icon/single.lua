@@ -13,7 +13,7 @@ local string = string
 local beautiful = require("beautiful")
 local wibox = require("wibox")
 
-local redutil = require("awsmx.util")
+local modutil = require("awsmx.util")
 local svgbox = require("awsmx.gauge.svgbox")
 
 
@@ -25,12 +25,12 @@ local gicon = { mt = {} }
 -----------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
-		icon        = redutil.base.placeholder(),
+		icon        = modutil.base.placeholder(),
 		step        = 0.05,
 		is_vertical = false,
 		color       = { main = "#b1222b", icon = "#a0a0a0", urgent = "#32882d" }
 	}
-	return redutil.table.merge(style, redutil.table.check(beautiful, "gauge.icon.single") or {})
+	return modutil.table.merge(style, modutil.table.check(beautiful, "gauge.icon.single") or {})
 end
 
 -- Support functions
@@ -50,7 +50,7 @@ function gicon.new(style)
 
 	-- Initialize vars
 	--------------------------------------------------------------------------------
-	style = redutil.table.merge(default_style(), style or {})
+	style = modutil.table.merge(default_style(), style or {})
 	local pattern = style.is_vertical and pattern_string_v or pattern_string_h
 
 	-- Create widget

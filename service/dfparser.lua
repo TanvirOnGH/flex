@@ -17,7 +17,7 @@ local string = string
 local awful = require("awful")
 local beautiful = require("beautiful")
 
-local redutil = require("awsmx.util")
+local modutil = require("awsmx.util")
 local gears = require("gears")
 
 -- Initialize tables and vars for module
@@ -48,7 +48,7 @@ local function default_style()
 		wm_name           = nil,
 	}
 
-	return redutil.table.merge(style, redutil.table.check(beautiful, "service.dfparser") or {})
+	return modutil.table.merge(style, modutil.table.check(beautiful, "service.dfparser") or {})
 end
 
 -- Support functions
@@ -122,7 +122,7 @@ end
 -----------------------------------------------------------------------------------------------------------------------
 function dfparser.lookup_icon(icon_file, style)
 
-	style = redutil.table.merge(default_style().icons, style or {})
+	style = modutil.table.merge(default_style().icons, style or {})
 
 	local df_icon
 	if style.df_icon and gears.filesystem.file_readable(style.df_icon) then
@@ -275,7 +275,7 @@ local function parse_dir(dir, style)
 	local cached = check_cached(req)
 
 	if not cached then
-		local files = redutil.read.output('find '.. dir ..' -maxdepth 1 -name "*.desktop" 2>/dev/null')
+		local files = modutil.read.output('find '.. dir ..' -maxdepth 1 -name "*.desktop" 2>/dev/null')
 
 		for file in string.gmatch(files, "[^\n]+") do
 			local program = parse(file, style)
@@ -297,7 +297,7 @@ end
 -----------------------------------------------------------------------------------------------------------------------
 function dfparser.menu(style)
 
-	style = redutil.table.merge(default_style(), style or {})
+	style = modutil.table.merge(default_style(), style or {})
 
 	-- Categories list
 	--------------------------------------------------------------------------------
@@ -374,7 +374,7 @@ end
 -----------------------------------------------------------------------------------------------------------------------
 function dfparser.icon_list(style)
 
-	style = redutil.table.merge(default_style(), style or {})
+	style = modutil.table.merge(default_style(), style or {})
 	local list = {}
 
 	for _, path in ipairs(style.desktop_file_dirs) do
@@ -401,7 +401,7 @@ end
 -----------------------------------------------------------------------------------------------------------------------
 function dfparser.program_list(style)
 
-	style = redutil.table.merge(default_style(), style or {})
+	style = modutil.table.merge(default_style(), style or {})
 	local prog_list = {}
 
 	for _, path in ipairs(style.desktop_file_dirs) do

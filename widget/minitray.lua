@@ -19,7 +19,7 @@ local wibox = require("wibox")
 local awful = require("awful")
 local beautiful = require("beautiful")
 
-local redutil = require("awsmx.util")
+local modutil = require("awsmx.util")
 local dotcount = require("awsmx.gauge.graph.dots")
 local tooltip = require("awsmx.float.tooltip")
 
@@ -39,7 +39,7 @@ local function default_style()
 		color        = { wibox = "#202020", border = "#575757" },
 		shape        = nil
 	}
-	return redutil.table.merge(style, redutil.table.check(beautiful, "widget.minitray") or {})
+	return modutil.table.merge(style, modutil.table.check(beautiful, "widget.minitray") or {})
 end
 
 -- Initialize minitray floating window
@@ -100,7 +100,7 @@ function minitray:update_geometry()
 		awful.placement.under_mouse(self.wibox)
 	end
 
-	redutil.placement.no_offscreen(self.wibox, self.screen_gap, mouse.screen.workarea)
+	modutil.placement.no_offscreen(self.wibox, self.screen_gap, mouse.screen.workarea)
 	self.tray.screen = self.wibox.screen
 end
 
@@ -136,7 +136,7 @@ function minitray.new(_, style)
 	-- Initialize vars
 	--------------------------------------------------------------------------------
 --	args = args or {} -- usesless now, leave it be for backward compatibility and future cases
-	style = redutil.table.merge(default_style(), style or {})
+	style = modutil.table.merge(default_style(), style or {})
 
 	-- Initialize minitray window
 	--------------------------------------------------------------------------------

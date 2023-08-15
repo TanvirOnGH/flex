@@ -13,7 +13,7 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 local timer = require("gears.timer")
 
-local redutil = require("awsmx.util")
+local modutil = require("awsmx.util")
 local svgbox = require("awsmx.gauge.svgbox")
 local textbox = require("awsmx.desktop.common.textbox")
 
@@ -33,7 +33,7 @@ local function default_style()
 		unit      = { { "B", -1 }, { "KB", 1024 }, { "MB", 1024^2 }, { "GB", 1024^3 } },
 		color     = { main = "#b1222b", wibox = "#161616", gray = "#404040" }
 	}
-	return redutil.table.merge(style, redutil.table.check(beautiful, "desktop.singleline") or {})
+	return modutil.table.merge(style, modutil.table.check(beautiful, "desktop.singleline") or {})
 end
 
 local default_args = { timeout = 60, sensors = {} }
@@ -45,8 +45,8 @@ function sline.new(args, style)
 	-- Initialize vars
 	--------------------------------------------------------------------------------
 	local dwidget = {}
-	args = redutil.table.merge(default_args, args or {})
-	style = redutil.table.merge(default_style(), style or {})
+	args = modutil.table.merge(default_args, args or {})
+	style = modutil.table.merge(default_style(), style or {})
 
 	dwidget.style = style
 
@@ -91,7 +91,7 @@ function sline.new(args, style)
 	--------------------------------------------------------------------------------
 	local function set_raw_state(state, crit, i)
 		local text_color = crit and state[1] > crit and style.color.main or style.color.gray
-		local txt = redutil.text.dformat(state[2] or state[1], style.unit, style.digits)
+		local txt = modutil.text.dformat(state[2] or state[1], style.unit, style.digits)
 
 		dwidget.item[i]:set_text(txt)
 		dwidget.item[i]:set_color(text_color)

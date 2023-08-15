@@ -14,7 +14,7 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 local color = require("gears.color")
 
-local redutil = require("awsmx.util")
+local modutil = require("awsmx.util")
 local svgbox = require("awsmx.gauge.svgbox")
 
 -- Initialize tables for module
@@ -26,12 +26,12 @@ local doublemonitor = { mt = {} }
 local function default_style()
 	local style = {
 		line    = { width = 4, v_gap = 6, gap = 4, num = 5 },
-		icon    = redutil.base.placeholder(),
+		icon    = modutil.base.placeholder(),
 		dmargin = { 10, 0, 0, 0 },
 		width   = 100,
 		color   = { main = "#b1222b", gray = "#575757", icon = "#a0a0a0", urgent = "#32882d" }
 	}
-	return redutil.table.merge(style, redutil.table.check(beautiful, "gauge.monitor.double") or {})
+	return modutil.table.merge(style, modutil.table.check(beautiful, "gauge.monitor.double") or {})
 end
 
 -- Create progressbar widget
@@ -93,7 +93,7 @@ function doublemonitor.new(style)
 
 	-- Initialize vars
 	--------------------------------------------------------------------------------
-	style = redutil.table.merge(default_style(), style or {})
+	style = modutil.table.merge(default_style(), style or {})
 
 	-- Construct layout
 	--------------------------------------------------------------------------------

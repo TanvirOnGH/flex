@@ -13,7 +13,7 @@ local beautiful = require("beautiful")
 local timer = require("gears.timer")
 
 local system = require("awsmx.system")
-local redutil = require("awsmx.util")
+local modutil = require("awsmx.util")
 local dcommon = require("awsmx.desktop.common")
 local svgbox = require("awsmx.gauge.svgbox")
 
@@ -37,7 +37,7 @@ local function default_style()
 		unit             = { { "B", -1 }, { "KB", 1024 }, { "MB", 1024^2 }, { "GB", 1024^3 } },
 		color            = { main = "#b1222b", wibox = "#161616", gray = "#404040" }
 	}
-	return redutil.table.merge(style, redutil.table.check(beautiful, "desktop.speedmeter.normal") or {})
+	return modutil.table.merge(style, modutil.table.check(beautiful, "desktop.speedmeter.normal") or {})
 end
 
 local default_args = {
@@ -57,7 +57,7 @@ local function set_fullchart_info(objects, label, state, style)
 	for i, o in ipairs(objects) do
 		o.barvalue:set_value(state[i])
 		o.barvalue:set_text(
-			label .. style.label.separator .. redutil.text.dformat(state[i], style.unit, style.digits, " ")
+			label .. style.label.separator .. modutil.text.dformat(state[i], style.unit, style.digits, " ")
 		)
 		o.chart:set_value(state[i])
 	end
@@ -99,8 +99,8 @@ end
 local function fullchart(label_style, progressbar_style, chart_style, barvalue_height, maxm)
 
 	local widg = {}
-	chart_style = redutil.table.merge(chart_style, { maxm = maxm })
-	progressbar_style = redutil.table.merge(progressbar_style, { maxm = maxm })
+	chart_style = modutil.table.merge(chart_style, { maxm = maxm })
+	progressbar_style = modutil.table.merge(progressbar_style, { maxm = maxm })
 
 	-- construct layout with indicators
 	widg.barvalue = barvalue(progressbar_style, label_style)
@@ -145,14 +145,14 @@ function speedmeter.new(args, style)
 	local storage = {}
 	local last = {}
 
-	args = redutil.table.merge(default_args, args or {})
-	style = redutil.table.merge(default_style(), style or {})
-	local maxspeed = redutil.table.merge(default_maxspeed, args.maxspeed or {})
+	args = modutil.table.merge(default_args, args or {})
+	style = modutil.table.merge(default_style(), style or {})
+	local maxspeed = modutil.table.merge(default_maxspeed, args.maxspeed or {})
 
 	local elements_style = {
-		label = redutil.table.merge(style.label, { draw = "by_edges", color = style.color.gray }),
-		progressbar = redutil.table.merge(style.progressbar, { autoscale = args.autoscale, color = style.color }),
-		chart = redutil.table.merge(style.chart, { autoscale = args.autoscale, color = style.color.gray })
+		label = modutil.table.merge(style.label, { draw = "by_edges", color = style.color.gray }),
+		progressbar = modutil.table.merge(style.progressbar, { autoscale = args.autoscale, color = style.color }),
+		chart = modutil.table.merge(style.chart, { autoscale = args.autoscale, color = style.color.gray })
 	}
 
 	dwidget.style = style

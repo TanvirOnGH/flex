@@ -34,7 +34,7 @@ local table = table
 local type = type
 local unpack = unpack or table.unpack
 
-local redutil = require("awsmx.util")
+local modutil = require("awsmx.util")
 local svgbox = require("awsmx.gauge.svgbox")
 local redtip = require("awsmx.float.hotkeys")
 
@@ -50,7 +50,7 @@ local function default_theme()
 	local style = {
 		border_width = 2,
 		screen_gap   = 0,
-		submenu_icon = redutil.base.placeholder({ txt = "▶" }),
+		submenu_icon = modutil.base.placeholder({ txt = "▶" }),
 		height       = 20,
 		width        = 200,
 		font         = "Fira Code 12",
@@ -69,7 +69,7 @@ local function default_theme()
 		                 submenu_icon = nil, right_icon = nil, left_icon = nil },
 		shape        = nil
 	}
-	return redutil.table.merge(style, beautiful.menu or {})
+	return modutil.table.merge(style, beautiful.menu or {})
 end
 
 
@@ -109,7 +109,7 @@ end
 -- Function to set menu or submenu in position
 -----------------------------------------------------------------------------------------------------------------------
 local function set_coords(_menu, screen_idx, m_coords)
-	local s_geometry = redutil.placement.add_gap(screen[screen_idx].workarea, _menu.theme.screen_gap)
+	local s_geometry = modutil.placement.add_gap(screen[screen_idx].workarea, _menu.theme.screen_gap)
 
 	local screen_w = s_geometry.x + s_geometry.width
 	local screen_h = s_geometry.y + s_geometry.height
@@ -231,7 +231,7 @@ local grabber = function(_menu, mod, key, event)
 	local sel = _menu.sel or 0
 
 	for _, k in ipairs(menu.keys.all) do
-		if redutil.key.match_grabber(k, mod, key) then k[3](_menu, sel); return false end
+		if modutil.key.match_grabber(k, mod, key) then k[3](_menu, sel); return false end
 	end
 
 	check_access_key(_menu, key)
@@ -435,7 +435,7 @@ function menu:add(args)
 
 	-- Set theme for currents item
 	------------------------------------------------------------
-	local theme = redutil.table.merge(self.theme, args.theme or {})
+	local theme = modutil.table.merge(self.theme, args.theme or {})
 	args.theme = theme
 
 	-- Generate menu item
@@ -617,7 +617,7 @@ function menu.new(args, parent)
 		parent        = parent,
 		layout        = wibox.layout.fixed.vertical(),
 		add_size      = 0,
-		theme         = redutil.table.merge(parent and parent.theme or default_theme(), args.theme or {})
+		theme         = modutil.table.merge(parent and parent.theme or default_theme(), args.theme or {})
 	}
 
 	-- Create items

@@ -19,7 +19,7 @@ local wibox = require("wibox")
 
 local svgbox = require("awsmx.gauge.svgbox")
 local dfparser = require("awsmx.service.dfparser")
-local redutil = require("awsmx.util")
+local modutil = require("awsmx.util")
 local decoration = require("awsmx.float.decoration")
 local redtip = require("awsmx.float.hotkeys")
 
@@ -79,12 +79,12 @@ local function default_style()
 		comment_font     = "Fira Code 12",
 		border_width     = 2,
 		keytip           = { geometry = { width = 400 } },
-		dimage           = redutil.base.placeholder(),
+		dimage           = modutil.base.placeholder(),
 		color            = { border = "#575757", text = "#aaaaaa", highlight = "#eeeeee", main = "#b1222b",
 		                     bg = "#161616", bg_second = "#181818", wibox = "#202020", icon = "a0a0a0" },
 		shape            = nil
 	}
-	return redutil.table.merge(style, redutil.table.check(beautiful, "float.apprunner") or {})
+	return modutil.table.merge(style, modutil.table.check(beautiful, "float.apprunner") or {})
 end
 
 -- Support functions
@@ -254,7 +254,7 @@ end
 -----------------------------------------------------------------------------------------------------------------------
 local function keypressed_callback(mod, key)
 	for _, k in ipairs(apprunner.keys.all) do
-		if redutil.key.match_prompt(k, mod, key) and k[3] then k[3](); return true end
+		if modutil.key.match_prompt(k, mod, key) and k[3] then k[3](); return true end
 	end
 	return false
 end
@@ -331,7 +331,7 @@ function apprunner:show()
 		self.applist:set_select(1)
 	end
 
-	redutil.placement.centered(self.wibox, nil, mouse.screen.workarea)
+	modutil.placement.centered(self.wibox, nil, mouse.screen.workarea)
 	self.wibox.visible = true
 	redtip:set_pack("Apprunner", self.keys.all, self.keytip.column, self.keytip.geometry)
 

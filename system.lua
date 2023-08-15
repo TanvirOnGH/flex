@@ -22,7 +22,7 @@ local math = math
 
 local timer = require("gears.timer")
 local awful = require("awful")
-local redutil = require("awsmx.util")
+local modutil = require("awsmx.util")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------
@@ -49,7 +49,7 @@ function system.fs_info(args)
 
 	-- Get data from df
 	------------------------------------------------------------
-	local line = redutil.read.output("LC_ALL=C df -kP " .. args .. " | tail -1")
+	local line = modutil.read.output("LC_ALL=C df -kP " .. args .. " | tail -1")
 
 	-- Parse data
 	------------------------------------------------------------
@@ -74,7 +74,7 @@ function system.qemu_image_size(args)
 
 	-- Get data from qemu-ima
 	------------------------------------------------------------
-	local line = redutil.read.output("LC_ALL=C qemu-img info " .. args)
+	local line = modutil.read.output("LC_ALL=C qemu-img info " .. args)
 
 	-- Parse data
 	------------------------------------------------------------
@@ -349,7 +349,7 @@ end
 
 function system.lmsensors.get(name)
 	if os.time() - system.lmsensors.time > system.lmsensors.delay then
-		local output = redutil.read.output("sensors")
+		local output = modutil.read.output("sensors")
 		system.lmsensors:update(output)
 	end
 	return system.lmsensors.storage[name] or { 0 }
@@ -359,7 +359,7 @@ end
 ------------------------------------------------------------
 --function system.thermal.sensors(args)
 --	local args = args or "'Physical id 0'"
---	local output = redutil.read.output("sensors | grep " .. args)
+--	local output = modutil.read.output("sensors | grep " .. args)
 --
 --	local temp = string.match(output, "%+(%d+%.%d)°[CF]")
 --
@@ -372,7 +372,7 @@ end
 --	args = args or {}
 --	local index = args.index or 0
 --
---	if args.main then sensors_store = redutil.read.output("sensors | grep Core") end
+--	if args.main then sensors_store = modutil.read.output("sensors | grep Core") end
 --	local line = string.match(sensors_store, "Core " .. index .."(.-)\r?\n")
 --
 --	if not line then return { 0 } end
@@ -388,7 +388,7 @@ function system.thermal.hddtemp(args)
 	local port = args.port or "7634"
 	local disk = args.disk or "/dev/sdb"
 
-	local output = redutil.read.output("echo | curl --connect-timeout 1 -fsm 3 telnet://127.0.0.1:" .. port)
+	local output = modutil.read.output("echo | curl --connect-timeout 1 -fsm 3 telnet://127.0.0.1:" .. port)
 
 	for mnt, _, temp, _ in output:gmatch("|(.-)|(.-)|(.-)|(.-)|") do
 		if mnt == disk then
@@ -403,7 +403,7 @@ end
 -- Async
 ------------------------------------------------------------
 function system.thermal.nvoptimus(setup)
-	local nvidia_on = string.find(redutil.read.output("cat /proc/acpi/bbswitch"), "ON")
+	local nvidia_on = string.find(modutil.read.output("cat /proc/acpi/bbswitch"), "ON")
 	if not nvidia_on then
 		setup({ 0, off = true })
 	else
@@ -420,7 +420,7 @@ end
 ------------------------------------------------------------
 function system.thermal.nvsmi()
 	local temp = string.match(
-		redutil.read.output("nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader"), "%d%d"
+		modutil.read.output("nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader"), "%d%d"
 	)
 	-- checks that local temp is not null then returns the convert string to number or if fails returns null
 	return temp and { tonumber(temp) } or { 0 }
@@ -430,7 +430,7 @@ end
 ------------------------------------------------------------
 function system.thermal.nvprime()
 	local temp = 0
-	local nvidia_on = string.find(redutil.read.output("prime-select query"), "nvidia")
+	local nvidia_on = string.find(modutil.read.output("prime-select query"), "nvidia")
 
 	if nvidia_on ~= nil then
 		-- reuse function nvsmi
@@ -449,7 +449,7 @@ system.transmission = {}
 --------------------------------------------------------------------------------
 function system.transmission.is_running(args)
 	local t_client = args or "transmission-gtk"
-	return redutil.read.output("pidof -x " .. t_client) ~= ""
+	return modutil.read.output("pidof -x " .. t_client) ~= ""
 end
 
 -- Function for torrents sorting (downloading and paused first)
@@ -565,7 +565,7 @@ function system.proc_info(cpu_storage)
 
 	-- get processes list with ps utility
 	-- !!! TODO: get processes list from fs directly !!!
-	local output = redutil.read.output("ps -eo pid | tail -n +2")
+	local output = modutil.read.output("ps -eo pid | tail -n +2")
 
 	-- get total cpu time diff from previous call
 	local cpu_diff = system.cpu_usage(cpu_storage).diff
@@ -575,7 +575,7 @@ function system.proc_info(cpu_storage)
 		local pid = tonumber(line)
 
 		-- try to get info from /proc
-		local stat = redutil.read.file("/proc/" .. pid .. "/stat")
+		local stat = modutil.read.file("/proc/" .. pid .. "/stat")
 
 		-- if process with given pid exist in /proc
 		if stat then

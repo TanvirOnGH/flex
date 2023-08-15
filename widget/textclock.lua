@@ -15,7 +15,7 @@ local beautiful = require("beautiful")
 local gears = require("gears")
 
 local tooltip = require("awsmx.float.tooltip")
-local redutil = require("awsmx.util")
+local modutil = require("awsmx.util")
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------
@@ -29,7 +29,7 @@ local function default_style()
 		tooltip = {},
 		color = { text = "#aaaaaa" }
 	}
-	return redutil.table.merge(style, redutil.table.check(beautiful, "widget.textclock") or {})
+	return modutil.table.merge(style, modutil.table.check(beautiful, "widget.textclock") or {})
 end
 
 -- Create a textclock widget. It draws the time it is in a textbox.
@@ -44,7 +44,7 @@ function textclock.new(args, style)
 	args = args or {}
 	local timeformat = args.timeformat or " %a %b %d, %H:%M "
 	local timeout = args.timeout or 60
-	style = redutil.table.merge(default_style(), style or {})
+	style = modutil.table.merge(default_style(), style or {})
 
 	-- Create widget
 	--------------------------------------------------------------------------------

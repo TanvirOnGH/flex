@@ -15,7 +15,7 @@ local awful = require("awful")
 local timer = require("gears.timer")
 
 local awsmx = require("awsmx")
-local redutil = require("awsmx.util")
+local modutil = require("awsmx.util")
 local common = require("awsmx.layout.common")
 local rednotify = require("awsmx.float.notify")
 
@@ -140,7 +140,7 @@ map.keys.all = awful.util.table.join(map.keys.layout, map.keys.resize)
 -- Layout action notifications
 --------------------------------------------------------------------------------
 local function notify(txt)
-	if map.notification then rednotify:show(redutil.table.merge({ text = txt }, map.notification_style)) end
+	if map.notification then rednotify:show(modutil.table.merge({ text = txt }, map.notification_style)) end
 end
 
 -- Calculate geometry for single client or group
@@ -654,7 +654,7 @@ end
 -----------------------------------------------------------------------------------------------------------------------
 map.maingrabber = function(mod, key)
 	for _, k in ipairs(map.keys.all) do
-		if redutil.key.match_grabber(k, mod, key) then k[3](); return true end
+		if modutil.key.match_grabber(k, mod, key) then k[3](); return true end
 	end
 end
 

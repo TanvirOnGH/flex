@@ -19,7 +19,7 @@ local awful = require("awful")
 local beautiful = require("beautiful")
 local timer = require("gears.timer")
 
-local redutil = require("awsmx.util")
+local modutil = require("awsmx.util")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------
@@ -38,7 +38,7 @@ local function default_style()
 		color        = { border = "#404040", text = "#aaaaaa", wibox = "#202020" },
 		shape        = nil
 	}
-	return redutil.table.merge(style, redutil.table.check(beautiful, "float.tooltip") or {})
+	return modutil.table.merge(style, modutil.table.check(beautiful, "float.tooltip") or {})
 end
 
 -- Create a new tooltip
@@ -49,7 +49,7 @@ function tooltip.new(args, style)
 	--------------------------------------------------------------------------------
 	args = args or {}
 	local objects = args.objects or {}
-	style = redutil.table.merge(default_style(), style or {})
+	style = modutil.table.merge(default_style(), style or {})
 
 	-- Construct tooltip window with wibox and textbox
 	--------------------------------------------------------------------------------

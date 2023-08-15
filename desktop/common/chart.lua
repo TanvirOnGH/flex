@@ -14,7 +14,7 @@ local wibox = require("wibox")
 local color = require("gears.color")
 local beautiful = require("beautiful")
 
-local redutil = require("awsmx.util")
+local modutil = require("awsmx.util")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------
@@ -33,7 +33,7 @@ local function default_style()
 		autoscale   = true
 	}
 
-	return redutil.table.merge(style, redutil.table.check(beautiful, "desktop.common.chart") or {})
+	return modutil.table.merge(style, modutil.table.check(beautiful, "desktop.common.chart") or {})
 end
 
 -- Create a new chart widget
@@ -44,7 +44,7 @@ function chart.new(style)
 
 	-- Initialize vars
 	--------------------------------------------------------------------------------
-	style = redutil.table.merge(default_style(), style or {})
+	style = modutil.table.merge(default_style(), style or {})
 	local count = 0
 	local barnum
 	local current_maxm = style.maxm

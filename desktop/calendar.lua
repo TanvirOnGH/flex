@@ -15,7 +15,7 @@ local beautiful = require("beautiful")
 local color = require("gears.color")
 local timer = require("gears.timer")
 
-local redutil = require("awsmx.util")
+local modutil = require("awsmx.util")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------
@@ -30,7 +30,7 @@ local function default_style()
 		mark         = { height = 20, width = 40, dx = 10, line = 4 },
 		color        = { main = "#b1222b", wibox = "#161616", gray = "#404040", bg = "#161616" }
 	}
-	return redutil.table.merge(style, redutil.table.check(beautiful, "desktop.calendar") or {})
+	return modutil.table.merge(style, modutil.table.check(beautiful, "desktop.calendar") or {})
 end
 
 local days_in_month = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 }
@@ -117,7 +117,7 @@ local function daymarks(style)
 			if i == self._data.today or (self._data.pointer.show and i == self._data.pointer.index) then
 				cr:set_source(color(i == self._data.today and style.color.main or style.color.gray))
 				local coord_y = ((style.mark.height + self._data.gap) * (i - 1)) + style.mark.height / 2
-				redutil.cairo.set_font(cr, style.label.font)
+				modutil.cairo.set_font(cr, style.label.font)
 
 				local ext = cr:text_extents(self._data.label)
 				cr:move_to(
@@ -141,7 +141,7 @@ function calendar.new(args, style)
 	--------------------------------------------------------------------------------
 	local dwidget = {}
 	args = args or {}
-	style = redutil.table.merge(default_style(), style or {})
+	style = modutil.table.merge(default_style(), style or {})
 	local timeout = args.timeout or 300
 
 	dwidget.style = style
