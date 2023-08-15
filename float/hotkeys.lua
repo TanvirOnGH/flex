@@ -15,7 +15,7 @@ local wibox = require("wibox")
 local timer = require("gears.timer")
 
 local awsmx = require("awsmx")
-local redutil = require("awsmx.util")
+local modutil = require("awsmx.util")
 
 
 -- Initialize tables for module
@@ -47,7 +47,7 @@ local function default_style()
 		shape         = nil
 	}
 
-	return redutil.table.merge(style, redutil.table.check(beautiful, "float.hotkeys") or {})
+	return modutil.table.merge(style, modutil.table.check(beautiful, "float.hotkeys") or {})
 end
 
 -- Support functions
@@ -340,7 +340,7 @@ function hotkeys:show()
 	if not self.wibox then self:init() end
 
 	if not self.wibox.visible then
-		redutil.placement.centered(self.wibox, nil, mouse.screen.workarea)
+		modutil.placement.centered(self.wibox, nil, mouse.screen.workarea)
 		self.wibox.visible = true
 		awful.keygrabber.run(self.keygrabber)
 	-- else

@@ -14,7 +14,7 @@ local awful = require("awful")
 local beautiful = require("beautiful")
 
 local awsmx = require("awsmx")
-local redutil = require("awsmx.util")
+local modutil = require("awsmx.util")
 local redtip = require("awsmx.float.hotkeys")
 
 -- Initialize tables and vars for module
@@ -130,7 +130,7 @@ function keychain:init(style)
 		elseif awful.util.table.hasitem(self.service.help,     key) then redtip:show()
 		else
 			for _, item in ipairs(self.active[3]) do
-				if redutil.key.match_grabber(item, mod, key) then self:activate(item); return end
+				if modutil.key.match_grabber(item, mod, key) then self:activate(item); return end
 			end
 		end
 	end
@@ -147,7 +147,7 @@ function keychain:activate(item, keytip)
 		self:hide()
 	else
 		if not self.active then
-			redutil.placement.centered(self.wibox, nil, mouse.screen.workarea)
+			modutil.placement.centered(self.wibox, nil, mouse.screen.workarea)
 			self.wibox.visible = true
 			awful.keygrabber.run(self.keygrabber)
 		else

@@ -19,7 +19,7 @@ local beautiful = require("beautiful")
 local color = require("gears.color")
 
 local awsmx = require("awsmx")
-local redutil = require("awsmx.util")
+local modutil = require("awsmx.util")
 local redtip = require("awsmx.float.hotkeys")
 
 -- Initialize tables and vars for module
@@ -84,8 +84,8 @@ qlaunch._fake_keys = {
 -----------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
-		df_icon         = redutil.base.placeholder({ txt = "X" }),
-		no_icon         = redutil.base.placeholder(),
+		df_icon         = modutil.base.placeholder({ txt = "X" }),
+		no_icon         = modutil.base.placeholder(),
 		parser          = {},
 		recoloring      = false,
 		notify          = {},
@@ -102,7 +102,7 @@ local function default_style()
 		shape           = nil
 	}
 
-	return redutil.table.merge(style, redutil.table.check(beautiful, "float.qlaunch") or {})
+	return modutil.table.merge(style, modutil.table.check(beautiful, "float.qlaunch") or {})
 end
 
 
@@ -339,7 +339,7 @@ function qlaunch:init(args, style)
 	args = args or {}
 	local keys = args.keys or switcher_keys
 
-	style = redutil.table.merge(default_style(), style or {})
+	style = modutil.table.merge(default_style(), style or {})
 	self.style = style
 	self.default_switcher_keys = keys
 	self.icon_db = awsmx.service.dfparser.icon_list(style.parser)
@@ -356,7 +356,7 @@ function qlaunch:init(args, style)
 		shape        = style.shape
 	})
 	self.wibox:geometry(style.geometry)
-	redutil.placement.centered(self.wibox, nil, screen[mouse.screen].workarea)
+	modutil.placement.centered(self.wibox, nil, screen[mouse.screen].workarea)
 
 	-- Switcher widget
 	------------------------------------------------------------
@@ -371,7 +371,7 @@ function qlaunch:init(args, style)
 	self.keygrabber = function(mod, key, event)
 		if event == "press" then return false end
 		for _, k in ipairs(self.keys.all) do
-			if redutil.key.match_grabber(k, mod, key) then k[3](); return end
+			if modutil.key.match_grabber(k, mod, key) then k[3](); return end
 		end
 		self.switcher:check_key(key, mod)
 	end
@@ -448,13 +448,13 @@ function qlaunch:set_new_app(key, c)
 	if not key  then return end
 
 	if c then
-		local run_command = redutil.read.output(string.format("tr '\\0' ' ' < /proc/%s/cmdline", c.pid))
+		local run_command = modutil.read.output(string.format("tr '\\0' ' ' < /proc/%s/cmdline", c.pid))
 		self.store[key] = { app = c.class:lower(), run = run_command, icon = "" }
-		local note = redutil.table.merge({text = string.format("%s binded with '%s'", c.class, key)}, self.style.notify)
+		local note = modutil.table.merge({text = string.format("%s binded with '%s'", c.class, key)}, self.style.notify)
 		awsmx.float.notify:show(note)
 	else
 		self.store[key] = { app = "", run = "", icon = "" }
-		local note = redutil.table.merge({text = string.format("'%s' key unbinded", key)}, self.style.notify)
+		local note = modutil.table.merge({text = string.format("'%s' key unbinded", key)}, self.style.notify)
 		awsmx.float.notify:show(note)
 	end
 

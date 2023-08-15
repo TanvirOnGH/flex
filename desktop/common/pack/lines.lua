@@ -10,7 +10,7 @@ local setmetatable = setmetatable
 local wibox = require("wibox")
 local beautiful = require("beautiful")
 
-local redutil = require("awsmx.util")
+local modutil = require("awsmx.util")
 local dcommon = require("awsmx.desktop.common")
 local tooltip = require("awsmx.float.tooltip")
 
@@ -31,7 +31,7 @@ local function default_style()
 		tooltip      = {},
 		color        = {}
 	}
-	return redutil.table.merge(style, redutil.table.check(beautiful, "desktop.common.pack.lines") or {})
+	return modutil.table.merge(style, modutil.table.check(beautiful, "desktop.common.pack.lines") or {})
 end
 
 
@@ -40,10 +40,10 @@ end
 function barpack.new(num, style)
 
 	local pack = {}
-	style = redutil.table.merge(default_style(), style or {})
-	local progressbar_style = redutil.table.merge(style.progressbar, { color = style.color })
-	local label_style = redutil.table.merge(style.label, { color = style.color.gray })
-	local text_style = redutil.table.merge(style.text, { color = style.color.gray })
+	style = modutil.table.merge(default_style(), style or {})
+	local progressbar_style = modutil.table.merge(style.progressbar, { color = style.color })
+	local label_style = modutil.table.merge(style.label, { color = style.color.gray })
+	local text_style = modutil.table.merge(style.text, { color = style.color.gray })
 
 	-- Construct group of lines
 	--------------------------------------------------------------------------------

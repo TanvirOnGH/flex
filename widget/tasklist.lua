@@ -29,7 +29,7 @@ local timer = require("gears.timer")
 local geometry = require("gears.geometry")
 
 local basetask = require("awsmx.gauge.tag.purple")
-local redutil = require("awsmx.util")
+local modutil = require("awsmx.util")
 local separator = require("awsmx.gauge.separator")
 local redmenu = require("awsmx.menu")
 local svgbox = require("awsmx.gauge.svgbox")
@@ -66,12 +66,12 @@ local function default_style()
 		task_margin = { 5, 5, 0, 0 }
 	}
 	style.winmenu = {
-		icon                 = { unknown = redutil.base.placeholder(),
-		                         tag = redutil.base.placeholder({ txt = "■" }),
-		                         switch_screen = redutil.base.placeholder() },
-		micon                = { blank = redutil.base.placeholder({ txt = " " }),
-		                         check = redutil.base.placeholder({ txt = "+" }) },
-		layout_icon          = { unknown = redutil.base.placeholder() },
+		icon                 = { unknown = modutil.base.placeholder(),
+		                         tag = modutil.base.placeholder({ txt = "■" }),
+		                         switch_screen = modutil.base.placeholder() },
+		micon                = { blank = modutil.base.placeholder({ txt = " " }),
+		                         check = modutil.base.placeholder({ txt = "+" }) },
+		layout_icon          = { unknown = modutil.base.placeholder() },
 		titleline            = { font = "Fira Code 16 bold", height = 35 },
 		stateline            = { height = 35 },
 		tagline              = { height = 30, spacing = 10, rows = 1 },
@@ -110,7 +110,7 @@ local function default_style()
 		nohide       = true
 	}
 
-	return redutil.table.merge(style, redutil.table.check(beautiful, "widget.tasklist") or {})
+	return modutil.table.merge(style, modutil.table.check(beautiful, "widget.tasklist") or {})
 end
 
 -- Support functions
@@ -488,7 +488,7 @@ local function tasklist_construct(client_groups, layout, data, buttons, style)
 		-- set info and buttons to widget
 		local state = get_state(c_group, style)
 		task.widg:set_state(state)
-		task.widg:buttons(redutil.base.buttons(buttons, { group = c_group }))
+		task.widg:buttons(modutil.base.buttons(buttons, { group = c_group }))
 
 		-- construct
 		layout:add(task.l)
@@ -530,7 +530,7 @@ local function construct_tasktip(c_group, layout, data, buttons, style)
 
 		-- set buttons
 		local gap = (i - 1) * (tb_h + style.margin[3] + style.margin[4])
-		if buttons then line.field:buttons(redutil.base.buttons(buttons, { group = { c }, gap = gap })) end
+		if buttons then line.field:buttons(modutil.base.buttons(buttons, { group = { c }, gap = gap })) end
 
 		-- add line widget to tasktip layout
 		tip_width = math.max(tip_width, tb_w)
@@ -558,7 +558,7 @@ function redtasklist.winmenu:init(style)
 	local close    = function() last.client:kill(); self.menu:hide() end
 	local minimize = function() last.client.minimized = not last.client.minimized; self.hide_check("min") end
 	-- local maximize = function() last.client.maximized = not last.client.maximized; self.hide_check("max")end
-	local switchscreen = function() redutil.placement.next_screen(last.client); self.menu:hide() end
+	local switchscreen = function() modutil.placement.next_screen(last.client); self.menu:hide() end
 
 	-- Create array of state icons
 	-- associate every icon with action and state indicator
@@ -845,7 +845,7 @@ function redtasklist.new(args, style)
 	local cs = args.screen
 	local filter = args.filter or redtasklist.filter.currenttags
 
-	style = redutil.table.merge(default_style(), style or {})
+	style = modutil.table.merge(default_style(), style or {})
 	if style.custom_icon then style.icons = dfparser.icon_list(style.parser) end
 	if style.task.width  then style.width = style.task.width end
 

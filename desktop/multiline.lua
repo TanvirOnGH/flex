@@ -15,7 +15,7 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 local timer = require("gears.timer")
 
-local redutil = require("awsmx.util")
+local modutil = require("awsmx.util")
 local svgbox = require("awsmx.gauge.svgbox")
 local lines = require("awsmx.desktop.common.pack.lines")
 
@@ -35,7 +35,7 @@ local function default_style()
 		unit      = { { "B", -1 }, { "KB", 1024 }, { "MB", 1024^2 }, { "GB", 1024^3 } },
 		color     = { main = "#b1222b", wibox = "#161616", gray = "#404040" }
 	}
-	return redutil.table.merge(style, redutil.table.check(beautiful, "desktop.multiline") or {})
+	return modutil.table.merge(style, modutil.table.check(beautiful, "desktop.multiline") or {})
 end
 
 local default_args = { timeout = 60, sensors = {} }
@@ -47,14 +47,14 @@ function dashpack.new(args, style)
 	-- Initialize vars
 	--------------------------------------------------------------------------------
 	local dwidget = {}
-	args = redutil.table.merge(default_args, args or {})
-	style = redutil.table.merge(default_style(), style or {})
+	args = modutil.table.merge(default_args, args or {})
+	style = modutil.table.merge(default_style(), style or {})
 	local alert_data = { counter = 0, state = false }
 
 	dwidget.style = style
 
 	-- initialize progressbar lines
-	local lines_style = redutil.table.merge(style.lines, { color = style.color })
+	local lines_style = modutil.table.merge(style.lines, { color = style.color })
 	local pack = lines(#args.sensors, lines_style)
 
 	-- add icon if needed
@@ -84,7 +84,7 @@ function dashpack.new(args, style)
 
 		if style.lines.show.text or style.lines.show.tooltip then
 			local txt = state.off and style.dislabel
-			            or redutil.text.dformat(state[2] or state[1], style.unit, style.digits)
+			            or modutil.text.dformat(state[2] or state[1], style.unit, style.digits)
 			pack:set_text(txt, i)
 			pack:set_text_color(text_color, i)
 		end

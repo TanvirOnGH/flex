@@ -20,7 +20,7 @@ local beautiful = require("beautiful")
 
 local redmenu = require("awsmx.menu")
 local tooltip = require("awsmx.float.tooltip")
-local redutil = require("awsmx.util")
+local modutil = require("awsmx.util")
 local svgbox = require("awsmx.gauge.svgbox")
 
 
@@ -34,14 +34,14 @@ local last_tag
 -----------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
-		icon       = { unknown = redutil.base.placeholder() },
-		micon      = { blank = redutil.base.placeholder({ txt = " " }),
-		               check = redutil.base.placeholder({ txt = "+" }) },
+		icon       = { unknown = modutil.base.placeholder() },
+		micon      = { blank = modutil.base.placeholder({ txt = " " }),
+		               check = modutil.base.placeholder({ txt = "+" }) },
 		name_alias = {},
 		menu       = { color = { right_icon = "#a0a0a0", left_icon = "#a0a0a0" } },
 		color      = { icon = "#a0a0a0" }
 	}
-	return redutil.table.merge(style, redutil.table.check(beautiful, "widget.layoutbox") or {})
+	return modutil.table.merge(style, modutil.table.check(beautiful, "widget.layoutbox") or {})
 end
 
 -- Initialize layoutbox
@@ -114,7 +114,7 @@ function layoutbox.new(args, style)
 	args = args or {}
 	local layouts = args.layouts or awful.layout.layouts
 	local s = args.screen or 1
-	style = redutil.table.merge(default_style(), style or {})
+	style = modutil.table.merge(default_style(), style or {})
 	local w = svgbox()
 	w:set_color(style.color.icon)
 

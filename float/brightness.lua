@@ -11,7 +11,7 @@ local awful = require("awful")
 local beautiful = require("beautiful")
 
 local rednotify = require("awsmx.float.notify")
-local redutil = require("awsmx.util")
+local modutil = require("awsmx.util")
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------
@@ -37,7 +37,7 @@ local function default_style()
 	local style = {
 		notify = {},
 	}
-	return redutil.table.merge(style, redutil.table.check(beautiful, "float.brightness") or {})
+	return modutil.table.merge(style, modutil.table.check(beautiful, "float.brightness") or {})
 end
 
 local default_args = { down = false, step = 2 }
@@ -52,7 +52,7 @@ brightness.default_variant = brightness.variants.xbacklight
 function brightness._notify_from_output(output)
 	if not brightness.style then brightness.style = default_style() end
 
-	rednotify:show(redutil.table.merge(
+	rednotify:show(modutil.table.merge(
 		{ value = output / 100, text = string.format('%.0f', output) .. "%" },
 		brightness.style.notify
 	))
@@ -61,7 +61,7 @@ end
 -- Change brightness
 ------------------------------------------------------------
 function brightness:change(args, variant)
-	args = redutil.table.merge(default_args, args or {})
+	args = modutil.table.merge(default_args, args or {})
 	variant = variant or brightness.default_variant
 
 	local command_pattern = args.down and variant.decrease or variant.increase

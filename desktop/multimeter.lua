@@ -15,7 +15,7 @@ local timer = require("gears.timer")
 local unpack = unpack or table.unpack
 
 local dcommon = require("awsmx.desktop.common")
-local redutil = require("awsmx.util")
+local modutil = require("awsmx.util")
 local svgbox = require("awsmx.gauge.svgbox")
 
 -- Initialize tables for module
@@ -35,7 +35,7 @@ local function default_style()
 		unit           = { { "MB", - 1 }, { "GB", 1024 } },
 		color          = { main = "#b1222b", wibox = "#161616", gray = "#404040" }
 	}
-	return redutil.table.merge(style, redutil.table.check(beautiful, "desktop.multimeter") or {})
+	return modutil.table.merge(style, modutil.table.check(beautiful, "desktop.multimeter") or {})
 end
 
 local default_args = {
@@ -53,7 +53,7 @@ local function set_info(value, args, upright, lines, icon, last, style)
 	-- set progressbar values and color
 	for i, line in ipairs(args.lines) do
 		lines:set_values(value.lines[i][1] / line.maxm, i)
-		lines:set_text(redutil.text.dformat(value.lines[i][2], line.unit or style.unit, style.digits), i)
+		lines:set_text(modutil.text.dformat(value.lines[i][2], line.unit or style.unit, style.digits), i)
 
 		if line.crit then
 			local cc = value.lines[i][1] > line.crit and style.color.main or style.color.gray
@@ -88,12 +88,12 @@ function multim.new(args, style)
 	local icon
 	local last = { alert = false }
 
-	args = redutil.table.merge(default_args, args or {})
-	--local geometry = redutil.table.merge(default_geometry, geometry or {})
-	style = redutil.table.merge(default_style(), style or {})
+	args = modutil.table.merge(default_args, args or {})
+	--local geometry = modutil.table.merge(default_geometry, geometry or {})
+	style = modutil.table.merge(default_style(), style or {})
 
-	local lines_style = redutil.table.merge(style.lines, { progressbar = { color = style.color } })
-	local upbar_style = redutil.table.merge(style.upbar, { color = style.color })
+	local lines_style = modutil.table.merge(style.lines, { progressbar = { color = style.color } })
+	local upbar_style = modutil.table.merge(style.upbar, { color = style.color })
 
 	dwidget.style = style
 

@@ -13,7 +13,7 @@ local awful     = require("awful")
 local wibox     = require("wibox")
 
 local rednotify = require("awsmx.float.notify")
-local redutil   = require("awsmx.util")
+local modutil   = require("awsmx.util")
 local redtip    = require("awsmx.float.hotkeys")
 local svgbox    = require("awsmx.gauge.svgbox")
 
@@ -41,17 +41,17 @@ local function default_style()
 		margin        = { icon = { onscreen = { 10, 10, 2, 2 }, mode = { 10, 10, 2, 2 } } },
 		icon          = {
 			resize   = {},
-			onscreen = redutil.base.placeholder({ txt = "X" }),
+			onscreen = modutil.base.placeholder({ txt = "X" }),
 		},
 		color         = { border = "#575757", text = "#aaaaaa", main = "#b1222b", wibox = "#202020",
 		                  gray = "#575757", icon = "#a0a0a0" },
 	}
 
-	style.icon.resize[RESIZE_MODE.FULL] = redutil.base.placeholder({ txt = "F" })
-	style.icon.resize[RESIZE_MODE.HORIZONTAL] = redutil.base.placeholder({ txt = "H" })
-	style.icon.resize[RESIZE_MODE.VERTICAL] = redutil.base.placeholder({ txt = "V" })
+	style.icon.resize[RESIZE_MODE.FULL] = modutil.base.placeholder({ txt = "F" })
+	style.icon.resize[RESIZE_MODE.HORIZONTAL] = modutil.base.placeholder({ txt = "H" })
+	style.icon.resize[RESIZE_MODE.VERTICAL] = modutil.base.placeholder({ txt = "V" })
 
-	return redutil.table.merge(style, redutil.table.check(beautiful, "float.control") or {})
+	return modutil.table.merge(style, modutil.table.check(beautiful, "float.control") or {})
 end
 
 -- key bindings
@@ -125,7 +125,7 @@ local function control_off_screen(window)
 	if newg.width > wa.width then window:geometry({ width = wa.width, x = wa.x }) end
 	if newg.height > wa.height then window:geometry({ height = wa.height, y = wa.y }) end
 
-	redutil.placement.no_offscreen(window, nil, wa)
+	modutil.placement.no_offscreen(window, nil, wa)
 end
 
 -- Initialize widget
@@ -178,11 +178,11 @@ function control:init()
 	self.keygrabber = function(mod, key, event)
 		if event == "release" then
 			for _, k in ipairs(self.keys.action) do
-				if redutil.key.match_grabber(k, mod, key) then k[3](); return end
+				if modutil.key.match_grabber(k, mod, key) then k[3](); return end
 			end
 		else
 			for _, k in ipairs(self.keys.all) do
-				if redutil.key.match_grabber(k, mod, key) then k[3](); return end
+				if modutil.key.match_grabber(k, mod, key) then k[3](); return end
 			end
 			if string.match("123456789", key) then self:choose_step(tonumber(key)) end
 		end
@@ -200,7 +200,7 @@ end
 --------------------------------------------------------------------------------
 function control:center()
 	if not self.client then return end
-	redutil.placement.centered(self.client, nil, mouse.screen.workarea)
+	modutil.placement.centered(self.client, nil, mouse.screen.workarea)
 
 	if self.onscreen then control_off_screen(self.client) end
 	self:update()
@@ -308,7 +308,7 @@ function control:show()
 		                    and not client.focus.maximized
 
 		if not is_floating then
-			rednotify:show(redutil.table.merge({ text = "No floating window focused" }, self.style.notify))
+			rednotify:show(modutil.table.merge({ text = "No floating window focused" }, self.style.notify))
 			return
 		end
 		self.client = client.focus
@@ -317,9 +317,9 @@ function control:show()
 		if self.style.set_position then
 			self.style.set_position(self.wibox)
 		else
-			redutil.placement.centered(self.wibox, nil, mouse.screen.workarea)
+			modutil.placement.centered(self.wibox, nil, mouse.screen.workarea)
 		end
-		redutil.placement.no_offscreen(self.wibox, self.style.screen_gap, screen[mouse.screen].workarea)
+		modutil.placement.no_offscreen(self.wibox, self.style.screen_gap, screen[mouse.screen].workarea)
 
 		self:update()
 		self.wibox.visible = true

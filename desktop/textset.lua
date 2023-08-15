@@ -13,7 +13,7 @@ local timer = require("gears.timer")
 local lgi = require("lgi")
 local Pango = lgi.Pango
 
-local redutil = require("awsmx.util")
+local modutil = require("awsmx.util")
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------
@@ -27,7 +27,7 @@ local function default_style()
 		spacing = 0,
 		color = { gray = "#525252" }
 	}
-	return redutil.table.merge(style, redutil.table.check(beautiful, "desktop.textset") or {})
+	return modutil.table.merge(style, modutil.table.check(beautiful, "desktop.textset") or {})
 end
 
 -- Create a textset widget. It draws the time it is in a textbox.
@@ -44,7 +44,7 @@ function textset.new(args, style)
 	--local timeout = args.timeout or { 60 }
 	--local actions = args.actions or {}
 	--local async = args.async or {}
-	style = redutil.table.merge(default_style(), style or {})
+	style = modutil.table.merge(default_style(), style or {})
 
 	-- Create widget
 	--------------------------------------------------------------------------------

@@ -10,7 +10,7 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 local color = require("gears.color")
 
-local redutil = require("awsmx.util")
+local modutil = require("awsmx.util")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------
@@ -24,7 +24,7 @@ local function default_style()
 		marginh = { 0, 0, 0, 0 },
 		color  = { shadow1 = "#141414", shadow2 = "#313131" }
 	}
-	return redutil.table.merge(style, redutil.table.check(beautiful, "gauge.separator") or {})
+	return modutil.table.merge(style, modutil.table.check(beautiful, "gauge.separator") or {})
 end
 
 -- Create a new separator widget
@@ -34,7 +34,7 @@ local function separator_base(horizontal, style)
 
 	-- Initialize vars
 	--------------------------------------------------------------------------------
-	style = redutil.table.merge(default_style(), style or {})
+	style = modutil.table.merge(default_style(), style or {})
 	if not style.margin then
 		style.margin = horizontal and style.marginh or style.marginv
 	end

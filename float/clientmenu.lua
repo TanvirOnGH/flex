@@ -22,7 +22,7 @@ local beautiful = require("beautiful")
 local awful = require("awful")
 local wibox = require("wibox")
 
-local redutil = require("awsmx.util")
+local modutil = require("awsmx.util")
 local separator = require("awsmx.gauge.separator")
 local redmenu = require("awsmx.menu")
 local svgbox = require("awsmx.gauge.svgbox")
@@ -41,14 +41,14 @@ local last = {
 -----------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
-		icon                 = { unknown = redutil.base.placeholder(),
-		                         minimize = redutil.base.placeholder(),
-		                         close = redutil.base.placeholder(),
-		                         tag = redutil.base.placeholder({ txt = "■" }),
-		                         switch_screen = redutil.base.placeholder() },
-		micon                = { blank = redutil.base.placeholder({ txt = " " }),
-		                         check = redutil.base.placeholder({ txt = "+" }) },
-		layout_icon          = { unknown = redutil.base.placeholder() },
+		icon                 = { unknown = modutil.base.placeholder(),
+		                         minimize = modutil.base.placeholder(),
+		                         close = modutil.base.placeholder(),
+		                         tag = modutil.base.placeholder({ txt = "■" }),
+		                         switch_screen = modutil.base.placeholder() },
+		micon                = { blank = modutil.base.placeholder({ txt = " " }),
+		                         check = modutil.base.placeholder({ txt = "+" }) },
+		layout_icon          = { unknown = modutil.base.placeholder() },
 		actionline           = { height = 28, center_button_width = 50 },
 		stateline            = { height = 35 },
 		tagline              = { height = 30, spacing = 10, rows = 1 },
@@ -77,7 +77,7 @@ local function default_style()
 		nohide       = true
 	}
 
-	return redutil.table.merge(style, redutil.table.check(beautiful, "float.clientmenu") or {})
+	return modutil.table.merge(style, modutil.table.check(beautiful, "float.clientmenu") or {})
 end
 
 -- Support functions
@@ -243,7 +243,7 @@ local function action_line_construct(setup_layout, style)
 		local switch_screen_button = actionbox_construct(
 			style.icon.switch_screen,
 			function()
-				redutil.placement.next_screen(last.client)
+				modutil.placement.next_screen(last.client)
 				clientmenu.menu:hide()
 			end
 		)
@@ -503,7 +503,7 @@ end
 -- Style setup
 --------------------------------------------------------------------------------
 function clientmenu:set_style(style)
-	self._prebuilt_style = redutil.table.merge(default_style(), style or {})
+	self._prebuilt_style = modutil.table.merge(default_style(), style or {})
 end
 
 -- Show window menu widget

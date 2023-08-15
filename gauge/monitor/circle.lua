@@ -12,7 +12,7 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 local color = require("gears.color")
 
-local redutil = require("awsmx.util")
+local modutil = require("awsmx.util")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------
@@ -30,7 +30,7 @@ local function default_style()
 		step         = 0.02,
 		color        = { main = "#b1222b", gray = "#575757", icon = "#a0a0a0" }
 	}
-	return redutil.table.merge(style, redutil.table.check(beautiful, "gauge.monitor.circle") or {})
+	return modutil.table.merge(style, modutil.table.check(beautiful, "gauge.monitor.circle") or {})
 end
 
 -- Create a new monitor widget
@@ -40,7 +40,7 @@ function cirmon.new(style)
 
 	-- Initialize vars
 	--------------------------------------------------------------------------------
-	style = redutil.table.merge(default_style(), style or {})
+	style = modutil.table.merge(default_style(), style or {})
 	local cs = -TPI / 4
 
 	-- Create custom widget

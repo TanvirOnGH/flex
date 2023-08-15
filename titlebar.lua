@@ -20,7 +20,7 @@ local drawable = require("wibox.drawable")
 local color = require("gears.color")
 local wibox = require("wibox")
 
-local redutil = require("awsmx.util")
+local modutil = require("awsmx.util")
 local svgbox = require("awsmx.gauge.svgbox")
 
 -- Initialize tables for module
@@ -47,7 +47,7 @@ local default_mark_style = {
 }
 
 local default_button_style = {
-	list  = { unknown = redutil.base.placeholder({ txt = "X" }) },
+	list  = { unknown = modutil.base.placeholder({ txt = "X" }) },
 	color = default_style.color
 }
 
@@ -88,7 +88,7 @@ end
 -----------------------------------------------------------------------------------------------------------------------
 function titlebar.new(c, style)
 	if not titlebar.list[c] then titlebar.list[c] = {} end
-	style = redutil.table.merge(default_style, style or {})
+	style = modutil.table.merge(default_style, style or {})
 
 	-- Make sure that there is never more than one titlebar for any given client
 	local ret
@@ -295,7 +295,7 @@ function titlebar.mark.base(_, style)
 	-- build widget
 	local widg = wibox.widget.base.make_widget()
 	widg._data = { color = style.color.gray }
-	widg._style = redutil.table.merge(default_mark_style, style or {})
+	widg._style = modutil.table.merge(default_mark_style, style or {})
 
 	-- widget setup
 	function widg:fit(_, _, width, height)
@@ -348,7 +348,7 @@ end
 -- Client button blank
 ------------------------------------------------------------
 function titlebar.button.base(icon, style, is_inactive)
-	style = redutil.table.merge(default_button_style, style or {})
+	style = modutil.table.merge(default_button_style, style or {})
 
 	-- widget
 	local widg = svgbox(style.list[icon] or style.list.unknown)
@@ -406,7 +406,7 @@ end
 -- Client name indicator
 ------------------------------------------------------------
 function titlebar.label(c, style, is_highlighted)
-	style = redutil.table.merge(default_style, style or {})
+	style = modutil.table.merge(default_style, style or {})
 	local w = wibox.widget.textbox()
 	w:set_font(style.font)
 	w:set_align("center")

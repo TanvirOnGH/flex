@@ -21,7 +21,7 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 local timer = require("gears.timer")
 
-local redutil = require("awsmx.util")
+local modutil = require("awsmx.util")
 local basetag = require("awsmx.gauge.tag")
 local tooltip = require("awsmx.float.tooltip")
 
@@ -39,7 +39,7 @@ local function default_style()
 		timeout   = 0.05,
 		separator = nil
 	}
-	return redutil.table.merge(style, redutil.table.check(beautiful, "widget.taglist") or {})
+	return modutil.table.merge(style, modutil.table.check(beautiful, "widget.taglist") or {})
 end
 
 -- Support functions
@@ -112,7 +112,7 @@ function taglist.new(args, style)
 	local hint = args.hint or make_tip
 	local pack = args.pack or base_pack
 
-	style = redutil.table.merge(default_style(), style or {})
+	style = modutil.table.merge(default_style(), style or {})
 
 	-- Set tooltip
 	--------------------------------------------------------------------------------
@@ -136,7 +136,7 @@ function taglist.new(args, style)
 				widg = cache
 			else
 				widg = style.widget(style.tag)
-				if args.buttons then  widg:buttons(redutil.base.buttons(args.buttons, t)) end
+				if args.buttons then  widg:buttons(modutil.base.buttons(args.buttons, t)) end
 				data[t] = widg
 
 				-- set optional tooltip (what about removing?)

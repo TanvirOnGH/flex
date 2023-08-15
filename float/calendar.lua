@@ -19,7 +19,7 @@ local PangoCairo = lgi.PangoCairo
 local DateTime = lgi.GLib.DateTime
 local TimeZone = lgi.GLib.TimeZone
 
-local redutil = require("awsmx.util")
+local modutil = require("awsmx.util")
 local svgbox = require("awsmx.gauge.svgbox")
 local separator = require("awsmx.gauge.separator")
 
@@ -56,8 +56,8 @@ local function default_style()
 		                              default         = "Fira Code 10",
 		                              focus           = "Fira Code 14 Bold",
 		                              controls        = "Fira Code 13" },
-		icon                      = { next   = redutil.base.placeholder({ txt = "►" }),
-		                              prev   = redutil.base.placeholder({ txt = "◄" }), },
+		icon                      = { next   = modutil.base.placeholder({ txt = "►" }),
+		                              prev   = modutil.base.placeholder({ txt = "◄" }), },
 		clock_format              = "%H:%M",
 		date_format               = "%A, %d. %B",
 		clock_refresh_seconds     = 60,
@@ -70,7 +70,7 @@ local function default_style()
 		set_position              = nil,
 		shape                     = nil,
 	}
-	return redutil.table.merge(style, redutil.table.check(beautiful, "float.calendar") or {})
+	return modutil.table.merge(style, modutil.table.check(beautiful, "float.calendar") or {})
 end
 
 -- Initialize calendar widget
@@ -352,7 +352,7 @@ function calendar:show(geometry)
 		else
 			awful.placement.under_mouse(self.wibox)
 		end
-		redutil.placement.no_offscreen(self.wibox, self.style.screen_gap, screen[mouse.screen].workarea)
+		modutil.placement.no_offscreen(self.wibox, self.style.screen_gap, screen[mouse.screen].workarea)
 
 		self.wibox.visible = true
 		self.update_datetime_timer:start()

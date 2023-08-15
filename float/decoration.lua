@@ -10,7 +10,7 @@ local awful = require("awful")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
 
-local redutil = require("awsmx.util")
+local modutil = require("awsmx.util")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------
@@ -23,21 +23,21 @@ local function button_style()
 		color = { shadow3 = "#1c1c1c", button = "#575757",
 		          shadow4 = "#767676", text = "#cccccc", pressed = "404040" }
 	}
-	return redutil.table.merge(style, redutil.table.check(beautiful, "float.decoration.button") or {})
+	return modutil.table.merge(style, modutil.table.check(beautiful, "float.decoration.button") or {})
 end
 
 local function field_style()
 	local style = {
 		color = { bg = "#161616", shadow1 = "#141414", shadow2 = "#313131" }
 	}
-	return redutil.table.merge(style, redutil.table.check(beautiful, "float.decoration.field") or {})
+	return modutil.table.merge(style, modutil.table.check(beautiful, "float.decoration.field") or {})
 end
 
 -- Button element
 -----------------------------------------------------------------------------------------------------------------------
 function decor.button(textbox, action, style)
 
-	style = redutil.table.merge(button_style(), style or {})
+	style = modutil.table.merge(button_style(), style or {})
 
 	-- Widget and layouts
 	--------------------------------------------------------------------------------
@@ -76,7 +76,7 @@ end
 -- Input text field
 -----------------------------------------------------------------------------------------------------------------------
 function decor.textfield(textbox, style)
-	style = redutil.table.merge(field_style(), style or {})
+	style = modutil.table.merge(field_style(), style or {})
 	local field = wibox.container.background(textbox, style.color.bg)
 	local bord1 = wibox.container.background(wibox.container.margin(field, 1, 1, 1, 1), style.color.shadow1)
 	local bord2 = wibox.container.background(wibox.container.margin(bord1, 1, 1, 1, 1), style.color.shadow2)

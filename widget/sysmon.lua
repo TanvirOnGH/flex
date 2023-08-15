@@ -12,7 +12,7 @@ local timer = require("gears.timer")
 
 local monitor = require("awsmx.gauge.monitor.plain")
 local tooltip = require("awsmx.float.tooltip")
-local redutil = require("awsmx.util")
+local modutil = require("awsmx.util")
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------
@@ -26,7 +26,7 @@ local function default_style()
 		width   = nil,
 		widget  = monitor.new
 	}
-	return redutil.table.merge(style, redutil.table.check(beautiful, "widget.sysmon") or {})
+	return modutil.table.merge(style, modutil.table.check(beautiful, "widget.sysmon") or {})
 end
 
 -- Create a new cpu monitor widget
@@ -36,7 +36,7 @@ function sysmon.new(args, style)
 	-- Initialize vars
 	--------------------------------------------------------------------------------
 	args = args or {}
-	style = redutil.table.merge(default_style(), style or {})
+	style = modutil.table.merge(default_style(), style or {})
 
 	-- Create monitor widget
 	--------------------------------------------------------------------------------

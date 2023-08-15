@@ -10,7 +10,7 @@ local setmetatable = setmetatable
 local beautiful = require("beautiful")
 local timer = require("gears.timer")
 
-local redutil = require("awsmx.util")
+local modutil = require("awsmx.util")
 local monitor = require("awsmx.gauge.icon.double")
 local tooltip = require("awsmx.float.tooltip")
 local system = require("awsmx.system")
@@ -33,7 +33,7 @@ local function default_style()
 		timeout   = 5,
 		digits    = 2
 	}
-	return redutil.table.merge(style, redutil.table.check(beautiful, "widget.net") or {})
+	return modutil.table.merge(style, modutil.table.check(beautiful, "widget.net") or {})
 end
 
 -- Create a new network widget
@@ -50,8 +50,8 @@ function net.new(args, style)
 	--------------------------------------------------------------------------------
 	local storage = {}
 	local unit = {{  "B", 1 }, { "KB", 1024 }, { "MB", 1024^2 }, { "GB", 1024^3 }}
-	args = redutil.table.merge(default_args, args or {})
-	style = redutil.table.merge(default_style(), style or {})
+	args = modutil.table.merge(default_args, args or {})
+	style = modutil.table.merge(default_style(), style or {})
 
 	-- Create monitor widget
 	--------------------------------------------------------------------------------
@@ -80,8 +80,8 @@ function net.new(args, style)
 
 			widg:set_value({ state[2]/args.speed.down, state[1]/args.speed.up })
 			tp:set_text(
-				"▾ " .. redutil.text.dformat(state[2], unit, style.digits, " ")
-				.. "  ▴ " .. redutil.text.dformat(state[1], unit, style.digits, " ")
+				"▾ " .. modutil.text.dformat(state[2], unit, style.digits, " ")
+				.. "  ▴ " .. modutil.text.dformat(state[1], unit, style.digits, " ")
 			)
 		end
 	)

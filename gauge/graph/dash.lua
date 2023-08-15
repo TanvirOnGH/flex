@@ -12,7 +12,7 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 local color = require("gears.color")
 
-local redutil = require("awsmx.util")
+local modutil = require("awsmx.util")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------
@@ -26,7 +26,7 @@ local function default_style()
 		bar   = { width = 4, num = 10 },
 		color = { main = "#b1222b", gray = "#404040" }
 	}
-	return redutil.table.merge(style, redutil.table.check(beautiful, "gauge.graph.dash") or {})
+	return modutil.table.merge(style, modutil.table.check(beautiful, "gauge.graph.dash") or {})
 end
 
 -- Create a new dashcontrol widget
@@ -36,7 +36,7 @@ function dashcontrol.new(style)
 
 	-- Initialize vars
 	--------------------------------------------------------------------------------
-	style = redutil.table.merge(default_style(), style or {})
+	style = modutil.table.merge(default_style(), style or {})
 
 	-- Create custom widget
 	--------------------------------------------------------------------------------

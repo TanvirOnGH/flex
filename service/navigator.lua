@@ -15,7 +15,7 @@ local beautiful = require("beautiful")
 local timer = require("gears.timer")
 
 local awsmx = require("awsmx")
-local redutil = require("awsmx.util")
+local modutil = require("awsmx.util")
 local redtip = require("awsmx.float.hotkeys")
 local rednotify = require("awsmx.float.notify")
 
@@ -46,7 +46,7 @@ local function default_style()
 		shape        = nil,
 		window_type  = nil,
 	}
-	return redutil.table.merge(style, redutil.table.check(beautiful, "service.navigator") or {})
+	return modutil.table.merge(style, modutil.table.check(beautiful, "service.navigator") or {})
 end
 
 -- Support functions
@@ -143,13 +143,13 @@ function navigator.make_paint(c)
 
 		-- label
 		local index = navigator.style.num[awful.util.table.hasitem(navigator.cls, widg._data.client)]
-		local g = redutil.client.fullgeometry(widg._data.client)
+		local g = modutil.client.fullgeometry(widg._data.client)
 
 		cr:set_source(color(style.color.text))
-		redutil.cairo.set_font(cr, style.titlefont)
-		redutil.cairo.textcentre.full(cr, { width/2, height/2 - style.linegap / 2 }, index)
-		redutil.cairo.set_font(cr, style.font)
-		redutil.cairo.textcentre.full(cr, { width/2, height/2 + style.linegap / 2 }, g.width .. " x " .. g.height)
+		modutil.cairo.set_font(cr, style.titlefont)
+		modutil.cairo.textcentre.full(cr, { width/2, height/2 - style.linegap / 2 }, index)
+		modutil.cairo.set_font(cr, style.font)
+		modutil.cairo.textcentre.full(cr, { width/2, height/2 + style.linegap / 2 }, g.width .. " x " .. g.height)
 	end
 
 	------------------------------------------------------------
@@ -182,13 +182,13 @@ function navigator.make_decor(c)
 	object.update =  {
 		focus = function() object.widget:emit_signal("widget::redraw_needed") end,
 		close = function() navigator:restart() end,
-		geometry = function() redutil.client.fullgeometry(object.wibox, redutil.client.fullgeometry(object.client)) end
+		geometry = function() modutil.client.fullgeometry(object.wibox, modutil.client.fullgeometry(object.client)) end
 	}
 
 	function object:set_client(client_)
 		object.client = client_
 		object.widget:set_client(client_)
-		redutil.client.fullgeometry(object.wibox, redutil.client.fullgeometry(object.client))
+		modutil.client.fullgeometry(object.wibox, modutil.client.fullgeometry(object.client))
 
 		object.client:connect_signal("focus", object.update.focus)
 		object.client:connect_signal("unfocus", object.update.focus)
@@ -280,7 +280,7 @@ function navigator:run()
 	local l = awful.layout.get(s)
 	local handler = l.key_handler or awsmx.layout.common.handler[l]
 	if not handler then
-		rednotify:show(redutil.table.merge({ text = "Layout not supported" }, self.style.notify))
+		rednotify:show(modutil.table.merge({ text = "Layout not supported" }, self.style.notify))
 		return
 	end
 

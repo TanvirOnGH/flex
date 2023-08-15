@@ -11,7 +11,7 @@ local wibox = require("wibox")
 local color = require("gears.color")
 local beautiful = require("beautiful")
 
-local redutil = require("awsmx.util")
+local modutil = require("awsmx.util")
 
 
 -- Initialize tables for module
@@ -30,7 +30,7 @@ local function default_style()
 		font      = { font = "Fira Code", size = 20, face = 0, slant = 0 }
 	}
 
-	return redutil.table.merge(style, redutil.table.check(beautiful, "desktop.common.textbox") or {})
+	return modutil.table.merge(style, modutil.table.check(beautiful, "desktop.common.textbox") or {})
 end
 
 -- Text alignment functions
@@ -93,7 +93,7 @@ function textbox.new(txt, style)
 
 	-- Initialize vars
 	--------------------------------------------------------------------------------
-	style = redutil.table.merge(default_style(), style or {})
+	style = modutil.table.merge(default_style(), style or {})
 --	local textdraw = align[style.draw] or align.by_left
 
 	-- Create custom widget
@@ -140,7 +140,7 @@ function textbox.new(txt, style)
 	------------------------------------------------------------
 	function textwidg:draw(_, cr, width, height)
 		cr:set_source(color(self._data.color))
-		redutil.cairo.set_font(cr, style.font)
+		modutil.cairo.set_font(cr, style.font)
 
 		align[style.draw](cr, width, height, self._data.text, style)
 	end

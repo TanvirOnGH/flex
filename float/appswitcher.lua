@@ -29,7 +29,7 @@ end
 local is_pixbuf_loaded = pcall(load_pixbuf)
 
 local dfparser = require("awsmx.service.dfparser")
-local redutil = require("awsmx.util")
+local modutil = require("awsmx.util")
 local redtip = require("awsmx.float.hotkeys")
 
 -- Initialize tables and vars for module
@@ -38,7 +38,7 @@ local appswitcher = { clients_list = {}, index = 1, hotkeys = {}, svgsize = 256,
 
 local cache = {}
 local svgcache = {}
-local _empty_surface = redutil.base.placeholder({ txt = " " })
+local _empty_surface = modutil.base.placeholder({ txt = " " })
 
 -- key bindings
 appswitcher.keys.move = {
@@ -98,7 +98,7 @@ local function default_style()
 		shape           = nil
 	}
 
-	return redutil.table.merge(style, redutil.table.check(beautiful, "float.appswitcher") or {})
+	return modutil.table.merge(style, modutil.table.check(beautiful, "float.appswitcher") or {})
 end
 
 -- Support functions
@@ -200,7 +200,7 @@ function appswitcher:init()
 		if event == "press" then return false end
 
 		for _, k in ipairs(self.keys.all) do
-			if redutil.key.match_grabber(k, mod, key) then k[3](); return false end
+			if modutil.key.match_grabber(k, mod, key) then k[3](); return false end
 		end
 
 		if awful.util.table.hasitem(style.hotkeys,   key) then focus_by_key(key) end
@@ -331,8 +331,8 @@ function appswitcher:init()
 			-- draw label
 			local txt = style.hotkeys[i] or "?"
 			cr:set_source(gears.color(i == self.index and style.color.main or style.color.text))
-			redutil.cairo.set_font(cr, style.font)
-			redutil.cairo.textcentre.horizontal(cr, { psize.width/2, psize.height + style.label_height }, txt)
+			modutil.cairo.set_font(cr, style.font)
+			modutil.cairo.textcentre.horizontal(cr, { psize.width/2, psize.height + style.label_height }, txt)
 		end
 
 		collectgarbage() -- prevents memory leak after complex draw function
@@ -394,7 +394,7 @@ function appswitcher:show(args)
 	self.clients_list = clients
 	cache.args = args
 	self.size_correction(#clients)
-	redutil.placement.centered(self.wibox, nil, mouse.screen.workarea)
+	modutil.placement.centered(self.wibox, nil, mouse.screen.workarea)
 	self.update_timer:start()
 	awful.keygrabber.run(self.keygrabber)
 
