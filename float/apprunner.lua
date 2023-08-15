@@ -21,7 +21,7 @@ local svgbox = require("awsmx.gauge.svgbox")
 local dfparser = require("awsmx.service.dfparser")
 local modutil = require("awsmx.util")
 local decoration = require("awsmx.float.decoration")
-local redtip = require("awsmx.float.hotkeys")
+local modtip = require("awsmx.float.hotkeys")
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------
@@ -44,7 +44,7 @@ apprunner.keys.move = {
 
 apprunner.keys.action = {
 	{
-		{ "Mod4" }, "F1", function() redtip:show() end,
+		{ "Mod4" }, "F1", function() modtip:show() end,
 		{ description = "Show hotkeys helper", group = "Action" }
 	},
 	-- fake keys used for hotkeys helper
@@ -333,7 +333,7 @@ function apprunner:show()
 
 	modutil.placement.centered(self.wibox, nil, mouse.screen.workarea)
 	self.wibox.visible = true
-	redtip:set_pack("Apprunner", self.keys.all, self.keytip.column, self.keytip.geometry)
+	modtip:set_pack("Apprunner", self.keys.all, self.keytip.column, self.keytip.geometry)
 
 	return awful.prompt.run({
 		prompt = "",
@@ -347,7 +347,7 @@ end
 
 function apprunner:hide()
 	self.wibox.visible = false
-	redtip:remove_pack()
+	modtip:remove_pack()
 end
 
 -- Set user hotkeys

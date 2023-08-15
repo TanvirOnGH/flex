@@ -16,7 +16,7 @@ local timer = require("gears.timer")
 local modutil = require("awsmx.util")
 local system = require("awsmx.system")
 local decoration = require("awsmx.float.decoration")
-local redtip = require("awsmx.float.hotkeys")
+local modtip = require("awsmx.float.hotkeys")
 
 
 -- Initialize tables for module
@@ -45,7 +45,7 @@ top.keys.action = {
 		{ description = "Close top list widget", group = "Action" }
 	},
 	{
-		{ "Mod4" }, "F1", function() redtip:show() end,
+		{ "Mod4" }, "F1", function() modtip:show() end,
 		{ description = "Show hotkeys helper", group = "Action" }
 	},
 }
@@ -334,7 +334,7 @@ function top:hide()
 	self.wibox.visible = false
 	self.update_timer:stop()
 	awful.keygrabber.stop(self.keygrabber)
-	redtip:remove_pack()
+	modtip:remove_pack()
 end
 
 -- Show top widget
@@ -358,7 +358,7 @@ function top:show(srt)
 		self.update_timer:start()
 		awful.keygrabber.run(self.keygrabber)
 
-		redtip:set_pack("Top process", self.tip, self.style.keytip.column, self.style.keytip.geometry)
+		modtip:set_pack("Top process", self.tip, self.style.keytip.column, self.style.keytip.geometry)
 	end
 end
 

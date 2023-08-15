@@ -14,7 +14,7 @@ local ipairs = ipairs
 
 local alayout = awful.layout
 local modutil = require("awsmx.util")
-local redtip = require("awsmx.float.hotkeys")
+local modtip = require("awsmx.float.hotkeys")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------
@@ -41,7 +41,7 @@ common.keys.base = {
 		{ description = "Exit navigation mode", group = "Action" }
 	},
 	{
-		{ "Mod4" }, "F1", function() redtip:show() end,
+		{ "Mod4" }, "F1", function() modtip:show() end,
 		{ description = "Show hotkeys helper", group = "Action" }
 	},
 }

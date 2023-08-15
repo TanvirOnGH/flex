@@ -15,7 +15,7 @@ local beautiful = require("beautiful")
 
 local awsmx = require("awsmx")
 local modutil = require("awsmx.util")
-local redtip = require("awsmx.float.hotkeys")
+local modtip = require("awsmx.float.hotkeys")
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------
@@ -127,7 +127,7 @@ function keychain:init(style)
 
 		if awful.util.table.hasitem(self.service.close,    key) then self:hide()
 		elseif awful.util.table.hasitem(self.service.stepback, key) then self:undo()
-		elseif awful.util.table.hasitem(self.service.help,     key) then redtip:show()
+		elseif awful.util.table.hasitem(self.service.help,     key) then modtip:show()
 		else
 			for _, item in ipairs(self.active[3]) do
 				if modutil.key.match_grabber(item, mod, key) then self:activate(item); return end
@@ -168,7 +168,7 @@ function keychain:activate(item, keytip)
 			self.tip = awful.util.table.join(build_tip({}, item), build_fake_keys(self.service))
 			tip_cache[keytip] = self.tip
 		end
-		redtip:set_pack(keytip .. " keychain", self.tip, self.style.keytip.column, self.style.keytip.geometry)
+		modtip:set_pack(keytip .. " keychain", self.tip, self.style.keytip.column, self.style.keytip.geometry)
 	end
 end
 
@@ -194,7 +194,7 @@ function keychain:hide()
 	self.active = nil
 	self.parents = {}
 	self.sequence = ""
-	redtip:remove_pack()
+	modtip:remove_pack()
 end
 
 -- End

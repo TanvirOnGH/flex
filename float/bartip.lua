@@ -14,7 +14,7 @@ local wibox     = require("wibox")
 
 local modutil  = require("awsmx.util")
 local modtitle = require("awsmx.titlebar")
-local redtip   = require("awsmx.float.hotkeys")
+local modtip   = require("awsmx.float.hotkeys")
 local svgbox   = require("awsmx.gauge.svgbox")
 
 -- Initialize tables for module
@@ -74,7 +74,7 @@ bartip.keys.action = {
 		{ description = "Close top list widget", group = "Action" }
 	},
 	{
-		{ "Mod4" }, "F1", function() redtip:show() end,
+		{ "Mod4" }, "F1", function() modtip:show() end,
 		{ description = "Show hotkeys helper", group = "Action" }
 	},
 }
@@ -188,7 +188,7 @@ function bartip:show()
 		self:update()
 		self.wibox.visible = true
 		awful.keygrabber.run(self.keygrabber)
-		redtip:set_pack(
+		modtip:set_pack(
 			"Titlebar", self.tip, self.style.keytip.column, self.style.keytip.geometry,
 			function() self:hide() end
 		)
@@ -200,7 +200,7 @@ end
 function bartip:hide()
 	self.wibox.visible = false
 	awful.keygrabber.stop(self.keygrabber)
-	redtip:remove_pack()
+	modtip:remove_pack()
 end
 
 -- Set user hotkeys

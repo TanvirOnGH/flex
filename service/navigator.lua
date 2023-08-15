@@ -16,7 +16,7 @@ local timer = require("gears.timer")
 
 local awsmx = require("awsmx")
 local modutil = require("awsmx.util")
-local redtip = require("awsmx.float.hotkeys")
+local modtip = require("awsmx.float.hotkeys")
 local rednotify = require("awsmx.float.notify")
 
 -- Initialize tables and vars for module
@@ -307,7 +307,7 @@ function navigator:run()
 	self.tip_settled = tip
 	if tip then
 		local tip_style = self.style.keytip[awful.layout.getname(l)] or self.style.keytip.base
-		redtip:set_pack(
+		modtip:set_pack(
 			"Layout " .. l.name, tip, tip_style.column, tip_style.geometry,
 			self.style.keytip.base.exit and function() awsmx.layout.common.action.exit() end -- fix this?
 		)
@@ -322,7 +322,7 @@ function navigator:close()
 	end
 
 	awful.keygrabber.stop(self.grabber_settled)
-	if self.tip_settled then redtip:remove_pack() end
+	if self.tip_settled then modtip:remove_pack() end
 
 	local l = client.focus and awful.layout.get(client.focus.screen)
 	if l and l.cleanup then l.cleanup() end
