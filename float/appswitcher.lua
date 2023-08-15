@@ -43,23 +43,39 @@ local _empty_surface = modutil.base.placeholder({ txt = " " })
 -- key bindings
 appswitcher.keys.move = {
 	{
-		{}, "Right", function() appswitcher:switch() end,
-		{ description = "Select next app", group = "Navigation" }
+		{},
+		"Right",
+		function()
+			appswitcher:switch()
+		end,
+		{ description = "Select next app", group = "Navigation" },
 	},
 	{
-		{}, "Left", function() appswitcher:switch({ reverse = true }) end,
-		{ description = "Select previous app", group = "Navigation" }
+		{},
+		"Left",
+		function()
+			appswitcher:switch({ reverse = true })
+		end,
+		{ description = "Select previous app", group = "Navigation" },
 	},
 }
 
 appswitcher.keys.action = {
 	{
-		{}, "Return", function() appswitcher:hide() end,
-		{ description = "Activate and exit", group = "Action" }
+		{},
+		"Return",
+		function()
+			appswitcher:hide()
+		end,
+		{ description = "Activate and exit", group = "Action" },
 	},
 	{
-		{ "Mod4" }, "F1", function() modtip:show() end,
-		{ description = "Show hotkeys helper", group = "Action" }
+		{ "Mod4" },
+		"F1",
+		function()
+			modtip:show()
+		end,
+		{ description = "Show hotkeys helper", group = "Action" },
 	},
 }
 
@@ -67,35 +83,44 @@ appswitcher.keys.all = awful.util.table.join(appswitcher.keys.move, appswitcher.
 
 appswitcher._fake_keys = {
 	{
-		{}, "N", nil,
-		{ description = "Select app by key", group = "Navigation" }
+		{},
+		"N",
+		nil,
+		{ description = "Select app by key", group = "Navigation" },
 	},
 }
-
 
 -- Generate default theme vars
 -----------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
-		wibox_height    = 200,
-		label_height    = 20,
-		title_height    = 20,
-		icon_size       = 48,
-		preview_gap     = 20,
-		preview_format  = 16/10,
-		preview_margin  = { 20, 20, 20, 20 },
-		border_margin   = { 6, 6, 6, 6 },
-		border_width    = 2,
-		parser          = {},
-		update_timeout  = 1,
+		wibox_height = 200,
+		label_height = 20,
+		title_height = 20,
+		icon_size = 48,
+		preview_gap = 20,
+		preview_format = 16 / 10,
+		preview_margin = { 20, 20, 20, 20 },
+		border_margin = { 6, 6, 6, 6 },
+		border_width = 2,
+		parser = {},
+		update_timeout = 1,
 		min_icon_number = 4,
-		keytip          = { geometry = { width = 400 }, exit = false },
-		title_font      = "Fira Code 12",
-		hotkeys         = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" },
-		font            = { font = "Fira Code", size = 16, face = 0, slant = 0 },
-		color           = { border = "#575757", text = "#aaaaaa", main = "#b1222b", preview_bg = "#b1222b80",
-		                    wibox  = "#202020", icon = "#a0a0a0", bg   = "#161616", gray = "#575757" },
-		shape           = nil
+		keytip = { geometry = { width = 400 }, exit = false },
+		title_font = "Fira Code 12",
+		hotkeys = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" },
+		font = { font = "Fira Code", size = 16, face = 0, slant = 0 },
+		color = {
+			border = "#575757",
+			text = "#aaaaaa",
+			main = "#b1222b",
+			preview_bg = "#b1222b80",
+			wibox = "#202020",
+			icon = "#a0a0a0",
+			bg = "#161616",
+			gray = "#575757",
+		},
+		shape = nil,
 	}
 
 	return modutil.table.merge(style, modutil.table.check(beautiful, "float.appswitcher") or {})
@@ -134,8 +159,10 @@ end
 local function clients_find(filter)
 	local clients = {}
 	for _, c in ipairs(client.get()) do
-		if not (c.skip_taskbar or c.hidden or c.type == "splash" or c.type == "dock" or c.type == "desktop")
-		and filter(c, mouse.screen) then
+		if
+			not (c.skip_taskbar or c.hidden or c.type == "splash" or c.type == "dock" or c.type == "desktop")
+			and filter(c, mouse.screen)
+		then
 			table.insert(clients, c)
 		end
 	end
@@ -147,8 +174,11 @@ end
 local function iterate(tabl, i, diff)
 	local nxt = i + diff
 
-	if nxt > #tabl then nxt = 1
-	elseif nxt < 1 then nxt = #tabl end
+	if nxt > #tabl then
+		nxt = 1
+	elseif nxt < 1 then
+		nxt = #tabl
+	end
 
 	return nxt
 end
@@ -156,7 +186,9 @@ end
 -- Select new focused window
 --------------------------------------------------------------------------------
 local function focus_and_raise(c)
-	if c.minimized then c.minimized = false end
+	if c.minimized then
+		c.minimized = false
+	end
 
 	if not c:isvisible() then
 		awful.tag.viewmore(c:tags(), c.screen)
@@ -169,7 +201,6 @@ end
 -- Initialize appswitcher widget
 -----------------------------------------------------------------------------------------------------------------------
 function appswitcher:init()
-
 	-- Initialize style vars
 	--------------------------------------------------------------------------------
 	local style = default_style()
@@ -183,11 +214,11 @@ function appswitcher:init()
 	-- Create floating wibox for appswitcher widget
 	--------------------------------------------------------------------------------
 	self.wibox = wibox({
-		ontop        = true,
-		bg           = style.color.wibox,
+		ontop = true,
+		bg = style.color.wibox,
 		border_width = style.border_width,
 		border_color = style.color.border,
-		shape        = style.shape
+		shape = style.shape,
 	})
 
 	-- Keygrabber
@@ -197,13 +228,20 @@ function appswitcher:init()
 	end
 
 	self.keygrabber = function(mod, key, event)
-		if event == "press" then return false end
-
-		for _, k in ipairs(self.keys.all) do
-			if modutil.key.match_grabber(k, mod, key) then k[3](); return false end
+		if event == "press" then
+			return false
 		end
 
-		if awful.util.table.hasitem(style.hotkeys,   key) then focus_by_key(key) end
+		for _, k in ipairs(self.keys.all) do
+			if modutil.key.match_grabber(k, mod, key) then
+				k[3]()
+				return false
+			end
+		end
+
+		if awful.util.table.hasitem(style.hotkeys, key) then
+			focus_by_key(key)
+		end
 	end
 
 	-- Function to form title string for given client (name and tags)
@@ -225,10 +263,17 @@ function appswitcher:init()
 	function self.size_correction(inum)
 		local w, h
 		inum = math.max(inum, style.min_icon_number)
-		local expen_h = (inum - 1) * style.preview_gap + style.preview_margin[1] + style.preview_margin[2]
-		                + style.border_margin[1] + style.border_margin[2]
-		local expen_v = style.label_height + style.preview_margin[3] + style.preview_margin[4] + style.title_height
-		                + style.border_margin[3] + style.border_margin[4]
+		local expen_h = (inum - 1) * style.preview_gap
+			+ style.preview_margin[1]
+			+ style.preview_margin[2]
+			+ style.border_margin[1]
+			+ style.border_margin[2]
+		local expen_v = style.label_height
+			+ style.preview_margin[3]
+			+ style.preview_margin[4]
+			+ style.title_height
+			+ style.border_margin[3]
+			+ style.border_margin[4]
 
 		-- calculate width
 		local widget_height = style.wibox_height - expen_v + style.label_height
@@ -261,16 +306,17 @@ function appswitcher:init()
 
 	-- Fit
 	------------------------------------------------------------
-	function widg:fit(_, width, height) return width, height end
+	function widg:fit(_, width, height)
+		return width, height
+	end
 
 	-- Draw
 	------------------------------------------------------------
 	function widg.draw(_, _, cr, _, height)
-
 		-- calculate preview pattern size
 		local psize = {
 			width = (height - style.label_height) * style.preview_format,
-			height = (height - style.label_height)
+			height = (height - style.label_height),
 		}
 
 		-- Shift pack of preview icons to center of widget if needed
@@ -281,7 +327,6 @@ function appswitcher:init()
 
 		-- draw all previews
 		for i = 1, #self.clients_list do
-
 			-- support vars
 			local sc, tr, surface, pixbuf_
 			local c = self.clients_list[i]
@@ -291,12 +336,12 @@ function appswitcher:init()
 				surface = gears.surface(c.content)
 				local cg = c:geometry()
 
-				if cg.width/cg.height > style.preview_format then
+				if cg.width / cg.height > style.preview_format then
 					sc = psize.width / cg.width
-					tr = {0, (psize.height - sc * cg.height) / 2}
+					tr = { 0, (psize.height - sc * cg.height) / 2 }
 				else
 					sc = psize.height / cg.height
-					tr = {(psize.width - sc * cg.width) / 2, 0}
+					tr = { (psize.width - sc * cg.width) / 2, 0 }
 				end
 			else
 				-- surface = gears.surface(icon_db[string.lower(c.class)] or c.icon)
@@ -304,11 +349,13 @@ function appswitcher:init()
 
 				-- sc = style.icon_size / surface.width * iscf
 				sc = style.icon_size / (surface and surface.width or pixbuf_.width) * iscf
-				tr = {(psize.width - style.icon_size * iscf) / 2, (psize.height - style.icon_size * iscf) / 2}
+				tr = { (psize.width - style.icon_size * iscf) / 2, (psize.height - style.icon_size * iscf) / 2 }
 			end
 
 			-- translate cairo for every icon
-			if i > 1 then cr:translate(style.preview_gap + psize.width, 0) end
+			if i > 1 then
+				cr:translate(style.preview_gap + psize.width, 0)
+			end
 
 			-- draw background for preview
 			cr:set_source(gears.color(i == self.index and style.color.main or style.color.preview_bg))
@@ -332,7 +379,7 @@ function appswitcher:init()
 			local txt = style.hotkeys[i] or "?"
 			cr:set_source(gears.color(i == self.index and style.color.main or style.color.text))
 			modutil.cairo.set_font(cr, style.font)
-			modutil.cairo.textcentre.horizontal(cr, { psize.width/2, psize.height + style.label_height }, txt)
+			modutil.cairo.textcentre.horizontal(cr, { psize.width / 2, psize.height + style.label_height }, txt)
 		end
 
 		collectgarbage() -- prevents memory leak after complex draw function
@@ -348,10 +395,8 @@ function appswitcher:init()
 
 	local title_layout = wibox.container.constraint(self.titlebox, "exact", nil, style.title_height)
 	local vertical_layout = wibox.layout.fixed.vertical()
-	local widget_bg = wibox.container.background(
-		wibox.container.margin(self.widget, unpack(style.preview_margin)),
-		style.color.bg
-	)
+	local widget_bg =
+		wibox.container.background(wibox.container.margin(self.widget, unpack(style.preview_margin)), style.color.bg)
 	vertical_layout:add(title_layout)
 	vertical_layout:add(widget_bg)
 
@@ -360,36 +405,39 @@ function appswitcher:init()
 	-- Set preview icons update timer
 	--------------------------------------------------------------------------------
 	self.update_timer = timer({ timeout = style.update_timeout })
-	self.update_timer:connect_signal("timeout", function() self.widget:emit_signal("widget::redraw_needed") end)
+	self.update_timer:connect_signal("timeout", function()
+		self.widget:emit_signal("widget::redraw_needed")
+	end)
 
 	-- Restart switcher if any client was closed
 	--------------------------------------------------------------------------------
-	client.connect_signal("unmanage",
-		function(c)
-			if self.wibox.visible and awful.util.table.hasitem(self.clients_list, c) then
-				self:hide(true)
-				self:show(cache.args)
-			end
+	client.connect_signal("unmanage", function(c)
+		if self.wibox.visible and awful.util.table.hasitem(self.clients_list, c) then
+			self:hide(true)
+			self:show(cache.args)
 		end
-	)
+	end)
 end
 
 -- Show appswitcher widget
 -----------------------------------------------------------------------------------------------------------------------
 function appswitcher:show(args)
-
 	args = args or {}
 	local filter = args.filter
 	local noaction = args.noaction
 
-	if not self.wibox then self:init() end
+	if not self.wibox then
+		self:init()
+	end
 	if self.wibox.visible then
 		self:switch(args)
 		return
 	end
 
 	local clients = clients_find(filter)
-	if #clients == 0 then return end
+	if #clients == 0 then
+		return
+	end
 
 	self.clients_list = clients
 	cache.args = args
@@ -400,29 +448,35 @@ function appswitcher:show(args)
 
 	self.index = awful.util.table.hasitem(self.clients_list, client.focus) or 1
 	self.titlebox:set_markup(self.title_generator(self.clients_list[self.index]))
-	if not noaction then self:switch(args) end
+	if not noaction then
+		self:switch(args)
+	end
 	self.widget:emit_signal("widget::redraw_needed")
 
 	self.wibox.visible = true
 
-	modtip:set_pack(
-		"Appswitcher", self.tip, self.keytip.column, self.keytip.geometry,
-		self.keytip.exit and function() appswitcher:hide(true) end
-	)
+	modtip:set_pack("Appswitcher", self.tip, self.keytip.column, self.keytip.geometry, self.keytip.exit and function()
+		appswitcher:hide(true)
+	end)
 end
 
 -- Hide appswitcher widget
 -----------------------------------------------------------------------------------------------------------------------
 function appswitcher:hide(is_empty_call)
-
-	if not self.wibox then self:init() end
-	if not self.wibox.visible then return end
+	if not self.wibox then
+		self:init()
+	end
+	if not self.wibox.visible then
+		return
+	end
 	self.wibox.visible = false
 	modtip:remove_pack()
 	self.update_timer:stop()
 	awful.keygrabber.stop(self.keygrabber)
 
-	if not is_empty_call then focus_and_raise(self.clients_list[self.index]) end
+	if not is_empty_call then
+		focus_and_raise(self.clients_list[self.index])
+	end
 end
 
 -- Toggle appswitcher widget
@@ -431,7 +485,9 @@ function appswitcher:switch(args)
 	args = args or {}
 
 	if args.index then
-		if self.clients_list[args.index] then self.index = args.index end
+		if self.clients_list[args.index] then
+			self.index = args.index
+		end
 	else
 		local reverse = args.reverse or false
 		local diff = reverse and -1 or 1
@@ -448,7 +504,9 @@ function appswitcher:set_keys(keys, layout)
 	layout = layout or "all"
 	if keys then
 		self.keys[layout] = keys
-		if layout ~= "all" then self.keys.all = awful.util.table.join(self.keys.move, self.keys.action) end
+		if layout ~= "all" then
+			self.keys.all = awful.util.table.join(self.keys.move, self.keys.action)
+		end
 	end
 
 	self.tip = awful.util.table.join(self.keys.all, self._fake_keys)

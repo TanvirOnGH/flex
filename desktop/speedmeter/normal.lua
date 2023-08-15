@@ -17,7 +17,6 @@ local modutil = require("flex.util")
 local dcommon = require("flex.desktop.common")
 local svgbox = require("flex.gauge.svgbox")
 
-
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------
 local speedmeter = { mt = {} }
@@ -26,16 +25,16 @@ local speedmeter = { mt = {} }
 -----------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
-		images           = {},
-		label            = { height = 20, separator = "^" },
-		progressbar      = { chunk = { width = 10, gap = 5 }, height = 4 },
-		chart            = {},
-		barvalue_height  = 32,
+		images = {},
+		label = { height = 20, separator = "^" },
+		progressbar = { chunk = { width = 10, gap = 5 }, height = 4 },
+		chart = {},
+		barvalue_height = 32,
 		fullchart_height = 78,
-		digits           = 2,
-		image_gap        = 20,
-		unit             = { { "B", -1 }, { "KB", 1024 }, { "MB", 1024^2 }, { "GB", 1024^3 } },
-		color            = { main = "#b1222b", wibox = "#161616", gray = "#404040" }
+		digits = 2,
+		image_gap = 20,
+		unit = { { "B", -1 }, { "KB", 1024 }, { "MB", 1024 ^ 2 }, { "GB", 1024 ^ 3 } },
+		color = { main = "#b1222b", wibox = "#161616", gray = "#404040" },
 	}
 	return modutil.table.merge(style, modutil.table.check(beautiful, "desktop.speedmeter.normal") or {})
 end
@@ -45,11 +44,10 @@ local default_args = {
 	label = "NETWORK",
 	timeout = 5,
 	interface = "enp42s0",
-	meter_function = system.net_speed
+	meter_function = system.net_speed,
 }
 
 local default_maxspeed = { up = 10 * 1024, down = 10 * 1024 }
-
 
 -- Support functions
 -----------------------------------------------------------------------------------------------------------------------
@@ -83,13 +81,19 @@ local function barvalue(progressbar_style, label_style)
 	local label = dcommon.textbox(nil, label_style)
 
 	widg.layout = wibox.widget({
-		label, nil, progressbar,
+		label,
+		nil,
+		progressbar,
 		layout = wibox.layout.align.vertical,
 	})
 
 	-- setup functions
-	function widg:set_text(text) label:set_text(text) end
-	function widg:set_value(x) progressbar:set_value(x) end
+	function widg:set_text(text)
+		label:set_text(text)
+	end
+	function widg:set_value(x)
+		progressbar:set_value(x)
+	end
 
 	return widg
 end
@@ -97,7 +101,6 @@ end
 -- Construct complex indicator with history chart, progress bar and label
 --------------------------------------------------------------------------------
 local function fullchart(label_style, progressbar_style, chart_style, barvalue_height, maxm)
-
 	local widg = {}
 	chart_style = modutil.table.merge(chart_style, { maxm = maxm })
 	progressbar_style = modutil.table.merge(progressbar_style, { maxm = maxm })
@@ -108,7 +111,9 @@ local function fullchart(label_style, progressbar_style, chart_style, barvalue_h
 	widg.barvalue.layout:set_forced_height(barvalue_height)
 
 	widg.layout = wibox.widget({
-		widg.barvalue.layout, nil, widg.chart,
+		widg.barvalue.layout,
+		nil,
+		widg.chart,
 		layout = wibox.layout.align.vertical,
 	})
 
@@ -134,11 +139,9 @@ local function speed_line(image, maxm, el_style, style)
 	return fc, align, icon
 end
 
-
 -- Create a new speed meter widget
 -----------------------------------------------------------------------------------------------------------------------
 function speedmeter.new(args, style)
-
 	-- Initialize vars
 	--------------------------------------------------------------------------------
 	local dwidget = {}
@@ -152,7 +155,7 @@ function speedmeter.new(args, style)
 	local elements_style = {
 		label = modutil.table.merge(style.label, { draw = "by_edges", color = style.color.gray }),
 		progressbar = modutil.table.merge(style.progressbar, { autoscale = args.autoscale, color = style.color }),
-		chart = modutil.table.merge(style.chart, { autoscale = args.autoscale, color = style.color.gray })
+		chart = modutil.table.merge(style.chart, { autoscale = args.autoscale, color = style.color.gray }),
 	}
 
 	dwidget.style = style
@@ -163,8 +166,10 @@ function speedmeter.new(args, style)
 	local down_widget, down_layout, down_icon = speed_line(style.images[2], maxspeed.down, elements_style, style)
 
 	dwidget.area = wibox.widget({
-		up_layout, nil, down_layout,
-		layout = wibox.layout.align.vertical
+		up_layout,
+		nil,
+		down_layout,
+		layout = wibox.layout.align.vertical,
 	})
 
 	-- Update info

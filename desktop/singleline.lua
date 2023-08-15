@@ -25,13 +25,13 @@ local sline = { mt = {} }
 -----------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
-		lbox      = { draw = "by_left", width = 50 },
-		rbox      = { draw = "by_right", width = 50 },
-		digits    = 3,
-		icon      = nil,
-		iwidth    = 120,
-		unit      = { { "B", -1 }, { "KB", 1024 }, { "MB", 1024^2 }, { "GB", 1024^3 } },
-		color     = { main = "#b1222b", wibox = "#161616", gray = "#404040" }
+		lbox = { draw = "by_left", width = 50 },
+		rbox = { draw = "by_right", width = 50 },
+		digits = 3,
+		icon = nil,
+		iwidth = 120,
+		unit = { { "B", -1 }, { "KB", 1024 }, { "MB", 1024 ^ 2 }, { "GB", 1024 ^ 3 } },
+		color = { main = "#b1222b", wibox = "#161616", gray = "#404040" },
 	}
 	return modutil.table.merge(style, modutil.table.check(beautiful, "desktop.singleline") or {})
 end
@@ -41,7 +41,6 @@ local default_args = { timeout = 60, sensors = {} }
 -- Create a new widget
 -----------------------------------------------------------------------------------------------------------------------
 function sline.new(args, style)
-
 	-- Initialize vars
 	--------------------------------------------------------------------------------
 	local dwidget = {}
@@ -62,18 +61,22 @@ function sline.new(args, style)
 	for i, _ in ipairs(args.sensors) do
 		dwidget.item[i] = textbox("", style.rbox)
 
-		if style.icon then dwidget.icon[i] = svgbox(style.icon) end
+		if style.icon then
+			dwidget.icon[i] = svgbox(style.icon)
+		end
 
 		local boxlayout = wibox.widget({
 			textbox(string.upper(args.sensors[i].name or "mon"), style.lbox),
 			style.icon and {
-				nil, dwidget.icon[i], nil,
+				nil,
+				dwidget.icon[i],
+				nil,
 				expand = "outside",
-				layout = wibox.layout.align.horizontal
+				layout = wibox.layout.align.horizontal,
 			},
 			dwidget.item[i],
 			forced_width = style.iwidth,
-			layout = wibox.layout.align.horizontal
+			layout = wibox.layout.align.horizontal,
 		})
 
 		if i == 1 then
@@ -103,7 +106,9 @@ function sline.new(args, style)
 	end
 
 	local function item_hadnler(crit, i)
-		return function(state) set_raw_state(state, crit, i) end
+		return function(state)
+			set_raw_state(state, crit, i)
+		end
 	end
 
 	local function update()

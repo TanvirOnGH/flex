@@ -31,106 +31,196 @@ map.notification_style = {}
 local hitimer
 map.hilight_timeout = 0.2
 
-
 -- default keys
 map.keys.layout = {
 	{
-		{ "Mod4" }, "s", function() map.swap_group() end,
-		{ description = "Change placement direction for group", group = "Layout" }
+		{ "Mod4" },
+		"s",
+		function()
+			map.swap_group()
+		end,
+		{ description = "Change placement direction for group", group = "Layout" },
 	},
 	{
-		{ "Mod4" }, "v", function() map.new_group(true) end,
-		{ description = "Create new vertical group", group = "Layout" }
+		{ "Mod4" },
+		"v",
+		function()
+			map.new_group(true)
+		end,
+		{ description = "Create new vertical group", group = "Layout" },
 	},
 	{
-		{ "Mod4" }, "b", function() map.new_group(false) end,
-		{ description = "Create new horizontal group", group = "Layout" }
+		{ "Mod4" },
+		"b",
+		function()
+			map.new_group(false)
+		end,
+		{ description = "Create new horizontal group", group = "Layout" },
 	},
 	{
-		{ "Mod4", "Control" }, "v", function() map.insert_group(true) end,
-		{ description = "Insert new vertical group before active", group = "Layout" }
+		{ "Mod4", "Control" },
+		"v",
+		function()
+			map.insert_group(true)
+		end,
+		{ description = "Insert new vertical group before active", group = "Layout" },
 	},
 	{
-		{ "Mod4", "Control" }, "b", function() map.insert_group(false) end,
-		{ description = "Insert new horizontal group before active", group = "Layout" }
+		{ "Mod4", "Control" },
+		"b",
+		function()
+			map.insert_group(false)
+		end,
+		{ description = "Insert new horizontal group before active", group = "Layout" },
 	},
 	{
-		{ "Mod4" }, "d", function() map.delete_group() end,
-		{ description = "Destroy group", group = "Layout" }
+		{ "Mod4" },
+		"d",
+		function()
+			map.delete_group()
+		end,
+		{ description = "Destroy group", group = "Layout" },
 	},
 	{
-		{ "Mod4", "Control" }, "d", function() map.clean_groups() end,
-		{ description = "Destroy all empty groups", group = "Layout" }
+		{ "Mod4", "Control" },
+		"d",
+		function()
+			map.clean_groups()
+		end,
+		{ description = "Destroy all empty groups", group = "Layout" },
 	},
 	{
-		{ "Mod4" }, "a", function() map.set_active() end,
-		{ description = "Set active group", group = "Layout" }
+		{ "Mod4" },
+		"a",
+		function()
+			map.set_active()
+		end,
+		{ description = "Set active group", group = "Layout" },
 	},
 	{
-		{ "Mod4" }, "f", function() map.move_to_active() end,
-		{ description = "Move focused client to active group", group = "Layout" }
+		{ "Mod4" },
+		"f",
+		function()
+			map.move_to_active()
+		end,
+		{ description = "Move focused client to active group", group = "Layout" },
 	},
 	{
-		{ "Mod4", "Control" }, "a", function() map.hilight_active() end,
-		{ description = "Hilight active group", group = "Layout" }
+		{ "Mod4", "Control" },
+		"a",
+		function()
+			map.hilight_active()
+		end,
+		{ description = "Hilight active group", group = "Layout" },
 	},
 	{
-		{ "Mod4" }, ".", function() map.switch_active(1) end,
-		{ description = "Activate next group", group = "Layout" }
+		{ "Mod4" },
+		".",
+		function()
+			map.switch_active(1)
+		end,
+		{ description = "Activate next group", group = "Layout" },
 	},
 	{
-		{ "Mod4" }, ",", function() map.switch_active(-1) end,
-		{ description = "Activate previous group", group = "Layout" }
+		{ "Mod4" },
+		",",
+		function()
+			map.switch_active(-1)
+		end,
+		{ description = "Activate previous group", group = "Layout" },
 	},
 	{
-		{ "Mod4" }, "]", function() map.move_group(1) end,
-		{ description = "Move active group to the top", group = "Layout" }
+		{ "Mod4" },
+		"]",
+		function()
+			map.move_group(1)
+		end,
+		{ description = "Move active group to the top", group = "Layout" },
 	},
 	{
-		{ "Mod4" }, "[", function() map.move_group(-1) end,
-		{ description = "Move active group to the bottom", group = "Layout" }
+		{ "Mod4" },
+		"[",
+		function()
+			map.move_group(-1)
+		end,
+		{ description = "Move active group to the bottom", group = "Layout" },
 	},
 	{
-		{ "Mod4" }, "r", function() map.reset_tree() end,
-		{ description = "Reset layout structure", group = "Layout" }
+		{ "Mod4" },
+		"r",
+		function()
+			map.reset_tree()
+		end,
+		{ description = "Reset layout structure", group = "Layout" },
 	},
 }
 
 map.keys.resize = {
 	{
-		{ "Mod4" }, "h", function() map.incfactor(nil, 0.1, false) end,
-		{ description = "Increase window horizontal size factor", group = "Resize" }
+		{ "Mod4" },
+		"h",
+		function()
+			map.incfactor(nil, 0.1, false)
+		end,
+		{ description = "Increase window horizontal size factor", group = "Resize" },
 	},
 	{
-		{ "Mod4" }, "l", function() map.incfactor(nil, -0.1, false) end,
-		{ description = "Decrease window horizontal size factor", group = "Resize" }
+		{ "Mod4" },
+		"l",
+		function()
+			map.incfactor(nil, -0.1, false)
+		end,
+		{ description = "Decrease window horizontal size factor", group = "Resize" },
 	},
 	{
-		{ "Mod4" }, "k", function() map.incfactor(nil, 0.1, true) end,
-		{ description = "Increase window vertical size factor", group = "Resize" }
+		{ "Mod4" },
+		"k",
+		function()
+			map.incfactor(nil, 0.1, true)
+		end,
+		{ description = "Increase window vertical size factor", group = "Resize" },
 	},
 	{
-		{ "Mod4" }, "j", function() map.incfactor(nil, -0.1, true) end,
-		{ description = "Decrease window vertical size factor", group = "Resize" }
+		{ "Mod4" },
+		"j",
+		function()
+			map.incfactor(nil, -0.1, true)
+		end,
+		{ description = "Decrease window vertical size factor", group = "Resize" },
 	},
 	{
-		{ "Mod4", "Control" }, "h", function() map.incfactor(nil, 0.1, false, true) end,
-		{ description = "Increase group horizontal size factor", group = "Resize" }
+		{ "Mod4", "Control" },
+		"h",
+		function()
+			map.incfactor(nil, 0.1, false, true)
+		end,
+		{ description = "Increase group horizontal size factor", group = "Resize" },
 	},
 	{
-		{ "Mod4", "Control" }, "l", function() map.incfactor(nil, -0.1, false, true) end,
-		{ description = "Decrease group horizontal size factor", group = "Resize" }
+		{ "Mod4", "Control" },
+		"l",
+		function()
+			map.incfactor(nil, -0.1, false, true)
+		end,
+		{ description = "Decrease group horizontal size factor", group = "Resize" },
 	},
 	{
-		{ "Mod4", "Control" }, "k", function() map.incfactor(nil, 0.1, true, true) end,
-		{ description = "Increase group vertical size factor", group = "Resize" }
+		{ "Mod4", "Control" },
+		"k",
+		function()
+			map.incfactor(nil, 0.1, true, true)
+		end,
+		{ description = "Increase group vertical size factor", group = "Resize" },
 	},
 	{
-		{ "Mod4", "Control" }, "j", function() map.incfactor(nil, -0.1, true, true) end,
-		{ description = "Decrease group vertical size factor", group = "Resize" }
+		{ "Mod4", "Control" },
+		"j",
+		function()
+			map.incfactor(nil, -0.1, true, true)
+		end,
+		{ description = "Decrease group vertical size factor", group = "Resize" },
 	},
 }
-
 
 map.keys.all = awful.util.table.join(map.keys.layout, map.keys.resize)
 
@@ -140,7 +230,9 @@ map.keys.all = awful.util.table.join(map.keys.layout, map.keys.resize)
 -- Layout action notifications
 --------------------------------------------------------------------------------
 local function notify(txt)
-	if map.notification then rednotify:show(modutil.table.merge({ text = txt }, map.notification_style)) end
+	if map.notification then
+		rednotify:show(modutil.table.merge({ text = txt }, map.notification_style))
+	end
 end
 
 -- Calculate geometry for single client or group
@@ -195,7 +287,11 @@ function map.construct_itempack(cls, wa, is_vertical, parent)
 	------------------------------------------------------------
 	function pack:get_cls()
 		local clist = {}
-		for _, item in ipairs(self.items) do if not item.child then clist[#clist + 1] = item.client end end
+		for _, item in ipairs(self.items) do
+			if not item.child then
+				clist[#clist + 1] = item.client
+			end
+		end
 		return clist
 	end
 
@@ -209,7 +305,11 @@ function map.construct_itempack(cls, wa, is_vertical, parent)
 	------------------------------------------------------------
 	function pack:get_places()
 		local n = 0
-		for _, item in ipairs(self.items) do if not item.child then n = n + 1 end end
+		for _, item in ipairs(self.items) do
+			if not item.child then
+				n = n + 1
+			end
+		end
 		return n
 	end
 
@@ -217,7 +317,9 @@ function map.construct_itempack(cls, wa, is_vertical, parent)
 	------------------------------------------------------------
 	function pack:get_child_id(pack_)
 		for i, item in ipairs(self.items) do
-			if item.child == pack_ then return i end
+			if item.child == pack_ then
+				return i
+			end
 		end
 	end
 
@@ -257,9 +359,13 @@ function map.construct_itempack(cls, wa, is_vertical, parent)
 
 		-- check factor norming
 		for _, item in ipairs(self.items) do
-			if not item.child or item.child:is_filled() then weight = weight + item.factor end
+			if not item.child or item.child:is_filled() then
+				weight = weight + item.factor
+			end
 		end
-		if weight == 0 then return geometries end
+		if weight == 0 then
+			return geometries
+		end
 
 		-- geomentry calculation
 		for i, item in ipairs(self.items) do
@@ -283,7 +389,6 @@ end
 -- Build layout tree
 --------------------------------------------------------------------------------
 local function construct_tree(wa, t)
-
 	-- Initial structure on creation
 	------------------------------------------------------------
 	local tree = map.scheme[t] and map.scheme[t].construct(wa) or map.base_construct(wa)
@@ -293,7 +398,9 @@ local function construct_tree(wa, t)
 	function tree:get_pack(c)
 		for _, pack in ipairs(self.set) do
 			for i, item in ipairs(pack.items) do
-				if not item.child and c == item.client then return pack, i end
+				if not item.child and c == item.client then
+					return pack, i
+				end
 			end
 		end
 	end
@@ -320,7 +427,10 @@ local function construct_tree(wa, t)
 
 		if pack.parent then
 			for _, item in ipairs(pack.parent.items) do
-				if item.child == pack then item.child = new_pack; break end
+				if item.child == pack then
+					item.child = new_pack
+					break
+				end
 			end
 		end
 		new_pack.items[1] = { child = pack, factor = 1, client = nil }
@@ -369,7 +479,9 @@ local function construct_tree(wa, t)
 
 		-- destroy container
 		table.remove(self.set, index)
-		if not self.set[self.active] then self.active = #self.set end
+		if not self.set[self.active] then
+			self.active = #self.set
+		end
 		notify("Group " .. tostring(index) .. " destroyed")
 	end
 
@@ -403,7 +515,9 @@ local function construct_tree(wa, t)
 		-- distributing clients among existing contaners
 		if #current > 0 then
 			for _, c in ipairs(current) do
-				if self.autoaim then self.active = self:aim() end
+				if self.autoaim then
+					self.active = self:aim()
+				end
 				local refill = awful.util.table.join(self.set[self.active]:get_cls(), { c })
 				self.set[self.active]:set_cls(refill)
 			end
@@ -429,7 +543,9 @@ end
 --------------------------------------------------------------------------------
 function map.swap_group()
 	local c = client.focus
-	if not c then return end
+	if not c then
+		return
+	end
 
 	local t = c.screen.selected_tag
 	local pack = map.data[t]:get_pack(c)
@@ -437,27 +553,28 @@ function map.swap_group()
 	t:emit_signal("property::layout")
 end
 
-
 -- Create new container for client
 --------------------------------------------------------------------------------
 function map.new_group(is_vertical)
 	local c = client.focus
-	if not c then return end
+	if not c then
+		return
+	end
 
 	local t = c.screen.selected_tag
 	map.data[t].autoaim = false
 	map.data[t]:create_group(c, is_vertical)
 
-	if hitimer then return end
+	if hitimer then
+		return
+	end
 
 	hitimer = timer({ timeout = map.hilight_timeout })
-	hitimer:connect_signal("timeout",
-		function()
-			flex.service.navigator.hilight.show(map.data[t].set[map.data[t].active].wa)
-			hitimer:stop()
-			hitimer = nil
-		end
-	)
+	hitimer:connect_signal("timeout", function()
+		flex.service.navigator.hilight.show(map.data[t].set[map.data[t].active].wa)
+		hitimer:stop()
+		hitimer = nil
+	end)
 	hitimer:start() -- autostart option doesn't work?
 end
 
@@ -473,9 +590,15 @@ end
 -- Check if client exist in layout tree
 --------------------------------------------------------------------------------
 function map.check_client(c)
-	if c.sticky then return true end
+	if c.sticky then
+		return true
+	end
 	for _, t in ipairs(c:tags()) do
-		for k, _ in pairs(map.data) do if k == t then return true end end
+		for k, _ in pairs(map.data) do
+			if k == t then
+				return true
+			end
+		end
 	end
 end
 
@@ -484,7 +607,9 @@ end
 function map.clean_client(c)
 	for t, _ in pairs(map.data) do
 		local pack, index = map.data[t]:get_pack(c)
-		if pack then table.remove(pack.items, index) end
+		if pack then
+			table.remove(pack.items, index)
+		end
 	end
 end
 
@@ -501,7 +626,9 @@ end
 --------------------------------------------------------------------------------
 function map.set_active(c)
 	c = c or client.focus
-	if not c then return end
+	if not c then
+		return
+	end
 
 	local t = c.screen.selected_tag
 	local pack = map.data[t]:get_pack(c)
@@ -539,7 +666,9 @@ end
 --------------------------------------------------------------------------------
 function map.move_to_active(c)
 	c = c or client.focus
-	if not c then return end
+	if not c then
+		return
+	end
 
 	local t = c.screen.selected_tag
 	local pack, index = map.data[t]:get_pack(c)
@@ -553,11 +682,15 @@ end
 --------------------------------------------------------------------------------
 function map.incfactor(c, df, is_vertical, on_group)
 	c = c or client.focus
-	if not c then return end
+	if not c then
+		return
+	end
 
 	local t = c.screen.selected_tag
 	local pack, index = map.data[t]:get_pack(c)
-	if not pack then return end -- fix this?
+	if not pack then
+		return
+	end -- fix this?
 
 	if on_group and pack.parent then
 		index = pack.parent:get_child_id(pack)
@@ -603,7 +736,6 @@ function map.reset_tree()
 	t:emit_signal("property::layout")
 end
 
-
 -- Base layout scheme
 -----------------------------------------------------------------------------------------------------------------------
 -- TODO: fix unused arg
@@ -616,7 +748,9 @@ end
 map.base_autoaim = true
 
 function map.base_aim(tree)
-	if #tree.set[2].items == 0 then return 2 end
+	if #tree.set[2].items == 0 then
+		return 2
+	end
 	local active = #tree.set[3].items > #tree.set[2].items and 2 or 3
 	return active
 end
@@ -640,31 +774,44 @@ function map.arrange(p)
 	local t = p.tag or screen[p.screen].selected_tag
 
 	-- nothing to tile here
-	if #cls == 0 then return end
+	if #cls == 0 then
+		return
+	end
 
 	-- init layout tree
-	if not data[t] then data[t] = construct_tree(wa, t) end
+	if not data[t] then
+		data[t] = construct_tree(wa, t)
+	end
 
 	-- tile
 	p.geometries = data[t]:rebuild(cls)
 end
 
-
 -- Keygrabber
 -----------------------------------------------------------------------------------------------------------------------
 map.maingrabber = function(mod, key)
 	for _, k in ipairs(map.keys.all) do
-		if modutil.key.match_grabber(k, mod, key) then k[3](); return true end
+		if modutil.key.match_grabber(k, mod, key) then
+			k[3]()
+			return true
+		end
 	end
 end
 
-map.key_handler = function (mod, key, event)
-	if event == "press" then return end
-	if map.maingrabber(mod, key)             then return end
-	if common.grabbers.swap(mod, key, event) then return end
-	if common.grabbers.base(mod, key, event) then return end
+map.key_handler = function(mod, key, event)
+	if event == "press" then
+		return
+	end
+	if map.maingrabber(mod, key) then
+		return
+	end
+	if common.grabbers.swap(mod, key, event) then
+		return
+	end
+	if common.grabbers.base(mod, key, event) then
+		return
+	end
 end
-
 
 -- flex navigator support functions
 -----------------------------------------------------------------------------------------------------------------------
@@ -672,16 +819,19 @@ function map:set_keys(keys, layout)
 	layout = layout or "all"
 	if keys then
 		self.keys[layout] = keys
-		if layout ~= "all" then self.keys.all = awful.util.table.join(self.keys.layout, map.keys.resize) end
+		if layout ~= "all" then
+			self.keys.all = awful.util.table.join(self.keys.layout, map.keys.resize)
+		end
 	end
 
 	self.tip = awful.util.table.join(self.keys.all, common.keys.swap, common.keys.base, common.keys._fake)
 end
 
 function map.startup()
-	if not map.tip then map:set_keys() end
+	if not map.tip then
+		map:set_keys()
+	end
 end
-
 
 -- End
 -----------------------------------------------------------------------------------------------------------------------

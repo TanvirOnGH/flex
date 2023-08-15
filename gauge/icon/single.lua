@@ -16,7 +16,6 @@ local wibox = require("wibox")
 local modutil = require("flex.util")
 local svgbox = require("flex.gauge.svgbox")
 
-
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------
 local gicon = { mt = {} }
@@ -25,10 +24,10 @@ local gicon = { mt = {} }
 -----------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
-		icon        = modutil.base.placeholder(),
-		step        = 0.05,
+		icon = modutil.base.placeholder(),
+		step = 0.05,
 		is_vertical = false,
-		color       = { main = "#b1222b", icon = "#a0a0a0", urgent = "#32882d" }
+		color = { main = "#b1222b", icon = "#a0a0a0", urgent = "#32882d" },
 	}
 	return modutil.table.merge(style, modutil.table.check(beautiful, "gauge.icon.single") or {})
 end
@@ -47,7 +46,6 @@ end
 -- @param style Table containing colors and geometry parameters for all elemets
 -----------------------------------------------------------------------------------------------------------------------
 function gicon.new(style)
-
 	-- Initialize vars
 	--------------------------------------------------------------------------------
 	style = modutil.table.merge(default_style(), style or {})
@@ -64,7 +62,9 @@ function gicon.new(style)
 	-- User functions
 	------------------------------------------------------------
 	function widg:set_value(x, force_redraw)
-		if x > 1 then x = 1 end
+		if x > 1 then
+			x = 1
+		end
 
 		if self.widget._image then
 			local level = math.floor(x / style.step) * style.step

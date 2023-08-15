@@ -27,17 +27,17 @@ local tooltip = require("flex.float.tooltip")
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------
-local taglist = { filter = {}, mt = {} , queue = setmetatable({}, { __mode = 'k' }) }
+local taglist = { filter = {}, mt = {}, queue = setmetatable({}, { __mode = "k" }) }
 
 -- Generate default theme vars
 -----------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
-		tag       = {},
-		widget    = basetag.purple.new,
-		show_tip  = false,
-		timeout   = 0.05,
-		separator = nil
+		tag = {},
+		widget = basetag.purple.new,
+		show_tip = false,
+		timeout = 0.05,
+		separator = nil,
 	}
 	return modutil.table.merge(style, modutil.table.check(beautiful, "widget.taglist") or {})
 end
@@ -53,8 +53,8 @@ local function get_state(t)
 	local client_count = 0
 
 	for _, c in pairs(client_list) do
-		state.focus     = state.focus or client.focus == c
-		state.urgent    = state.urgent or c.urgent
+		state.focus = state.focus or client.focus == c
+		state.urgent = state.urgent or c.urgent
 		if not c.skip_taskbar then
 			client_count = client_count + 1
 			table.insert(state.list, { focus = client.focus == c, urgent = c.urgent, minimized = c.minimized })
@@ -96,18 +96,18 @@ local function base_pack(layout, widg, i, tags, style)
 	end
 end
 
-
 -- Create a new taglist widget
 -----------------------------------------------------------------------------------------------------------------------
 function taglist.new(args, style)
-
-	if not taglist.queue then taglist:init() end
+	if not taglist.queue then
+		taglist:init()
+	end
 
 	-- Initialize vars
 	--------------------------------------------------------------------------------
 	local cs = args.screen
 	local layout = args.layout or wibox.layout.fixed.horizontal()
-	local data = setmetatable({}, { __mode = 'k' })
+	local data = setmetatable({}, { __mode = "k" })
 	local filter = args.filter or taglist.filter.all
 	local hint = args.hint or make_tip
 	local pack = args.pack or base_pack
@@ -116,12 +116,16 @@ function taglist.new(args, style)
 
 	-- Set tooltip
 	--------------------------------------------------------------------------------
-	if not taglist.tp then taglist.tp = tooltip() end
+	if not taglist.tp then
+		taglist.tp = tooltip()
+	end
 
 	-- Update function
 	--------------------------------------------------------------------------------
 	local update = function(s)
-		if s ~= cs then return end
+		if s ~= cs then
+			return
+		end
 		local tags = filtrate_tags(s, filter)
 
 		-- Construct taglist
@@ -136,13 +140,17 @@ function taglist.new(args, style)
 				widg = cache
 			else
 				widg = style.widget(style.tag)
-				if args.buttons then  widg:buttons(modutil.base.buttons(args.buttons, t)) end
+				if args.buttons then
+					widg:buttons(modutil.base.buttons(args.buttons, t))
+				end
 				data[t] = widg
 
 				-- set optional tooltip (what about removing?)
 				if style.show_tip then
 					taglist.tp:add_to_object(widg)
-					widg:connect_signal("mouse::enter", function() taglist.tp:set_text(widg.tip) end)
+					widg:connect_signal("mouse::enter", function()
+						taglist.tp:set_text(widg.tip)
+					end)
 				end
 			end
 
@@ -156,37 +164,64 @@ function taglist.new(args, style)
 		end
 		------------------------------------------------------------
 
-		if taglist.queue[s] and taglist.queue[s].started then taglist.queue[s]:stop() end
+		if taglist.queue[s] and taglist.queue[s].started then
+			taglist.queue[s]:stop()
+		end
 	end
 
 	-- Create timer to prevent multiply call
 	--------------------------------------------------------------------------------
 	taglist.queue[cs] = timer({ timeout = style.timeout })
-	taglist.queue[cs]:connect_signal("timeout", function() update(cs) end)
+	taglist.queue[cs]:connect_signal("timeout", function()
+		update(cs)
+	end)
 
-	local uc = function (c) if taglist.queue[c.screen] then taglist.queue[c.screen]:again() end end
-	local ut = function (t) if taglist.queue[t.screen] then taglist.queue[t.screen]:again() end end
+	local uc = function(c)
+		if taglist.queue[c.screen] then
+			taglist.queue[c.screen]:again()
+		end
+	end
+	local ut = function(t)
+		if taglist.queue[t.screen] then
+			taglist.queue[t.screen]:again()
+		end
+	end
 
 	-- Signals setup
 	--------------------------------------------------------------------------------
 	local tag_signals = {
-		"property::selected",  "property::icon", "property::hide",
-		"property::activated", "property::name", "property::screen",
-		"property::index", "property::layout"
+		"property::selected",
+		"property::icon",
+		"property::hide",
+		"property::activated",
+		"property::name",
+		"property::screen",
+		"property::index",
+		"property::layout",
 	}
 	local client_signals = {
-		"focus",  "unfocus",  "property::urgent",
-		"tagged", "untagged", "unmanage"
+		"focus",
+		"unfocus",
+		"property::urgent",
+		"tagged",
+		"untagged",
+		"unmanage",
 	}
 
-	for _, sg in ipairs(tag_signals) do awful.tag.attached_connect_signal(nil, sg, ut) end
-	for _, sg in ipairs(client_signals) do client.connect_signal(sg, uc) end
+	for _, sg in ipairs(tag_signals) do
+		awful.tag.attached_connect_signal(nil, sg, ut)
+	end
+	for _, sg in ipairs(client_signals) do
+		client.connect_signal(sg, uc)
+	end
 
-	client.connect_signal("property::screen", function() update(cs) end) -- dirty
+	client.connect_signal("property::screen", function()
+		update(cs)
+	end) -- dirty
 
 	--------------------------------------------------------------------------------
 	update(cs) -- create taglist widget
-	return layout  -- return taglist widget
+	return layout -- return taglist widget
 end
 
 -- Filtering functions

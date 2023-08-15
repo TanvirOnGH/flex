@@ -22,7 +22,7 @@ local function default_style()
 	local style = {
 		marginv = { 0, 0, 0, 0 },
 		marginh = { 0, 0, 0, 0 },
-		color  = { shadow1 = "#141414", shadow2 = "#313131" }
+		color = { shadow1 = "#141414", shadow2 = "#313131" },
 	}
 	return modutil.table.merge(style, modutil.table.check(beautiful, "gauge.separator") or {})
 end
@@ -31,7 +31,6 @@ end
 -- Total size two pixels bigger than sum of margins for general direction
 -----------------------------------------------------------------------------------------------------------------------
 local function separator_base(horizontal, style)
-
 	-- Initialize vars
 	--------------------------------------------------------------------------------
 	style = modutil.table.merge(default_style(), style or {})
@@ -61,11 +60,19 @@ local function separator_base(horizontal, style)
 
 		cr:translate(style.margin[1], style.margin[3])
 		cr:set_source(color(style.color.shadow1))
-		if horizontal then cr:rectangle(0, 0, w, 1) else cr:rectangle(0, 0, 1, h) end
+		if horizontal then
+			cr:rectangle(0, 0, w, 1)
+		else
+			cr:rectangle(0, 0, 1, h)
+		end
 		cr:fill()
 
 		cr:set_source(color(style.color.shadow2))
-		if horizontal then cr:rectangle(0, 1, w, 1) else cr:rectangle(1, 0, 1, h) end
+		if horizontal then
+			cr:rectangle(0, 1, w, 1)
+		else
+			cr:rectangle(1, 0, 1, h)
+		end
 		cr:fill()
 	end
 

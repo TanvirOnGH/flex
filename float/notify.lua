@@ -24,19 +24,19 @@ local notify = { last = {} }
 -----------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
-		geometry        = { width = 480, height = 100 },
-		screen_gap      = 0,
-		set_position    = nil,
-		border_margin   = { 20, 20, 20, 20 },
+		geometry = { width = 480, height = 100 },
+		screen_gap = 0,
+		set_position = nil,
+		border_margin = { 20, 20, 20, 20 },
 		elements_margin = { 20, 0, 10, 10 },
-		bar_width       = 8,
-		font            = "Fira Code 14",
-		border_width    = 2,
-		timeout         = 5,
-		icon            = nil,
-		progressbar     = {},
-		color           = { border = "#575757", icon = "#aaaaaa", wibox = "#202020" },
-		shape           = nil
+		bar_width = 8,
+		font = "Fira Code 14",
+		border_width = 2,
+		timeout = 5,
+		icon = nil,
+		progressbar = {},
+		color = { border = "#575757", icon = "#aaaaaa", wibox = "#202020" },
+		shape = nil,
 	}
 	return modutil.table.merge(style, modutil.table.check(beautiful, "float.notify") or {})
 end
@@ -44,7 +44,6 @@ end
 -- Initialize notify widget
 -----------------------------------------------------------------------------------------------------------------------
 function notify:init()
-
 	local style = default_style()
 	-- local icon = style.icon
 
@@ -69,11 +68,11 @@ function notify:init()
 	-- Create floating wibox for notify widget
 	--------------------------------------------------------------------------------
 	self.wibox = wibox({
-		ontop        = true,
-		bg           = style.color.wibox,
+		ontop = true,
+		bg = style.color.wibox,
 		border_width = style.border_width,
 		border_color = style.color.border,
-		shape        = style.shape
+		shape = style.shape,
 	})
 
 	self.wibox:set_widget(wibox.container.margin(area, unpack(style.border_margin)))
@@ -105,11 +104,15 @@ function notify:init()
 	-- Set autohide timer
 	--------------------------------------------------------------------------------
 	self.hidetimer = timer({ timeout = style.timeout })
-	self.hidetimer:connect_signal("timeout", function() self:hide() end)
+	self.hidetimer:connect_signal("timeout", function()
+		self:hide()
+	end)
 
 	-- Signals setup
 	--------------------------------------------------------------------------------
-	self.wibox:connect_signal("mouse::enter", function() self:hide() end)
+	self.wibox:connect_signal("mouse::enter", function()
+		self:hide()
+	end)
 end
 
 -- Hide notify widget
@@ -122,14 +125,18 @@ end
 -- Show notify widget
 -----------------------------------------------------------------------------------------------------------------------
 function notify:show(args)
-	if not self.wibox then self:init() end
+	if not self.wibox then
+		self:init()
+	end
 	self:set(args)
 	args = args or {}
 	local target_screen = args.screen or mouse.screen
 	local set_position = args.set_position or self.style.set_position or nil
 
 	if not self.wibox.visible or target_screen.index ~= self.last.screen then
-		if set_position then set_position(self.wibox) end
+		if set_position then
+			set_position(self.wibox)
+		end
 		modutil.placement.no_offscreen(self.wibox, self.style.screen_gap, target_screen.workarea)
 		self.wibox.visible = true
 	end

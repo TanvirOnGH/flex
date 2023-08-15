@@ -25,27 +25,38 @@ local gears = require("gears")
 local dfparser = {}
 local cache = {}
 
-dfparser.terminal = 'kitty'
+dfparser.terminal = "kitty"
 
 local all_icon_folders = { "apps", "actions", "devices", "places", "categories", "status" }
-local all_icon_sizes   = { '128x128' , '96x96', '72x72', '64x64', '48x48',
-                           '36x36',    '32x32', '24x24', '22x22', '16x16', 'scalable' }
+local all_icon_sizes = {
+	"128x128",
+	"96x96",
+	"72x72",
+	"64x64",
+	"48x48",
+	"36x36",
+	"32x32",
+	"24x24",
+	"22x22",
+	"16x16",
+	"scalable",
+}
 
 -- Generate default theme vars
 -----------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
-        icons             = { custom_only = false, scalable_only = false, df_icon = nil, theme = nil },
+		icons = { custom_only = false, scalable_only = false, df_icon = nil, theme = nil },
 		-- list of path to check desktop files
-        desktop_file_dirs = {
+		desktop_file_dirs = {
 			-- On NixOS systems
-            '/run/current-system/sw/share/applications/', -- For nix applications
-			'~/.local/state/home-manager/gcroots/current-home/home-path/share/applications/', -- For home-manager applications
+			"/run/current-system/sw/share/applications/", -- For nix applications
+			"~/.local/state/home-manager/gcroots/current-home/home-path/share/applications/", -- For home-manager applications
 			-- '/usr/share/applications/',
 			-- '/usr/local/share/applications/',
-			'~/.local/share/applications/',
+			"~/.local/share/applications/",
 		},
-		wm_name           = nil,
+		wm_name = nil,
 	}
 
 	return modutil.table.merge(style, modutil.table.check(beautiful, "service.dfparser") or {})
@@ -59,8 +70,12 @@ end
 local function check_cached(req)
 	for k, v in pairs(cache) do
 		local eq = #req == #k
-		for ck, cv in pairs(k) do eq = eq and cv == req[ck] end
-		if eq then return v end
+		for ck, cv in pairs(k) do
+			eq = eq and cv == req[ck]
+		end
+		if eq then
+			return v
+		end
 	end
 	return nil
 end
@@ -69,7 +84,9 @@ end
 --------------------------------------------------------------------------------
 local function is_format(icon_file, icon_formats)
 	for _, f in ipairs(icon_formats) do
-		if icon_file:match('%.' .. f) then return true end
+		if icon_file:match("%." .. f) then
+			return true
+		end
 	end
 	return false
 end
@@ -77,50 +94,51 @@ end
 -- Find all possible locations of the icon
 --------------------------------------------------------------------------------
 local function all_icon_path(style)
+	local icon_theme_paths = {}
 
-    local icon_theme_paths = {}
+	-- add user icon theme
+	if style.theme then
+		table.insert(icon_theme_paths, style.theme .. "/")
+		local parent_theme = style.theme
 
-    -- add user icon theme
-    if style.theme then
-        table.insert(icon_theme_paths, style.theme .. '/')
-        local parent_theme = style.theme
+		-- Look in parent icon themes
+		while parent_theme do
+			local index = parent_theme:find("/", 1, true)
+			if index then
+				parent_theme = parent_theme:sub(index + 1)
+				table.insert(icon_theme_paths, parent_theme .. "/")
+			else
+				parent_theme = nil
+			end
+		end
+	end
 
-        -- Look in parent icon themes
-        while parent_theme do
-            local index = parent_theme:find('/', 1, true)
-            if index then
-                parent_theme = parent_theme:sub(index + 1)
-                table.insert(icon_theme_paths, parent_theme .. '/')
-            else
-                parent_theme = nil
-            end
-        end
-    end
+	-- add fallback theme
+	if not style.custom_only then
+		table.insert(icon_theme_paths, "/run/current-system/sw/share/icons/hicolor/")
+	end -- Standard NixOS Path
 
-    -- add fallback theme
-    if not style.custom_only then table.insert(icon_theme_paths, '/run/current-system/sw/share/icons/hicolor/') end -- Standard NixOS Path
+	-- seach only svg icons if need
+	local current_icon_sizes = style.scalable_only and { "scalable" } or all_icon_sizes
 
-    -- seach only svg icons if need
-    local current_icon_sizes = style.scalable_only and { 'scalable' } or all_icon_sizes
+	-- form all avalible icon dirs
+	local icon_path = {}
 
-    -- form all avalible icon dirs
-    local icon_path = {}
+	for _, icon_theme_directory in ipairs(icon_theme_paths) do
+		for _, size in ipairs(current_icon_sizes) do
+			for _, folder in ipairs(all_icon_folders) do
+				table.insert(icon_path, icon_theme_directory .. size .. "/" .. folder .. "/")
+			end
+		end
+	end
 
-    for _, icon_theme_directory in ipairs(icon_theme_paths) do
-        for _, size in ipairs(current_icon_sizes) do
-            for _, folder in ipairs(all_icon_folders) do
-                table.insert(icon_path, icon_theme_directory .. size .. "/" .. folder .. '/')
-            end
-        end
-    end
+	-- lowest priority fallbacks
+	if not style.custom_only then
+		table.insert(icon_path, "/run/current-system/sw/share/pixmaps/") -- Standard NixOS Path
+		table.insert(icon_path, "/run/current-system/sw/share/icons/") -- Standard NixOS Path
+	end
 
-    -- lowest priority fallbacks
-    if not style.custom_only then
-        table.insert(icon_path, '/run/current-system/sw/share/pixmaps/') -- Standard NixOS Path
-        table.insert(icon_path, '/run/current-system/sw/share/icons/') -- Standard NixOS Path
-    end
-
-    return icon_path
+	return icon_path
 end
 
 -- Lookup an icon in different folders of the filesystem
@@ -132,7 +150,6 @@ end
 -- @return full name of the icon
 -----------------------------------------------------------------------------------------------------------------------
 function dfparser.lookup_icon(icon_file, style)
-
 	style = modutil.table.merge(default_style().icons, style or {})
 
 	local df_icon
@@ -141,17 +158,21 @@ function dfparser.lookup_icon(icon_file, style)
 	end
 
 	-- No icon name
-	if not icon_file or icon_file == "" then return df_icon end
+	if not icon_file or icon_file == "" then
+		return df_icon
+	end
 
 	-- Handle full path icons
 	local icon_formats = style.scalable_only and { "svg" } or { "svg", "png", "gif" }
 
-	if icon_file:sub(1, 1) == '/' then
+	if icon_file:sub(1, 1) == "/" then
 		if is_format(icon_file, icon_formats) then
 			return gears.filesystem.file_readable(icon_file) and icon_file or df_icon
 		else
 			icon_file = string.match(icon_file, "([%a%d%-]+)%.")
-			if not icon_file then return df_icon end
+			if not icon_file then
+				return df_icon
+			end
 		end
 	end
 
@@ -160,16 +181,16 @@ function dfparser.lookup_icon(icon_file, style)
 
 	-- Icon searching
 	for _, directory in ipairs(icon_path) do
-
 		-- check if icon format specified and supported
 		if is_format(icon_file, icon_formats) and awful.util.file_readable(directory .. icon_file) then
 			return directory .. icon_file
 		else
-
 			-- check if icon format specified but not supported
-			if string.match(icon_file, "%.")
-			   and not string.match(icon_file, "%w+%.%w+%.") -- ignore gnome naming style
-			   and not is_format(icon_file, icon_formats) then
+			if
+				string.match(icon_file, "%.")
+				and not string.match(icon_file, "%w+%.%w+%.") -- ignore gnome naming style
+				and not is_format(icon_file, icon_formats)
+			then
 				icon_file = string.match(icon_file, "[%a%d%-]+")
 			end
 
@@ -197,7 +218,6 @@ end
 -- @return A table with file entries
 --------------------------------------------------------------------------------
 local function parse(file, style)
-
 	local program = { show = true, file = file }
 	local desktop_entry = false
 
@@ -220,7 +240,9 @@ local function parse(file, style)
 	end
 
 	-- In case [Desktop Entry] was not found
-	if not desktop_entry then return nil end
+	if not desktop_entry then
+		return nil
+	end
 
 	-- Don't show program if NoDisplay attribute is false
 	if program.NoDisplay and string.lower(program.NoDisplay) == "true" then
@@ -243,7 +265,7 @@ local function parse(file, style)
 	if program.Categories then
 		program.categories = {}
 
-		for category in program.Categories:gmatch('[^;]+') do
+		for category in program.Categories:gmatch("[^;]+") do
 			table.insert(program.categories, category)
 		end
 	end
@@ -252,21 +274,21 @@ local function parse(file, style)
 		-- Substitute Exec special codes as specified in
 		-- http://standards.freedesktop.org/desktop-entry-spec/1.1/ar01s06.html
 		if program.Name == nil then
-			program.Name = '['.. file:match("([^/]+)%.desktop$") ..']'
+			program.Name = "[" .. file:match("([^/]+)%.desktop$") .. "]"
 		end
 
-		local cmdline = program.Exec:gsub('%%c', program.Name)
-		cmdline = cmdline:gsub('%%[fuFU]', '')
-		cmdline = cmdline:gsub('%%k', program.file)
+		local cmdline = program.Exec:gsub("%%c", program.Name)
+		cmdline = cmdline:gsub("%%[fuFU]", "")
+		cmdline = cmdline:gsub("%%k", program.file)
 
 		if program.icon_path then
-			cmdline = cmdline:gsub('%%i', '--icon ' .. program.icon_path)
+			cmdline = cmdline:gsub("%%i", "--icon " .. program.icon_path)
 		else
-			cmdline = cmdline:gsub('%%i', '')
+			cmdline = cmdline:gsub("%%i", "")
 		end
 
 		if program.Terminal == "true" then
-			cmdline = dfparser.terminal .. ' -e ' .. cmdline
+			cmdline = dfparser.terminal .. " -e " .. cmdline
 		end
 
 		program.cmdline = cmdline
@@ -286,11 +308,13 @@ local function parse_dir(dir, style)
 	local cached = check_cached(req)
 
 	if not cached then
-		local files = modutil.read.output('find '.. dir ..' -maxdepth 1 -name "*.desktop" 2>/dev/null')
+		local files = modutil.read.output("find " .. dir .. ' -maxdepth 1 -name "*.desktop" 2>/dev/null')
 
 		for file in string.gmatch(files, "[^\n]+") do
 			local program = parse(file, style)
-			if program then table.insert(programs, program) end
+			if program then
+				table.insert(programs, program)
+			end
 		end
 
 		cache[req] = programs
@@ -307,22 +331,21 @@ end
 -- @return Applications menu table
 -----------------------------------------------------------------------------------------------------------------------
 function dfparser.menu(style)
-
 	style = modutil.table.merge(default_style(), style or {})
 
 	-- Categories list
 	--------------------------------------------------------------------------------
 	local categories = {
-		{ app_type = "AudioVideo",  name = "Multimedia",   icon_name = "applications-multimedia" },
-		{ app_type = "Development", name = "Development",  icon_name = "applications-development" },
-		{ app_type = "Education",   name = "Education",    icon_name = "applications-science" },
-		{ app_type = "Game",        name = "Games",        icon_name = "applications-games" },
-		{ app_type = "Graphics",    name = "Graphics",     icon_name = "applications-graphics" },
-		{ app_type = "Office",      name = "Office",       icon_name = "applications-office" },
-		{ app_type = "Network",     name = "Internet",     icon_name = "applications-internet" },
-		{ app_type = "Settings",    name = "Settings",     icon_name = "applications-utilities" },
-		{ app_type = "System",      name = "System Tools", icon_name = "applications-system" },
-		{ app_type = "Utility",     name = "Accessories",  icon_name = "applications-accessories" }
+		{ app_type = "AudioVideo", name = "Multimedia", icon_name = "applications-multimedia" },
+		{ app_type = "Development", name = "Development", icon_name = "applications-development" },
+		{ app_type = "Education", name = "Education", icon_name = "applications-science" },
+		{ app_type = "Game", name = "Games", icon_name = "applications-games" },
+		{ app_type = "Graphics", name = "Graphics", icon_name = "applications-graphics" },
+		{ app_type = "Office", name = "Office", icon_name = "applications-office" },
+		{ app_type = "Network", name = "Internet", icon_name = "applications-internet" },
+		{ app_type = "Settings", name = "Settings", icon_name = "applications-utilities" },
+		{ app_type = "System", name = "System Tools", icon_name = "applications-system" },
+		{ app_type = "Utility", name = "Accessories", icon_name = "applications-accessories" },
 	}
 
 	-- Find icons for categories
@@ -360,7 +383,9 @@ function dfparser.menu(style)
 				end
 			end
 		end
-		if #catmenu > 0 then table.insert(appmenu, { menu_category.name, catmenu, menu_category.icon }) end
+		if #catmenu > 0 then
+			table.insert(appmenu, { menu_category.name, catmenu, menu_category.icon })
+		end
 	end
 
 	-- Collect all items without category to "Other" submenu
@@ -384,7 +409,6 @@ end
 -- @return Icon list
 -----------------------------------------------------------------------------------------------------------------------
 function dfparser.icon_list(style)
-
 	style = modutil.table.merge(default_style(), style or {})
 	local list = {}
 
@@ -395,7 +419,9 @@ function dfparser.icon_list(style)
 			if prog.Icon and prog.Exec then
 				local key = string.match(prog.Exec, "[%a%d%.%-_/]+")
 				if key then
-					if string.find(key, "/") then key = string.match(key, "[%a%d%.%-_]+$") end
+					if string.find(key, "/") then
+						key = string.match(key, "[%a%d%.%-_]+$")
+					end
 					list[key] = prog.icon_path
 				end
 			end
@@ -411,7 +437,6 @@ end
 -- @param style.desktop_file_dirs Table containing all .desktop file directories
 -----------------------------------------------------------------------------------------------------------------------
 function dfparser.program_list(style)
-
 	style = modutil.table.merge(default_style(), style or {})
 	local prog_list = {}
 

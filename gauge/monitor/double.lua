@@ -25,11 +25,11 @@ local doublemonitor = { mt = {} }
 -----------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
-		line    = { width = 4, v_gap = 6, gap = 4, num = 5 },
-		icon    = modutil.base.placeholder(),
+		line = { width = 4, v_gap = 6, gap = 4, num = 5 },
+		icon = modutil.base.placeholder(),
 		dmargin = { 10, 0, 0, 0 },
-		width   = 100,
-		color   = { main = "#b1222b", gray = "#575757", icon = "#a0a0a0", urgent = "#32882d" }
+		width = 100,
+		color = { main = "#b1222b", gray = "#575757", icon = "#a0a0a0", urgent = "#32882d" },
 	}
 	return modutil.table.merge(style, modutil.table.check(beautiful, "gauge.monitor.double") or {})
 end
@@ -37,11 +37,10 @@ end
 -- Create progressbar widget
 -----------------------------------------------------------------------------------------------------------------------
 local function pbar(style)
-
 	-- Create custom widget
 	--------------------------------------------------------------------------------
 	local widg = wibox.widget.base.make_widget()
-	widg._data = { level = { 0, 0 }}
+	widg._data = { level = { 0, 0 } }
 
 	-- User functions
 	------------------------------------------------------------
@@ -74,8 +73,10 @@ local function pbar(style)
 			for k = 1, style.line.num do
 				cr:set_source(color(k <= self._data.level[i] and style.color.main or style.color.gray))
 				cr:rectangle(
-					(k - 1) * (wd + style.line.gap), dy + (i - 1) * (style.line.width + style.line.v_gap),
-					wd, style.line.width
+					(k - 1) * (wd + style.line.gap),
+					dy + (i - 1) * (style.line.width + style.line.v_gap),
+					wd,
+					style.line.width
 				)
 				cr:fill()
 			end
@@ -90,7 +91,6 @@ end
 -- @param style Table containing colors and geometry parameters for all elemets
 -----------------------------------------------------------------------------------------------------------------------
 function doublemonitor.new(style)
-
 	-- Initialize vars
 	--------------------------------------------------------------------------------
 	style = modutil.table.merge(default_style(), style or {})

@@ -23,14 +23,13 @@ local binclock = { mt = {} }
 -----------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
-		width   = 60,
+		width = 60,
 		tooltip = {},
-		dot     = { size = 5 },
-		color   = { main = "#b1222b", gray = "#575757" }
+		dot = { size = 5 },
+		color = { main = "#b1222b", gray = "#575757" },
 	}
 	return modutil.table.merge(style, modutil.table.check(beautiful, "widget.binclock") or {})
 end
-
 
 -- Support functions
 -----------------------------------------------------------------------------------------------------------------------
@@ -44,11 +43,9 @@ local function binary_time(num)
 	return binary
 end
 
-
 -- Create widget.
 -----------------------------------------------------------------------------------------------------------------------
 function binclock.new(args, style)
-
 	-- Initialize vars
 	--------------------------------------------------------------------------------
 	args = args or {}
@@ -61,13 +58,13 @@ function binclock.new(args, style)
 
 	widg._data = {
 		time = { {}, {}, {} },
-		width = style.width or nil
+		width = style.width or nil,
 	}
 
 	-- User functions
 	------------------------------------------------------------
 	function widg:update()
-		local date = os.date('*t')
+		local date = os.date("*t")
 		self._data.time = { binary_time(date.hour), binary_time(date.min), binary_time(date.sec) }
 
 		self:emit_signal("widget::redraw_needed")
@@ -89,8 +86,8 @@ function binclock.new(args, style)
 
 		for i = 1, 3 do
 			for j = 1, 6 do
-				cr:set_source(color(self._data.time[i][j] == 1 and style.color.main or style.color.gray ))
-				cr:rectangle((j -1) * dx, (i -1) * dy, style.dot.size, style.dot.size)
+				cr:set_source(color(self._data.time[i][j] == 1 and style.color.main or style.color.gray))
+				cr:rectangle((j - 1) * dx, (i - 1) * dy, style.dot.size, style.dot.size)
 				cr:fill()
 			end
 		end
@@ -99,16 +96,19 @@ function binclock.new(args, style)
 	-- Set tooltip if need
 	--------------------------------------------------------------------------------
 	local tp
-	if args.dateformat then tp = tooltip({ objects = { widg } }, style.tooltip) end
+	if args.dateformat then
+		tp = tooltip({ objects = { widg } }, style.tooltip)
+	end
 
 	-- Set update timer
 	--------------------------------------------------------------------------------
 	local timer = gears.timer({ timeout = timeout })
-	timer:connect_signal("timeout",
-		function()
-			widg:update()
-			if args.dateformat then tp:set_text(os.date(args.dateformat)) end
-		end)
+	timer:connect_signal("timeout", function()
+		widg:update()
+		if args.dateformat then
+			tp:set_text(os.date(args.dateformat))
+		end
+	end)
 	timer:start()
 	timer:emit_signal("timeout")
 

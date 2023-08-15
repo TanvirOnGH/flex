@@ -31,13 +31,13 @@ local minitray = { widgets = {}, mt = {} }
 -----------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
-		dotcount     = {},
-		geometry     = { height = 40 },
+		dotcount = {},
+		geometry = { height = 40 },
 		set_position = nil,
-		screen_gap   = 0,
+		screen_gap = 0,
 		border_width = 2,
-		color        = { wibox = "#202020", border = "#575757" },
-		shape        = nil
+		color = { wibox = "#202020", border = "#575757" },
+		shape = nil,
 	}
 	return modutil.table.merge(style, modutil.table.check(beautiful, "widget.minitray") or {})
 end
@@ -45,15 +45,14 @@ end
 -- Initialize minitray floating window
 -----------------------------------------------------------------------------------------------------------------------
 function minitray:init(style)
-
 	-- Create wibox for tray
 	--------------------------------------------------------------------------------
 	local wargs = {
-		ontop        = true,
-		bg           = style.color.wibox,
+		ontop = true,
+		bg = style.color.wibox,
 		border_width = style.border_width,
 		border_color = style.color.border,
-		shape        = style.shape
+		shape = style.shape,
 	}
 
 	self.wibox = wibox(wargs)
@@ -75,7 +74,7 @@ function minitray:init(style)
 	self.wibox:set_widget(l)
 
 	-- update geometry if tray icons change
-	self.tray:connect_signal('widget::redraw_needed', function()
+	self.tray:connect_signal("widget::redraw_needed", function()
 		self:update_geometry()
 	end)
 end
@@ -86,11 +85,12 @@ end
 -- Update Geometry
 --------------------------------------------------------------------------------
 function minitray:update_geometry()
-
 	-- Set wibox size and position
 	------------------------------------------------------------
 	local items = awesome.systray()
-	if items == 0 then items = 1 end
+	if items == 0 then
+		items = 1
+	end
 
 	self.wibox:geometry({ width = self.geometry.width or self.geometry.height * items })
 
@@ -132,10 +132,9 @@ end
 -- @param style Settings for dotcount widget
 -----------------------------------------------------------------------------------------------------------------------
 function minitray.new(_, style)
-
 	-- Initialize vars
 	--------------------------------------------------------------------------------
---	args = args or {} -- usesless now, leave it be for backward compatibility and future cases
+	--	args = args or {} -- usesless now, leave it be for backward compatibility and future cases
 	style = modutil.table.merge(default_style(), style or {})
 
 	-- Initialize minitray window
@@ -161,7 +160,9 @@ function minitray.new(_, style)
 		minitray.tp:set_text(appcount .. " apps")
 	end
 
-	minitray.tray:connect_signal('widget::redraw_needed', function() widg:update() end)
+	minitray.tray:connect_signal("widget::redraw_needed", function()
+		widg:update()
+	end)
 
 	--------------------------------------------------------------------------------
 	return widg

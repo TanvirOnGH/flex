@@ -25,26 +25,34 @@ local navigator = { action = {}, data = {}, active = false }
 
 navigator.ignored = { "dock", "splash", "desktop" }
 
-
 -- Generate default theme vars
 -----------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
 		border_width = 2,
-		marksize     = { width = 200, height = 100, r = 20 },
-		gradstep     = 100,
-		linegap      = 35,
-		timeout      = 1,
-		notify       = {},
-		keytip       = { base = { geometry = { width = 600 }, exit = true } },
-		titlefont    = { font = "Fira Code", size = 28, face = 1, slant = 0 },
-		num          = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "F1", "F3", "F4", "F5" },
-		font         = { font = "Fira Code", size = 22, face = 1, slant = 0 },
-		color        = { border = "#575757", wibox = "#00000000", bg1 = "#57575740", bg2 = "#57575720",
-		                 fbg1 = "#b1222b40", fbg2 = "#b1222b20", mark = "#575757", text = "#202020",
-		                 hbg1 = "#32882d40", hbg2 = "#32882d20" },
-		shape        = nil,
-		window_type  = nil,
+		marksize = { width = 200, height = 100, r = 20 },
+		gradstep = 100,
+		linegap = 35,
+		timeout = 1,
+		notify = {},
+		keytip = { base = { geometry = { width = 600 }, exit = true } },
+		titlefont = { font = "Fira Code", size = 28, face = 1, slant = 0 },
+		num = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "F1", "F3", "F4", "F5" },
+		font = { font = "Fira Code", size = 22, face = 1, slant = 0 },
+		color = {
+			border = "#575757",
+			wibox = "#00000000",
+			bg1 = "#57575740",
+			bg2 = "#57575720",
+			fbg1 = "#b1222b40",
+			fbg2 = "#b1222b20",
+			mark = "#575757",
+			text = "#202020",
+			hbg1 = "#32882d40",
+			hbg2 = "#32882d20",
+		},
+		shape = nil,
+		window_type = nil,
 	}
 	return modutil.table.merge(style, modutil.table.check(beautiful, "service.navigator") or {})
 end
@@ -61,7 +69,6 @@ end
 -- Window painting
 --------------------------------------------------------------------------------
 function navigator.make_paint(c)
-
 	-- Initialize vars
 	------------------------------------------------------------
 	local style = navigator.style
@@ -97,8 +104,9 @@ function navigator.make_paint(c)
 	-- Draw
 	------------------------------------------------------------
 	function widg:draw(_, cr, width, height)
-
-		if not widg._data.client then return end
+		if not widg._data.client then
+			return
+		end
 
 		-- background
 		local bg1, bg2
@@ -119,8 +127,8 @@ function navigator.make_paint(c)
 			cr:set_source(color(cc))
 			cr:move_to(0, (i - 1) * style.gradstep)
 			cr:rel_line_to(0, style.gradstep)
-			cr:rel_line_to(l, - l)
-			cr:rel_line_to(- style.gradstep, 0)
+			cr:rel_line_to(l, -l)
+			cr:rel_line_to(-style.gradstep, 0)
 			cr:close_path()
 			cr:fill()
 		end
@@ -147,9 +155,9 @@ function navigator.make_paint(c)
 
 		cr:set_source(color(style.color.text))
 		modutil.cairo.set_font(cr, style.titlefont)
-		modutil.cairo.textcentre.full(cr, { width/2, height/2 - style.linegap / 2 }, index)
+		modutil.cairo.textcentre.full(cr, { width / 2, height / 2 - style.linegap / 2 }, index)
 		modutil.cairo.set_font(cr, style.font)
-		modutil.cairo.textcentre.full(cr, { width/2, height/2 + style.linegap / 2 }, g.width .. " x " .. g.height)
+		modutil.cairo.textcentre.full(cr, { width / 2, height / 2 + style.linegap / 2 }, g.width .. " x " .. g.height)
 	end
 
 	------------------------------------------------------------
@@ -165,12 +173,12 @@ function navigator.make_decor(c)
 	-- Create wibox
 	------------------------------------------------------------
 	object.wibox = wibox({
-		ontop        = true,
-		bg           = style.color.wibox,
+		ontop = true,
+		bg = style.color.wibox,
 		border_width = style.border_width,
 		border_color = style.color.border,
-		shape        = style.shape,
-		type         = style.window_type,
+		shape = style.shape,
+		type = style.window_type,
 	})
 
 	object.client = c
@@ -179,10 +187,16 @@ function navigator.make_decor(c)
 
 	-- User functions
 	------------------------------------------------------------
-	object.update =  {
-		focus = function() object.widget:emit_signal("widget::redraw_needed") end,
-		close = function() navigator:restart() end,
-		geometry = function() modutil.client.fullgeometry(object.wibox, modutil.client.fullgeometry(object.client)) end
+	object.update = {
+		focus = function()
+			object.widget:emit_signal("widget::redraw_needed")
+		end,
+		close = function()
+			navigator:restart()
+		end,
+		geometry = function()
+			modutil.client.fullgeometry(object.wibox, modutil.client.fullgeometry(object.client))
+		end,
 	}
 
 	function object:set_client(client_)
@@ -202,7 +216,9 @@ function navigator.make_decor(c)
 		object.client:disconnect_signal("property::geometry", object.update.geometry)
 		object.client:disconnect_signal("unmanage", object.update.close)
 		object.widget:set_client()
-		if not no_hide then object.wibox.visible = false end
+		if not no_hide then
+			object.wibox.visible = false
+		end
 	end
 
 	------------------------------------------------------------
@@ -210,11 +226,9 @@ function navigator.make_decor(c)
 	return object
 end
 
-
 -- Main functions
 -----------------------------------------------------------------------------------------------------------------------
 function navigator:init()
-
 	-- Style
 	------------------------------------------------------------
 	self.style = default_style()
@@ -225,7 +239,9 @@ function navigator:init()
 
 	-- timer
 	self.hilight.hidetimer = timer({ timeout = self.style.timeout })
-	self.hilight.hidetimer:connect_signal("timeout", function() self.hilight.hide() end)
+	self.hilight.hidetimer:connect_signal("timeout", function()
+		self.hilight.hide()
+	end)
 
 	-- show/hide
 	function self.hilight.show(g)
@@ -236,42 +252,47 @@ function navigator:init()
 	end
 
 	function self.hilight.hide()
-		for i, _ in ipairs(self.cls) do self.data[i].widget:set_alert(false) end
+		for i, _ in ipairs(self.cls) do
+			self.data[i].widget:set_alert(false)
+		end
 	end
 
 	-- close the navigator on tag switch
-	tag.connect_signal('property::selected',
-		function()
-			if navigator.active then self:close() end
+	tag.connect_signal("property::selected", function()
+		if navigator.active then
+			self:close()
 		end
-	)
+	end)
 
 	-- update navigator if new client spawns
-	client.connect_signal('manage',
-		function()
-			if navigator.active then self:restart() end
+	client.connect_signal("manage", function()
+		if navigator.active then
+			self:restart()
 		end
-	)
+	end)
 
 	-- update navigator if a client gets minimized or restored
-	client.connect_signal('property::minimized',
-		function()
-			if navigator.active then self:restart() end
+	client.connect_signal("property::minimized", function()
+		if navigator.active then
+			self:restart()
 		end
-	)
+	end)
 end
 
 function navigator:run()
-	if not self.style then self:init() end
+	if not self.style then
+		self:init()
+	end
 
 	-- check clients
 	local s = mouse.screen
 	self.cls = awful.client.tiled(s)
 
-	if #self.cls == 0 or
-	   not client.focus or
-	   client.focus.fullscreen or
-	   awful.util.table.hasitem(navigator.ignored, client.focus.type)
+	if
+		#self.cls == 0
+		or not client.focus
+		or client.focus.fullscreen
+		or awful.util.table.hasitem(navigator.ignored, client.focus.type)
 	then
 		return
 	end
@@ -285,7 +306,9 @@ function navigator:run()
 	end
 
 	-- layout setup if needed
-	if l.startup then l.startup() end
+	if l.startup then
+		l.startup()
+	end
 	local tip = l.tip or flex.layout.common.tips[l]
 
 	-- activate navition widgets
@@ -308,8 +331,13 @@ function navigator:run()
 	if tip then
 		local tip_style = self.style.keytip[awful.layout.getname(l)] or self.style.keytip.base
 		modtip:set_pack(
-			"Layout " .. l.name, tip, tip_style.column, tip_style.geometry,
-			self.style.keytip.base.exit and function() flex.layout.common.action.exit() end -- fix this?
+			"Layout " .. l.name,
+			tip,
+			tip_style.column,
+			tip_style.geometry,
+			self.style.keytip.base.exit and function()
+				flex.layout.common.action.exit()
+			end -- fix this?
 		)
 	end
 
@@ -322,10 +350,14 @@ function navigator:close()
 	end
 
 	awful.keygrabber.stop(self.grabber_settled)
-	if self.tip_settled then modtip:remove_pack() end
+	if self.tip_settled then
+		modtip:remove_pack()
+	end
 
 	local l = client.focus and awful.layout.get(client.focus.screen)
-	if l and l.cleanup then l.cleanup() end
+	if l and l.cleanup then
+		l.cleanup()
+	end
 	self.cls = {}
 
 	navigator.active = false
@@ -333,7 +365,9 @@ end
 
 function navigator:restart()
 	-- update decoration
-	for i, _ in ipairs(self.cls) do self.data[i]:clear(true) end
+	for i, _ in ipairs(self.cls) do
+		self.data[i]:clear(true)
+	end
 	local newcls = awful.client.tiled(mouse.screen)
 	for i = 1, math.max(#self.cls, #newcls) do
 		if newcls[i] then

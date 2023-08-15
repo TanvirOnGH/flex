@@ -22,7 +22,6 @@ local barpack = { mt = {} }
 -- @param style Style variables for flex shaped progressbar widget
 -----------------------------------------------------------------------------------------------------------------------
 function barpack.new(num, style)
-
 	local pack = {}
 	style = style or {}
 
@@ -48,13 +47,17 @@ function barpack.new(num, style)
 		if n then
 			if crn[n] then
 				crn[n]:set_value(values)
-				if tip then crn[n]:set_tip(tip) end
+				if tip then
+					crn[n]:set_tip(tip)
+				end
 			end
 		else
 			for i, v in ipairs(values) do
 				if crn[i] then
 					crn[i]:set_value(v)
-					if tip then crn[n]:set_tip(tip) end
+					if tip then
+						crn[n]:set_tip(tip)
+					end
 				end
 			end
 		end

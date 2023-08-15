@@ -20,8 +20,8 @@ function read.file(path)
 end
 
 function read.output(cmd)
-	local file = assert(io.popen(cmd, 'r'))
-	local output = file:read('*all')
+	local file = assert(io.popen(cmd, "r"))
+	local output = file:read("*all")
 	file:close()
 
 	return output

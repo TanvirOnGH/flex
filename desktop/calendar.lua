@@ -26,9 +26,9 @@ local calendar = { mt = {} }
 local function default_style()
 	local style = {
 		show_pointer = true,
-		label        = { gap = 12, font = { font = "Fira Code", size = 18, face = 1, slant = 0 }, sep = "-" },
-		mark         = { height = 20, width = 40, dx = 10, line = 4 },
-		color        = { main = "#b1222b", wibox = "#161616", gray = "#404040", bg = "#161616" }
+		label = { gap = 12, font = { font = "Fira Code", size = 18, face = 1, slant = 0 }, sep = "-" },
+		mark = { height = 20, width = 40, dx = 10, line = 4 },
+		color = { main = "#b1222b", wibox = "#161616", gray = "#404040", bg = "#161616" },
 	}
 	return modutil.table.merge(style, modutil.table.check(beautiful, "desktop.calendar") or {})
 end
@@ -44,27 +44,26 @@ end
 -- Drawing function
 -----------------------------------------------------------------------------------------------------------------------
 local function daymarks(style)
-
 	-- Create custom widget
 	--------------------------------------------------------------------------------
 	local widg = wibox.widget.base.make_widget()
 
 	widg._data = {
-		gap     = 1,
+		gap = 1,
 		label_x = 0,
 		pointer = { show = false, index = 1, label = "01-01" },
-		days    = 31,
-		marks   = 31,
-		today   = 1,
-		label   = "01-01",
-		weekend = { 6, 0 }
+		days = 31,
+		marks = 31,
+		today = 1,
+		label = "01-01",
+		weekend = { 6, 0 },
 	}
 
 	-- User functions
 	------------------------------------------------------------
 	function widg:update_data()
-		local date = os.date('*t')
-		local first_week_day = os.date('%w', os.time({ year = date.year, month = date.month, day = 1 }))
+		local date = os.date("*t")
+		local first_week_day = os.date("%w", os.time({ year = date.year, month = date.month, day = 1 }))
 
 		self._data.today = date.day
 		self._data.days = date.month == 2 and is_leap_year(date.year) and 29 or days_in_month[date.month]
@@ -76,9 +75,11 @@ local function daymarks(style)
 
 	function widg:update_pointer(show, index)
 		self._data.pointer.show = show
-		if index then self._data.pointer.index = index end
+		if index then
+			self._data.pointer.index = index
+		end
 
-		local date = os.date('*t')
+		local date = os.date("*t")
 		self._data.pointer.label = string.format("%.2d%s%.2d", self._data.pointer.index, style.label.sep, date.month)
 
 		self:emit_signal("widget::redraw_needed")
@@ -93,7 +94,6 @@ local function daymarks(style)
 	-- Draw
 	------------------------------------------------------------
 	function widg:draw(_, cr, width, height)
-
 		-- main draw
 		self._data.gap = (height - self._data.days * style.mark.height) / (self._data.days - 1)
 		self._data.label_x = width - style.mark.width - style.mark.dx - style.label.gap
@@ -121,7 +121,8 @@ local function daymarks(style)
 
 				local ext = cr:text_extents(self._data.label)
 				cr:move_to(
-					self._data.label_x - (ext.width + 2 * ext.x_bearing), coord_y - (ext.height/2 + ext.y_bearing)
+					self._data.label_x - (ext.width + 2 * ext.x_bearing),
+					coord_y - (ext.height / 2 + ext.y_bearing)
 				)
 				cr:show_text(i == self._data.today and self._data.label or self._data.pointer.label)
 			end
@@ -132,11 +133,9 @@ local function daymarks(style)
 	return widg
 end
 
-
 -- Create a new widget
 -----------------------------------------------------------------------------------------------------------------------
 function calendar.new(args, style)
-
 	-- Initialize vars
 	--------------------------------------------------------------------------------
 	local dwidget = {}
@@ -154,7 +153,9 @@ function calendar.new(args, style)
 	-- Set update timer
 	--------------------------------------------------------------------------------
 	local t = timer({ timeout = timeout })
-	t:connect_signal("timeout", function () dwidget.calendar:update_data() end)
+	t:connect_signal("timeout", function()
+		dwidget.calendar:update_data()
+	end)
 	t:start()
 	t:emit_signal("timeout")
 
@@ -183,7 +184,9 @@ function calendar.new(args, style)
 			end)
 
 			wbox:connect_signal("mouse::leave", function()
-				if self.calendar._data.pointer.show then self.calendar:update_pointer(false) end
+				if self.calendar._data.pointer.show then
+					self.calendar:update_pointer(false)
+				end
 			end)
 		end
 	end

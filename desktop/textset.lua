@@ -23,9 +23,9 @@ local textset = { mt = {} }
 -----------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
-		font  = "Fira Code 12",
+		font = "Fira Code 12",
 		spacing = 0,
-		color = { gray = "#525252" }
+		color = { gray = "#525252" },
 	}
 	return modutil.table.merge(style, modutil.table.check(beautiful, "desktop.textset") or {})
 end
@@ -36,7 +36,6 @@ end
 -- @return A textbox widget
 -----------------------------------------------------------------------------------------------------------------------
 function textset.new(args, style)
-
 	-- Initialize vars
 	--------------------------------------------------------------------------------
 	args = args or {}
@@ -59,12 +58,16 @@ function textset.new(args, style)
 	-- data setup
 	local data = {}
 	local timers = {}
-	for i = 1, #args do data[i] = "" end
+	for i = 1, #args do
+		data[i] = ""
+	end
 
 	-- update info function
 	local function update()
 		local state = {}
-		for _, txt in ipairs(data) do state[#state + 1] = txt end
+		for _, txt in ipairs(data) do
+			state[#state + 1] = txt
+		end
 		widg:set_markup(string.format('<span color="%s">%s</span>', style.color.gray, table.concat(state)))
 	end
 
@@ -74,11 +77,15 @@ function textset.new(args, style)
 		timers[i] = timer({ timeout = block.timeout or args[1].timeout })
 		if block.async then
 			timers[i]:connect_signal("timeout", function()
-				block.async(function(state) data[i] = block.action(state); update() end)
+				block.async(function(state)
+					data[i] = block.action(state)
+					update()
+				end)
 			end)
 		else
 			timers[i]:connect_signal("timeout", function()
-				data[i] = block.action(); update()
+				data[i] = block.action()
+				update()
 			end)
 		end
 		timers[i]:start()

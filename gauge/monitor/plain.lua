@@ -22,13 +22,13 @@ local monitor = { mt = {} }
 -----------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
-		line       = { height = 4, y = 30 },
-		font       = { font = "Fira Code", size = 16, face = 0, slant = 0 },
+		line = { height = 4, y = 30 },
+		font = { font = "Fira Code", size = 16, face = 0, slant = 0 },
 		text_shift = 22,
-		label      = "MON",
-		width      = 100,
-		step       = 0.05,
-		color      = { main = "#b1222b", gray = "#575757", icon = "#a0a0a0" }
+		label = "MON",
+		width = 100,
+		step = 0.05,
+		color = { main = "#b1222b", gray = "#575757", icon = "#a0a0a0" },
 	}
 	return modutil.table.merge(style, modutil.table.check(beautiful, "gauge.monitor.plain") or {})
 end
@@ -37,7 +37,6 @@ end
 -- @param style Table containing colors and geometry parameters for all elemets
 -----------------------------------------------------------------------------------------------------------------------
 function monitor.new(style)
-
 	-- Initialize vars
 	--------------------------------------------------------------------------------
 	style = modutil.table.merge(default_style(), style or {})
@@ -47,7 +46,9 @@ function monitor.new(style)
 	local widg = wibox.widget.base.make_widget()
 	widg._data = { color = style.color.icon, level = 0, alert = false, label = style.label }
 
-	if style.width then widg:set_forced_width(style.width) end
+	if style.width then
+		widg:set_forced_width(style.width)
+	end
 
 	-- User functions
 	------------------------------------------------------------
@@ -85,11 +86,10 @@ function monitor.new(style)
 	-- Draw
 	------------------------------------------------------------
 	function widg:draw(_, cr, width)
-
 		-- label
 		cr:set_source(color(self._data.color))
 		modutil.cairo.set_font(cr, style.font)
-		modutil.cairo.textcentre.horizontal(cr, { width/2, style.text_shift }, self._data.label)
+		modutil.cairo.textcentre.horizontal(cr, { width / 2, style.text_shift }, self._data.label)
 
 		-- progressbar
 		local wd = { width, width * self._data.level }

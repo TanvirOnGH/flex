@@ -43,19 +43,22 @@ end
 local default_args = { down = false, step = 2 }
 brightness.default_variant = brightness.variants.xbacklight
 
-
 -- Change brightness level
 -----------------------------------------------------------------------------------------------------------------------
 
 -- Parse command output and show brightness notification by result
 ------------------------------------------------------------
 function brightness._notify_from_output(output)
-	if not brightness.style then brightness.style = default_style() end
+	if not brightness.style then
+		brightness.style = default_style()
+	end
 
-	rednotify:show(modutil.table.merge(
-		{ value = output / 100, text = string.format('%.0f', output) .. "%" },
-		brightness.style.notify
-	))
+	rednotify:show(
+		modutil.table.merge(
+			{ value = output / 100, text = string.format("%.0f", output) .. "%" },
+			brightness.style.notify
+		)
+	)
 end
 
 -- Change brightness
@@ -75,7 +78,9 @@ end
 ------------------------------------------------------------
 function brightness:build_change_handler(variant)
 	if variant.update then
-		return function() self:notify_from_command(variant.update) end
+		return function()
+			self:notify_from_command(variant.update)
+		end
 	else
 		return self._notify_from_output
 	end

@@ -18,7 +18,6 @@ local modutil = require("flex.util")
 local dcommon = require("flex.desktop.common")
 local svgbox = require("flex.gauge.svgbox")
 
-
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------
 local speedmeter = { mt = {} }
@@ -27,15 +26,15 @@ local speedmeter = { mt = {} }
 -----------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
-		icon             = { margin = { 0, 0, 0, 0 }, },
-		label            = { width = 100 },
-		margins          = { label = { 0, 0, 0, 0 }, chart = { 0, 0, 2, 2 } },
-		progressbar      = { chunk = { width = 10, gap = 5 }, height = 4 },
-		chart            = {},
-		height           = { chart = 50 },
-		digits           = 2,
-		unit             = { { "B", -1 }, { "KB", 1024 }, { "MB", 1024^2 }, { "GB", 1024^3 } },
-		color            = { main = "#b1222b", wibox = "#161616", gray = "#404040" }
+		icon = { margin = { 0, 0, 0, 0 } },
+		label = { width = 100 },
+		margins = { label = { 0, 0, 0, 0 }, chart = { 0, 0, 2, 2 } },
+		progressbar = { chunk = { width = 10, gap = 5 }, height = 4 },
+		chart = {},
+		height = { chart = 50 },
+		digits = 2,
+		unit = { { "B", -1 }, { "KB", 1024 }, { "MB", 1024 ^ 2 }, { "GB", 1024 ^ 3 } },
+		color = { main = "#b1222b", wibox = "#161616", gray = "#404040" },
 	}
 	return modutil.table.merge(style, modutil.table.check(beautiful, "desktop.speedmeter.compact") or {})
 end
@@ -45,11 +44,10 @@ local default_args = {
 	label = "NETWORK",
 	timeout = 5,
 	interface = "enp42s0",
-	meter_function = system.net_speed
+	meter_function = system.net_speed,
 }
 
 local default_maxspeed = { up = 10 * 1024, down = 10 * 1024 }
-
 
 -- Support functions
 -----------------------------------------------------------------------------------------------------------------------
@@ -71,15 +69,15 @@ local function value_chart(style, image, maxspeed)
 				wibox.container.margin(text, unpack(style.margins.label)),
 				nil,
 				expand = "outside",
-				layout = wibox.layout.align.vertical
+				layout = wibox.layout.align.vertical,
 			},
 			wibox.container.margin(chart, unpack(style.margins.chart)),
 			nil,
-			layout = wibox.layout.align.horizontal
+			layout = wibox.layout.align.horizontal,
 		},
 		progressbar,
 		forced_height = style.height.chart,
-		layout = wibox.layout.align.vertical
+		layout = wibox.layout.align.vertical,
 	})
 
 	if image then
@@ -89,18 +87,16 @@ local function value_chart(style, image, maxspeed)
 			area,
 			nil,
 			forced_height = style.height.chart,
-			layout = wibox.layout.align.horizontal
+			layout = wibox.layout.align.horizontal,
 		})
 	end
 
 	return { chart = chart, progressbar = progressbar, text = text, icon = icon, area = area }
 end
 
-
 -- Create a new speed meter widget
 -----------------------------------------------------------------------------------------------------------------------
 function speedmeter.new(args, style)
-
 	-- Initialize vars
 	--------------------------------------------------------------------------------
 	local dwidget = {}
@@ -127,8 +123,10 @@ function speedmeter.new(args, style)
 	end
 
 	dwidget.area = wibox.widget({
-		widg[1].area, nil, widg[2].area,
-		layout = wibox.layout.align.vertical
+		widg[1].area,
+		nil,
+		widg[2].area,
+		layout = wibox.layout.align.vertical,
 	})
 
 	-- Update info

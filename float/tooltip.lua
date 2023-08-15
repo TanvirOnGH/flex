@@ -29,14 +29,14 @@ local tooltip = { mt = {} }
 -----------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
-		padding      = { vertical = 3, horizontal = 5 },
-		margin       = 0,
-		timeout      = 1,
-		font  = "Fira Code 12",
+		padding = { vertical = 3, horizontal = 5 },
+		margin = 0,
+		timeout = 1,
+		font = "Fira Code 12",
 		border_width = 2,
 		set_position = nil,
-		color        = { border = "#404040", text = "#aaaaaa", wibox = "#202020" },
-		shape        = nil
+		color = { border = "#404040", text = "#aaaaaa", wibox = "#202020" },
+		shape = nil,
 	}
 	return modutil.table.merge(style, modutil.table.check(beautiful, "float.tooltip") or {})
 end
@@ -44,7 +44,6 @@ end
 -- Create a new tooltip
 -----------------------------------------------------------------------------------------------------------------------
 function tooltip.new(args, style)
-
 	-- Initialize vars
 	--------------------------------------------------------------------------------
 	args = args or {}
@@ -75,13 +74,13 @@ function tooltip.new(args, style)
 	function ttp:set_geometry()
 		local wibox_sizes = self.wibox:geometry()
 		local w, h = self.widget:get_preferred_size()
-		local requsted_width = w + 2*style.padding.horizontal
-		local requsted_height = h + 2*style.padding.vertical
+		local requsted_width = w + 2 * style.padding.horizontal
+		local requsted_height = h + 2 * style.padding.vertical
 
 		if wibox_sizes.width ~= requsted_width or wibox_sizes.height ~= requsted_height then
 			self.wibox:geometry({
 				width = requsted_width,
-				height = requsted_height
+				height = requsted_height,
 			})
 		end
 	end
@@ -89,28 +88,33 @@ function tooltip.new(args, style)
 	-- Set timer to make delay before tooltip show
 	--------------------------------------------------------------------------------
 	local show_timer = timer({ timeout = style.timeout })
-	show_timer:connect_signal("timeout",
-		function()
-			ttp:set_geometry()
-			if style.set_position then
-				style.set_position(ttp.wibox)
-			else
-				awful.placement.under_mouse(ttp.wibox)
-			end
-			awful.placement.no_offscreen(ttp.wibox, { margins = style.margin })
-			ttp.wibox.visible = true
-			show_timer:stop()
-		end)
+	show_timer:connect_signal("timeout", function()
+		ttp:set_geometry()
+		if style.set_position then
+			style.set_position(ttp.wibox)
+		else
+			awful.placement.under_mouse(ttp.wibox)
+		end
+		awful.placement.no_offscreen(ttp.wibox, { margins = style.margin })
+		ttp.wibox.visible = true
+		show_timer:stop()
+	end)
 
 	-- Tooltip metods
 	--------------------------------------------------------------------------------
 	function ttp.show()
-		if not show_timer.started then show_timer:start() end
+		if not show_timer.started then
+			show_timer:start()
+		end
 	end
 
 	function ttp.hide()
-		if show_timer.started then show_timer:stop() end
-		if ttp.wibox.visible then ttp.wibox.visible = false end
+		if show_timer.started then
+			show_timer:stop()
+		end
+		if ttp.wibox.visible then
+			ttp.wibox.visible = false
+		end
 	end
 
 	function ttp:set_text(text)

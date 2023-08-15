@@ -37,77 +37,89 @@ local dfparser = require("flex.service.dfparser")
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------
-local redtasklist = { filter = {}, winmenu = {}, tasktip = {}, action = {}, mt = {}, }
+local redtasklist = { filter = {}, winmenu = {}, tasktip = {}, action = {}, mt = {} }
 
 local last = {
-	client         = nil,
-	group          = nil,
-	client_list    = nil,
-	screen         = mouse.screen,
-	tag_screen     = mouse.screen,
-	screen_clients = {}
+	client = nil,
+	group = nil,
+	client_list = nil,
+	screen = mouse.screen,
+	tag_screen = mouse.screen,
+	screen_clients = {},
 }
 
 -- Generate default theme vars
 -----------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
-		appnames    = {},
-		iconnames   = {},
-		widget      = basetask.new,
-		width       = 40,
-		char_digit  = 3,
-		need_group  = true,
-		parser      = {},
-		icons       = {},
-		timeout     = 0.05,
+		appnames = {},
+		iconnames = {},
+		widget = basetask.new,
+		width = 40,
+		char_digit = 3,
+		need_group = true,
+		parser = {},
+		icons = {},
+		timeout = 0.05,
 		custom_icon = false,
-		task        = {},
-		task_margin = { 5, 5, 0, 0 }
+		task = {},
+		task_margin = { 5, 5, 0, 0 },
 	}
 	style.winmenu = {
-		icon                 = { unknown = modutil.base.placeholder(),
-		                         tag = modutil.base.placeholder({ txt = "■" }),
-		                         switch_screen = modutil.base.placeholder() },
-		micon                = { blank = modutil.base.placeholder({ txt = " " }),
-		                         check = modutil.base.placeholder({ txt = "+" }) },
-		layout_icon          = { unknown = modutil.base.placeholder() },
-		titleline            = { font = "Fira Code 16 bold", height = 35 },
-		stateline            = { height = 35 },
-		tagline              = { height = 30, spacing = 10, rows = 1 },
-		state_iconsize       = { width = 20, height = 20 },
-		tag_iconsize         = { width = 16, height = 16 },
-		separator            = { marginh = { 3, 3, 5, 5 } },
-		tagmenu              = { icon_margin = { 2, 2, 2, 2 } },
-		hide_action          = { min = true,
-		                         move = true,
-		                         max = false,
-		                         add = false,
-		                         floating = false,
-		                         sticky = false,
-		                         ontop = false,
-		                         below = false,
-		                         maximized = false },
+		icon = {
+			unknown = modutil.base.placeholder(),
+			tag = modutil.base.placeholder({ txt = "■" }),
+			switch_screen = modutil.base.placeholder(),
+		},
+		micon = {
+			blank = modutil.base.placeholder({ txt = " " }),
+			check = modutil.base.placeholder({ txt = "+" }),
+		},
+		layout_icon = { unknown = modutil.base.placeholder() },
+		titleline = { font = "Fira Code 16 bold", height = 35 },
+		stateline = { height = 35 },
+		tagline = { height = 30, spacing = 10, rows = 1 },
+		state_iconsize = { width = 20, height = 20 },
+		tag_iconsize = { width = 16, height = 16 },
+		separator = { marginh = { 3, 3, 5, 5 } },
+		tagmenu = { icon_margin = { 2, 2, 2, 2 } },
+		hide_action = {
+			min = true,
+			move = true,
+			max = false,
+			add = false,
+			floating = false,
+			sticky = false,
+			ontop = false,
+			below = false,
+			maximized = false,
+		},
 		enable_screen_switch = false,
-		enable_tagline       = false,
-		tagline_mod_key      = "Mod4",
-		color                = { main = "#b1222b", icon = "#a0a0a0", gray = "#404040" }
+		enable_tagline = false,
+		tagline_mod_key = "Mod4",
+		color = { main = "#b1222b", icon = "#a0a0a0", gray = "#404040" },
 	}
 	style.tasktip = {
 		border_width = 2,
-		margin       = { 10, 10, 5, 5 },
-		timeout      = 0.5,
+		margin = { 10, 10, 5, 5 },
+		timeout = 0.5,
 		sl_highlight = false, -- single line highlight
-		color        = { border = "#575757", text = "#aaaaaa", main = "#b1222b", highlight = "#eeeeee",
-		                 wibox = "#202020", gray = "#575757", urgent = "#32882d" },
-		shape        = nil
-
+		color = {
+			border = "#575757",
+			text = "#aaaaaa",
+			main = "#b1222b",
+			highlight = "#eeeeee",
+			wibox = "#202020",
+			gray = "#575757",
+			urgent = "#32882d",
+		},
+		shape = nil,
 	}
 	style.winmenu.menu = {
 		ricon_margin = { 2, 2, 2, 2 },
 		hide_timeout = 1,
 		-- color        = { submenu_icon = "#a0a0a0", right_icon = "#a0a0a0", left_icon = "#a0a0a0" }
-		nohide       = true
+		nohide = true,
 	}
 
 	return modutil.table.merge(style, modutil.table.check(beautiful, "widget.tasklist") or {})
@@ -119,7 +131,6 @@ end
 -- Get info about client group
 --------------------------------------------------------------------------------
 local function get_state(c_group, style)
-
 	style = style or {}
 	local names = style.appnames or {}
 	local chars = style.char_digit
@@ -127,8 +138,8 @@ local function get_state(c_group, style)
 	local state = { focus = false, urgent = false, minimized = true, list = {} }
 
 	for _, c in pairs(c_group) do
-		state.focus     = state.focus or client.focus == c
-		state.urgent    = state.urgent or c.urgent
+		state.focus = state.focus or client.focus == c
+		state.urgent = state.urgent or c.urgent
 		state.minimized = state.minimized and c.minimized
 
 		table.insert(state.list, { focus = client.focus == c, urgent = c.urgent, minimized = c.minimized })
@@ -148,10 +159,14 @@ local function tagmenu_items(action, style)
 	local items = {}
 	for _, t in ipairs(last.screen.tags) do
 		if not awful.tag.getproperty(t, "hide") then
-			table.insert(
-				items,
-				{ t.name, function() action(t) end, style.micon.blank, style.micon.blank }
-			)
+			table.insert(items, {
+				t.name,
+				function()
+					action(t)
+				end,
+				style.micon.blank,
+				style.micon.blank,
+			})
 		end
 	end
 	return items
@@ -161,13 +176,13 @@ end
 --------------------------------------------------------------------------------
 local function tagmenu_rebuild(menu, submenu_index, style)
 	for _, index in ipairs(submenu_index) do
-			local new_items
-			if index == 1 then
-				new_items = tagmenu_items(redtasklist.winmenu.movemenu_action, style)
-			else
-				new_items = tagmenu_items(redtasklist.winmenu.addmenu_action, style)
-			end
-			menu.items[index].child:replace_items(new_items)
+		local new_items
+		if index == 1 then
+			new_items = tagmenu_items(redtasklist.winmenu.movemenu_action, style)
+		else
+			new_items = tagmenu_items(redtasklist.winmenu.addmenu_action, style)
+		end
+		menu.items[index].child:replace_items(new_items)
 	end
 end
 
@@ -182,7 +197,6 @@ local function tagmenu_update(c, menu, submenu_index, style)
 	end
 	for k, t in ipairs(last.screen.tags) do
 		if not awful.tag.getproperty(t, "hide") then
-
 			-- set layout icon for every tag
 			local l = awful.layout.getname(awful.tag.getproperty(t, "layout"))
 
@@ -207,7 +221,9 @@ local function tagmenu_update(c, menu, submenu_index, style)
 				end
 
 				-- update position of any visible submenu
-				if submenu.wibox.visible then submenu:show() end
+				if submenu.wibox.visible then
+					submenu:show()
+				end
 			end
 		end
 	end
@@ -231,12 +247,10 @@ local function state_line_construct(state_icons, setup_layout, style)
 		setup_layout:add(l)
 
 		-- set mouse action
-		stateboxes[i]:buttons(awful.util.table.join(awful.button({}, 1,
-			function()
-				v.action()
-				stateboxes[i]:set_color(v.indicator(last.client) and style.color.main or style.color.gray)
-			end
-		)))
+		stateboxes[i]:buttons(awful.util.table.join(awful.button({}, 1, function()
+			v.action()
+			stateboxes[i]:set_color(v.indicator(last.client) and style.color.main or style.color.gray)
+		end)))
 	end
 
 	return stateboxes
@@ -255,7 +269,6 @@ local function tagline_construct(setup_layout, style)
 	-- setup tag marks
 	for i, t in ipairs(last.screen.tags) do
 		if not awful.tag.getproperty(t, "hide") then
-
 			tagboxes[i] = svgbox(style.icon.tag)
 			tagboxes[i]:set_forced_width(style.tag_iconsize.width)
 			tagboxes[i]:set_forced_height(style.tag_iconsize.height)
@@ -268,36 +281,28 @@ local function tagline_construct(setup_layout, style)
 
 			-- set mouse action
 			tagboxes[i]:buttons(awful.util.table.join(
-				awful.button({}, 1,
-					function()
-						last.client:move_to_tag(t)
-						awful.layout.arrange(t.screen)
-						redtasklist.winmenu.hide_check("move")
-					end
-				),
-				awful.button({ style.tagline_mod_key }, 1,
-					function()
-						last.client:move_to_tag(t)
-						awful.layout.arrange(t.screen)
-						redtasklist.winmenu.hide_check("move")
-						t:view_only()
-					end
-				),
-				awful.button({}, 2,
-					function()
-						last.client:move_to_tag(t)
-						awful.layout.arrange(t.screen)
-						redtasklist.winmenu.hide_check("move")
-						t:view_only()
-					end
-				),
-				awful.button({}, 3,
-					function()
-						last.client:toggle_tag(t)
-						awful.layout.arrange(t.screen)
-						redtasklist.winmenu.hide_check("add")
-					end
-				)
+				awful.button({}, 1, function()
+					last.client:move_to_tag(t)
+					awful.layout.arrange(t.screen)
+					redtasklist.winmenu.hide_check("move")
+				end),
+				awful.button({ style.tagline_mod_key }, 1, function()
+					last.client:move_to_tag(t)
+					awful.layout.arrange(t.screen)
+					redtasklist.winmenu.hide_check("move")
+					t:view_only()
+				end),
+				awful.button({}, 2, function()
+					last.client:move_to_tag(t)
+					awful.layout.arrange(t.screen)
+					redtasklist.winmenu.hide_check("move")
+					t:view_only()
+				end),
+				awful.button({}, 3, function()
+					last.client:toggle_tag(t)
+					awful.layout.arrange(t.screen)
+					redtasklist.winmenu.hide_check("add")
+				end)
 			))
 		end
 	end
@@ -326,17 +331,19 @@ end
 --------------------------------------------------------------------------------
 local function new_task(c_group, style)
 	local task = {}
-	task.widg  = style.widget(style.task)
+	task.widg = style.widget(style.task)
 	task.group = c_group
-	task.l     = wibox.container.margin(task.widg, unpack(style.task_margin))
+	task.l = wibox.container.margin(task.widg, unpack(style.task_margin))
 
-	task.widg:connect_signal("mouse::enter", function(_, geo) redtasklist.tasktip:show(task.group, geo) end)
-	task.widg:connect_signal("mouse::leave",
-		function()
-			redtasklist.tasktip.hidetimer:start()
-			if not redtasklist.winmenu.menu.hidetimer.started then redtasklist.winmenu.menu.hidetimer:start() end
+	task.widg:connect_signal("mouse::enter", function(_, geo)
+		redtasklist.tasktip:show(task.group, geo)
+	end)
+	task.widg:connect_signal("mouse::leave", function()
+		redtasklist.tasktip.hidetimer:start()
+		if not redtasklist.winmenu.menu.hidetimer.started then
+			redtasklist.winmenu.menu.hidetimer:start()
 		end
-	)
+	end)
 	return task
 end
 
@@ -386,7 +393,9 @@ local function sort_list(client_groups)
 
 	for _, g in ipairs(client_groups) do
 		for _, c in ipairs(g) do
-			if not c.minimized then table.insert(list, c) end
+			if not c.minimized then
+				table.insert(list, c)
+			end
 		end
 	end
 
@@ -443,14 +452,18 @@ end
 -- Switch task
 --------------------------------------------------------------------------------
 local function switch_focus(list, is_reverse)
-	local diff = is_reverse and - 1 or 1
+	local diff = is_reverse and -1 or 1
 
-	if #list == 0 then return end
+	if #list == 0 then
+		return
+	end
 
 	local index = (awful.util.table.hasitem(list, client.focus) or 1) + diff
 
-	if     index < 1 then index = #list
-	elseif index > #list then index = 1
+	if index < 1 then
+		index = #list
+	elseif index > #list then
+		index = 1
 	end
 
 	-- set focus to new task
@@ -465,7 +478,6 @@ end
 -- Build or update tasklist.
 --------------------------------------------------------------------------------
 local function tasklist_construct(client_groups, layout, data, buttons, style)
-
 	layout:reset()
 	local task_full_width = style.width + style.task_margin[1] + style.task_margin[2]
 	layout:set_max_widget_size(task_full_width)
@@ -522,14 +534,22 @@ local function construct_tasktip(c_group, layout, data, buttons, style)
 		if #c_group > 1 or style.sl_highlight then
 			local state = get_state({ c })
 
-			if state.focus     then line:mark_focused()   end
-			if state.minimized then line:mark_minimized() end
-			if state.urgent    then line:mark_urgent()    end
+			if state.focus then
+				line:mark_focused()
+			end
+			if state.minimized then
+				line:mark_minimized()
+			end
+			if state.urgent then
+				line:mark_urgent()
+			end
 		end
 
 		-- set buttons
 		local gap = (i - 1) * (tb_h + style.margin[3] + style.margin[4])
-		if buttons then line.field:buttons(modutil.base.buttons(buttons, { group = { c }, gap = gap })) end
+		if buttons then
+			line.field:buttons(modutil.base.buttons(buttons, { group = { c }, gap = gap }))
+		end
 
 		-- add line widget to tasktip layout
 		tip_width = math.max(tip_width, tb_w)
@@ -538,35 +558,49 @@ local function construct_tasktip(c_group, layout, data, buttons, style)
 
 	-- return tasktip size
 	return {
-		width  = tip_width + style.margin[1] + style.margin[2] + 2,
-		height = #c_group * (tb_h + style.margin[3] + style.margin[4])
+		width = tip_width + style.margin[1] + style.margin[2] + 2,
+		height = #c_group * (tb_h + style.margin[3] + style.margin[4]),
 	}
 end
-
 
 -- Initialize window menu widget
 -----------------------------------------------------------------------------------------------------------------------
 function redtasklist.winmenu:init(style)
-
 	-- Window managment functions
 	--------------------------------------------------------------------------------
 	self.hide_check = function(action)
-		if style.hide_action[action] then self.menu:hide() end
+		if style.hide_action[action] then
+			self.menu:hide()
+		end
 	end
 
-	local close    = function() last.client:kill(); self.menu:hide() end
-	local minimize = function() last.client.minimized = not last.client.minimized; self.hide_check("min") end
+	local close = function()
+		last.client:kill()
+		self.menu:hide()
+	end
+	local minimize = function()
+		last.client.minimized = not last.client.minimized
+		self.hide_check("min")
+	end
 	-- local maximize = function() last.client.maximized = not last.client.maximized; self.hide_check("max")end
-	local switchscreen = function() modutil.placement.next_screen(last.client); self.menu:hide() end
+	local switchscreen = function()
+		modutil.placement.next_screen(last.client)
+		self.menu:hide()
+	end
 
 	-- Create array of state icons
 	-- associate every icon with action and state indicator
 	--------------------------------------------------------------------------------
 	local function icon_table_ganerator(property)
 		return {
-			icon      = style.icon[property] or style.icon.unknown,
-			action    = function() last.client[property] = not last.client[property]; self.hide_check(property) end,
-			indicator = function(c) return c[property] end
+			icon = style.icon[property] or style.icon.unknown,
+			action = function()
+				last.client[property] = not last.client[property]
+				self.hide_check(property)
+			end,
+			indicator = function(c)
+				return c[property]
+			end,
 		}
 	end
 
@@ -585,7 +619,7 @@ function redtasklist.winmenu:init(style)
 	------------------------------------------------------------
 	local classbox = wibox.widget.textbox()
 	classbox:set_font(style.titleline.font)
-	classbox:set_align ("center")
+	classbox:set_align("center")
 
 	local classline = wibox.container.constraint(classbox, "exact", nil, style.titleline.height)
 
@@ -618,11 +652,15 @@ function redtasklist.winmenu:init(style)
 
 	-- menu item actions
 	self.movemenu_action = function(t)
-		last.client:move_to_tag(t); awful.layout.arrange(t.screen); self.hide_check("move")
+		last.client:move_to_tag(t)
+		awful.layout.arrange(t.screen)
+		self.hide_check("move")
 	end
 
 	self.addmenu_action = function(t)
-		last.client:toggle_tag(t); awful.layout.arrange(t.screen); self.hide_check("add")
+		last.client:toggle_tag(t)
+		awful.layout.arrange(t.screen)
+		self.hide_check("add")
 	end
 
 	-- menu items
@@ -632,10 +670,10 @@ function redtasklist.winmenu:init(style)
 	local menu_items = {
 		{ widget = classline },
 		menusep,
-		{ "Minimize",    minimize, nil, style.icon.minimize or style.icon.unknown },
-		{ "Close",       close,    nil, style.icon.close or style.icon.unknown },
+		{ "Minimize", minimize, nil, style.icon.minimize or style.icon.unknown },
+		{ "Close", close, nil, style.icon.close or style.icon.unknown },
 		menusep,
-		{ widget = stateline, focus = true }
+		{ widget = stateline, focus = true },
 	}
 
 	if style.enable_tagline then
@@ -654,14 +692,16 @@ function redtasklist.winmenu:init(style)
 		table.insert(menu_items, 3, menusep)
 		table.insert(menu_items, 3, { widget = tagline })
 	else
-		table.insert(menu_items, 3, { "Add to tag",  { items = addmenu_items,  theme = style.tagmenu } })
+		table.insert(menu_items, 3, { "Add to tag", { items = addmenu_items, theme = style.tagmenu } })
 		table.insert(menu_items, 3, { "Move to tag", { items = movemenu_items, theme = style.tagmenu } })
 	end
 
 	-- inject switch screen action into menu if applicable
 	if style.enable_screen_switch and screen.count() > 1 then
 		local action = { "Switch screen", switchscreen, nil, style.icon.switch_screen or style.icon.unknown }
-		if style.enable_tagline then table.insert(menu_items, 3, menusep) end
+		if style.enable_tagline then
+			table.insert(menu_items, 3, menusep)
+		end
 		table.insert(menu_items, 3, action)
 	end
 
@@ -691,10 +731,15 @@ function redtasklist.winmenu:init(style)
 	-- and does not connected to tasklist
 	--------------------------------------------------------------------------------
 	local client_signals = {
-		"property::ontop", "property::floating", "property::below", "property::maximized",
+		"property::ontop",
+		"property::floating",
+		"property::below",
+		"property::maximized",
 	}
 	for _, sg in ipairs(client_signals) do
-		client.connect_signal(sg, function() self:update(last.client) end)
+		client.connect_signal(sg, function()
+			self:update(last.client)
+		end)
 	end
 end
 
@@ -713,7 +758,6 @@ function redtasklist.winmenu:tagline_update(c, style)
 	end
 	for k, t in ipairs(last.screen.tags) do
 		if not awful.tag.getproperty(t, "hide") then
-
 			local icon_color = style.color.gray
 			if c then
 				local client_tags = c:tags()
@@ -728,41 +772,42 @@ end
 -- Show window menu widget
 -----------------------------------------------------------------------------------------------------------------------
 function redtasklist.winmenu:show(c_group, gap)
-
 	-- do nothing if group of task received
 	-- show state only for single task
-	if #c_group > 1 then return end
+	if #c_group > 1 then
+		return
+	end
 
 	local c = c_group[1]
 
 	-- toggle menu
-	if self.menu.wibox.visible and c == last.client and mouse.screen == last.screen  then
+	if self.menu.wibox.visible and c == last.client and mouse.screen == last.screen then
 		self.menu:hide()
 	else
 		last.client = c
 		last.screen = mouse.screen
 		self.menu:show({ coords = coords_calc(self.menu, redtasklist.tasktip.wibox, gap) })
 
-		if self.menu.hidetimer.started then self.menu.hidetimer:stop() end
+		if self.menu.hidetimer.started then
+			self.menu.hidetimer:stop()
+		end
 		self:update(c)
 	end
 end
 
-
 -- Initialize a tasktip
 -----------------------------------------------------------------------------------------------------------------------
 function redtasklist.tasktip:init(buttons, style)
-
 	local tippat = {}
 
 	-- Create wibox
 	--------------------------------------------------------------------------------
 	self.wibox = wibox({
 		type = "tooltip",
-		bg   = style.color.wibox,
+		bg = style.color.wibox,
 		border_width = style.border_width,
 		border_color = style.color.border,
-		shape        = style.shape
+		shape = style.shape,
 	})
 
 	self.wibox.ontop = true
@@ -773,8 +818,9 @@ function redtasklist.tasktip:init(buttons, style)
 	-- Update function
 	--------------------------------------------------------------------------------
 	function self:update(c_group)
-
-		if not self.wibox.visible then return end
+		if not self.wibox.visible then
+			return
+		end
 
 		local wg = construct_tasktip(c_group, self.layout, tippat, buttons, style)
 		self.wibox:geometry(wg)
@@ -783,54 +829,51 @@ function redtasklist.tasktip:init(buttons, style)
 	-- Set tasktip autohide timer
 	--------------------------------------------------------------------------------
 	self.hidetimer = timer({ timeout = style.timeout })
-	self.hidetimer:connect_signal("timeout",
-		function()
-			self.wibox.visible = false
-			if self.hidetimer.started then self.hidetimer:stop() end
+	self.hidetimer:connect_signal("timeout", function()
+		self.wibox.visible = false
+		if self.hidetimer.started then
+			self.hidetimer:stop()
 		end
-	)
+	end)
 	self.hidetimer:emit_signal("timeout")
 
 	-- Signals setup
 	--------------------------------------------------------------------------------
-	self.wibox:connect_signal("mouse::enter",
-		function()
-			if self.hidetimer.started then self.hidetimer:stop() end
+	self.wibox:connect_signal("mouse::enter", function()
+		if self.hidetimer.started then
+			self.hidetimer:stop()
 		end
-	)
+	end)
 
-	self.wibox:connect_signal("mouse::leave",
-		function()
-			self.hidetimer:start()
-			if not redtasklist.winmenu.menu.hidetimer.started then redtasklist.winmenu.menu.hidetimer:start() end
+	self.wibox:connect_signal("mouse::leave", function()
+		self.hidetimer:start()
+		if not redtasklist.winmenu.menu.hidetimer.started then
+			redtasklist.winmenu.menu.hidetimer:start()
 		end
-	)
+	end)
 
 	-- hide tasktip if tag changes
-	tag.connect_signal("property::selected",
-		function()
-			self.hidetimer:emit_signal("timeout")
-		end
-	)
+	tag.connect_signal("property::selected", function()
+		self.hidetimer:emit_signal("timeout")
+	end)
 end
 
 -- Show tasktip
 -----------------------------------------------------------------------------------------------------------------------
 function redtasklist.tasktip:show(c_group, parent_geo)
-
-	if self.hidetimer.started then self.hidetimer:stop() end
+	if self.hidetimer.started then
+		self.hidetimer:stop()
+	end
 
 	if not self.wibox.visible or last.group ~= c_group then
 		self.wibox.visible = true
 		last.group = c_group
 		self:update(c_group)
-		awful.placement.next_to(self.wibox,
-		    {
-		        preferred_positions = {'top'},
-		        preferred_anchors   = {'middle'},
-		        geometry            = parent_geo,
-		    }
-		)
+		awful.placement.next_to(self.wibox, {
+			preferred_positions = { "top" },
+			preferred_anchors = { "middle" },
+			geometry = parent_geo,
+		})
 		awful.placement.no_offscreen(self.wibox)
 	end
 end
@@ -838,15 +881,18 @@ end
 -- Create a new tasklist widget
 -----------------------------------------------------------------------------------------------------------------------
 function redtasklist.new(args, style)
-
 	-- Initialize vars
 	--------------------------------------------------------------------------------
 	local cs = args.screen
 	local filter = args.filter or redtasklist.filter.currenttags
 
 	style = modutil.table.merge(default_style(), style or {})
-	if style.custom_icon then style.icons = dfparser.icon_list(style.parser) end
-	if style.task.width  then style.width = style.task.width end
+	if style.custom_icon then
+		style.icons = dfparser.icon_list(style.parser)
+	end
+	if style.task.width then
+		style.width = style.task.width
+	end
 
 	redtasklist.winmenu:init(style.winmenu)
 	redtasklist.tasktip:init(args.buttons, style.tasktip)
@@ -880,37 +926,53 @@ function redtasklist.new(args, style)
 	-- Create timer to prevent multiply call
 	--------------------------------------------------------------------------------
 	tasklist.queue = timer({ timeout = style.timeout })
-	tasklist.queue:connect_signal("timeout", function() update(cs); tasklist.queue:stop() end)
+	tasklist.queue:connect_signal("timeout", function()
+		update(cs)
+		tasklist.queue:stop()
+	end)
 
 	-- Signals setup
 	--------------------------------------------------------------------------------
 	local client_signals = {
-		"property::urgent", "property::sticky", "property::minimized",
-		"property::name", "  property::icon",   "property::skip_taskbar",
-		"property::screen", "property::hidden",
-		"tagged", "untagged", "list", "focus", "unfocus"
+		"property::urgent",
+		"property::sticky",
+		"property::minimized",
+		"property::name",
+		"  property::icon",
+		"property::skip_taskbar",
+		"property::screen",
+		"property::hidden",
+		"tagged",
+		"untagged",
+		"list",
+		"focus",
+		"unfocus",
 	}
 
 	local tag_signals = { "property::selected", "property::activated" }
 
 	-- for _, sg in ipairs(client_signals) do client.connect_signal(sg, update) end
 	-- for _, sg in ipairs(tag_signals)    do awful.tag.attached_connect_signal(cs, sg, update) end
-	for _, sg in ipairs(client_signals) do client.connect_signal(sg, function() tasklist.queue:again() end) end
+	for _, sg in ipairs(client_signals) do
+		client.connect_signal(sg, function()
+			tasklist.queue:again()
+		end)
+	end
 	for _, sg in ipairs(tag_signals) do
-		awful.tag.attached_connect_signal(cs, sg, function() tasklist.queue:again() end)
+		awful.tag.attached_connect_signal(cs, sg, function()
+			tasklist.queue:again()
+		end)
 	end
 
 	-- force hide pop-up widgets if any client was closed
 	-- because last vars may be no actual anymore
-	client.connect_signal("unmanage",
-		function()
-			tasklist_update()
-			redtasklist.tasktip.wibox.visible = false
-			redtasklist.winmenu.menu:hide()
-			last.client = nil
-			last.group  = nil
-		end
-	)
+	client.connect_signal("unmanage", function()
+		tasklist_update()
+		redtasklist.tasktip.wibox.visible = false
+		redtasklist.winmenu.menu:hide()
+		last.client = nil
+		last.group = nil
+	end)
 
 	-- Construct
 	--------------------------------------------------------------------------------
@@ -930,11 +992,15 @@ local function client_is_occluded(c)
 	for _, c2 in ipairs(client.get(c.screen, true)) do
 		if first then
 			-- if we are already at the top of the stack we are also visibly at the top naturally
-			if c2 == c then return false end
+			if c2 == c then
+				return false
+			end
 			first = false
 		else
 			-- if we haven't hit any intersection and reach the client c, we are still visibly at the top
-			if c2 == c then return false end
+			if c2 == c then
+				return false
+			end
 		end
 		if c2:isvisible() and geometry.rectangle.area_intersect_area(geo, c2:geometry()) then
 			-- any intersection on the way down the stack means we are visibly occluded by another client
@@ -960,10 +1026,14 @@ function redtasklist.action.select(args)
 				return
 			end
 		end
-		for _, c in ipairs(args.group) do c.minimized = true end
+		for _, c in ipairs(args.group) do
+			c.minimized = true
+		end
 	else
 		if state.minimized then
-			for _, c in ipairs(args.group) do c.minimized = false end
+			for _, c in ipairs(args.group) do
+				c.minimized = false
+			end
 		end
 
 		client.focus = args.group[1]
@@ -974,7 +1044,9 @@ end
 -- close all in group
 function redtasklist.action.close(args)
 	args = args or {}
-	for _, c in ipairs(args.group) do c:kill() end
+	for _, c in ipairs(args.group) do
+		c:kill()
+	end
 end
 
 -- show/close winmenu
@@ -992,7 +1064,6 @@ end
 function redtasklist.action.switch_prev()
 	switch_focus(last.screen_clients[mouse.screen], true)
 end
-
 
 -- Filtering functions
 -- @param c The client
@@ -1014,8 +1085,12 @@ end
 -- To include only the clients from currently selected tags
 --------------------------------------------------------------------------------
 function redtasklist.filter.currenttags(c, screen)
-	if c.screen ~= screen then return false end
-	if c.sticky then return true end
+	if c.screen ~= screen then
+		return false
+	end
+	if c.sticky then
+		return true
+	end
 
 	local tags = screen.tags
 
@@ -1024,7 +1099,9 @@ function redtasklist.filter.currenttags(c, screen)
 			local ctags = c:tags()
 
 			for _, v in ipairs(ctags) do
-				if v == t then return true end
+				if v == t then
+					return true
+				end
 			end
 		end
 	end
@@ -1035,9 +1112,15 @@ end
 -- To include only the minimized clients from currently selected tags
 --------------------------------------------------------------------------------
 function redtasklist.filter.minimizedcurrenttags(c, screen)
-	if c.screen ~= screen then return false end
-	if not c.minimized then return false end
-	if c.sticky then return true end
+	if c.screen ~= screen then
+		return false
+	end
+	if not c.minimized then
+		return false
+	end
+	if c.sticky then
+		return true
+	end
 
 	local tags = screen.tags
 
@@ -1046,7 +1129,9 @@ function redtasklist.filter.minimizedcurrenttags(c, screen)
 			local ctags = c:tags()
 
 			for _, v in ipairs(ctags) do
-				if v == t then return true end
+				if v == t then
+					return true
+				end
 			end
 		end
 	end

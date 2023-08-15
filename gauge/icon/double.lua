@@ -16,7 +16,6 @@ local beautiful = require("beautiful")
 local modutil = require("flex.util")
 local svgbox = require("flex.gauge.svgbox")
 
-
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------
 local dubgicon = { mt = {} }
@@ -25,12 +24,12 @@ local dubgicon = { mt = {} }
 -----------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
-		icon1       = modutil.base.placeholder(),
-		icon2       = modutil.base.placeholder(),
-		igap        = 8,
-		step        = 0.05,
+		icon1 = modutil.base.placeholder(),
+		icon2 = modutil.base.placeholder(),
+		igap = 8,
+		step = 0.05,
 		is_vertical = false,
-		color       = { main = "#b1222b", icon = "#a0a0a0" }
+		color = { main = "#b1222b", icon = "#a0a0a0" },
 	}
 	return modutil.table.merge(style, modutil.table.check(beautiful, "gauge.icon.double") or {})
 end
@@ -49,7 +48,6 @@ end
 -- @param style Table containing colors and geometry parameters for all elemets
 -----------------------------------------------------------------------------------------------------------------------
 function dubgicon.new(style)
-
 	-- Initialize vars
 	--------------------------------------------------------------------------------
 	style = modutil.table.merge(default_style(), style or {})
@@ -61,7 +59,7 @@ function dubgicon.new(style)
 	local layout = wibox.container.constraint(fixed, "exact", style.width)
 	layout._icon1 = svgbox(style.icon1)
 	layout._icon2 = svgbox(style.icon2)
-	layout._data = { level = { 0, 0 }}
+	layout._data = { level = { 0, 0 } }
 	fixed:add(wibox.container.margin(layout._icon1, 0, style.igap, 0, 0))
 	fixed:add(layout._icon2)
 
@@ -70,7 +68,7 @@ function dubgicon.new(style)
 	function layout:set_value(value)
 		local level = {
 			math.floor((value[1] < 1 and value[1] or 1) / style.step) * style.step,
-			math.floor((value[2] < 1 and value[2] or 1) / style.step) * style.step
+			math.floor((value[2] < 1 and value[2] or 1) / style.step) * style.step,
 		}
 
 		for i, widg in ipairs({ self._icon1, self._icon2 }) do

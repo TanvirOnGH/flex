@@ -18,7 +18,6 @@ local system = require("flex.system")
 local decoration = require("flex.float.decoration")
 local modtip = require("flex.float.hotkeys")
 
-
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------
 local top = { keys = {} }
@@ -26,27 +25,47 @@ local top = { keys = {} }
 -- key bindings
 top.keys.management = {
 	{
-		{}, "c", function() top:set_sort("cpu") end,
-		{ description = "Sort by CPU usage", group = "Management" }
+		{},
+		"c",
+		function()
+			top:set_sort("cpu")
+		end,
+		{ description = "Sort by CPU usage", group = "Management" },
 	},
 	{
-		{}, "m", function() top:set_sort("mem") end,
-		{ description = "Sort by RAM usage", group = "Management" }
+		{},
+		"m",
+		function()
+			top:set_sort("mem")
+		end,
+		{ description = "Sort by RAM usage", group = "Management" },
 	},
 }
 
 top.keys.action = {
 	{
-		{}, "k", function() top.kill_selected() end,
-		{ description = "Kill process", group = "Action" }
+		{},
+		"k",
+		function()
+			top.kill_selected()
+		end,
+		{ description = "Kill process", group = "Action" },
 	},
 	{
-		{}, "Escape", function() top:hide() end,
-		{ description = "Close top list widget", group = "Action" }
+		{},
+		"Escape",
+		function()
+			top:hide()
+		end,
+		{ description = "Close top list widget", group = "Action" },
 	},
 	{
-		{ "Mod4" }, "F1", function() modtip:show() end,
-		{ description = "Show hotkeys helper", group = "Action" }
+		{ "Mod4" },
+		"F1",
+		function()
+			modtip:show()
+		end,
+		{ description = "Show hotkeys helper", group = "Action" },
 	},
 }
 
@@ -54,35 +73,45 @@ top.keys.all = awful.util.table.join(top.keys.management, top.keys.action)
 
 top._fake_keys = {
 	{
-		{}, "N", nil,
-		{ description = "Select process by key", group = "Management",
-		  keyset = { "1", "2", "3", "4", "5", "6", "7", "8", "9" } }
+		{},
+		"N",
+		nil,
+		{
+			description = "Select process by key",
+			group = "Management",
+			keyset = { "1", "2", "3", "4", "5", "6", "7", "8", "9" },
+		},
 	},
 }
-
 
 -- Generate default theme vars
 -----------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
-		timeout       = 2,
-		screen_gap    = 0,
-		set_position  = nil,
-		geometry      = { width = 460, height = 380 },
+		timeout = 2,
+		screen_gap = 0,
+		set_position = nil,
+		geometry = { width = 460, height = 380 },
 		border_margin = { 10, 10, 10, 10 },
-		labels_width  = { num = 30, cpu = 70, mem = 120 },
-		title_height  = 48,
+		labels_width = { num = 30, cpu = 70, mem = 120 },
+		title_height = 48,
 		list_side_gap = 8,
-		border_width  = 2,
+		border_width = 2,
 		bottom_height = 80,
 		button_margin = { 140, 140, 22, 22 },
-		keytip        = { geometry = { width = 400 } },
-		title_font    = "Fira Code 14 bold",
-		unit          = { { "KB", -1 }, { "MB", 1024 }, { "GB", 1024^2 } },
-		color         = { border = "#575757", text = "#aaaaaa", highlight = "#eeeeee", main = "#b1222b",
-		                  bg = "#161616", bg_second = "#181818", wibox = "#202020" },
-		shape         = nil
-
+		keytip = { geometry = { width = 400 } },
+		title_font = "Fira Code 14 bold",
+		unit = { { "KB", -1 }, { "MB", 1024 }, { "GB", 1024 ^ 2 } },
+		color = {
+			border = "#575757",
+			text = "#aaaaaa",
+			highlight = "#eeeeee",
+			main = "#b1222b",
+			bg = "#161616",
+			bg_second = "#181818",
+			wibox = "#202020",
+		},
+		shape = nil,
 	}
 	return modutil.table.merge(style, modutil.table.check(beautiful, "float.top") or {})
 end
@@ -106,9 +135,9 @@ local function construct_item(style)
 	local item = {}
 	item.label = {
 		number = wibox.widget.textbox(),
-		name   = wibox.widget.textbox(),
-		cpu    = wibox.widget.textbox(),
-		mem    = wibox.widget.textbox()
+		name = wibox.widget.textbox(),
+		cpu = wibox.widget.textbox(),
+		mem = wibox.widget.textbox(),
 	}
 
 	item.label.cpu:set_align("right")
@@ -130,7 +159,7 @@ local function construct_item(style)
 
 	local left = wibox.container.constraint(num_label_with_gap, "exact", style.labels_width.num, nil)
 
-	local item_horizontal  = wibox.layout.align.horizontal()
+	local item_horizontal = wibox.layout.align.horizontal()
 	item_horizontal:set_left(left)
 	item_horizontal:set_middle(middle)
 	item_horizontal:set_right(right)
@@ -154,11 +183,21 @@ local function construct_item(style)
 	end
 
 	function item:set(args)
-		if args.number then item.label.number:set_text(args.number) end
-		if args.name then item.label.name:set_text(args.name) end
-		if args.cpu then item.label.cpu:set_text(args.cpu) end
-		if args.mem then item.label.mem:set_text(args.mem) end
-		if args.pid then item.pid = args.pid end
+		if args.number then
+			item.label.number:set_text(args.number)
+		end
+		if args.name then
+			item.label.name:set_text(args.name)
+		end
+		if args.cpu then
+			item.label.cpu:set_text(args.cpu)
+		end
+		if args.mem then
+			item.label.mem:set_text(args.mem)
+		end
+		if args.pid then
+			item.pid = args.pid
+		end
 	end
 
 	------------------------------------------------------------
@@ -176,13 +215,13 @@ local function list_construct(n, style, select_function)
 	list.items = {}
 	for i = 1, n do
 		list.items[i] = construct_item(style)
-		list.items[i]:set({ number = i})
+		list.items[i]:set({ number = i })
 		list.items[i]:set_bg((i % 2) == 1 and style.color.bg or style.color.bg_second)
 		list_layout:add(list.items[i].layout)
 
-		list.items[i].layout:buttons(awful.util.table.join(
-			awful.button({ }, 1, function() select_function(i) end)
-		))
+		list.items[i].layout:buttons(awful.util.table.join(awful.button({}, 1, function()
+			select_function(i)
+		end)))
 	end
 
 	return list
@@ -191,7 +230,6 @@ end
 -- Initialize top widget
 -----------------------------------------------------------------------------------------------------------------------
 function top:init()
-
 	-- Initialize vars
 	--------------------------------------------------------------------------------
 	local number_of_lines = 9 -- number of lines in process list
@@ -205,7 +243,9 @@ function top:init()
 	-- Select process function
 	--------------------------------------------------------------------------------
 	local function select_item(i)
-		if selected.number and selected.number ~= i then toplist.items[selected.number]:set_unselect() end
+		if selected.number and selected.number ~= i then
+			toplist.items[selected.number]:set_unselect()
+		end
 		toplist.items[i]:set_select()
 		selected.pid = toplist.items[i].pid
 		selected.number = i
@@ -216,46 +256,55 @@ function top:init()
 	function self:set_sort(args)
 		if args == "cpu" then
 			sort_function = sort_by_cpu
-			title:set({ cpu = "▾ CPU", mem = "Memory"})
+			title:set({ cpu = "▾ CPU", mem = "Memory" })
 		elseif args == "mem" then
 			sort_function = sort_by_mem
-			title:set({ cpu = "CPU", mem = "▾ Memory"})
+			title:set({ cpu = "CPU", mem = "▾ Memory" })
 		end
 	end
 
 	-- Kill selected process
 	--------------------------------------------------------------------------------
 	function self.kill_selected()
-		if selected.number then awful.spawn.with_shell("kill " .. selected.pid) end
+		if selected.number then
+			awful.spawn.with_shell("kill " .. selected.pid)
+		end
 		self:update_list()
 	end
 
 	-- Widget keygrabber
 	--------------------------------------------------------------------------------
 	self.keygrabber = function(mod, key, event)
-		if     event ~= "press" then return end
-		for _, k in ipairs(self.keys.all) do
-			if modutil.key.match_grabber(k, mod, key) then k[3](); return end
+		if event ~= "press" then
+			return
 		end
-		if string.match("123456789", key) then select_item(tonumber(key)) end
+		for _, k in ipairs(self.keys.all) do
+			if modutil.key.match_grabber(k, mod, key) then
+				k[3]()
+				return
+			end
+		end
+		if string.match("123456789", key) then
+			select_item(tonumber(key))
+		end
 	end
 
 	-- Build title
 	--------------------------------------------------------------------------------
 	title = construct_item(style)
 	title:set_bg("transparent")
-	title:set({ number = "#", name = "Process Name", cpu = "▾ CPU", mem = "Memory"})
+	title:set({ number = "#", name = "Process Name", cpu = "▾ CPU", mem = "Memory" })
 
 	for _, txtbox in pairs(title.label) do
 		txtbox:set_font(style.title_font)
 	end
 
-	title.label.cpu:buttons(awful.util.table.join(
-		awful.button({ }, 1, function() self:set_sort("cpu") end)
-	))
-	title.label.mem:buttons(awful.util.table.join(
-		awful.button({ }, 1, function() self:set_sort("mem") end)
-	))
+	title.label.cpu:buttons(awful.util.table.join(awful.button({}, 1, function()
+		self:set_sort("cpu")
+	end)))
+	title.label.mem:buttons(awful.util.table.join(awful.button({}, 1, function()
+		self:set_sort("mem")
+	end)))
 
 	-- Build top list
 	--------------------------------------------------------------------------------
@@ -278,7 +327,7 @@ function top:init()
 				cpu = string.format("%.1f", proc[i].pcpu * 100),
 				--mem = string.format("%.0f", proc[i].mem) .. " MB",
 				mem = modutil.text.dformat(proc[i].mem, style.unit, 2, " "),
-				pid = proc[i].pid
+				pid = proc[i].pid,
 			})
 
 			if selected.pid and selected.pid == proc[i].pid then
@@ -306,11 +355,11 @@ function top:init()
 	-- Create floating wibox for top widget
 	--------------------------------------------------------------------------------
 	self.wibox = wibox({
-		ontop        = true,
-		bg           = style.color.wibox,
+		ontop = true,
+		bg = style.color.wibox,
 		border_width = style.border_width,
 		border_color = style.color.border,
-		shape        = style.shape
+		shape = style.shape,
 	})
 
 	self.wibox:set_widget(list_layout)
@@ -318,8 +367,10 @@ function top:init()
 
 	-- Update timer
 	--------------------------------------------------------------------------------
-	self.update_timer = timer({timeout = style.timeout})
-	self.update_timer:connect_signal("timeout", function() self:update_list() end)
+	self.update_timer = timer({ timeout = style.timeout })
+	self.update_timer:connect_signal("timeout", function()
+		self:update_list()
+	end)
 
 	-- First run actions
 	--------------------------------------------------------------------------------
@@ -340,11 +391,15 @@ end
 -- Show top widget
 -----------------------------------------------------------------------------------------------------------------------
 function top:show(srt)
-	if not self.wibox then self:init() end
+	if not self.wibox then
+		self:init()
+	end
 	if self.wibox.visible then
 		top:hide()
 	else
-		if srt then self:set_sort(srt) end
+		if srt then
+			self:set_sort(srt)
+		end
 		self:update_list()
 
 		if self.style.set_position then
@@ -368,7 +423,9 @@ function top:set_keys(keys, layout)
 	layout = layout or "all"
 	if keys then
 		self.keys[layout] = keys
-		if layout ~= "all" then self.keys.all = awful.util.table.join(self.keys.management, self.keys.action) end
+		if layout ~= "all" then
+			self.keys.all = awful.util.table.join(self.keys.management, self.keys.action)
+		end
 	end
 
 	self.tip = awful.util.table.join(self.keys.all, self._fake_keys)

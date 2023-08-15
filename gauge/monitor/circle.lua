@@ -23,12 +23,12 @@ local TPI = math.pi * 2
 -----------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
-		width        = nil,
-		line_width   = 4,
-		radius       = 14,
-		iradius      = 6,
-		step         = 0.02,
-		color        = { main = "#b1222b", gray = "#575757", icon = "#a0a0a0" }
+		width = nil,
+		line_width = 4,
+		radius = 14,
+		iradius = 6,
+		step = 0.02,
+		color = { main = "#b1222b", gray = "#575757", icon = "#a0a0a0" },
 	}
 	return modutil.table.merge(style, modutil.table.check(beautiful, "gauge.monitor.circle") or {})
 end
@@ -37,7 +37,6 @@ end
 -- @param style Table containing colors and geometry parameters for all elemets
 -----------------------------------------------------------------------------------------------------------------------
 function cirmon.new(style)
-
 	-- Initialize vars
 	--------------------------------------------------------------------------------
 	style = modutil.table.merge(default_style(), style or {})
@@ -48,7 +47,9 @@ function cirmon.new(style)
 	local widg = wibox.widget.base.make_widget()
 	widg._data = { color = style.color.icon, level = 0, alert = false }
 
-	if style.width then widg:set_forced_width(style.width) end
+	if style.width then
+		widg:set_forced_width(style.width)
+	end
 
 	-- User functions
 	------------------------------------------------------------
@@ -80,7 +81,6 @@ function cirmon.new(style)
 	-- Draw
 	------------------------------------------------------------
 	function widg:draw(_, cr, width, height)
-
 		-- center circle
 		cr:set_source(color(self._data.color))
 		cr:arc(width / 2, height / 2, style.iradius, 0, TPI)

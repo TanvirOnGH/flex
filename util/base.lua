@@ -23,9 +23,13 @@ function base.buttons(buttons, object)
 			-- press and release events, and will propagate them the the
 			-- button object the user provided, but with the object as
 			-- argument.
-			local btn = button { modifiers = b.modifiers, button = b.button }
-			btn:connect_signal("press", function () b:emit_signal("press", object) end)
-			btn:connect_signal("release", function () b:emit_signal("release", object) end)
+			local btn = button({ modifiers = b.modifiers, button = b.button })
+			btn:connect_signal("press", function()
+				b:emit_signal("press", object)
+			end)
+			btn:connect_signal("release", function()
+				b:emit_signal("release", object)
+			end)
 			btns[#btns + 1] = btn
 		end
 
@@ -39,9 +43,9 @@ function base.placeholder(args)
 	args = args or {}
 	local tb = wibox.widget({
 		markup = args.txt or "?",
-		align  = "center",
+		align = "center",
 		valign = "center",
-		widget = wibox.widget.textbox
+		widget = wibox.widget.textbox,
 	})
 
 	return surface.widget_to_surface(tb, args.width or 24, args.height or 24)
@@ -59,8 +63,6 @@ function base.image(width, height, geometry, color)
 	return image
 end
 
-
 -- End
 -----------------------------------------------------------------------------------------------------------------------
 return base
-
