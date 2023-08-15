@@ -1,4 +1,4 @@
--- awsmx util submodule
+-- flex util submodule
 
 local wibox = require("wibox")
 local awful = require("awful")

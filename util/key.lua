@@ -1,4 +1,4 @@
--- awsmx util submodule
+-- flex util submodule
 
 local unpack = unpack or table.unpack
 
@@ -24,7 +24,7 @@ function key.build(t)
 	return awful.util.table.join(unpack(temp))
 end
 
--- Check if awsmx raw key matched with awful prompt key
+-- Check if flex raw key matched with awful prompt key
 ------------------------------------------------------------
 function key.match_prompt(rawkey, mod, _key)
 	for m, _ in pairs(mod) do
@@ -45,7 +45,7 @@ function key.match_prompt(rawkey, mod, _key)
 	return #rawkey[1] == count and modcheck and _key:lower() == rawkey[2]:lower()
 end
 
--- Check if awsmx raw key matched with awful prompt key
+-- Check if flex raw key matched with awful prompt key
 ------------------------------------------------------------
 function key.match_grabber(rawkey, mod, _key)
 	for i, m in ipairs(mod) do

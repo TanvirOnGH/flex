@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                             awsmx corners widget                                                --
+--                                             flex corners widget                                                --
 -----------------------------------------------------------------------------------------------------------------------
 -- Vertical progress indicator with custom shape
 -----------------------------------------------------------------------------------------------------------------------
@@ -12,8 +12,8 @@ local wibox = require("wibox")
 local color = require("gears.color")
 local beautiful = require("beautiful")
 
-local modutil = require("awsmx.util")
-local tooltip = require("awsmx.float.tooltip")
+local modutil = require("flex.util")
+local tooltip = require("flex.float.tooltip")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------

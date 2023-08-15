@@ -1,10 +1,10 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                                   awsmx library                                                 --
+--                                                   flex library                                                 --
 -----------------------------------------------------------------------------------------------------------------------
 
-local wrequire = require("awsmx.util").wrequire
+local wrequire = require("flex.util").wrequire
 local setmetatable = setmetatable
 
-local lib = { _NAME = "awsmx.desktop.common.pack" }
+local lib = { _NAME = "flex.desktop.common.pack" }
 
 return setmetatable(lib, { __index = wrequire })

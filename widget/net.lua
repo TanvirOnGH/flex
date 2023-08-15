@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                               awsmx network widget                                              --
+--                                               flex network widget                                              --
 -----------------------------------------------------------------------------------------------------------------------
 -- Network speed monitoring widget
 -----------------------------------------------------------------------------------------------------------------------
@@ -10,10 +10,10 @@ local setmetatable = setmetatable
 local beautiful = require("beautiful")
 local timer = require("gears.timer")
 
-local modutil = require("awsmx.util")
-local monitor = require("awsmx.gauge.icon.double")
-local tooltip = require("awsmx.float.tooltip")
-local system = require("awsmx.system")
+local modutil = require("flex.util")
+local monitor = require("flex.gauge.icon.double")
+local tooltip = require("flex.float.tooltip")
+local system = require("flex.system")
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------

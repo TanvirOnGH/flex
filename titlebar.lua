@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                                awsmx titlebar                                                   --
+--                                                flex titlebar                                                   --
 -----------------------------------------------------------------------------------------------------------------------
 -- model titlebar with two view: light and full
 -- Only simple indicators avaliable, no buttons
@@ -20,8 +20,8 @@ local drawable = require("wibox.drawable")
 local color = require("gears.color")
 local wibox = require("wibox")
 
-local modutil = require("awsmx.util")
-local svgbox = require("awsmx.gauge.svgbox")
+local modutil = require("flex.util")
+local svgbox = require("flex.gauge.svgbox")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------

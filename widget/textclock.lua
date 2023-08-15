@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                               awsmx clock widget                                                --
+--                                               flex clock widget                                                --
 -----------------------------------------------------------------------------------------------------------------------
 -- Text clock widget with date in tooltip (optional)
 -----------------------------------------------------------------------------------------------------------------------
@@ -14,8 +14,8 @@ local textbox = require("wibox.widget.textbox")
 local beautiful = require("beautiful")
 local gears = require("gears")
 
-local tooltip = require("awsmx.float.tooltip")
-local modutil = require("awsmx.util")
+local tooltip = require("flex.float.tooltip")
+local modutil = require("flex.util")
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------

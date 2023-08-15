@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                        awsmx floating window manager                                            --
+--                                        flex floating window manager                                            --
 -----------------------------------------------------------------------------------------------------------------------
 -- Widget to control single flating window size and posioning
 -----------------------------------------------------------------------------------------------------------------------
@@ -12,10 +12,10 @@ local beautiful = require("beautiful")
 local awful     = require("awful")
 local wibox     = require("wibox")
 
-local rednotify = require("awsmx.float.notify")
-local modutil   = require("awsmx.util")
-local modtip    = require("awsmx.float.hotkeys")
-local svgbox    = require("awsmx.gauge.svgbox")
+local rednotify = require("flex.float.notify")
+local modutil   = require("flex.util")
+local modtip    = require("flex.float.hotkeys")
+local svgbox    = require("flex.gauge.svgbox")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------

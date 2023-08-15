@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                               awsmx grid layout                                                 --
+--                                               flex grid layout                                                 --
 -----------------------------------------------------------------------------------------------------------------------
 -- Floating layout with discrete geometry
 -----------------------------------------------------------------------------------------------------------------------
@@ -14,8 +14,8 @@ local math = math
 local unpack = unpack or table.unpack
 
 local awful = require("awful")
-local common = require("awsmx.layout.common")
-local modutil = require("awsmx.util")
+local common = require("flex.layout.common")
+local modutil = require("flex.util")
 
 local hasitem = awful.util.table.hasitem
 
@@ -455,7 +455,7 @@ function grid.mouse_resize_handler(c, corner)
 	)
 end
 
--- awsmx navigator support functions
+-- flex navigator support functions
 -----------------------------------------------------------------------------------------------------------------------
 function grid:set_keys(keys, layout)
 	layout = layout or "all"

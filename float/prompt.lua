@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                              awsmx promt widget                                                 --
+--                                              flex promt widget                                                 --
 -----------------------------------------------------------------------------------------------------------------------
 -- Promt widget with his own wibox placed on center of screen
 -----------------------------------------------------------------------------------------------------------------------
@@ -18,8 +18,8 @@ local beautiful = require("beautiful")
 local wibox = require("wibox")
 local naughty = require("naughty")
 
-local modutil = require("awsmx.util")
-local decoration = require("awsmx.float.decoration")
+local modutil = require("flex.util")
+local decoration = require("flex.float.decoration")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------

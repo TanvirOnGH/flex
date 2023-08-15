@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                               awsmx barpack widget                                              --
+--                                               flex barpack widget                                              --
 -----------------------------------------------------------------------------------------------------------------------
 -- Group of indicators with progressbar, label and text in every line
 -----------------------------------------------------------------------------------------------------------------------
@@ -10,9 +10,9 @@ local setmetatable = setmetatable
 local wibox = require("wibox")
 local beautiful = require("beautiful")
 
-local modutil = require("awsmx.util")
-local dcommon = require("awsmx.desktop.common")
-local tooltip = require("awsmx.float.tooltip")
+local modutil = require("flex.util")
+local dcommon = require("flex.desktop.common")
+local tooltip = require("flex.float.tooltip")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------

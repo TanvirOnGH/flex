@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                          awsmx hotkeys helper widget                                            --
+--                                          flex hotkeys helper widget                                            --
 -----------------------------------------------------------------------------------------------------------------------
 -- Widget with list of hotkeys
 -----------------------------------------------------------------------------------------------------------------------
@@ -14,8 +14,8 @@ local beautiful = require("beautiful")
 local wibox = require("wibox")
 local timer = require("gears.timer")
 
-local awsmx = require("awsmx")
-local modutil = require("awsmx.util")
+local flex = require("flex")
+local modutil = require("flex.util")
 
 
 -- Initialize tables for module
@@ -235,7 +235,7 @@ function hotkeys:init()
 			{
 				self.title,
 				subtitle,
-				awsmx.gauge.separator.horizontal(style.separator),
+				flex.gauge.separator.horizontal(style.separator),
 				spacing = style.tspace,
 				layout = wibox.layout.fixed.vertical,
 			},

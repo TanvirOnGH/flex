@@ -1,4 +1,4 @@
--- awsmx util submodule
+-- flex util submodule
 
 local awful = require("awful")
 

@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                                 awsmx sysmon widget                                             --
+--                                                 flex sysmon widget                                             --
 -----------------------------------------------------------------------------------------------------------------------
 -- Monitoring widget
 -----------------------------------------------------------------------------------------------------------------------
@@ -10,9 +10,9 @@ local setmetatable = setmetatable
 local beautiful = require("beautiful")
 local timer = require("gears.timer")
 
-local monitor = require("awsmx.gauge.monitor.plain")
-local tooltip = require("awsmx.float.tooltip")
-local modutil = require("awsmx.util")
+local monitor = require("flex.gauge.monitor.plain")
+local tooltip = require("flex.float.tooltip")
+local modutil = require("flex.util")
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------

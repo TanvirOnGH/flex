@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                              awsmx textbox widget                                               --
+--                                              flex textbox widget                                               --
 -----------------------------------------------------------------------------------------------------------------------
 -- Custom textbox for desktop widgets
 -----------------------------------------------------------------------------------------------------------------------
@@ -11,7 +11,7 @@ local wibox = require("wibox")
 local color = require("gears.color")
 local beautiful = require("beautiful")
 
-local modutil = require("awsmx.util")
+local modutil = require("flex.util")
 
 
 -- Initialize tables for module

@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                                   awsmx library                                                 --
+--                                                   flex library                                                 --
 -----------------------------------------------------------------------------------------------------------------------
 
 local wrequire = function(table_, key)
@@ -9,6 +9,6 @@ end
 
 local setmetatable = setmetatable
 
-local lib = { _NAME = "awsmx.util", wrequire = wrequire }
+local lib = { _NAME = "flex.util", wrequire = wrequire }
 
 return setmetatable(lib, { __index = wrequire })

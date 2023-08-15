@@ -15,7 +15,7 @@ local beautiful = require("beautiful")
 local color = require("gears.color")
 local timer = require("gears.timer")
 
-local modutil = require("awsmx.util")
+local modutil = require("flex.util")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------

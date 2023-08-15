@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                               awsmx dotcount widget                                             --
+--                                               flex dotcount widget                                             --
 -----------------------------------------------------------------------------------------------------------------------
 -- Simple graphical counter
 -- Displaying current value by dots number
@@ -13,7 +13,7 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 local color = require("gears.color")
 
-local modutil = require("awsmx.util")
+local modutil = require("flex.util")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------

@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                             awsmx doublemonitor widget                                          --
+--                                             flex doublemonitor widget                                          --
 -----------------------------------------------------------------------------------------------------------------------
 -- Widget with two progressbar and icon
 -----------------------------------------------------------------------------------------------------------------------
@@ -14,8 +14,8 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 local color = require("gears.color")
 
-local modutil = require("awsmx.util")
-local svgbox = require("awsmx.gauge.svgbox")
+local modutil = require("flex.util")
+local svgbox = require("flex.gauge.svgbox")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------

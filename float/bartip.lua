@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                         awsmx titlebar helper widget                                            --
+--                                         flex titlebar helper widget                                            --
 -----------------------------------------------------------------------------------------------------------------------
 -- Titlebar info widget
 -----------------------------------------------------------------------------------------------------------------------
@@ -12,10 +12,10 @@ local beautiful = require("beautiful")
 local awful     = require("awful")
 local wibox     = require("wibox")
 
-local modutil  = require("awsmx.util")
-local modtitle = require("awsmx.titlebar")
-local modtip   = require("awsmx.float.hotkeys")
-local svgbox   = require("awsmx.gauge.svgbox")
+local modutil  = require("flex.util")
+local modtitle = require("flex.titlebar")
+local modtip   = require("flex.float.hotkeys")
+local svgbox   = require("flex.gauge.svgbox")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------

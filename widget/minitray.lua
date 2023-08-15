@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                               awsmx minitray                                                    --
+--                                               flex minitray                                                    --
 -----------------------------------------------------------------------------------------------------------------------
 -- Tray located on separate wibox
 -- minitray:toggle() used to show/hide wibox
@@ -19,9 +19,9 @@ local wibox = require("wibox")
 local awful = require("awful")
 local beautiful = require("beautiful")
 
-local modutil = require("awsmx.util")
-local dotcount = require("awsmx.gauge.graph.dots")
-local tooltip = require("awsmx.float.tooltip")
+local modutil = require("flex.util")
+local dotcount = require("flex.gauge.graph.dots")
+local tooltip = require("flex.float.tooltip")
 
 -- Initialize tables and wibox
 -----------------------------------------------------------------------------------------------------------------------

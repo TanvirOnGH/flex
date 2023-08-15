@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                           awsmx prefix hotkey manager                                           --
+--                                           flex prefix hotkey manager                                           --
 -----------------------------------------------------------------------------------------------------------------------
 -- Emacs like key key sequences
 -----------------------------------------------------------------------------------------------------------------------
@@ -13,9 +13,9 @@ local wibox = require("wibox")
 local awful = require("awful")
 local beautiful = require("beautiful")
 
-local awsmx = require("awsmx")
-local modutil = require("awsmx.util")
-local modtip = require("awsmx.float.hotkeys")
+local flex = require("flex")
+local modutil = require("flex.util")
+local modtip = require("flex.float.hotkeys")
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------
@@ -39,7 +39,7 @@ local function default_style()
 		shape           = nil
 	}
 
-	return awsmx.util.table.merge(style, awsmx.util.table.check(beautiful, "float.keychain") or {})
+	return flex.util.table.merge(style, flex.util.table.check(beautiful, "float.keychain") or {})
 end
 
 -- Support functions
@@ -97,7 +97,7 @@ function keychain:init(style)
 	self.parents = {}
 	self.sequence = ""
 
-	style = awsmx.util.table.merge(default_style(), style or {})
+	style = flex.util.table.merge(default_style(), style or {})
 	self.style = style
 
 	-- Wibox

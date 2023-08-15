@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                         awsmx client menu widget                                               --
+--                                         flex client menu widget                                               --
 -----------------------------------------------------------------------------------------------------------------------
 -- Custom float widget that provides client actions like the tasklist's window
 -- menu but may be used outside of the tasklist context on any client. Useful
@@ -8,7 +8,7 @@
 -----------------------------------------------------------------------------------------------------------------------
 -- Authored by M4he
 -- Some code was taken from
------- awsmx.widget.tasklist
+------ flex.widget.tasklist
 -----------------------------------------------------------------------------------------------------------------------
 
 -- Grab environment
@@ -22,10 +22,10 @@ local beautiful = require("beautiful")
 local awful = require("awful")
 local wibox = require("wibox")
 
-local modutil = require("awsmx.util")
-local separator = require("awsmx.gauge.separator")
-local modmenu = require("awsmx.menu")
-local svgbox = require("awsmx.gauge.svgbox")
+local modutil = require("flex.util")
+local separator = require("flex.gauge.separator")
+local modmenu = require("flex.menu")
+local svgbox = require("flex.gauge.svgbox")
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------

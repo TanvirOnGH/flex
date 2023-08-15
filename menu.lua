@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                                  awsmx menu                                                     --
+--                                                  flex menu                                                     --
 -----------------------------------------------------------------------------------------------------------------------
 -- awful.menu modification
 -- Custom widget support added
@@ -34,9 +34,9 @@ local table = table
 local type = type
 local unpack = unpack or table.unpack
 
-local modutil = require("awsmx.util")
-local svgbox = require("awsmx.gauge.svgbox")
-local modtip = require("awsmx.float.hotkeys")
+local modutil = require("flex.util")
+local svgbox = require("flex.gauge.svgbox")
+local modtip = require("flex.float.hotkeys")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------
@@ -403,7 +403,7 @@ function menu:replace_items(items)
 end
 
 -- Add a new menu entry.
--- args.new (Default: awsmx.menu.entry) The menu entry constructor.
+-- args.new (Default: flex.menu.entry) The menu entry constructor.
 -- args.theme (Optional) The menu entry theme.
 -- args.* params needed for the menu entry constructor.
 -- @param args The item params

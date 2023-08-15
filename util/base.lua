@@ -1,4 +1,4 @@
--- awsmx util submodule
+-- flex util submodule
 
 local cairo = require("lgi").cairo
 local gears = require("gears")
