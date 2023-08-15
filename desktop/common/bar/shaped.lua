@@ -27,7 +27,7 @@ local function default_style()
 		maxm      = 1,
 		width     = nil,
 		height    = nil,
-		autoscale = false,
+		autoscale = true,
 		show      = { tooltip = false },
 		tooltip   = {},
 		shape     = "corner",
