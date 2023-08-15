@@ -60,7 +60,7 @@ local function default_theme()
 		nohide       = false,
 		auto_expand  = true,
 		auto_hotkey  = false,
-		svg_scale    = { false, false },
+		svg_scale    = { true, true },
 		hide_timeout = 0,
 		select_first = true,
 		keytip       = { geometry = { width = 400 } },
