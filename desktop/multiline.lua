@@ -27,13 +27,13 @@ local dashpack = { mt = {} }
 -----------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
-		icon      = { image = nil, margin = { 0, 0, 0, 0 } },
-		lines     = {},
-		margin    = { 0, 0, 0, 0 },
-		digits    = 3,
-		dislabel  = "OFF",
-		unit      = { { "B", -1 }, { "KB", 1024 }, { "MB", 1024^2 }, { "GB", 1024^3 } },
-		color     = { main = "#b1222b", wibox = "#161616", gray = "#404040" }
+		icon = { image = nil, margin = { 0, 0, 0, 0 } },
+		lines = {},
+		margin = { 0, 0, 0, 0 },
+		digits = 3,
+		dislabel = "OFF",
+		unit = { { "B", -1 }, { "KB", 1024 }, { "MB", 1024 ^ 2 }, { "GB", 1024 ^ 3 } },
+		color = { main = "#b1222b", wibox = "#161616", gray = "#404040" },
 	}
 	return modutil.table.merge(style, modutil.table.check(beautiful, "desktop.multiline") or {})
 end
@@ -43,7 +43,6 @@ local default_args = { timeout = 60, sensors = {} }
 -- Create a new widget
 -----------------------------------------------------------------------------------------------------------------------
 function dashpack.new(args, style)
-
 	-- Initialize vars
 	--------------------------------------------------------------------------------
 	local dwidget = {}
@@ -70,7 +69,9 @@ function dashpack.new(args, style)
 	end
 
 	for i, sensor in ipairs(args.sensors) do
-		if sensor.name then pack:set_label(string.upper(sensor.name), i) end
+		if sensor.name then
+			pack:set_label(string.upper(sensor.name), i)
+		end
 	end
 
 	-- Update info function
@@ -84,7 +85,7 @@ function dashpack.new(args, style)
 
 		if style.lines.show.text or style.lines.show.tooltip then
 			local txt = state.off and style.dislabel
-			            or modutil.text.dformat(state[2] or state[1], style.unit, style.digits)
+				or modutil.text.dformat(state[2] or state[1], style.unit, style.digits)
 			pack:set_text(txt, i)
 			pack:set_text_color(text_color, i)
 		end
@@ -99,7 +100,9 @@ function dashpack.new(args, style)
 	end
 
 	local function line_hadnler(maxm, crit, i)
-		return function(state) set_raw_state(state, maxm, crit, i) end
+		return function(state)
+			set_raw_state(state, maxm, crit, i)
+		end
 	end
 
 	local function update()

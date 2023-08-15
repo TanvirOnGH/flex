@@ -24,13 +24,13 @@ local chart = { mt = {} }
 -----------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
-		maxm        = 1,
-		color       = "#404040",
-		width       = nil,
-		height      = nil,
+		maxm = 1,
+		color = "#404040",
+		width = nil,
+		height = nil,
 		zero_height = 4,
-		bar         = { gap = 5, width = 5 },
-		autoscale   = true
+		bar = { gap = 5, width = 5 },
+		autoscale = true,
 	}
 
 	return modutil.table.merge(style, modutil.table.check(beautiful, "desktop.common.chart") or {})
@@ -41,7 +41,6 @@ end
 -- See block of local vars below for more details
 -----------------------------------------------------------------------------------------------------------------------
 function chart.new(style)
-
 	-- Initialize vars
 	--------------------------------------------------------------------------------
 	style = modutil.table.merge(default_style(), style or {})
@@ -51,7 +50,7 @@ function chart.new(style)
 
 	-- updating values
 	local data = {
-		values = {}
+		values = {},
 	}
 
 	-- Create custom widget
@@ -77,13 +76,14 @@ function chart.new(style)
 	-- Draw function
 	------------------------------------------------------------
 	function chartwidg:draw(_, cr, width, height)
-
 		--scale
 		if style.autoscale then
 			current_maxm = style.maxm
 
 			for _, v in ipairs(data.values) do
-				if v > current_maxm then current_maxm = v end
+				if v > current_maxm then
+					current_maxm = v
+				end
 			end
 		end
 
@@ -92,16 +92,19 @@ function chart.new(style)
 		while #data.values < barnum do
 			table.insert(data.values, 0)
 		end
-		local real_gap = style.bar.gap + (width - (barnum - 1) * (style.bar.width + style.bar.gap)
-		                 - style.bar.width) / (barnum - 1)
+		local real_gap = style.bar.gap
+			+ (width - (barnum - 1) * (style.bar.width + style.bar.gap) - style.bar.width)
+				/ (barnum - 1)
 
 		cr:set_source(color(style.color))
 		for i = 0, barnum - 1 do
 			local n = (count + i) % barnum + 1
 			local k = data.values[n] / current_maxm
-			if k > 1 then k = 1 end
-			local bar_height = - k * (height - style.zero_height)
-			cr:rectangle(i * (style.bar.width + real_gap), height, style.bar.width, - style.zero_height)
+			if k > 1 then
+				k = 1
+			end
+			local bar_height = -k * (height - style.zero_height)
+			cr:rectangle(i * (style.bar.width + real_gap), height, style.bar.width, -style.zero_height)
 			cr:rectangle(i * (style.bar.width + real_gap), height - style.zero_height, style.bar.width, bar_height)
 		end
 

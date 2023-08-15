@@ -22,23 +22,21 @@ local barpack = { mt = {} }
 -----------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
-		label        = {},
-		text         = {},
-		show         = { text = true, label = true, tooltip = false },
-		progressbar  = {},
-		line         = { height = 20 },
-		gap          = { text = 20, label = 20 },
-		tooltip      = {},
-		color        = {}
+		label = {},
+		text = {},
+		show = { text = true, label = true, tooltip = false },
+		progressbar = {},
+		line = { height = 20 },
+		gap = { text = 20, label = 20 },
+		tooltip = {},
+		color = {},
 	}
 	return modutil.table.merge(style, modutil.table.check(beautiful, "desktop.common.pack.lines") or {})
 end
 
-
 -- Create a new barpack widget
 -----------------------------------------------------------------------------------------------------------------------
 function barpack.new(num, style)
-
 	local pack = {}
 	style = modutil.table.merge(default_style(), style or {})
 	local progressbar_style = modutil.table.merge(style.progressbar, { color = style.color })

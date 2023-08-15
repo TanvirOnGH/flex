@@ -22,12 +22,12 @@ local progressbar = { mt = {} }
 -----------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
-		maxm        = 1,
-		width       = nil,
-		height      = nil,
-		chunk       = { gap = 5, width = 5 },
-		autoscale   = false,
-		color       = { main = "#b1222b", gray = "#404040" }
+		maxm = 1,
+		width = nil,
+		height = nil,
+		chunk = { gap = 5, width = 5 },
+		autoscale = false,
+		color = { main = "#b1222b", gray = "#404040" },
 	}
 
 	return modutil.table.merge(style, modutil.table.check(beautiful, "desktop.common.bar.plain") or {})
@@ -53,7 +53,6 @@ end
 -- @param style.maxm Scaling value if autoscale = false
 -----------------------------------------------------------------------------------------------------------------------
 function progressbar.new(style)
-
 	-- Initialize vars
 	--------------------------------------------------------------------------------
 	style = modutil.table.merge(default_style(), style or {})
@@ -69,11 +68,15 @@ function progressbar.new(style)
 
 	function widg:set_value(x)
 		if style.autoscale then
-			if x > maxm then maxm = x end
+			if x > maxm then
+				maxm = x
+			end
 		end
 
 		local cx = x / maxm
-		if cx > 1 then cx = 1 end
+		if cx > 1 then
+			cx = 1
+		end
 
 		self._data.value = cx
 		local num = math.ceil(self._data.chunks * self._data.value)

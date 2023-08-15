@@ -23,8 +23,8 @@ local sysmon = { mt = {} }
 local function default_style()
 	local style = {
 		timeout = 5,
-		width   = nil,
-		widget  = monitor.new
+		width = nil,
+		widget = monitor.new,
 	}
 	return modutil.table.merge(style, modutil.table.check(beautiful, "widget.sysmon") or {})
 end
@@ -32,7 +32,6 @@ end
 -- Create a new cpu monitor widget
 -----------------------------------------------------------------------------------------------------------------------
 function sysmon.new(args, style)
-
 	-- Initialize vars
 	--------------------------------------------------------------------------------
 	args = args or {}
@@ -56,7 +55,9 @@ function sysmon.new(args, style)
 	end
 
 	widg._timer = timer({ timeout = style.timeout })
-	widg._timer:connect_signal("timeout", function() widg._update() end)
+	widg._timer:connect_signal("timeout", function()
+		widg._update()
+	end)
 	widg._timer:start()
 	widg._timer:emit_signal("timeout")
 

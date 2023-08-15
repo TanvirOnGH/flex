@@ -17,7 +17,7 @@ local startup = { locked = false }
 startup.path = "/tmp/awesome-exit-reason"
 --startup.bin  = "awesome-client"
 
-local REASON = { RESTART = "restart", EXIT =  "exit" }
+local REASON = { RESTART = "restart", EXIT = "exit" }
 
 -- Stamp functions
 -----------------------------------------------------------------------------------------------------------------------
@@ -35,9 +35,9 @@ function startup:activate()
 	self.is_startup = (not reason or reason == REASON.EXIT) and not self.locked
 
 	-- save reason on exit
-	awesome.connect_signal("exit",
-	   function(is_restart) startup.stamp(is_restart and REASON.RESTART or REASON.EXIT) end
-	)
+	awesome.connect_signal("exit", function(is_restart)
+		startup.stamp(is_restart and REASON.RESTART or REASON.EXIT)
+	end)
 end
 
 -----------------------------------------------------------------------------------------------------------------------

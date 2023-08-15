@@ -20,15 +20,20 @@ local decor = {}
 -----------------------------------------------------------------------------------------------------------------------
 local function button_style()
 	local style = {
-		color = { shadow3 = "#1c1c1c", button = "#575757",
-		          shadow4 = "#767676", text = "#cccccc", pressed = "404040" }
+		color = {
+			shadow3 = "#1c1c1c",
+			button = "#575757",
+			shadow4 = "#767676",
+			text = "#cccccc",
+			pressed = "404040",
+		},
 	}
 	return modutil.table.merge(style, modutil.table.check(beautiful, "float.decoration.button") or {})
 end
 
 local function field_style()
 	local style = {
-		color = { bg = "#161616", shadow1 = "#141414", shadow2 = "#313131" }
+		color = { bg = "#161616", shadow1 = "#141414", shadow2 = "#313131" },
 	}
 	return modutil.table.merge(style, modutil.table.check(beautiful, "float.decoration.field") or {})
 end
@@ -36,7 +41,6 @@ end
 -- Button element
 -----------------------------------------------------------------------------------------------------------------------
 function decor.button(textbox, action, style)
-
 	style = modutil.table.merge(button_style(), style or {})
 
 	-- Widget and layouts
@@ -62,12 +66,9 @@ function decor.button(textbox, action, style)
 
 	-- Signals
 	--------------------------------------------------------------------------------
-	button_widget:connect_signal(
-		"mouse::leave",
-		function()
-			button_widget:set_bg(style.color.button)
-		end
-	)
+	button_widget:connect_signal("mouse::leave", function()
+		button_widget:set_bg(style.color.button)
+	end)
 
 	--------------------------------------------------------------------------------
 	return bord2

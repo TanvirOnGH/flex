@@ -31,44 +31,56 @@ local calendar = {}
 -----------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
-		geometry                  = { width = 340, height = 420 },
-		margin                    = { 20, 20, 20, 15 },
-		controls_margin           = { 0, 0, 0, 4 },
-		calendar_item_margin      = { 2, 5, 2, 2 },
-		spacing                   = { separator = 28, datetime = 5, controls = 5, calendar = 8 },
-		controls_icon_size        = { width = 24, height = 24 },
-		separator                 = {},
-		border_width              = 2,
-		color                     = { border = "#575757", wibox = "#202020", icon = "#a0a0a0",
-		                              main = "#b1222b", highlight = "#202020",
-		                              gray = "#575757", text = "#a0a0a0" },
-		days                      = { weeknumber = { fg = "#575757", bg = "transparent" },
-		                              weekday    = { fg = "#575757", bg = "transparent" },
-		                              weekend    = { fg = "#a0a0a0", bg = "#333333" },
-		                              today      = { fg = "#a0a0a0", bg = "#b1222b" },
-		                              day        = { fg = "#a0a0a0", bg = "transparent" },
-		                              default    = { fg = "white",   bg = "transparent" } },
-		fonts                     = { clock           = "Fira Code 24",
-		                              date            = "Fira Code 15",
-		                              week_numbers    = "Fira Code 12",
-		                              weekdays_header = "Fira Code 11",
-		                              days            = "Fira Code 12",
-		                              default         = "Fira Code 10",
-		                              focus           = "Fira Code 14 Bold",
-		                              controls        = "Fira Code 13" },
-		icon                      = { next   = modutil.base.placeholder({ txt = "►" }),
-		                              prev   = modutil.base.placeholder({ txt = "◄" }), },
-		clock_format              = "%H:%M",
-		date_format               = "%A, %d. %B",
-		clock_refresh_seconds     = 60,
-		weeks_start_sunday        = false,
-		show_week_numbers         = true,
-		show_weekday_header       = true,
-		long_weekdays             = false,
+		geometry = { width = 340, height = 420 },
+		margin = { 20, 20, 20, 15 },
+		controls_margin = { 0, 0, 0, 4 },
+		calendar_item_margin = { 2, 5, 2, 2 },
+		spacing = { separator = 28, datetime = 5, controls = 5, calendar = 8 },
+		controls_icon_size = { width = 24, height = 24 },
+		separator = {},
+		border_width = 2,
+		color = {
+			border = "#575757",
+			wibox = "#202020",
+			icon = "#a0a0a0",
+			main = "#b1222b",
+			highlight = "#202020",
+			gray = "#575757",
+			text = "#a0a0a0",
+		},
+		days = {
+			weeknumber = { fg = "#575757", bg = "transparent" },
+			weekday = { fg = "#575757", bg = "transparent" },
+			weekend = { fg = "#a0a0a0", bg = "#333333" },
+			today = { fg = "#a0a0a0", bg = "#b1222b" },
+			day = { fg = "#a0a0a0", bg = "transparent" },
+			default = { fg = "white", bg = "transparent" },
+		},
+		fonts = {
+			clock = "Fira Code 24",
+			date = "Fira Code 15",
+			week_numbers = "Fira Code 12",
+			weekdays_header = "Fira Code 11",
+			days = "Fira Code 12",
+			default = "Fira Code 10",
+			focus = "Fira Code 14 Bold",
+			controls = "Fira Code 13",
+		},
+		icon = {
+			next = modutil.base.placeholder({ txt = "►" }),
+			prev = modutil.base.placeholder({ txt = "◄" }),
+		},
+		clock_format = "%H:%M",
+		date_format = "%A, %d. %B",
+		clock_refresh_seconds = 60,
+		weeks_start_sunday = false,
+		show_week_numbers = true,
+		show_weekday_header = true,
+		long_weekdays = false,
 		weekday_name_replacements = {},
-		screen_gap                = 0,
-		set_position              = nil,
-		shape                     = nil,
+		screen_gap = 0,
+		set_position = nil,
+		shape = nil,
 	}
 	return modutil.table.merge(style, modutil.table.check(beautiful, "float.calendar") or {})
 end
@@ -81,11 +93,11 @@ function calendar:init()
 
 	-- Initialize the current date
 	--------------------------------------------------------------------------------
-	local current_date = os.date('*t')
+	local current_date = os.date("*t")
 	self.date = {
-		year  = current_date.year,
+		year = current_date.year,
 		month = current_date.month,
-		day   = current_date.day
+		day = current_date.day,
 	}
 
 	-- Factory function to produce clickable buttons with icons and hover effect
@@ -126,7 +138,6 @@ function calendar:init()
 	-- called on each calendar element allowing to modify its style and layout
 	--------------------------------------------------------------------------------
 	local function decorate_calendar_cell(widget, flag, date)
-
 		if flag == "month" then
 			-- 'month' is the grid layout of the calendar wibox itself
 			-- we remove the first row from it which contains the month and year headers
@@ -142,11 +153,13 @@ function calendar:init()
 		end
 
 		-- ignore headers for styling (they are removed anyway)
-		if flag == "header" or flag == "monthheader" then return widget end
+		if flag == "header" or flag == "monthheader" then
+			return widget
+		end
 
 		-- only display the focus marker if month and year match the current date
 		if flag == "focus" then
-			local now = os.date('*t')
+			local now = os.date("*t")
 			if now.year ~= date.year or now.month ~= date.month then
 				flag = "normal"
 			end
@@ -191,27 +204,24 @@ function calendar:init()
 		end
 
 		-- style each calendar cell
-	    widget:set_font(font)
-	    widget:set_markup('<span color="' .. fg .. '">' .. widget.text .. '</span>')
+		widget:set_font(font)
+		widget:set_markup('<span color="' .. fg .. '">' .. widget.text .. "</span>")
 		local widget_container = wibox.container.margin(widget, unpack(style.calendar_item_margin))
-		local widget_background = wibox.container.background(
-			widget_container,
-			bg
-		)
-	    return widget_background
+		local widget_background = wibox.container.background(widget_container, bg)
+		return widget_background
 	end
 
 	-- Create calendar widget
 	--------------------------------------------------------------------------------
-	self.calendar = wibox.widget {
-		date          = self.date,
-		font          = style.fonts.days,
-		week_numbers  = style.show_week_numbers,
+	self.calendar = wibox.widget({
+		date = self.date,
+		font = style.fonts.days,
+		week_numbers = style.show_week_numbers,
 		long_weekdays = style.long_weekdays,
-		start_sunday  = style.weeks_start_sunday,
-		widget        = wibox.widget.calendar.month,
-		fn_embed      = decorate_calendar_cell,
-	}
+		start_sunday = style.weeks_start_sunday,
+		widget = wibox.widget.calendar.month,
+		fn_embed = decorate_calendar_cell,
+	})
 
 	-- Prepare month and year labels for the date controls
 	--------------------------------------------------------------------------------
@@ -224,14 +234,17 @@ function calendar:init()
 	self.year_label.font = style.fonts.controls
 
 	self.update_controls = function()
-		local month = os.date("%B", os.time{
-			year = self.date.year,
-			month = self.date.month,
-			day = 1}
+		local month = os.date(
+			"%B",
+			os.time({
+				year = self.date.year,
+				month = self.date.month,
+				day = 1,
+			})
 		)
 		local year = string.format("%s", self.date.year)
-		self.month_label:set_markup('<span color="' .. style.color.text .. '">' .. month .. '</span>')
-		self.year_label:set_markup('<span color="' .. style.color.text .. '">' .. year .. '</span>')
+		self.month_label:set_markup('<span color="' .. style.color.text .. '">' .. month .. "</span>")
+		self.year_label:set_markup('<span color="' .. style.color.text .. '">' .. year .. "</span>")
 	end
 	self:update_controls()
 
@@ -254,12 +267,14 @@ function calendar:init()
 		local now = DateTime.new_now(TimeZone.new_local())
 		local date = now:format(style.date_format)
 		local time = now:format(style.clock_format)
-		self.clock_label:set_markup('<span color="' .. style.color.text .. '">' .. time .. '</span>')
-		self.date_label:set_markup('<span color="' .. style.color.gray .. '">' .. date .. '</span>')
+		self.clock_label:set_markup('<span color="' .. style.color.text .. '">' .. time .. "</span>")
+		self.date_label:set_markup('<span color="' .. style.color.gray .. '">' .. date .. "</span>")
 	end
 
 	self.update_datetime_timer = timer({ timeout = style.clock_refresh_seconds })
-	self.update_datetime_timer:connect_signal("timeout", function() self:update_datetime() end)
+	self.update_datetime_timer:connect_signal("timeout", function()
+		self:update_datetime()
+	end)
 	self.update_datetime_timer:emit_signal("timeout")
 
 	-- Create button panel for month and year controls and labels
@@ -270,18 +285,26 @@ function calendar:init()
 	local year_width = get_text_width_for_font(" 9999 ", style.fonts.controls)
 	year_control.fill_space = false
 	year_control.spacing = style.spacing.controls
-	year_control:add(make_control_button(style.icon.prev, function() self:switch_year(-1) end))
+	year_control:add(make_control_button(style.icon.prev, function()
+		self:switch_year(-1)
+	end))
 	year_control:add(wibox.container.constraint(self.year_label, "exact", year_width, nil))
-	year_control:add(make_control_button(style.icon.next, function() self:switch_year(1) end))
+	year_control:add(make_control_button(style.icon.next, function()
+		self:switch_year(1)
+	end))
 	controls_panel:set_right(year_control)
 
 	local month_control = wibox.layout.fixed.horizontal()
 	local month_width = get_text_width_for_font(" September ", style.fonts.controls)
 	month_control.fill_space = false
 	month_control.spacing = style.spacing.controls
-	month_control:add(make_control_button(style.icon.prev, function() self:switch_month(-1) end))
+	month_control:add(make_control_button(style.icon.prev, function()
+		self:switch_month(-1)
+	end))
 	month_control:add(wibox.container.constraint(self.month_label, "exact", month_width, nil))
-	month_control:add(make_control_button(style.icon.next, function() self:switch_month(1) end))
+	month_control:add(make_control_button(style.icon.next, function()
+		self:switch_month(1)
+	end))
 	controls_panel:set_left(month_control)
 
 	local layout_separator = separator.horizontal(style.separator)
@@ -296,25 +319,25 @@ function calendar:init()
 	-- Create floating wibox for calendar
 	--------------------------------------------------------------------------------
 	self.wibox = wibox({
-		ontop        = true,
-		bg           = style.color.wibox,
+		ontop = true,
+		bg = style.color.wibox,
 		border_width = style.border_width,
 		border_color = style.color.border,
-		shape        = style.shape
+		shape = style.shape,
 	})
 	self.wibox:set_widget(wibox.container.margin(layout, unpack(style.margin)))
 	self.wibox:geometry(style.geometry)
 end
 
 function calendar:show_date(year, month, day)
-	local current_date = os.date('*t')
+	local current_date = os.date("*t")
 	self.date.year = year or current_date.year
 	self.date.month = month or current_date.month
 	self.date.day = day or current_date.day
 	self.calendar:set_date({
 		year = self.date.year,
 		month = self.date.month,
-		day = self.date.day
+		day = self.date.day,
 	})
 	self:update_controls()
 end
@@ -341,7 +364,9 @@ end
 -- Show calendar widget or hide if visible
 -----------------------------------------------------------------------------------------------------------------------
 function calendar:show(geometry)
-	if not self.wibox then self:init() end
+	if not self.wibox then
+		self:init()
+	end
 	if not self.wibox.visible then
 		self:show_date()
 
@@ -365,7 +390,9 @@ end
 -- Hide calendar widget
 -----------------------------------------------------------------------------------------------------------------------
 function calendar:hide()
-	if self.update_datetime_timer.started then self.update_datetime_timer:stop() end
+	if self.update_datetime_timer.started then
+		self.update_datetime_timer:stop()
+	end
 	self.wibox.visible = false
 end
 

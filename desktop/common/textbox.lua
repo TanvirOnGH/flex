@@ -13,7 +13,6 @@ local beautiful = require("beautiful")
 
 local modutil = require("flex.util")
 
-
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------
 local textbox = { mt = {} }
@@ -22,12 +21,12 @@ local textbox = { mt = {} }
 -----------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
-		width     = nil,
-		height    = nil,
-		draw      = "by_left",
-		separator = '%s',
-		color     = "#404040",
-		font      = { font = "Fira Code", size = 20, face = 0, slant = 0 }
+		width = nil,
+		height = nil,
+		draw = "by_left",
+		separator = "%s",
+		color = "#404040",
+		font = { font = "Fira Code", size = 20, face = 0, slant = 0 },
 	}
 
 	return modutil.table.merge(style, modutil.table.check(beautiful, "desktop.common.textbox") or {})
@@ -63,7 +62,7 @@ end
 
 function align.by_width(cr, width, _, text)
 	local ext = cr:text_extents(text)
-	local text_gap = (width - ext.width - ext.x_bearing)/(#text - 1)
+	local text_gap = (width - ext.width - ext.x_bearing) / (#text - 1)
 	local gap = 0
 
 	for i = 1, #text do
@@ -90,11 +89,10 @@ end
 -- @param style.height Widget height (optional)
 -----------------------------------------------------------------------------------------------------------------------
 function textbox.new(txt, style)
-
 	-- Initialize vars
 	--------------------------------------------------------------------------------
 	style = modutil.table.merge(default_style(), style or {})
---	local textdraw = align[style.draw] or align.by_left
+	--	local textdraw = align[style.draw] or align.by_left
 
 	-- Create custom widget
 	--------------------------------------------------------------------------------
@@ -102,7 +100,7 @@ function textbox.new(txt, style)
 	textwidg._data = {
 		text = txt or "",
 		width = style.width,
-		color = style.color
+		color = style.color,
 	}
 
 	-- User functions

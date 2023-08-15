@@ -26,22 +26,22 @@ local multim = { mt = {} }
 -----------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
-		lines          = {},
-		upbar          = { width = 40 },
-		digits         = 3,
-		height         = { upright = 100, lines = 60 },
-		icon           = { image = nil, margin = { 0, 20, 0, 0 }, full = false },
-		labels         = {},
-		unit           = { { "MB", - 1 }, { "GB", 1024 } },
-		color          = { main = "#b1222b", wibox = "#161616", gray = "#404040" }
+		lines = {},
+		upbar = { width = 40 },
+		digits = 3,
+		height = { upright = 100, lines = 60 },
+		icon = { image = nil, margin = { 0, 20, 0, 0 }, full = false },
+		labels = {},
+		unit = { { "MB", -1 }, { "GB", 1024 } },
+		color = { main = "#b1222b", wibox = "#161616", gray = "#404040" },
 	}
 	return modutil.table.merge(style, modutil.table.check(beautiful, "desktop.multimeter") or {})
 end
 
 local default_args = {
-	topbars = { num = 1, maxm = 1},
-	lines   = { maxm = 1 },
-	meter   = {},
+	topbars = { num = 1, maxm = 1 },
+	lines = { maxm = 1 },
+	meter = {},
 	timeout = 60,
 }
 
@@ -58,7 +58,9 @@ local function set_info(value, args, upright, lines, icon, last, style)
 		if line.crit then
 			local cc = value.lines[i][1] > line.crit and style.color.main or style.color.gray
 			lines:set_text_color(cc, i)
-			if style.labels[i] then lines:set_label_color(cc, i) end
+			if style.labels[i] then
+				lines:set_label_color(cc, i)
+			end
 		end
 	end
 
@@ -67,7 +69,9 @@ local function set_info(value, args, upright, lines, icon, last, style)
 		local v = value.bars[i] and value.bars[i].value or 0
 		local tip = value.bars[i] and value.bars[i].text or nil
 		upright:set_values(v / args.topbars.maxm, i, tip)
-		if args.topbars.crit then upright_alert = upright_alert or v > args.topbars.crit end
+		if args.topbars.crit then
+			upright_alert = upright_alert or v > args.topbars.crit
+		end
 	end
 
 	-- colorize icon if needed
@@ -77,11 +81,9 @@ local function set_info(value, args, upright, lines, icon, last, style)
 	end
 end
 
-
 -- Create a new widget
 -----------------------------------------------------------------------------------------------------------------------
 function multim.new(args, style)
-
 	-- Initialize vars
 	--------------------------------------------------------------------------------
 	local dwidget = {}
@@ -114,11 +116,11 @@ function multim.new(args, style)
 			upright.layout,
 			nil,
 			forced_height = style.height.upright,
-			layout = wibox.layout.align.horizontal
+			layout = wibox.layout.align.horizontal,
 		},
 		nil,
 		lines.layout,
-		layout = wibox.layout.align.vertical
+		layout = wibox.layout.align.vertical,
 	})
 
 	if icon and style.icon.full then
@@ -126,7 +128,7 @@ function multim.new(args, style)
 			wibox.container.margin(icon, unpack(style.icon.margin)),
 			dwidget.area,
 			nil,
-			layout = wibox.layout.align.horizontal
+			layout = wibox.layout.align.horizontal,
 		})
 	end
 
@@ -145,7 +147,9 @@ function multim.new(args, style)
 		set_info(state, args, upright, lines, icon, last, style)
 	end
 
-	local update = args.meter.async and function() args.meter.async(raw_set, args.meter.args) end or update_plain
+	local update = args.meter.async and function()
+		args.meter.async(raw_set, args.meter.args)
+	end or update_plain
 
 	-- Set update timer
 	--------------------------------------------------------------------------------

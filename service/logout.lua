@@ -20,27 +20,32 @@ local logout = { entries = {}, action = {}, keys = {} }
 -----------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
-		button_size         = { width = 128, height = 128 },
-		icon_margin         = 16,
-		text_margin         = 12,
-		button_spacing      = 48,
-		counter_top_margin  = 200,
-		label_font          = "Fira Code 14",
-		counter_font        = "Fira Code 24",
-		button_shape        = gears.shape.rectangle,
-		color               = { wibox = "#202020", text = "#a0a0a0", icon = "#a0a0a0",
-		                        gray = "#575757", main = "#b1222b" },
-		icons               = {
-			poweroff = modutil.base.placeholder({ txt = "↯" }),
-			reboot   = modutil.base.placeholder({ txt = "⊛" }),
-			suspend  = modutil.base.placeholder({ txt = "⊖" }),
-			lock     = modutil.base.placeholder({ txt = "⊙" }),
-			logout   = modutil.base.placeholder({ txt = "←" }),
+		button_size = { width = 128, height = 128 },
+		icon_margin = 16,
+		text_margin = 12,
+		button_spacing = 48,
+		counter_top_margin = 200,
+		label_font = "Fira Code 14",
+		counter_font = "Fira Code 24",
+		button_shape = gears.shape.rectangle,
+		color = {
+			wibox = "#202020",
+			text = "#a0a0a0",
+			icon = "#a0a0a0",
+			gray = "#575757",
+			main = "#b1222b",
 		},
-		keytip                    = { geometry = { width = 400 } },
-		graceful_shutdown         = true,
-		double_key_activation     = false,
-		client_kill_timeout       = 2,
+		icons = {
+			poweroff = modutil.base.placeholder({ txt = "↯" }),
+			reboot = modutil.base.placeholder({ txt = "⊛" }),
+			suspend = modutil.base.placeholder({ txt = "⊖" }),
+			lock = modutil.base.placeholder({ txt = "⊙" }),
+			logout = modutil.base.placeholder({ txt = "←" }),
+		},
+		keytip = { geometry = { width = 400 } },
+		graceful_shutdown = true,
+		double_key_activation = false,
+		client_kill_timeout = 2,
 	}
 	return modutil.table.merge(style, modutil.table.check(beautiful, "service.logout") or {})
 end
@@ -66,8 +71,7 @@ local function gracefully_close(application)
 	end
 end
 
-
-function  logout:_close_all_apps(option)
+function logout:_close_all_apps(option)
 	-- graceful exit (apps closing) may be disabled by user settings
 	if not logout.style.graceful_shutdown then
 		logout:hide()
@@ -79,7 +83,9 @@ function  logout:_close_all_apps(option)
 	for _, application in ipairs(client.get()) do
 		-- clients owned by the same process might vanish upon the first SIGTERM
 		-- during list iteration, so we only handle those which are still valid
-		if application.valid then gracefully_close(application) end
+		if application.valid then
+			gracefully_close(application)
+		end
 	end
 
 	-- execute the given logout option after the kill timeout
@@ -91,34 +97,44 @@ end
 -- order specified will determine order of the displayed buttons
 -----------------------------------------------------------------------------------------------------------------------
 logout.entries = {
-	{   -- Logout
-		callback   = function() awesome.quit() end,
-		icon_name  = 'logout',
-		label      = 'Logout',
+	{ -- Logout
+		callback = function()
+			awesome.quit()
+		end,
+		icon_name = "logout",
+		label = "Logout",
 		close_apps = true,
 	},
-	{   -- Lock screen
-		callback   = function() awful.spawn.with_shell("sleep 0.5 && xscreensaver-command -l") end,
-		icon_name  = 'lock',
-		label      = 'Lock',
+	{ -- Lock screen
+		callback = function()
+			awful.spawn.with_shell("sleep 0.5 && xscreensaver-command -l")
+		end,
+		icon_name = "lock",
+		label = "Lock",
 		close_apps = false,
 	},
-	{   -- Shutdown
-		callback   = function() awful.spawn.with_shell("systemctl poweroff") end,
-		icon_name  = 'poweroff',
-		label      = 'Shutdown',
+	{ -- Shutdown
+		callback = function()
+			awful.spawn.with_shell("systemctl poweroff")
+		end,
+		icon_name = "poweroff",
+		label = "Shutdown",
 		close_apps = true,
 	},
-	{   -- Suspend
-		callback   = function() awful.spawn.with_shell("systemctl suspend") end,
-		icon_name  = 'suspend',
-		label      = 'Sleep',
+	{ -- Suspend
+		callback = function()
+			awful.spawn.with_shell("systemctl suspend")
+		end,
+		icon_name = "suspend",
+		label = "Sleep",
 		close_apps = false,
 	},
-	{   -- Reboot
-		callback   = function() awful.spawn.with_shell("systemctl reboot") end,
-		icon_name  = 'reboot',
-		label      = 'Restart',
+	{ -- Reboot
+		callback = function()
+			awful.spawn.with_shell("systemctl reboot")
+		end,
+		icon_name = "reboot",
+		label = "Restart",
 		close_apps = true,
 	},
 }
@@ -127,12 +143,16 @@ logout.entries = {
 -----------------------------------------------------------------------------------------------------------------------
 function logout.action.select_by_id(id)
 	local new_option = logout.options[id]
-	if not new_option then return end
+	if not new_option then
+		return
+	end
 
 	-- if already selected
 	if new_option == logout.selected then
 		-- activate button on double selection
-		if logout.style.double_key_activation then new_option:execute() end
+		if logout.style.double_key_activation then
+			new_option:execute()
+		end
 		return
 	end
 
@@ -140,7 +160,9 @@ function logout.action.select_by_id(id)
 end
 
 function logout.action.execute_selected()
-	if not logout.selected then return end
+	if not logout.selected then
+		return
+	end
 	logout.selected:execute()
 end
 
@@ -162,38 +184,57 @@ end
 --------------------------------------------------------------------------------
 logout.keys = {
 	{
-		{ }, "Escape", logout.action.hide,
-		{ description = "Close the logout screen", group = "Action" }
+		{},
+		"Escape",
+		logout.action.hide,
+		{ description = "Close the logout screen", group = "Action" },
 	},
 	{
-		{ "Mod4" }, "Left", logout.action.select_prev,
-		{ description = "Select previous option", group = "Selection" }
+		{ "Mod4" },
+		"Left",
+		logout.action.select_prev,
+		{ description = "Select previous option", group = "Selection" },
 	},
 	{
-		{ "Mod4" }, "Right", logout.action.select_next,
-		{ description = "Select next option", group = "Selection" }
+		{ "Mod4" },
+		"Right",
+		logout.action.select_next,
+		{ description = "Select next option", group = "Selection" },
 	},
 	{
-		{ }, "Return", logout.action.execute_selected,
-		{ description = "Execute selected option", group = "Action" }
+		{},
+		"Return",
+		logout.action.execute_selected,
+		{ description = "Execute selected option", group = "Action" },
 	},
 	{
-		{ "Mod4" }, "F1", function() modtip:show() end,
-		{ description = "Show hotkeys helper", group = "Action" }
+		{ "Mod4" },
+		"F1",
+		function()
+			modtip:show()
+		end,
+		{ description = "Show hotkeys helper", group = "Action" },
 	},
 	{ -- fake keys for modtip
-		{ }, "1..9", nil,
-		{ description = "Select option by number", group = "Selection",
-		  keyset = { "1", "2", "3", "4", "5", "6", "7", "8", "9" } }
-	}
+		{},
+		"1..9",
+		nil,
+		{
+			description = "Select option by number",
+			group = "Selection",
+			keyset = { "1", "2", "3", "4", "5", "6", "7", "8", "9" },
+		},
+	},
 }
 -- add number shortcuts for the ordered options
 for i = 1, 9 do
 	table.insert(logout.keys, {
-		{ }, tostring(i), function()
+		{},
+		tostring(i),
+		function()
 			logout.action.select_by_id(i)
 		end,
-		{ } -- don't show in modtip
+		{}, -- don't show in modtip
 	})
 end
 
@@ -231,7 +272,6 @@ end
 -- Add new logout option to widget
 -----------------------------------------------------------------------------------------------------------------------
 function logout:add_option(id, action)
-
 	-- creating option structure
 	local option = { id = id, close_apps = action.close_apps, callback = action.callback, name = action.label }
 	option.button = logout:_make_button(action.icon_name)
@@ -239,13 +279,17 @@ function logout:add_option(id, action)
 
 	-- logout option methods
 	function option:select()
-		if logout.selected then logout.selected:deselect() end
+		if logout.selected then
+			logout.selected:deselect()
+		end
 		self.button.bg = logout.style.color.main
 		logout.selected = self
 	end
 
 	function option:deselect()
-		if logout.selected ~= self then return end
+		if logout.selected ~= self then
+			return
+		end
 		self.button.bg = logout.style.color.gray
 		logout.selected = nil
 	end
@@ -260,9 +304,15 @@ function logout:add_option(id, action)
 	end
 
 	-- binding mouse to option visual
-	option.button:connect_signal('mouse::enter', function() option:select() end)
-	option.button:connect_signal('mouse::leave', function() option:deselect() end)
-	option.button:connect_signal('button::release', function() option:execute() end)
+	option.button:connect_signal("mouse::enter", function()
+		option:select()
+	end)
+	option.button:connect_signal("mouse::leave", function()
+		option:deselect()
+	end)
+	option.button:connect_signal("button::release", function()
+		option:execute()
+	end)
 
 	-- placing option visual to main logout widget
 	local button_with_label = wibox.layout.fixed.vertical()
@@ -278,7 +328,6 @@ end
 -- Main functions
 -----------------------------------------------------------------------------------------------------------------------
 function logout:init()
-
 	-- Style and base layout structure
 	------------------------------------------------------------
 	self.style = default_style()
@@ -301,14 +350,19 @@ function logout:init()
 
 	-- Prepare all defined logout options
 	------------------------------------------------------------
-	for id, action in ipairs(self.entries) do self:add_option(id, action) end
+	for id, action in ipairs(self.entries) do
+		self:add_option(id, action)
+	end
 
 	-- Create keygrabber
 	------------------------------------------------------------
 	self.keygrabber = function(mod, key, event)
 		if event == "press" then
 			for _, k in ipairs(self.keys) do
-				if modutil.key.match_grabber(k, mod, key) then k[3](); return end
+				if modutil.key.match_grabber(k, mod, key) then
+					k[3]()
+					return
+				end
 			end
 		end
 	end
@@ -317,18 +371,20 @@ function logout:init()
 	------------------------------------------------------------
 	--self.wibox = wibox({ widget = wibox.layout.stack(self.option_layout) })
 	self.wibox = wibox({ widget = base_layout })
-	self.wibox.type = 'splash'
+	self.wibox.type = "splash"
 	self.wibox.ontop = true
 	self.wibox.bg = self.style.color.wibox
 	self.wibox.fg = self.style.color.text
 	self.wibox.visible = false
 
-	self.wibox:buttons(
-		gears.table.join(
-			awful.button({}, 2, function() self:hide() end),
-			awful.button({}, 3, function() self:hide() end)
-		)
-	)
+	self.wibox:buttons(gears.table.join(
+		awful.button({}, 2, function()
+			self:hide()
+		end),
+		awful.button({}, 3, function()
+			self:hide()
+		end)
+	))
 
 	-- Graceful shutdown counter
 	------------------------------------------------------------
@@ -348,15 +404,14 @@ function logout:init()
 				countdown:label(countdown.delay)
 				countdown.timer:again()
 			end
-		end
+		end,
 	})
 
 	function countdown:label(seconds)
 		local active_apps = client.get() -- not sure how accurate it is
-		logout.counter:set_markup(string.format(
-			self.pattern,
-			logout.style.color.main, self.option_name, seconds, #active_apps
-		))
+		logout.counter:set_markup(
+			string.format(self.pattern, logout.style.color.main, self.option_name, seconds, #active_apps)
+		)
 	end
 
 	function countdown:start(option)
@@ -369,7 +424,9 @@ function logout:init()
 	end
 
 	function countdown:stop()
-		if self.timer.started then self.timer:stop() end
+		if self.timer.started then
+			self.timer:stop()
+		end
 		logout.counter:set_text("")
 	end
 
@@ -381,7 +438,9 @@ end
 function logout:hide()
 	awful.keygrabber.stop(self.keygrabber)
 	self.countdown:stop()
-	if self.selected then self.selected:deselect() end
+	if self.selected then
+		self.selected:deselect()
+	end
 
 	modtip:remove_pack()
 	self.wibox.visible = false
@@ -390,7 +449,9 @@ end
 -- Display the logout screen
 --------------------------------------------------------------------------------
 function logout:show()
-	if not self.wibox then self:init() end
+	if not self.wibox then
+		self:init()
+	end
 
 	self.wibox.screen = mouse.screen
 	self.wibox:geometry(mouse.screen.geometry)

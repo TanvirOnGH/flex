@@ -29,12 +29,12 @@ local floatprompt = {}
 -----------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
-		geometry     = { width = 620, height = 120 },
-		margin       = { 20, 20, 40, 40 },
+		geometry = { width = 620, height = 120 },
+		margin = { 20, 20, 40, 40 },
 		border_width = 2,
-		naughty      = {},
-		color        = { border = "#575757", wibox = "#202020" },
-		shape        = nil
+		naughty = {},
+		color = { border = "#575757", wibox = "#202020" },
+		shape = nil,
 	}
 	return modutil.table.merge(style, modutil.table.check(beautiful, "float.prompt") or {})
 end
@@ -43,7 +43,6 @@ end
 -- @param prompt Prompt to use
 -----------------------------------------------------------------------------------------------------------------------
 function floatprompt:init(args)
-
 	args = args or {}
 	local style = default_style()
 	self.style = style
@@ -58,11 +57,11 @@ function floatprompt:init(args)
 	-- Create floating wibox for promt widget
 	--------------------------------------------------------------------------------
 	self.wibox = wibox({
-		ontop        = true,
-		bg           = style.color.wibox,
+		ontop = true,
+		bg = style.color.wibox,
 		border_width = style.border_width,
 		border_color = style.color.border,
-		shape        = style.shape
+		shape = style.shape,
 	})
 
 	self.wibox:set_widget(wibox.container.margin(self.decorated_widget, unpack(style.margin)))
@@ -73,7 +72,9 @@ end
 -- Wibox appears on call and hides after command entered
 -----------------------------------------------------------------------------------------------------------------------
 function floatprompt:run()
-	if not self.wibox then self:init() end
+	if not self.wibox then
+		self:init()
+	end
 	modutil.placement.centered(self.wibox, nil, mouse.screen.workarea)
 	self.wibox.visible = true
 
@@ -90,7 +91,9 @@ function floatprompt:run()
 		history_path = awful.util.getdir("cache") .. "/history",
 		history_max = 30,
 		completion_callback = awful.completion.shell,
-		done_callback = function () self.wibox.visible = false end,
+		done_callback = function()
+			self.wibox.visible = false
+		end,
 	})
 end
 

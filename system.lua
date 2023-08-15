@@ -11,7 +11,6 @@
 ------ (c) 2011, Adrian C. <anrxc@sysphere.org>
 -----------------------------------------------------------------------------------------------------------------------
 
-
 -- Grab environment
 -----------------------------------------------------------------------------------------------------------------------
 local tonumber = tonumber
@@ -32,12 +31,10 @@ local system = { thermal = {}, dformatted = {}, pformatted = {} }
 -----------------------------------------------------------------------------------------------------------------------
 function system.simple_async(command, pattern)
 	return function(setup)
-		awful.spawn.easy_async_with_shell(command,
-			function(output)
-				local value = tonumber(string.match(output, pattern))
-				setup(value and { value } or { 0 })
-			end
-		)
+		awful.spawn.easy_async_with_shell(command, function(output)
+			local value = tonumber(string.match(output, pattern))
+			setup(value and { value } or { 0 })
+		end)
 	end
 end
 
@@ -53,20 +50,22 @@ function system.fs_info(args)
 
 	-- Parse data
 	------------------------------------------------------------
-	fs_info.size  = string.match(line, "^.-[%s]([%d]+)")
+	fs_info.size = string.match(line, "^.-[%s]([%d]+)")
 	fs_info.mount = string.match(line, "%%[%s]([%p%w]+)")
 	fs_info.used, fs_info.avail, fs_info.use_p = string.match(line, "([%d]+)[%D]+([%d]+)[%D]+([%d]+)%%")
 
 	-- Format output special for flex desktop widget
 	------------------------------------------------------------
-   return { tonumber(fs_info.use_p) or 0, tonumber(fs_info.used) or 0}
+	return { tonumber(fs_info.use_p) or 0, tonumber(fs_info.used) or 0 }
 end
 
 -- Qemu image check
 -----------------------------------------------------------------------------------------------------------------------
 local function q_format(size, k)
-	if not size or not k then return 0 end
-	return k == "K" and tonumber(size) or k == "M" and size * 1024 or k == "G" and size * 1024^2 or 0
+	if not size or not k then
+		return 0
+	end
+	return k == "K" and tonumber(size) or k == "M" and size * 1024 or k == "G" and size * 1024 ^ 2 or 0
 end
 
 function system.qemu_image_size(args)
@@ -86,7 +85,7 @@ function system.qemu_image_size(args)
 
 	-- Format output special for flex desktop widget
 	------------------------------------------------------------
-   return { img_info.use_p, img_info.size, off = img_info.size == 0 }
+	return { img_info.use_p, img_info.size, off = img_info.size == 0 }
 end
 
 -- Traffic check with vnstat (async)
@@ -95,12 +94,14 @@ local vnstat_pattern = "%s+(%d+,%d+)%s(%w+)%s+%|%s+(%d+,%d+)%s(%w+)%s+%|%s+(%d+,
 local vnstat_index = { rx = 1, tx = 3, total = 5 }
 
 local function vnstat_format(value, unit)
-	if not value or not unit then return 0 end
-	local v = value:gsub(',', '.')
-	return    unit == "B"   and tonumber(v)
-	       or unit == "KiB" and v * 1024
-	       or unit == "MiB" and v * 1024^2
-	       or unit == "GiB" and v * 1024^3
+	if not value or not unit then
+		return 0
+	end
+	local v = value:gsub(",", ".")
+	return unit == "B" and tonumber(v)
+		or unit == "KiB" and v * 1024
+		or unit == "MiB" and v * 1024 ^ 2
+		or unit == "GiB" and v * 1024 ^ 3
 end
 
 local function vnstat_parse(output, traffic)
@@ -113,8 +114,8 @@ end
 
 function system.vnstat_check(args)
 	args = type(args) == "table" and args or {} -- backward capability
-	args.options = args.options or '-d'
-	args.traffic = args.traffic or 'total'
+	args.options = args.options or "-d"
+	args.traffic = args.traffic or "total"
 
 	local command = string.format("vnstat %s | tail -n 3 | head -n 1", args.options)
 	return function(setup)
@@ -133,7 +134,6 @@ function system.net_speed(interface, storage)
 	-- Get network info
 	--------------------------------------------------------------------------------
 	for line in io.lines("/proc/net/dev") do
-
 		-- Match wmaster0 as well as rt0 (multiple leading spaces)
 		local name = string.match(line, "^[%s]?[%s]?[%s]?[%s]?([%w]+):")
 
@@ -153,10 +153,12 @@ function system.net_speed(interface, storage)
 			else
 				-- net stats are absolute, substract our last reading
 				local interval = now - storage[interface].time
-				if interval <= 0 then interval = 1 end
+				if interval <= 0 then
+					interval = 1
+				end
 
 				down = (recv - storage[interface].recv) / interval
-				up   = (send - storage[interface].send) / interval
+				up = (send - storage[interface].send) / interval
 			end
 
 			-- store totals
@@ -178,7 +180,6 @@ function system.disk_speed(disk, storage)
 	-- Get i/o info
 	--------------------------------------------------------------------------------
 	for line in io.lines("/proc/diskstats") do
-
 		-- parse info
 		-- linux kernel documentation: Documentation/iostats.txt
 		local device, read, write = string.match(line, "([^%s]+) %d+ %d+ (%d+) %d+ %d+ %d+ (%d+)")
@@ -186,7 +187,7 @@ function system.disk_speed(disk, storage)
 		-- Calculate i/o for given device
 		------------------------------------------------------------
 		if device == disk then
-			local now   = os.time()
+			local now = os.time()
 			local stats = { read, write }
 
 			if not storage[disk] then
@@ -201,9 +202,11 @@ function system.disk_speed(disk, storage)
 				-- diskstats are absolute, substract our last reading
 				-- * divide by timediff because we don't know the timer value
 				local interval = now - storage[disk].time
-				if interval <= 0 then interval = 1 end
+				if interval <= 0 then
+					interval = 1
+				end
 
-				up   = (stats[1] - storage[disk].stats[1]) / interval
+				up = (stats[1] - storage[disk].stats[1]) / interval
 				down = (stats[2] - storage[disk].stats[2]) / interval
 			end
 
@@ -226,26 +229,32 @@ function system.memory_info()
 	------------------------------------------------------------
 	for line in io.lines("/proc/meminfo") do
 		for k, v in string.gmatch(line, "([%a]+):[%s]+([%d]+).+") do
-			if     k == "MemTotal"  then mem.total = math.floor(v/1024)
-			elseif k == "MemFree"   then mem.buf.f = math.floor(v/1024)
-			elseif k == "Buffers"   then mem.buf.b = math.floor(v/1024)
-			elseif k == "Cached"    then mem.buf.c = math.floor(v/1024)
-			elseif k == "SwapTotal" then mem.swp.t = math.floor(v/1024)
-			elseif k == "SwapFree"  then mem.swp.f = math.floor(v/1024)
+			if k == "MemTotal" then
+				mem.total = math.floor(v / 1024)
+			elseif k == "MemFree" then
+				mem.buf.f = math.floor(v / 1024)
+			elseif k == "Buffers" then
+				mem.buf.b = math.floor(v / 1024)
+			elseif k == "Cached" then
+				mem.buf.c = math.floor(v / 1024)
+			elseif k == "SwapTotal" then
+				mem.swp.t = math.floor(v / 1024)
+			elseif k == "SwapFree" then
+				mem.swp.f = math.floor(v / 1024)
 			end
 		end
 	end
 
 	-- Calculate memory percentage
 	------------------------------------------------------------
-	mem.free  = mem.buf.f + mem.buf.b + mem.buf.c
+	mem.free = mem.buf.f + mem.buf.b + mem.buf.c
 	mem.inuse = mem.total - mem.free
 	mem.bcuse = mem.total - mem.buf.f
-	mem.usep  = math.floor(mem.inuse / mem.total * 100)
+	mem.usep = math.floor(mem.inuse / mem.total * 100)
 
 	-- calculate swap percentage
 	mem.swp.inuse = mem.swp.t - mem.swp.f
-	mem.swp.usep  = mem.swp.t > 0 and math.floor(mem.swp.inuse / mem.swp.t * 100) or 0
+	mem.swp.usep = mem.swp.t > 0 and math.floor(mem.swp.inuse / mem.swp.t * 100) or 0
 
 	------------------------------------------------------------
 	return mem
@@ -277,24 +286,29 @@ function system.cpu_usage(storage)
 	-- Calculate usage
 	------------------------------------------------------------
 	for i, line in ipairs(cpu_lines) do
-
 		-- calculate totals
 		local total_new = 0
-		for _, value in ipairs(line) do total_new = total_new + value end
+		for _, value in ipairs(line) do
+			total_new = total_new + value
+		end
 
 		local active_new = total_new - (line[4] + line[5])
 
 		-- calculate percentage
-		local diff_total  = total_new  - (storage.cpu_total[i]  or 0)
+		local diff_total = total_new - (storage.cpu_total[i] or 0)
 		local diff_active = active_new - (storage.cpu_active[i] or 0)
 
-		if i == 1 then diff_time_total = diff_total end
-		if diff_total == 0 then diff_total = 1E-6 end
+		if i == 1 then
+			diff_time_total = diff_total
+		end
+		if diff_total == 0 then
+			diff_total = 1E-6
+		end
 
 		cpu_usage[i] = math.floor((diff_active / diff_total) * 100)
 
 		-- store totals
-		storage.cpu_total[i]  = total_new
+		storage.cpu_total[i] = total_new
 		storage.cpu_active[i] = active_new
 	end
 
@@ -317,7 +331,9 @@ system.lmsensors = { storage = {}, patterns = {}, delay = 1, time = 0 }
 function system.lmsensors:update(output)
 	for name, pat in pairs(self.patterns) do
 		local value = string.match(output, pat.match)
-		if value and pat.posthook then value = pat.posthook(value) end
+		if value and pat.posthook then
+			value = pat.posthook(value)
+		end
 		value = tonumber(value)
 		self.storage[name] = value and { value } or { 0 }
 	end
@@ -325,11 +341,15 @@ function system.lmsensors:update(output)
 end
 
 function system.lmsensors:start(timeout)
-	if self.timer then return end
+	if self.timer then
+		return
+	end
 
 	self.timer = timer({ timeout = timeout })
 	self.timer:connect_signal("timeout", function()
-		awful.spawn.easy_async("sensors", function(output) system.lmsensors:update(output) end)
+		awful.spawn.easy_async("sensors", function(output)
+			system.lmsensors:update(output)
+		end)
 	end)
 
 	self.timer:start()
@@ -337,13 +357,17 @@ function system.lmsensors:start(timeout)
 end
 
 function system.lmsensors:soft_start(timeout, shift)
-	if self.timer then return end
+	if self.timer then
+		return
+	end
 
 	timer({
-		timeout     = timeout - (shift or 1),
-		autostart   = true,
+		timeout = timeout - (shift or 1),
+		autostart = true,
 		single_shot = true,
-		callback    = function() self:start(timeout) end
+		callback = function()
+			self:start(timeout)
+		end,
 	})
 end
 
@@ -407,7 +431,8 @@ function system.thermal.nvoptimus(setup)
 	if not nvidia_on then
 		setup({ 0, off = true })
 	else
-		awful.spawn.easy_async_with_shell("optirun -b none nvidia-settings -c :8 -q gpucoretemp -t | tail -1",
+		awful.spawn.easy_async_with_shell(
+			"optirun -b none nvidia-settings -c :8 -q gpucoretemp -t | tail -1",
 			function(output)
 				local value = tonumber(string.match(output, "[^\n]+"))
 				setup({ value or 0, off = false })
@@ -419,9 +444,8 @@ end
 -- Direct call of nvidia-smi
 ------------------------------------------------------------
 function system.thermal.nvsmi()
-	local temp = string.match(
-		modutil.read.output("nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader"), "%d%d"
-	)
+	local temp =
+		string.match(modutil.read.output("nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader"), "%d%d")
 	-- checks that local temp is not null then returns the convert string to number or if fails returns null
 	return temp and { tonumber(temp) } or { 0 }
 end
@@ -456,13 +480,12 @@ end
 --------------------------------------------------------------------------------
 function system.transmission.sort_torrent(a, b)
 	return a.status == "Downloading" and b.status ~= "Downloading"
-	       or a.status == "Stopped" and b.status ~= "Stopped" and b.status ~= "Downloading"
+		or a.status == "Stopped" and b.status ~= "Stopped" and b.status ~= "Downloading"
 end
 
 -- Function to parse 'transmission-remote -l' output
 --------------------------------------------------------------------------------
 function system.transmission.parse(output, show_active_only)
-
 	-- Initialize vars
 	------------------------------------------------------------
 	local torrent = {
@@ -481,7 +504,6 @@ function system.transmission.parse(output, show_active_only)
 
 	-- parse every line
 	for line in string.gmatch(output, "[^\r\n]+") do
-
 		if string.sub(line, 1, 3) == "Sum" then
 			-- get total speed
 			local seed, dnld = string.match(line, "Sum:%s+[%d%.]+%s+%a+%s+([%d%.]+)%s+([%d%.]+)")
@@ -491,10 +513,8 @@ function system.transmission.parse(output, show_active_only)
 			end
 		else
 			-- get torrent info
-			local prog, status, name = string.match(
-				line,
-				"%s+%d+%s+(%d+)%%%s+[%d%.]+%s%a+%s+.+%s+[%d%.]+%s+[%d%.]+%s+[%d%.]+%s+(%a+)%s+(.+)"
-			)
+			local prog, status, name =
+				string.match(line, "%s+%d+%s+(%d+)%%%s+[%d%.]+%s%a+%s+.+%s+[%d%.]+%s+[%d%.]+%s+[%d%.]+%s+(%a+)%s+(.+)")
 
 			if prog and status then
 				-- if active only is selected then filter
@@ -528,7 +548,7 @@ function system.transmission.parse(output, show_active_only)
 	return {
 		bars = sorted_prog,
 		lines = { { torrent.seed.speed, torrent.seed.num }, { torrent.dnld.speed, torrent.dnld.num } },
-		alert = false
+		alert = false,
 	}
 end
 
@@ -579,7 +599,6 @@ function system.proc_info(cpu_storage)
 
 		-- if process with given pid exist in /proc
 		if stat then
-
 			-- get process name
 			local name = string.match(stat, ".+%((.+)%).+")
 			local proc_stat = { name }
@@ -627,7 +646,7 @@ function system.dformatted.cpumem(storage)
 
 	return {
 		bars = cores,
-		lines = { { mem.usep, mem.inuse }, { mem.swp.usep, mem.swp.inuse } }
+		lines = { { mem.usep, mem.inuse }, { mem.swp.usep, mem.swp.inuse } },
 	}
 end
 
@@ -641,8 +660,8 @@ function system.pformatted.cpu(crit)
 		local usage = system.cpu_usage(storage).total
 		return {
 			value = usage / 100,
-			text  = usage .. "%",
-			alert = usage > crit
+			text = usage .. "%",
+			alert = usage > crit,
 		}
 	end
 end
@@ -656,8 +675,8 @@ function system.pformatted.mem(crit)
 		local usage = system.memory_info().usep
 		return {
 			value = usage / 100,
-			text  = usage .. "%",
-			alert = usage > crit
+			text = usage .. "%",
+			alert = usage > crit,
 		}
 	end
 end

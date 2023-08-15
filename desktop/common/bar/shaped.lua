@@ -23,15 +23,15 @@ local progressbar = { mt = {} }
 -----------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
-		chunk     = { num = 10, line = 5, height = 10 },
-		maxm      = 1,
-		width     = nil,
-		height    = nil,
+		chunk = { num = 10, line = 5, height = 10 },
+		maxm = 1,
+		width = nil,
+		height = nil,
 		autoscale = true,
-		show      = { tooltip = false },
-		tooltip   = {},
-		shape     = "corner",
-		color     = { main = "#b1222b", gray = "#404040" }
+		show = { tooltip = false },
+		tooltip = {},
+		shape = "corner",
+		color = { main = "#b1222b", gray = "#404040" },
 	}
 
 	return modutil.table.merge(style, modutil.table.check(beautiful, "desktop.common.bar.shaped") or {})
@@ -44,11 +44,11 @@ local function draw_corner(cr, width, height, gap, first_point, last_point, fill
 	cr:set_source(color(fill_color))
 	for i = first_point, last_point do
 		cr:move_to(0, height - (i - 1) * (style.chunk.line + gap))
-		cr:rel_line_to(width / 2, - style.chunk.height)
+		cr:rel_line_to(width / 2, -style.chunk.height)
 		cr:rel_line_to(width / 2, style.chunk.height)
-		cr:rel_line_to(- style.chunk.line, 0)
-		cr:rel_line_to(- width / 2 + style.chunk.line, - style.chunk.height + style.chunk.line)
-		cr:rel_line_to(- width / 2 + style.chunk.line, style.chunk.height - style.chunk.line)
+		cr:rel_line_to(-style.chunk.line, 0)
+		cr:rel_line_to(-width / 2 + style.chunk.line, -style.chunk.height + style.chunk.line)
+		cr:rel_line_to(-width / 2 + style.chunk.line, style.chunk.height - style.chunk.line)
 		cr:close_path()
 	end
 	cr:fill()
@@ -57,7 +57,7 @@ end
 local function draw_line(cr, width, height, dy, first_point, last_point, fill_color, style)
 	cr:set_source(color(fill_color))
 	for i = first_point, last_point do
-		cr:rectangle(0, height - (i - 1) * dy, width, - style.chunk.line)
+		cr:rectangle(0, height - (i - 1) * dy, width, -style.chunk.line)
 	end
 	cr:fill()
 end
@@ -71,7 +71,6 @@ end
 -- @param style.maxm Scaling value if autoscale = false
 -----------------------------------------------------------------------------------------------------------------------
 function progressbar.new(style)
-
 	-- Initialize vars
 	--------------------------------------------------------------------------------
 	style = modutil.table.merge(default_style(), style or {})
@@ -93,11 +92,15 @@ function progressbar.new(style)
 	-- setup
 	function shapewidg:set_value(x)
 		if style.autoscale then
-			if x > maxm then maxm = x end
+			if x > maxm then
+				maxm = x
+			end
 		end
 
 		local cx = x / maxm
-		if cx > 1 then cx = 1 end
+		if cx > 1 then
+			cx = 1
+		end
 
 		self._data.value = cx
 		local num = math.ceil(stn * self._data.value)
@@ -108,11 +111,13 @@ function progressbar.new(style)
 	end
 
 	function shapewidg:set_tip(txt)
-		if self._tp then self._tp:set_text(txt) end
+		if self._tp then
+			self._tp:set_text(txt)
+		end
 	end
 
 	function shapewidg:fit(_, width, height)
-		return style.width  or width, style.height or height
+		return style.width or width, style.height or height
 	end
 
 	-- Draw function
@@ -121,7 +126,7 @@ function progressbar.new(style)
 		self._data.cnum = math.ceil(stn * self._data.value)
 
 		if style.shape == "plain" then
-			local line_gap = style.chunk.line + (height - style.chunk.line * stn)/(stn - 1)
+			local line_gap = style.chunk.line + (height - style.chunk.line * stn) / (stn - 1)
 			draw_line(cr, width, height, line_gap, 1, self._data.cnum, style.color.main, style)
 			draw_line(cr, width, height, line_gap, self._data.cnum + 1, stn, style.color.gray, style)
 		elseif style.shape == "corner" then

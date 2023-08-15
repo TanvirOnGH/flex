@@ -28,8 +28,8 @@ local color = require("gears.color")
 
 local pixbuf
 local function load_pixbuf()
-	local lgi = require('lgi')
-	lgi.require('Gtk', '3.0')
+	local lgi = require("lgi")
+	lgi.require("Gtk", "3.0")
 	pixbuf = lgi.GdkPixbuf
 end
 local is_pixbuf_loaded = pcall(load_pixbuf)
@@ -40,7 +40,7 @@ local svgbox = { mt = {} }
 
 -- weak table is useless here
 -- TODO: implement mechanics to clear cache
-local cache = setmetatable({}, { __mode = 'k' })
+local cache = setmetatable({}, { __mode = "k" })
 
 -- Support functions
 -----------------------------------------------------------------------------------------------------------------------
@@ -88,7 +88,6 @@ end
 -- Returns a new svgbox
 -----------------------------------------------------------------------------------------------------------------------
 function svgbox.new(image, resize_allowed, newcolor)
-
 	-- Create custom widget
 	--------------------------------------------------------------------------------
 	local widg = base.make_widget()
@@ -110,7 +109,9 @@ function svgbox.new(image, resize_allowed, newcolor)
 			loaded_image = surface.load(image_name)
 		end
 
-		if loaded_image and (loaded_image.height <= 0 or loaded_image.width <= 0) then return false end
+		if loaded_image and (loaded_image.height <= 0 or loaded_image.width <= 0) then
+			return false
+		end
 
 		self._image = loaded_image
 		self.is_svg = is_svg(image_name)
@@ -143,7 +144,9 @@ function svgbox.new(image, resize_allowed, newcolor)
 		if fw or fh then
 			return fw or width, fh or height
 		else
-			if not self._image then return 0, 0 end
+			if not self._image then
+				return 0, 0
+			end
 
 			local w, h = self._image.width, self._image.height
 
@@ -159,7 +162,9 @@ function svgbox.new(image, resize_allowed, newcolor)
 	-- Draw
 	------------------------------------------------------------
 	function widg:draw(_, cr, width, height)
-		if width == 0 or height == 0 or not self._image then return end
+		if width == 0 or height == 0 or not self._image then
+			return
+		end
 
 		local w, h = self._image.width, self._image.height
 		local aspect = math.min(width / w, height / h)
@@ -175,7 +180,7 @@ function svgbox.new(image, resize_allowed, newcolor)
 				-- for raster image
 				cr:scale(aspect, aspect)
 				cr:set_source_surface(self._image, 0, 0)
-				cr:scale(1/aspect, 1/aspect) -- fix this !!!
+				cr:scale(1 / aspect, 1 / aspect) -- fix this !!!
 			end
 		else
 			cr:set_source_surface(self._image, 0, 0)
@@ -186,7 +191,7 @@ function svgbox.new(image, resize_allowed, newcolor)
 			local pattern = get_current_pattern(cr)
 			cr:scale(aspect, aspect) -- fix this !!!
 			cr:set_source(color(self.color))
-			cr:scale(1/aspect, 1/aspect) -- fix this !!!
+			cr:scale(1 / aspect, 1 / aspect) -- fix this !!!
 			cr:mask(pattern, 0, 0)
 		else
 			cr:paint()
@@ -205,7 +210,9 @@ function svgbox.new(image, resize_allowed, newcolor)
 	widg.color = newcolor
 	widg.vector_resize_allowed = true
 
-	if image then widg:set_image(image) end
+	if image then
+		widg:set_image(image)
+	end
 
 	return widg
 end

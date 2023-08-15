@@ -10,7 +10,9 @@ local desktop = { build = {} }
 local function sum(t, n)
 	n = n or #t
 	local s = 0
-	for i = 1, n do s = s + t[i] end
+	for i = 1, n do
+		s = s + t[i]
+	end
 	return s
 end
 
@@ -31,8 +33,8 @@ function desktop.wgeometry(grid, place, workarea)
 	return {
 		x = wposition(grid, place[1], workarea, "width"),
 		y = wposition(grid, place[2], workarea, "height"),
-		width  = grid.width[place[1]],
-		height = grid.height[place[2]]
+		width = grid.width[place[1]],
+		height = grid.height[place[2]],
 	}
 end
 
@@ -42,10 +44,10 @@ function desktop.edge(direction, zone)
 	local edge = { area = {} }
 
 	edge.wibox = wibox({
-		bg      = "#00000000",  -- transparent without compositing manager
-		opacity = 0,            -- transparent with compositing manager
-		ontop   = true,
-		visible = true
+		bg = "#00000000", -- transparent without compositing manager
+		opacity = 0, -- transparent with compositing manager
+		ontop = true,
+		visible = true,
 	})
 
 	edge.layout = wibox.layout.fixed[direction]()
@@ -69,7 +71,9 @@ function desktop.build.static(objects, buttons)
 		object.wibox:geometry(object.geometry)
 		object.wibox:set_widget(object.body.area)
 
-		if buttons then object.body.area:buttons(buttons) end
+		if buttons then
+			object.body.area:buttons(buttons)
+		end
 	end
 end
 
@@ -83,7 +87,7 @@ function desktop.build.dynamic(objects, s, bgimage, buttons)
 	dwibox:geometry(s.workarea)
 	dwibox:setup({
 		buttons = buttons,
-		layout = wibox.layout.align.horizontal
+		layout = wibox.layout.align.horizontal,
 	})
 
 	-- individual wiboxes (perfomance wisely)
@@ -94,7 +98,9 @@ function desktop.build.dynamic(objects, s, bgimage, buttons)
 		object.wibox:geometry(object.geometry)
 		object.wibox:set_widget(object.body.area)
 
-		if buttons then object.body.area:buttons(buttons) end
+		if buttons then
+			object.body.area:buttons(buttons)
+		end
 	end
 
 	-- show widgets only for empty desktop
@@ -104,23 +110,33 @@ function desktop.build.dynamic(objects, s, bgimage, buttons)
 		if visible ~= last.visible then
 			last.visible = visible
 			dwibox.visible = visible
-			for _, object in ipairs(objects) do object.wibox.visible = visible end
+			for _, object in ipairs(objects) do
+				object.wibox.visible = visible
+			end
 		end
 	end
 
 	-- better way to check visible clients?
 	local client_signals = {
-		"property::sticky", "property::minimized", "property::screen", "property::hidden",
-		"tagged", "untagged", "list"
+		"property::sticky",
+		"property::minimized",
+		"property::screen",
+		"property::hidden",
+		"tagged",
+		"untagged",
+		"list",
 	}
 
 	local tag_signals = { "property::selected", "property::activated" }
 
-	for _, sg in ipairs(client_signals) do client.connect_signal(sg, update_desktop) end
-	for _, sg in ipairs(tag_signals) do tag.connect_signal(sg, update_desktop) end
+	for _, sg in ipairs(client_signals) do
+		client.connect_signal(sg, update_desktop)
+	end
+	for _, sg in ipairs(tag_signals) do
+		tag.connect_signal(sg, update_desktop)
+	end
 end
 
 -- End
 -----------------------------------------------------------------------------------------------------------------------
 return desktop
-

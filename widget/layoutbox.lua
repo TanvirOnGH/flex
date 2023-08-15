@@ -23,7 +23,6 @@ local tooltip = require("flex.float.tooltip")
 local modutil = require("flex.util")
 local svgbox = require("flex.gauge.svgbox")
 
-
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------
 local layoutbox = { mt = {} }
@@ -34,12 +33,14 @@ local last_tag
 -----------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
-		icon       = { unknown = modutil.base.placeholder() },
-		micon      = { blank = modutil.base.placeholder({ txt = " " }),
-		               check = modutil.base.placeholder({ txt = "+" }) },
+		icon = { unknown = modutil.base.placeholder() },
+		micon = {
+			blank = modutil.base.placeholder({ txt = " " }),
+			check = modutil.base.placeholder({ txt = "+" }),
+		},
 		name_alias = {},
-		menu       = { color = { right_icon = "#a0a0a0", left_icon = "#a0a0a0" } },
-		color      = { icon = "#a0a0a0" }
+		menu = { color = { right_icon = "#a0a0a0", left_icon = "#a0a0a0" } },
+		color = { icon = "#a0a0a0" },
 	}
 	return modutil.table.merge(style, modutil.table.check(beautiful, "widget.layoutbox") or {})
 end
@@ -47,7 +48,6 @@ end
 -- Initialize layoutbox
 -----------------------------------------------------------------------------------------------------------------------
 function layoutbox:init(layouts, style)
-
 	style = style or default_style()
 
 	-- Set tooltip
@@ -61,7 +61,14 @@ function layoutbox:init(layouts, style)
 		local layout_name = layout.getname(l)
 		local icon = style.icon[layout_name] or style.icon.unknown
 		local text = style.name_alias[layout_name] or layout_name
-		table.insert(items, { text, function() layout.set (l, last_tag) end, icon, style.micon.blank })
+		table.insert(items, {
+			text,
+			function()
+				layout.set(l, last_tag)
+			end,
+			icon,
+			style.micon.blank,
+		})
 	end
 
 	-- Update tooltip function
@@ -93,12 +100,14 @@ function layoutbox:toggle_menu(t)
 	if self.menu.wibox.visible and t == last_tag then
 		self.menu:hide()
 	else
-		if self.menu.wibox.visible then self.menu.wibox.visible = false end
+		if self.menu.wibox.visible then
+			self.menu.wibox.visible = false
+		end
 		awful.placement.under_mouse(self.menu.wibox)
 		awful.placement.no_offscreen(self.menu.wibox)
 
 		last_tag = t
-		self.menu:show({coords = {x = self.menu.wibox.x, y = self.menu.wibox.y}})
+		self.menu:show({ coords = { x = self.menu.wibox.x, y = self.menu.wibox.y } })
 		self:update_menu(last_tag)
 	end
 end
@@ -108,7 +117,6 @@ end
 -- @param layouts List of layouts
 -----------------------------------------------------------------------------------------------------------------------
 function layoutbox.new(args, style)
-
 	-- Initialize vars
 	--------------------------------------------------------------------------------
 	args = args or {}
@@ -118,7 +126,9 @@ function layoutbox.new(args, style)
 	local w = svgbox()
 	w:set_color(style.color.icon)
 
-	if not layoutbox.menu then layoutbox:init(layouts, style) end
+	if not layoutbox.menu then
+		layoutbox:init(layouts, style)
+	end
 
 	-- Set tooltip
 	--------------------------------------------------------------------------------
@@ -140,19 +150,15 @@ function layoutbox.new(args, style)
 	--------------------------------------------------------------------------------
 	tag.connect_signal("property::selected", update)
 	tag.connect_signal("property::layout", update)
-	w:connect_signal("mouse::enter",
-		function()
-			local layout_name = layout.getname(layout.get(s))
-			layoutbox:update_tooltip(layout_name)
+	w:connect_signal("mouse::enter", function()
+		local layout_name = layout.getname(layout.get(s))
+		layoutbox:update_tooltip(layout_name)
+	end)
+	w:connect_signal("mouse::leave", function()
+		if layoutbox.menu.hidetimer and layoutbox.menu.wibox.visible then
+			layoutbox.menu.hidetimer:start()
 		end
-	)
-	w:connect_signal("mouse::leave",
-		function()
-			if layoutbox.menu.hidetimer and layoutbox.menu.wibox.visible then
-				layoutbox.menu.hidetimer:start()
-			end
-		end
-	)
+	end)
 
 	--------------------------------------------------------------------------------
 	update()

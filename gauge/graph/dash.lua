@@ -23,8 +23,8 @@ local dashcontrol = { mt = {} }
 local function default_style()
 	local style = {
 		plain = false,
-		bar   = { width = 4, num = 10 },
-		color = { main = "#b1222b", gray = "#404040" }
+		bar = { width = 4, num = 10 },
+		color = { main = "#b1222b", gray = "#404040" },
 	}
 	return modutil.table.merge(style, modutil.table.check(beautiful, "gauge.graph.dash") or {})
 end
@@ -33,7 +33,6 @@ end
 -- @param style Table containing colors and geometry parameters for all elemets
 -----------------------------------------------------------------------------------------------------------------------
 function dashcontrol.new(style)
-
 	-- Initialize vars
 	--------------------------------------------------------------------------------
 	style = modutil.table.merge(default_style(), style or {})
@@ -70,7 +69,7 @@ function dashcontrol.new(style)
 
 		for i = 1, style.bar.num do
 			cr:set_source(color(i > self._data.cnum and style.color.gray or style.color.main))
-			cr:rectangle((i - 1) * wstep, height, style.bar.width,  style.plain and -height or - i * hstep)
+			cr:rectangle((i - 1) * wstep, height, style.bar.width, style.plain and -height or -i * hstep)
 			cr:fill()
 		end
 	end

@@ -23,10 +23,10 @@ local purpletag = { mt = {} }
 -----------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
-		width        = 50,
+		width = 50,
 		base = { pad = 5, height = 12, thickness = 2 },
 		mark = { pad = 10, height = 4 },
-		color        = { main  = "#5906D3", gray  = "#575757", icon = "#a0a0a0", urgent = "#864DDC" }
+		color = { main = "#5906D3", gray = "#575757", icon = "#a0a0a0", urgent = "#864DDC" },
 	}
 
 	return modutil.table.merge(style, modutil.table.check(beautiful, "gauge.tag.purple") or {})
@@ -36,14 +36,13 @@ end
 -- @param style Table containing colors and geometry parameters for all elemets
 -----------------------------------------------------------------------------------------------------------------------
 function purpletag.new(style)
-
 	-- Initialize vars
 	--------------------------------------------------------------------------------
 	style = modutil.table.merge(default_style(), style or {})
 
 	-- updating values
 	local data = {
-		width = style.width or nil
+		width = style.width or nil,
 	}
 
 	-- Create custom widget
@@ -75,27 +74,30 @@ function purpletag.new(style)
 	-- Draw
 	------------------------------------------------------------
 	function widg:draw(_, cr, width, height)
-
 		-- state
 		local cl = data.state.active and style.color.main or style.color.gray
 		cr:set_source(color(cl))
 
 		cr:rectangle(
-			style.base.pad, math.floor((height - style.base.height) / 2),
-			width - 2 * style.base.pad, style.base.height
+			style.base.pad,
+			math.floor((height - style.base.height) / 2),
+			width - 2 * style.base.pad,
+			style.base.height
 		)
 		cr:set_line_width(style.base.thickness)
 		cr:stroke()
 
 		-- focus
 		cl = data.state.focus and style.color.main
-		     or data.state.urgent and style.color.urgent
-		     or (data.state.occupied and  style.color.icon or style.color.gray)
+			or data.state.urgent and style.color.urgent
+			or (data.state.occupied and style.color.icon or style.color.gray)
 		cr:set_source(color(cl))
 
 		cr:rectangle(
-			style.mark.pad, math.floor((height - style.mark.height) / 2),
-			width - 2 * style.mark.pad, style.mark.height
+			style.mark.pad,
+			math.floor((height - style.mark.height) / 2),
+			width - 2 * style.mark.pad,
+			style.mark.height
 		)
 
 		cr:fill()

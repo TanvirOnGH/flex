@@ -33,56 +33,79 @@ local lastquery
 -- key bindings
 apprunner.keys.move = {
 	{
-		{}, "Down", function() apprunner:down() end,
-		{ description = "Select next item", group = "Navigation" }
+		{},
+		"Down",
+		function()
+			apprunner:down()
+		end,
+		{ description = "Select next item", group = "Navigation" },
 	},
 	{
-		{}, "Up", function() apprunner:up() end,
-		{ description = "Select previous item", group = "Navigation" }
+		{},
+		"Up",
+		function()
+			apprunner:up()
+		end,
+		{ description = "Select previous item", group = "Navigation" },
 	},
 }
 
 apprunner.keys.action = {
 	{
-		{ "Mod4" }, "F1", function() modtip:show() end,
-		{ description = "Show hotkeys helper", group = "Action" }
+		{ "Mod4" },
+		"F1",
+		function()
+			modtip:show()
+		end,
+		{ description = "Show hotkeys helper", group = "Action" },
 	},
 	-- fake keys used for hotkeys helper
 	{
-		{}, "Enter", nil,
-		{ description = "Activate item", group = "Action" }
+		{},
+		"Enter",
+		nil,
+		{ description = "Activate item", group = "Action" },
 	},
 	{
-		{}, "Escape", nil,
-		{ description = "Close widget", group = "Action" }
+		{},
+		"Escape",
+		nil,
+		{ description = "Close widget", group = "Action" },
 	},
 }
 
 apprunner.keys.all = awful.util.table.join(apprunner.keys.move, apprunner.keys.action)
 
-
 -- Generate default theme vars
 -----------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
-		itemnum          = 5,
-		geometry         = { width = 620, height = 520 },
-		border_margin    = { 10, 10, 10, 10 },
-		title_height     = 48,
-		prompt_height    = 35,
-		title_icon       = nil,
-		icon_margin      = { 8, 12, 0, 0 },
-		parser           = {},
-		list_text_vgap   = 4,
+		itemnum = 5,
+		geometry = { width = 620, height = 520 },
+		border_margin = { 10, 10, 10, 10 },
+		title_height = 48,
+		prompt_height = 35,
+		title_icon = nil,
+		icon_margin = { 8, 12, 0, 0 },
+		parser = {},
+		list_text_vgap = 4,
 		list_icon_margin = { 6, 12, 6, 6 },
-		name_font        = "Fira Code 12",
-		comment_font     = "Fira Code 12",
-		border_width     = 2,
-		keytip           = { geometry = { width = 400 } },
-		dimage           = modutil.base.placeholder(),
-		color            = { border = "#575757", text = "#aaaaaa", highlight = "#eeeeee", main = "#b1222b",
-		                     bg = "#161616", bg_second = "#181818", wibox = "#202020", icon = "a0a0a0" },
-		shape            = nil
+		name_font = "Fira Code 12",
+		comment_font = "Fira Code 12",
+		border_width = 2,
+		keytip = { geometry = { width = 400 } },
+		dimage = modutil.base.placeholder(),
+		color = {
+			border = "#575757",
+			text = "#aaaaaa",
+			highlight = "#eeeeee",
+			main = "#b1222b",
+			bg = "#161616",
+			bg_second = "#181818",
+			wibox = "#202020",
+			icon = "a0a0a0",
+		},
+		shape = nil,
 	}
 	return modutil.table.merge(style, modutil.table.check(beautiful, "float.apprunner") or {})
 end
@@ -94,11 +117,11 @@ end
 --------------------------------------------------------------------------------
 local function construct_item(style)
 	local item = {
-		icon    = svgbox(),
-		name    = wibox.widget.textbox(),
+		icon = svgbox(),
+		name = wibox.widget.textbox(),
 		comment = wibox.widget.textbox(),
-		bg      = style.color.bg,
-		cmd     = ""
+		bg = style.color.bg,
+		cmd = "",
 	}
 
 	item.name:set_font(style.name_font)
@@ -112,7 +135,7 @@ local function construct_item(style)
 	text_vertical:set_top(wibox.container.margin(item.name, 0, 0, style.list_text_vgap))
 	text_vertical:set_middle(item.comment)
 
-	local item_horizontal  = wibox.layout.align.horizontal()
+	local item_horizontal = wibox.layout.align.horizontal()
 	item_horizontal:set_left(wibox.container.margin(item.icon, unpack(style.list_icon_margin)))
 	item_horizontal:set_middle(text_horizontal)
 
@@ -126,13 +149,11 @@ local function construct_item(style)
 		local name_text = awful.util.escape(args.Name) or ""
 		item.name:set_markup(name_text)
 
-		local comment_text = args.Comment and awful.util.escape(args.Comment)
-		                     or args.Name and "No description"
-		                     or ""
+		local comment_text = args.Comment and awful.util.escape(args.Comment) or args.Name and "No description" or ""
 		item.comment:set_markup(comment_text)
 
 		item.icon:set_image(args.icon_path or style.dimage)
-		item.icon:set_visible((args.Name))
+		item.icon:set_visible(args.Name)
 
 		item.cmd = args.cmdline
 	end
@@ -186,7 +207,9 @@ local function construct_list(num, progs, style)
 	end
 
 	function list:update(t)
-		for i = list.position, (list.position - 1 + num) do list.items[i - list.position + 1]:set(t[i]) end
+		for i = list.position, (list.position - 1 + num) do
+			list.items[i - list.position + 1]:set(t[i])
+		end
 		list:set_select(list.selected)
 	end
 
@@ -254,7 +277,10 @@ end
 -----------------------------------------------------------------------------------------------------------------------
 local function keypressed_callback(mod, key)
 	for _, k in ipairs(apprunner.keys.all) do
-		if modutil.key.match_prompt(k, mod, key) and k[3] then k[3](); return true end
+		if modutil.key.match_prompt(k, mod, key) and k[3] then
+			k[3]()
+			return true
+		end
 	end
 	return false
 end
@@ -262,7 +288,6 @@ end
 -- Initialize apprunner widget
 -----------------------------------------------------------------------------------------------------------------------
 function apprunner:init()
-
 	-- Initialize vars
 	--------------------------------------------------------------------------------
 	local style = default_style()
@@ -285,8 +310,11 @@ function apprunner:init()
 
 	-- Construct widget layouts
 	--------------------------------------------------------------------------------
-	local prompt_width = style.geometry.width - 2 * style.border_margin[1]
-	                     - style.title_height - style.icon_margin[1] - style.icon_margin[2]
+	local prompt_width = style.geometry.width
+		- 2 * style.border_margin[1]
+		- style.title_height
+		- style.icon_margin[1]
+		- style.icon_margin[2]
 	local prompt_layout = wibox.container.constraint(self.decorated_widget, "exact", prompt_width, style.prompt_height)
 
 	local prompt_vertical = wibox.layout.align.vertical()
@@ -309,11 +337,11 @@ function apprunner:init()
 	-- Create floating wibox for apprunner widget
 	--------------------------------------------------------------------------------
 	self.wibox = wibox({
-		ontop        = true,
-		bg           = style.color.wibox,
+		ontop = true,
+		bg = style.color.wibox,
 		border_width = style.border_width,
 		border_color = style.color.border,
-		shape        = style.shape
+		shape = style.shape,
 	})
 
 	self.wibox:set_widget(area_layout)
@@ -338,8 +366,12 @@ function apprunner:show()
 	return awful.prompt.run({
 		prompt = "",
 		textbox = self.textbox,
-		exe_callback = function () self.applist.items[self.applist.selected]:run() end,
-		done_callback = function () self:hide() end,
+		exe_callback = function()
+			self.applist.items[self.applist.selected]:run()
+		end,
+		done_callback = function()
+			self:hide()
+		end,
 		keypressed_callback = keypressed_callback,
 		changed_callback = list_filtrate,
 	})
@@ -356,7 +388,9 @@ function apprunner:set_keys(keys, layout)
 	layout = layout or "all"
 	if keys then
 		self.keys[layout] = keys
-		if layout ~= "all" then self.keys.all = awful.util.table.join(self.keys.move, self.keys.action) end
+		if layout ~= "all" then
+			self.keys.all = awful.util.table.join(self.keys.move, self.keys.action)
+		end
 	end
 
 	-- self.tip = awful.util.table.join(self.keys.all, self._fake_keys)

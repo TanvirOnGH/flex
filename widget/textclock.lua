@@ -25,9 +25,9 @@ local textclock = { mt = {} }
 -----------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
-		font  = "Fira Code 12",
+		font = "Fira Code 12",
 		tooltip = {},
-		color = { text = "#aaaaaa" }
+		color = { text = "#aaaaaa" },
 	}
 	return modutil.table.merge(style, modutil.table.check(beautiful, "widget.textclock") or {})
 end
@@ -38,7 +38,6 @@ end
 -- @return A textbox widget
 -----------------------------------------------------------------------------------------------------------------------
 function textclock.new(args, style)
-
 	-- Initialize vars
 	--------------------------------------------------------------------------------
 	args = args or {}
@@ -54,16 +53,19 @@ function textclock.new(args, style)
 	-- Set tooltip if need
 	--------------------------------------------------------------------------------
 	local tp
-	if args.dateformat then tp = tooltip({ objects = { widg } }, style.tooltip) end
+	if args.dateformat then
+		tp = tooltip({ objects = { widg } }, style.tooltip)
+	end
 
 	-- Set update timer
 	--------------------------------------------------------------------------------
 	local timer = gears.timer({ timeout = timeout })
-	timer:connect_signal("timeout",
-		function()
-			widg:set_markup('<span color="' .. style.color.text .. '">' .. os.date(timeformat) .. "</span>")
-			if args.dateformat then tp:set_text(os.date(args.dateformat)) end
-		end)
+	timer:connect_signal("timeout", function()
+		widg:set_markup('<span color="' .. style.color.text .. '">' .. os.date(timeformat) .. "</span>")
+		if args.dateformat then
+			tp:set_text(os.date(args.dateformat))
+		end
+	end)
 	timer:start()
 	timer:emit_signal("timeout")
 

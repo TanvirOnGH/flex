@@ -31,12 +31,12 @@ keychain.service = { close = { "Escape" }, help = { "F1" }, stepback = { "BackSp
 -----------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
-		geometry        = { width = 220, height = 60 },
-		font            = "Fira Code 14 bold",
-		border_width    = 2,
-		keytip          = { geometry = { width = 500 }, exit = false },
-		color           = { border = "#575757", wibox = "#202020" },
-		shape           = nil
+		geometry = { width = 220, height = 60 },
+		font = "Fira Code 14 bold",
+		border_width = 2,
+		keytip = { geometry = { width = 500 }, exit = false },
+		color = { border = "#575757", wibox = "#202020" },
+		shape = nil,
 	}
 
 	return flex.util.table.merge(style, flex.util.table.check(beautiful, "float.keychain") or {})
@@ -45,11 +45,15 @@ end
 -- Support functions
 -----------------------------------------------------------------------------------------------------------------------
 local function build_label(item)
-	if #item[1] == 0 then return item[2] end
+	if #item[1] == 0 then
+		return item[2]
+	end
 
 	local mods = {}
-	for _, m in ipairs(item[1]) do mods[#mods + 1] = label_pattern[m] end
-	return string.format("%s-%s", table.concat(mods, '-'), item[2])
+	for _, m in ipairs(item[1]) do
+		mods[#mods + 1] = label_pattern[m]
+	end
+	return string.format("%s-%s", table.concat(mods, "-"), item[2])
 end
 
 local function build_tip(store, item, prefix)
@@ -69,15 +73,16 @@ end
 local function build_fake_keys(keys)
 	local res = {}
 	for _, keygroup in ipairs({
-		{ description = "Undo last key",       group = "Action", keyname = "stepback" },
-		{ description = "Undo sequence",       group = "Action", keyname = "close" },
+		{ description = "Undo last key", group = "Action", keyname = "stepback" },
+		{ description = "Undo sequence", group = "Action", keyname = "close" },
 		{ description = "Show hotkeys helper", group = "Action", keyname = "help" },
-	})
-	do
+	}) do
 		for _, k in ipairs(keys[keygroup.keyname]) do
 			table.insert(res, {
-				{}, k, nil,
-				{ description = keygroup.description, group = keygroup.group }
+				{},
+				k,
+				nil,
+				{ description = keygroup.description, group = keygroup.group },
 			})
 		end
 	end
@@ -90,7 +95,6 @@ end
 -- Initialize keychain widget
 --------------------------------------------------------------------------------
 function keychain:init(style)
-
 	-- Init vars
 	------------------------------------------------------------
 	self.active = nil
@@ -103,11 +107,11 @@ function keychain:init(style)
 	-- Wibox
 	------------------------------------------------------------
 	self.wibox = wibox({
-		ontop        = true,
-		bg           = style.color.wibox,
+		ontop = true,
+		bg = style.color.wibox,
 		border_width = style.border_width,
 		border_color = style.color.border,
-		shape        = style.shape
+		shape = style.shape,
 	})
 	self.wibox:geometry(style.geometry)
 
@@ -120,17 +124,28 @@ function keychain:init(style)
 	-- Keygrabber
 	------------------------------------------------------------
 	self.keygrabber = function(mod, key, event)
-		if event == "press" then return false end
+		if event == "press" then
+			return false
+		end
 
 		-- dirty fix for first key release
-		if self.actkey == key then self.actkey = nil; return end
+		if self.actkey == key then
+			self.actkey = nil
+			return
+		end
 
-		if awful.util.table.hasitem(self.service.close,    key) then self:hide()
-		elseif awful.util.table.hasitem(self.service.stepback, key) then self:undo()
-		elseif awful.util.table.hasitem(self.service.help,     key) then modtip:show()
+		if awful.util.table.hasitem(self.service.close, key) then
+			self:hide()
+		elseif awful.util.table.hasitem(self.service.stepback, key) then
+			self:undo()
+		elseif awful.util.table.hasitem(self.service.help, key) then
+			modtip:show()
 		else
 			for _, item in ipairs(self.active[3]) do
-				if modutil.key.match_grabber(item, mod, key) then self:activate(item); return end
+				if modutil.key.match_grabber(item, mod, key) then
+					self:activate(item)
+					return
+				end
 			end
 		end
 	end
@@ -139,7 +154,9 @@ end
 -- Set current key item
 --------------------------------------------------------------------------------
 function keychain:activate(item, keytip)
-	if not self.wibox then self:init() end
+	if not self.wibox then
+		self:init()
+	end
 	self.actkey = keytip and item[2]
 
 	if type(item[3]) == "function" then
@@ -176,7 +193,7 @@ end
 --------------------------------------------------------------------------------
 function keychain:undo()
 	if #self.parents > 0 then
-		self.sequence = self.sequence:sub(1, - (#build_label(self.active) + 2))
+		self.sequence = self.sequence:sub(1, -(#build_label(self.active) + 2))
 		self.label:set_text(self.sequence)
 
 		self.active = self.parents[#self.parents]

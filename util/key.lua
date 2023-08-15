@@ -56,12 +56,12 @@ function key.match_grabber(rawkey, mod, _key)
 	end
 
 	local modcheck = #mod == #rawkey[1]
-	for _, v in ipairs(mod) do modcheck = modcheck and awful.util.table.hasitem(rawkey[1], v) end
+	for _, v in ipairs(mod) do
+		modcheck = modcheck and awful.util.table.hasitem(rawkey[1], v)
+	end
 	return modcheck and _key:lower() == rawkey[2]:lower()
 end
-
 
 -- End
 -----------------------------------------------------------------------------------------------------------------------
 return key
-
