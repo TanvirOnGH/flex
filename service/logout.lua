@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                             awsmx logout screen                                                 --
+--                                             flex logout screen                                                 --
 -----------------------------------------------------------------------------------------------------------------------
 
 -- Grab environment
@@ -8,9 +8,9 @@ local wibox = require("wibox")
 local gears = require("gears")
 local beautiful = require("beautiful")
 
-local modutil = require("awsmx.util")
-local modtip = require("awsmx.float.hotkeys")
-local svgbox = require("awsmx.gauge.svgbox")
+local modutil = require("flex.util")
+local modtip = require("flex.float.hotkeys")
+local svgbox = require("flex.gauge.svgbox")
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------

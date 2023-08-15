@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                        awsmx binary clock widget                                                --
+--                                        flex binary clock widget                                                --
 -----------------------------------------------------------------------------------------------------------------------
 -- Why not?
 -----------------------------------------------------------------------------------------------------------------------
@@ -12,8 +12,8 @@ local beautiful = require("beautiful")
 local gears = require("gears")
 local color = require("gears.color")
 
-local tooltip = require("awsmx.float.tooltip")
-local modutil = require("awsmx.util")
+local tooltip = require("flex.float.tooltip")
+local modutil = require("flex.util")
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------

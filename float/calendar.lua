@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                             awsmx calendar widget                                               --
+--                                             flex calendar widget                                               --
 -----------------------------------------------------------------------------------------------------------------------
 -- A stylable widget wrapping wibox.widget.calendar
 -----------------------------------------------------------------------------------------------------------------------
@@ -19,9 +19,9 @@ local PangoCairo = lgi.PangoCairo
 local DateTime = lgi.GLib.DateTime
 local TimeZone = lgi.GLib.TimeZone
 
-local modutil = require("awsmx.util")
-local svgbox = require("awsmx.gauge.svgbox")
-local separator = require("awsmx.gauge.separator")
+local modutil = require("flex.util")
+local svgbox = require("flex.gauge.svgbox")
+local separator = require("flex.gauge.separator")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------

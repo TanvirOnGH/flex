@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                                  awsmx tooltip                                                  --
+--                                                  flex tooltip                                                  --
 -----------------------------------------------------------------------------------------------------------------------
 -- Slightly modded awful tooltip
 -- padding added
@@ -19,7 +19,7 @@ local awful = require("awful")
 local beautiful = require("beautiful")
 local timer = require("gears.timer")
 
-local modutil = require("awsmx.util")
+local modutil = require("flex.util")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------

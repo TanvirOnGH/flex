@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                      awsmx simple line desktop widget                                           --
+--                                      flex simple line desktop widget                                           --
 -----------------------------------------------------------------------------------------------------------------------
 -- Multi monitoring widget
 -----------------------------------------------------------------------------------------------------------------------
@@ -13,9 +13,9 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 local timer = require("gears.timer")
 
-local modutil = require("awsmx.util")
-local svgbox = require("awsmx.gauge.svgbox")
-local textbox = require("awsmx.desktop.common.textbox")
+local modutil = require("flex.util")
+local svgbox = require("flex.gauge.svgbox")
+local textbox = require("flex.desktop.common.textbox")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------

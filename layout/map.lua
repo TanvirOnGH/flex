@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                                awsmx map layout                                                 --
+--                                                flex map layout                                                 --
 -----------------------------------------------------------------------------------------------------------------------
 -- Tiling with user defined geometry
 -----------------------------------------------------------------------------------------------------------------------
@@ -14,10 +14,10 @@ local unpack = unpack or table.unpack
 local awful = require("awful")
 local timer = require("gears.timer")
 
-local awsmx = require("awsmx")
-local modutil = require("awsmx.util")
-local common = require("awsmx.layout.common")
-local rednotify = require("awsmx.float.notify")
+local flex = require("flex")
+local modutil = require("flex.util")
+local common = require("flex.layout.common")
+local rednotify = require("flex.float.notify")
 
 local hasitem = awful.util.table.hasitem
 
@@ -453,7 +453,7 @@ function map.new_group(is_vertical)
 	hitimer = timer({ timeout = map.hilight_timeout })
 	hitimer:connect_signal("timeout",
 		function()
-			awsmx.service.navigator.hilight.show(map.data[t].set[map.data[t].active].wa)
+			flex.service.navigator.hilight.show(map.data[t].set[map.data[t].active].wa)
 			hitimer:stop()
 			hitimer = nil
 		end
@@ -508,7 +508,7 @@ function map.set_active(c)
 	if pack then
 		map.data[t].autoaim = false
 		map.data[t].active = hasitem(map.data[t].set, pack)
-		awsmx.service.navigator.hilight.show(pack.wa)
+		flex.service.navigator.hilight.show(pack.wa)
 		notify("Active group index: " .. tostring(map.data[t].active))
 	end
 end
@@ -518,7 +518,7 @@ end
 function map.hilight_active()
 	local t = mouse.screen.selected_tag
 	local pack = map.data[t].set[map.data[t].active]
-	awsmx.service.navigator.hilight.show(pack.wa)
+	flex.service.navigator.hilight.show(pack.wa)
 end
 
 -- Switch active container by index
@@ -532,7 +532,7 @@ function map.switch_active(n)
 		--local pack = map.data[t].set[na]
 		notify("Active group index: " .. tostring(na))
 	end
-	awsmx.service.navigator.hilight.show(map.data[t].set[map.data[t].active].wa)
+	flex.service.navigator.hilight.show(map.data[t].set[map.data[t].active].wa)
 end
 
 -- Move client to active container
@@ -666,7 +666,7 @@ map.key_handler = function (mod, key, event)
 end
 
 
--- awsmx navigator support functions
+-- flex navigator support functions
 -----------------------------------------------------------------------------------------------------------------------
 function map:set_keys(keys, layout)
 	layout = layout or "all"

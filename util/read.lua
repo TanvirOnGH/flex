@@ -1,4 +1,4 @@
--- awsmx util submodule
+-- flex util submodule
 
 local io = io
 local assert = assert

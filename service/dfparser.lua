@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                           awsmx desctop file parser                                             --
+--                                           flex desctop file parser                                             --
 -----------------------------------------------------------------------------------------------------------------------
 -- Create application menu analyzing .desktop files in given directories
 -----------------------------------------------------------------------------------------------------------------------
@@ -17,7 +17,7 @@ local string = string
 local awful = require("awful")
 local beautiful = require("beautiful")
 
-local modutil = require("awsmx.util")
+local modutil = require("flex.util")
 local gears = require("gears")
 
 -- Initialize tables and vars for module

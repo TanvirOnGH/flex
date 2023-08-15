@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                             awsmx ber pack widget                                               --
+--                                             flex ber pack widget                                               --
 -----------------------------------------------------------------------------------------------------------------------
 -- Group of upright indicators placed in horizontal layout
 -----------------------------------------------------------------------------------------------------------------------
@@ -11,7 +11,7 @@ local setmetatable = setmetatable
 local wibox = require("wibox")
 --local beautiful = require("beautiful")
 
-local progressbar = require("awsmx.desktop.common.bar.shaped")
+local progressbar = require("flex.desktop.common.bar.shaped")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------
@@ -19,7 +19,7 @@ local barpack = { mt = {} }
 
 -- Create a new barpack widget
 -- @param num Number of indicators
--- @param style Style variables for awsmx shaped progressbar widget
+-- @param style Style variables for flex shaped progressbar widget
 -----------------------------------------------------------------------------------------------------------------------
 function barpack.new(num, style)
 

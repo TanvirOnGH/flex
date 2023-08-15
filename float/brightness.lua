@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                        awsmx brightness control widget                                          --
+--                                        flex brightness control widget                                          --
 -----------------------------------------------------------------------------------------------------------------------
 -- Brightness control using xbacklight or other tools
 -----------------------------------------------------------------------------------------------------------------------
@@ -10,8 +10,8 @@ local string = string
 local awful = require("awful")
 local beautiful = require("beautiful")
 
-local rednotify = require("awsmx.float.notify")
-local modutil = require("awsmx.util")
+local rednotify = require("flex.float.notify")
+local modutil = require("flex.util")
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------

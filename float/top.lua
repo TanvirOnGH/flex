@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                                  awsmx top widget                                               --
+--                                                  flex top widget                                               --
 -----------------------------------------------------------------------------------------------------------------------
 -- Widget with list of top processes
 -----------------------------------------------------------------------------------------------------------------------
@@ -13,10 +13,10 @@ local beautiful = require("beautiful")
 local wibox = require("wibox")
 local timer = require("gears.timer")
 
-local modutil = require("awsmx.util")
-local system = require("awsmx.system")
-local decoration = require("awsmx.float.decoration")
-local modtip = require("awsmx.float.hotkeys")
+local modutil = require("flex.util")
+local system = require("flex.system")
+local decoration = require("flex.float.decoration")
+local modtip = require("flex.float.hotkeys")
 
 
 -- Initialize tables for module

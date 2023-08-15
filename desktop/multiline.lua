@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                         awsmx dashpack desktop widget                                           --
+--                                         flex dashpack desktop widget                                           --
 -----------------------------------------------------------------------------------------------------------------------
 -- Multi monitoring widget
 -- Several lines with progressbar, label and text
@@ -15,9 +15,9 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 local timer = require("gears.timer")
 
-local modutil = require("awsmx.util")
-local svgbox = require("awsmx.gauge.svgbox")
-local lines = require("awsmx.desktop.common.pack.lines")
+local modutil = require("flex.util")
+local svgbox = require("flex.gauge.svgbox")
+local lines = require("flex.desktop.common.pack.lines")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------

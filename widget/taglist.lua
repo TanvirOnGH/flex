@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                            awsmx taglist widget                                                 --
+--                                            flex taglist widget                                                 --
 -----------------------------------------------------------------------------------------------------------------------
 -- Custom widget used to display tag info
 -- Separators added
@@ -21,9 +21,9 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 local timer = require("gears.timer")
 
-local modutil = require("awsmx.util")
-local basetag = require("awsmx.gauge.tag")
-local tooltip = require("awsmx.float.tooltip")
+local modutil = require("flex.util")
+local basetag = require("flex.gauge.tag")
+local tooltip = require("flex.float.tooltip")
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------

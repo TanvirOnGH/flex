@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                              awsmx separatoe widget                                             --
+--                                              flex separatoe widget                                             --
 -----------------------------------------------------------------------------------------------------------------------
 -- Simple graphical separator to decorate panel
 -----------------------------------------------------------------------------------------------------------------------
@@ -10,7 +10,7 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 local color = require("gears.color")
 
-local modutil = require("awsmx.util")
+local modutil = require("flex.util")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------

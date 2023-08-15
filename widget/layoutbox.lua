@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                            awsmx layoutbox widget                                               --
+--                                            flex layoutbox widget                                               --
 -----------------------------------------------------------------------------------------------------------------------
 -- Paintbox widget used to display layout
 -- Layouts menu added
@@ -18,10 +18,10 @@ local awful = require("awful")
 local layout = require("awful.layout")
 local beautiful = require("beautiful")
 
-local modmenu = require("awsmx.menu")
-local tooltip = require("awsmx.float.tooltip")
-local modutil = require("awsmx.util")
-local svgbox = require("awsmx.gauge.svgbox")
+local modmenu = require("flex.menu")
+local tooltip = require("flex.float.tooltip")
+local modutil = require("flex.util")
+local svgbox = require("flex.gauge.svgbox")
 
 
 -- Initialize tables and vars for module

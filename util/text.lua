@@ -1,4 +1,4 @@
--- awsmx util submodule
+-- flex util submodule
 
 local math = math
 local string = string

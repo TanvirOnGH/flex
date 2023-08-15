@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                     awsmx multi monitoring deskotp widget                                       --
+--                                     flex multi monitoring deskotp widget                                       --
 -----------------------------------------------------------------------------------------------------------------------
 -- Multi monitoring widget
 -- Pack of vertical indicators and two lines with labeled progressbar
@@ -14,9 +14,9 @@ local beautiful = require("beautiful")
 local timer = require("gears.timer")
 local unpack = unpack or table.unpack
 
-local dcommon = require("awsmx.desktop.common")
-local modutil = require("awsmx.util")
-local svgbox = require("awsmx.gauge.svgbox")
+local dcommon = require("flex.desktop.common")
+local modutil = require("flex.util")
+local svgbox = require("flex.gauge.svgbox")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------

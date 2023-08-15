@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                       awsmx speed meter deskotp widget                                          --
+--                                       flex speed meter deskotp widget                                          --
 -----------------------------------------------------------------------------------------------------------------------
 -- Network or disk i/o speed indicators
 -----------------------------------------------------------------------------------------------------------------------
@@ -13,10 +13,10 @@ local beautiful = require("beautiful")
 local timer = require("gears.timer")
 local unpack = unpack or table.unpack
 
-local system = require("awsmx.system")
-local modutil = require("awsmx.util")
-local dcommon = require("awsmx.desktop.common")
-local svgbox = require("awsmx.gauge.svgbox")
+local system = require("flex.system")
+local modutil = require("flex.util")
+local dcommon = require("flex.desktop.common")
+local svgbox = require("flex.gauge.svgbox")
 
 
 -- Initialize tables for module

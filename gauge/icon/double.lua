@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                           awsmx indicator widget                                                --
+--                                           flex indicator widget                                                --
 -----------------------------------------------------------------------------------------------------------------------
 -- Double mage indicator
 -----------------------------------------------------------------------------------------------------------------------
@@ -13,8 +13,8 @@ local math = math
 local wibox = require("wibox")
 local beautiful = require("beautiful")
 
-local modutil = require("awsmx.util")
-local svgbox = require("awsmx.gauge.svgbox")
+local modutil = require("flex.util")
+local svgbox = require("flex.gauge.svgbox")
 
 
 -- Initialize tables for module

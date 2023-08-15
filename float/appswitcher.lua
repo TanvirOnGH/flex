@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                             awsmx appswitcher widget                                            --
+--                                             flex appswitcher widget                                            --
 -----------------------------------------------------------------------------------------------------------------------
 -- Advanced application switcher
 -----------------------------------------------------------------------------------------------------------------------
@@ -28,9 +28,9 @@ local function load_pixbuf()
 end
 local is_pixbuf_loaded = pcall(load_pixbuf)
 
-local dfparser = require("awsmx.service.dfparser")
-local modutil = require("awsmx.util")
-local modtip = require("awsmx.float.hotkeys")
+local dfparser = require("flex.service.dfparser")
+local modutil = require("flex.util")
+local modtip = require("flex.float.hotkeys")
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------

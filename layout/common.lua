@@ -1,20 +1,20 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                          awsmx layout shared functions                                          --
+--                                          flex layout shared functions                                          --
 -----------------------------------------------------------------------------------------------------------------------
 -- Hotkeys for layout manipulation
--- Handlers adapted for work with awsmx navigator widget
+-- Handlers adapted for work with flex navigator widget
 -----------------------------------------------------------------------------------------------------------------------
 
 -- Grab environment
 -----------------------------------------------------------------------------------------------------------------------
 local awful = require("awful")
-local navigator = require("awsmx.service.navigator")
+local navigator = require("flex.service.navigator")
 
 local ipairs = ipairs
 
 local alayout = awful.layout
-local modutil = require("awsmx.util")
-local modtip = require("awsmx.float.hotkeys")
+local modutil = require("flex.util")
+local modtip = require("flex.float.hotkeys")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------

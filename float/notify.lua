@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                                awsmx notify widget                                              --
+--                                                flex notify widget                                              --
 -----------------------------------------------------------------------------------------------------------------------
 -- Floating widget with icon, text, and progress bar
 -- special for volume and brightness indication
@@ -12,9 +12,9 @@ local beautiful = require("beautiful")
 local wibox = require("wibox")
 local timer = require("gears.timer")
 
-local modutil = require("awsmx.util")
-local svgbox = require("awsmx.gauge.svgbox")
-local progressbar = require("awsmx.gauge.graph.bar")
+local modutil = require("flex.util")
+local svgbox = require("flex.gauge.svgbox")
+local progressbar = require("flex.gauge.graph.bar")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------
