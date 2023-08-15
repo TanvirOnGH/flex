@@ -306,8 +306,7 @@ local function tagline_construct(setup_layout, style)
 end
 
 -- Calculate menu position
--- !!! Bad code is here !!!
--- !!! TODO: make variant when panel place on top of screen !!!
+-- TODO: make variant when panel place on top of screen
 --------------------------------------------------------------------------------
 local function coords_calc(menu, tip_wibox, gap)
 	local coords = {}
