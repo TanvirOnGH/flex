@@ -20,7 +20,7 @@ local color = require("gears.color")
 
 local awsmx = require("awsmx")
 local modutil = require("awsmx.util")
-local redtip = require("awsmx.float.hotkeys")
+local modtip = require("awsmx.float.hotkeys")
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------
@@ -60,7 +60,7 @@ qlaunch.keys.action = {
 		{ description = "Save config to disk", group = "Action" }
 	},
 	{
-		{ "Mod4" }, "F1", function() redtip:show() end,
+		{ "Mod4" }, "F1", function() modtip:show() end,
 		{ description = "Show hotkeys helper", group = "Action" }
 	},
 }
@@ -391,7 +391,7 @@ function qlaunch:show()
 	self.wibox.visible = true
 	awful.keygrabber.run(self.keygrabber)
 
-	redtip:set_pack(
+	modtip:set_pack(
 		"Quick launch", self.tip, self.style.keytip.column, self.style.keytip.geometry,
 		self.style.keytip.exit and function() self:hide() end
 	)
@@ -401,7 +401,7 @@ function qlaunch:hide()
 	self.wibox.visible = false
 	awful.keygrabber.stop(self.keygrabber)
 	self.switcher:reset()
-	redtip:remove_pack()
+	modtip:remove_pack()
 end
 
 function qlaunch:run_and_hide(forced_run)

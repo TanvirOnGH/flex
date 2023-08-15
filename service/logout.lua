@@ -9,7 +9,7 @@ local gears = require("gears")
 local beautiful = require("beautiful")
 
 local modutil = require("awsmx.util")
-local redtip = require("awsmx.float.hotkeys")
+local modtip = require("awsmx.float.hotkeys")
 local svgbox = require("awsmx.gauge.svgbox")
 
 -- Initialize tables and vars for module
@@ -178,10 +178,10 @@ logout.keys = {
 		{ description = "Execute selected option", group = "Action" }
 	},
 	{
-		{ "Mod4" }, "F1", function() redtip:show() end,
+		{ "Mod4" }, "F1", function() modtip:show() end,
 		{ description = "Show hotkeys helper", group = "Action" }
 	},
-	{ -- fake keys for redtip
+	{ -- fake keys for modtip
 		{ }, "1..9", nil,
 		{ description = "Select option by number", group = "Selection",
 		  keyset = { "1", "2", "3", "4", "5", "6", "7", "8", "9" } }
@@ -193,7 +193,7 @@ for i = 1, 9 do
 		{ }, tostring(i), function()
 			logout.action.select_by_id(i)
 		end,
-		{ } -- don't show in redtip
+		{ } -- don't show in modtip
 	})
 end
 
@@ -383,7 +383,7 @@ function logout:hide()
 	self.countdown:stop()
 	if self.selected then self.selected:deselect() end
 
-	redtip:remove_pack()
+	modtip:remove_pack()
 	self.wibox.visible = false
 end
 
@@ -397,7 +397,7 @@ function logout:show()
 	self.wibox.visible = true
 	self.selected = nil
 
-	redtip:set_pack("Logout screen", self.keys, self.style.keytip.column, self.style.keytip.geometry)
+	modtip:set_pack("Logout screen", self.keys, self.style.keytip.column, self.style.keytip.geometry)
 	awful.keygrabber.run(self.keygrabber)
 end
 

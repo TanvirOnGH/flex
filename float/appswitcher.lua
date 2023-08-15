@@ -30,7 +30,7 @@ local is_pixbuf_loaded = pcall(load_pixbuf)
 
 local dfparser = require("awsmx.service.dfparser")
 local modutil = require("awsmx.util")
-local redtip = require("awsmx.float.hotkeys")
+local modtip = require("awsmx.float.hotkeys")
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------
@@ -58,7 +58,7 @@ appswitcher.keys.action = {
 		{ description = "Activate and exit", group = "Action" }
 	},
 	{
-		{ "Mod4" }, "F1", function() redtip:show() end,
+		{ "Mod4" }, "F1", function() modtip:show() end,
 		{ description = "Show hotkeys helper", group = "Action" }
 	},
 }
@@ -405,7 +405,7 @@ function appswitcher:show(args)
 
 	self.wibox.visible = true
 
-	redtip:set_pack(
+	modtip:set_pack(
 		"Appswitcher", self.tip, self.keytip.column, self.keytip.geometry,
 		self.keytip.exit and function() appswitcher:hide(true) end
 	)
@@ -418,7 +418,7 @@ function appswitcher:hide(is_empty_call)
 	if not self.wibox then self:init() end
 	if not self.wibox.visible then return end
 	self.wibox.visible = false
-	redtip:remove_pack()
+	modtip:remove_pack()
 	self.update_timer:stop()
 	awful.keygrabber.stop(self.keygrabber)
 

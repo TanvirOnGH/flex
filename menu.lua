@@ -36,7 +36,7 @@ local unpack = unpack or table.unpack
 
 local modutil = require("awsmx.util")
 local svgbox = require("awsmx.gauge.svgbox")
-local redtip = require("awsmx.float.hotkeys")
+local modtip = require("awsmx.float.hotkeys")
 
 -- Initialize tables for module
 -----------------------------------------------------------------------------------------------------------------------
@@ -209,7 +209,7 @@ menu.keys.action = {
 		{ description = "Activate item", group = "Action" }
 	},
 	{
-		{ "Mod4" }, "F1", function() redtip:show() end,
+		{ "Mod4" }, "F1", function() modtip:show() end,
 		{ description = "Show hotkeys helper", group = "Action" }
 	},
 }
@@ -340,8 +340,8 @@ function menu:show(args)
 		tip = menu.keys.all
 	end
 
-	redtip.cache["Menu"] = nil -- dirty trick to renew helper for every menu instance
-	redtip:set_pack("Menu", tip, self.theme.keytip.column, self.theme.keytip.geometry)
+	modtip.cache["Menu"] = nil -- dirty trick to renew helper for every menu instance
+	modtip:set_pack("Menu", tip, self.theme.keytip.column, self.theme.keytip.geometry)
 end
 
 -- Hide a menu popup.
@@ -359,7 +359,7 @@ function menu:hide()
 	if self.hidetimer and self.hidetimer.started then self.hidetimer:stop() end
 
 	self.wibox.visible = false
-	redtip:remove_pack()
+	modtip:remove_pack()
 end
 
 -- Toggle menu visibility
