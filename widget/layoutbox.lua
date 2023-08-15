@@ -18,7 +18,7 @@ local awful = require("awful")
 local layout = require("awful.layout")
 local beautiful = require("beautiful")
 
-local redmenu = require("awsmx.menu")
+local modmenu = require("awsmx.menu")
 local tooltip = require("awsmx.float.tooltip")
 local modutil = require("awsmx.util")
 local svgbox = require("awsmx.gauge.svgbox")
@@ -84,7 +84,7 @@ function layoutbox:init(layouts, style)
 
 	-- Initialize menu
 	------------------------------------------------------------
-	self.menu = redmenu({ theme = style.menu, items = items })
+	self.menu = modmenu({ theme = style.menu, items = items })
 end
 
 -- Show layout menu
