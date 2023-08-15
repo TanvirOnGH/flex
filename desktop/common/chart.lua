@@ -93,8 +93,7 @@ function chart.new(style)
 			table.insert(data.values, 0)
 		end
 		local real_gap = style.bar.gap
-			+ (width - (barnum - 1) * (style.bar.width + style.bar.gap) - style.bar.width)
-				/ (barnum - 1)
+			+ (width - (barnum - 1) * (style.bar.width + style.bar.gap) - style.bar.width) / (barnum - 1)
 
 		cr:set_source(color(style.color))
 		for i = 0, barnum - 1 do

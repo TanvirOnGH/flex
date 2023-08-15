@@ -599,7 +599,7 @@ function system.proc_info(cpu_storage)
 				table.insert(proc_stat, m)
 			end
 
-			local mem = proc_stat[24] * mem_page_size       -- Adjusted index for memory usage
+			local mem = proc_stat[24] * mem_page_size -- Adjusted index for memory usage
 
 			local proc_time = proc_stat[14] + proc_stat[15] -- Adjusted indices for proc_time
 			local pcpu = (proc_time - (proc_storage[pid] or 0)) / cpu_diff
