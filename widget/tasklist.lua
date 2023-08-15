@@ -31,7 +31,7 @@ local geometry = require("gears.geometry")
 local basetask = require("awsmx.gauge.tag.purple")
 local modutil = require("awsmx.util")
 local separator = require("awsmx.gauge.separator")
-local redmenu = require("awsmx.menu")
+local modmenu = require("awsmx.menu")
 local svgbox = require("awsmx.gauge.svgbox")
 local dfparser = require("awsmx.service.dfparser")
 
@@ -668,7 +668,7 @@ function redtasklist.winmenu:init(style)
 
 	-- Create menu
 	------------------------------------------------------------
-	self.menu = redmenu({
+	self.menu = modmenu({
 		theme = style.menu,
 		items = menu_items,
 	})

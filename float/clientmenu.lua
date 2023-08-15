@@ -24,7 +24,7 @@ local wibox = require("wibox")
 
 local modutil = require("awsmx.util")
 local separator = require("awsmx.gauge.separator")
-local redmenu = require("awsmx.menu")
+local modmenu = require("awsmx.menu")
 local svgbox = require("awsmx.gauge.svgbox")
 
 -- Initialize tables and vars for module
@@ -444,7 +444,7 @@ function clientmenu:init()
 
 	-- Create menu
 	------------------------------------------------------------
-	self.menu = redmenu({
+	self.menu = modmenu({
 		theme = style.menu,
 		items = menu_items
 	})
