@@ -78,38 +78,49 @@ end
 --------------------------------------------------------------------------------
 local function all_icon_path(style)
 
-	local icon_theme_paths = {}
+    local icon_theme_paths = {}
 
-	-- add user icon theme
-	if style.theme then
-		table.insert(icon_theme_paths, style.theme .. '/')
-		-- TODO also look in parent icon themes, as in freedesktop.org specification
-	end
+    -- add user icon theme
+    if style.theme then
+        table.insert(icon_theme_paths, style.theme .. '/')
+        local parent_theme = style.theme
 
-	-- add fallback theme
-	if not style.custom_only then table.insert(icon_theme_paths, '/run/current-system/sw/share/icons/hicolor/') end -- Standard NixOS Path
+        -- Look in parent icon themes
+        while parent_theme do
+            local index = parent_theme:find('/', 1, true)
+            if index then
+                parent_theme = parent_theme:sub(index + 1)
+                table.insert(icon_theme_paths, parent_theme .. '/')
+            else
+                parent_theme = nil
+            end
+        end
+    end
 
-	-- seach only svg icons if need
-	local current_icon_sizes = style.scalable_only and { 'scalable' } or all_icon_sizes
+    -- add fallback theme
+    if not style.custom_only then table.insert(icon_theme_paths, '/run/current-system/sw/share/icons/hicolor/') end -- Standard NixOS Path
 
-	-- form all avalible icon dirs
-	local icon_path = {}
+    -- seach only svg icons if need
+    local current_icon_sizes = style.scalable_only and { 'scalable' } or all_icon_sizes
 
-	for _, icon_theme_directory in ipairs(icon_theme_paths) do
-		for _, size in ipairs(current_icon_sizes) do
-			for _, folder in ipairs(all_icon_folders) do
-				table.insert(icon_path, icon_theme_directory .. size .. "/" .. folder .. '/')
-			end
-		end
-	end
+    -- form all avalible icon dirs
+    local icon_path = {}
 
-	-- lowest priority fallbacks
-	if not style.custom_only then
-		table.insert(icon_path, '/run/current-system/sw/share/pixmaps/') -- Standard NixOS Path
-		table.insert(icon_path, '/run/current-system/sw/share/icons/') -- Standard NixOS Path
-	end
+    for _, icon_theme_directory in ipairs(icon_theme_paths) do
+        for _, size in ipairs(current_icon_sizes) do
+            for _, folder in ipairs(all_icon_folders) do
+                table.insert(icon_path, icon_theme_directory .. size .. "/" .. folder .. '/')
+            end
+        end
+    end
 
-	return icon_path
+    -- lowest priority fallbacks
+    if not style.custom_only then
+        table.insert(icon_path, '/run/current-system/sw/share/pixmaps/') -- Standard NixOS Path
+        table.insert(icon_path, '/run/current-system/sw/share/icons/') -- Standard NixOS Path
+    end
+
+    return icon_path
 end
 
 -- Lookup an icon in different folders of the filesystem
