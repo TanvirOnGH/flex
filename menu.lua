@@ -315,33 +315,39 @@ end
 -- Show a menu popup.
 -- @param args.coords Menu position defaulting to mouse.coords()
 --------------------------------------------------------------------------------
+local hotkeysHelper = nil
+
+local function createHotkeysHelper(self)
+    if self.theme.auto_hotkey then
+        local fk = awful.util.table.clone(menu._fake_keys)
+        fk[1][4].keyset = self.keys
+        return awful.util.table.join(menu.keys.all, fk)
+    else
+        return menu.keys.all
+    end
+end
+
 function menu:show(args)
-	args = args or {}
-	local screen_index = mouse.screen
-	set_coords(self, screen_index, args.coords)
-	if self.wibox.visible then return end
+    args = args or {}
+    local screen_index = mouse.screen
+    set_coords(self, screen_index, args.coords)
+    if self.wibox.visible then return end
 
-	-- show menu
-	awful.keygrabber.run(self._keygrabber)
-	self.wibox.visible = true
-	if self.theme.select_first or self.parent then self:item_enter(1) end
+    -- show menu
+    awful.keygrabber.run(self._keygrabber)
+    self.wibox.visible = true
+    if self.theme.select_first or self.parent then self:item_enter(1) end
 
-	-- check hidetimer
-	if self.hidetimer and self.hidetimer.started then self.hidetimer:stop() end
+    -- check hidetimer
+    if self.hidetimer and self.hidetimer.started then self.hidetimer:stop() end
 
-	-- hotkeys helper
-	-- TODO: optimize code to cache helper (do not rebuild on every show)
-	local tip
-	if self.theme.auto_hotkey then
-		local fk = awful.util.table.clone(menu._fake_keys)
-		fk[1][4].keyset = self.keys
-		tip = awful.util.table.join(menu.keys.all, fk)
-	else
-		tip = menu.keys.all
-	end
+    -- Retrieve or create the hotkeys helper table
+    if not hotkeysHelper then
+        hotkeysHelper = createHotkeysHelper(self)
+    end
 
-	modtip.cache["Menu"] = nil -- dirty trick to renew helper for every menu instance
-	modtip:set_pack("Menu", tip, self.theme.keytip.column, self.theme.keytip.geometry)
+    modtip.cache["Menu"] = nil -- dirty trick to renew helper for every menu instance
+    modtip:set_pack("Menu", hotkeysHelper, self.theme.keytip.column, self.theme.keytip.geometry)
 end
 
 -- Hide a menu popup.
