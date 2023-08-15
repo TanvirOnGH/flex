@@ -34,7 +34,7 @@ local taglist = { filter = {}, mt = {} , queue = setmetatable({}, { __mode = 'k'
 local function default_style()
 	local style = {
 		tag       = {},
-		widget    = basetag.blue.new,
+		widget    = basetag.purple.new,
 		show_tip  = false,
 		timeout   = 0.05,
 		separator = nil

@@ -28,7 +28,7 @@ local wibox = require("wibox")
 local timer = require("gears.timer")
 local geometry = require("gears.geometry")
 
-local basetask = require("awsmx.gauge.tag.blue")
+local basetask = require("awsmx.gauge.tag.purple")
 local redutil = require("awsmx.util")
 local separator = require("awsmx.gauge.separator")
 local redmenu = require("awsmx.menu")
