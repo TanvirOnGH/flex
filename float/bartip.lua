@@ -13,7 +13,7 @@ local awful     = require("awful")
 local wibox     = require("wibox")
 
 local modutil  = require("awsmx.util")
-local redtitle = require("awsmx.titlebar")
+local modtitle = require("awsmx.titlebar")
 local redtip   = require("awsmx.float.hotkeys")
 local svgbox   = require("awsmx.gauge.svgbox")
 
@@ -52,19 +52,19 @@ end
 bartip.keys = {}
 bartip.keys.bar = {
 	{
-		{ "Mod4" }, "b", function() redtitle.toggle(client.focus); bartip:update() end,
+		{ "Mod4" }, "b", function() modtitle.toggle(client.focus); bartip:update() end,
 		{ description = "Show/hide titlebar for focused client", group = "Titlebar control" }
 	},
 	{
-		{ "Mod4" }, "a", function() redtitle.toggle_all(); bartip:update() end,
+		{ "Mod4" }, "a", function() modtitle.toggle_all(); bartip:update() end,
 		{ description = "Show/hide titlebar for all clients", group = "Titlebar control" }
 	},
 	--{
-	--	{ "Mod4" }, "v", function() redtitle.switch(client.focus); bartip:update() end,
+	--	{ "Mod4" }, "v", function() modtitle.switch(client.focus); bartip:update() end,
 	--	{ description = "Switch titlebar view for focused client", group = "Titlebar control" }
 	--},
 	{
-		{ "Mod4" }, "n", function() redtitle.global_switch(); bartip:update() end,
+		{ "Mod4" }, "n", function() modtitle.global_switch(); bartip:update() end,
 		{ description = "Switch titlebar view for all clients", group = "Titlebar control" }
 	},
 }
@@ -147,7 +147,7 @@ end
 local function get_title_state(c)
 	if not c then return "unknown" end
 
-	local model = redtitle.get_model(c)
+	local model = modtitle.get_model(c)
 	local state = not model and "absent"
 	              or model.hidden and "disabled"
 	              or model.cutted and "hidden"
@@ -159,7 +159,7 @@ end
 -- Update
 --------------------------------------------------------------------------------
 function bartip:update()
-	local name = self.style.names[redtitle._index] or "Unknown"
+	local name = self.style.names[modtitle._index] or "Unknown"
 	local state, size = get_title_state(client.focus)
 	local size_mark = size and string.format(" [%d]", size) or ""
 
