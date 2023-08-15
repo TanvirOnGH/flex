@@ -307,87 +307,6 @@ function system.cpu_usage(storage)
 	return { total = total_usage, core = core_usage, diff = diff_time_total }
 end
 
--- Get battery level and charging status
------------------------------------------------------------------------------------------------------------------------
-function system.battery(batname)
-	if not batname then return end
-
-	-- Initialzie vars
-	--------------------------------------------------------------------------------
-	local battery = {}
-	local time = "N/A"
-
-	local battery_state = {
-		["Full\n"]        = "↯",
-		["Unknown\n"]     = "⌁",
-		["Charged\n"]     = "↯",
-		["Charging\n"]    = "+",
-		["Discharging\n"] = "-"
-	}
-
-	local files = {
-		"present", "status", "charge_now",
-		"charge_full", "energy_now", "energy_full",
-		"current_now", "power_now"
-	}
-
-	-- Read info
-	--------------------------------------------------------------------------------
-	for _, v in pairs(files) do
-		battery[v] = redutil.read.file("/sys/class/power_supply/" .. batname .. "/" .. v)
-	end
-
-	-- Check if the battery is present
-	------------------------------------------------------------
-	if battery.present ~= "1\n" then
-		return { battery_state["Unknown\n"], 0, "N/A" }
-	end
-
-	-- Get state information
-	------------------------------------------------------------
-	local state = battery_state[battery.status] or battery_state["Unknown\n"]
-	local remaining, capacity
-
-	-- Get capacity information
-	if     battery.charge_now then remaining, capacity = battery.charge_now, battery.charge_full
-	elseif battery.energy_now then remaining, capacity = battery.energy_now, battery.energy_full
-	else                           return {battery_state["Unknown\n"], 0, "N/A"}
-	end
-
-	-- Calculate percentage (but work around broken BAT/ACPI implementations)
-	------------------------------------------------------------
-	local percent = math.min(math.floor(remaining / capacity * 100), 100)
-
-	-- Get charge information
-	------------------------------------------------------------
-	local rate
-
-	if     battery.current_now then rate = tonumber(battery.current_now)
-	elseif battery.power_now   then rate = tonumber(battery.power_now)
-	else                            return {state, percent, "N/A"}
-	end
-
-	-- Calculate remaining (charging or discharging) time
-	------------------------------------------------------------
-	if rate ~= nil and rate ~= 0 then
-		local timeleft
-
-		if     state == "+" then timeleft = (tonumber(capacity) - tonumber(remaining)) / tonumber(rate)
-		elseif state == "-" then timeleft = tonumber(remaining) / tonumber(rate)
-		else                     return {state, percent, time}
-		end
-
-		-- calculate time
-		local hoursleft   = math.floor(timeleft)
-		local minutesleft = math.floor((timeleft - hoursleft) * 60 )
-
-		time = string.format("%02d:%02d", hoursleft, minutesleft)
-	end
-
-	--------------------------------------------------------------------------------
-	return { state, percent, time }
-end
-
 -- Temperature measure
 -----------------------------------------------------------------------------------------------------------------------
 
@@ -739,21 +658,6 @@ function system.pformatted.mem(crit)
 			value = usage / 100,
 			text  = usage .. "%",
 			alert = usage > crit
-		}
-	end
-end
-
--- Battery state formatted special for panel widget
---------------------------------------------------------------------------------
-function system.pformatted.bat(crit)
-	crit = crit or 15
-
-	return function(arg)
-		local state = system.battery(arg)
-		return {
-			value = state[2] / 100,
-			text  = state[1] .. "  " .. state[2] .. "%  " .. state[3],
-			alert = state[2] < crit
 		}
 	end
 end
