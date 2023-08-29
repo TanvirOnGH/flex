@@ -28,7 +28,7 @@ local function default_style()
 		show_pointer = true,
 		label = { gap = 12, font = { font = "Fira Code", size = 18, face = 1, slant = 0 }, sep = "-" },
 		mark = { height = 20, width = 40, dx = 10, line = 4 },
-		color = { main = "#b1222b", wibox = "#161616", gray = "#404040", bg = "#161616" },
+		color = { main = "#C38F8F", wibox = "#161616", gray = "#404040", bg = "#161616" },
 	}
 	return modutil.table.merge(style, modutil.table.check(beautiful, "desktop.calendar") or {})
 end

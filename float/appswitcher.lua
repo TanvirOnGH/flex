@@ -113,8 +113,8 @@ local function default_style()
 		color = {
 			border = "#575757",
 			text = "#aaaaaa",
-			main = "#b1222b",
-			preview_bg = "#b1222b80",
+			main = "#C38F8F",
+			preview_bg = "#CE9C9C",
 			wibox = "#202020",
 			icon = "#a0a0a0",
 			bg = "#161616",

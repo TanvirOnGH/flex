@@ -28,7 +28,7 @@ local wibox = require("wibox")
 local timer = require("gears.timer")
 local geometry = require("gears.geometry")
 
-local basetask = require("flex.gauge.tag.purple")
+local basetask = require("flex.gauge.tag.rosybrown")
 local modutil = require("flex.util")
 local separator = require("flex.gauge.separator")
 local modmenu = require("flex.menu")
@@ -97,7 +97,7 @@ local function default_style()
 		enable_screen_switch = false,
 		enable_tagline = false,
 		tagline_mod_key = "Mod4",
-		color = { main = "#b1222b", icon = "#a0a0a0", gray = "#404040" },
+		color = { main = "#C38F8F", icon = "#a0a0a0", gray = "#404040" },
 	}
 	style.tasktip = {
 		border_width = 2,
@@ -107,11 +107,11 @@ local function default_style()
 		color = {
 			border = "#575757",
 			text = "#aaaaaa",
-			main = "#b1222b",
+			main = "#C38F8F",
 			highlight = "#eeeeee",
 			wibox = "#202020",
 			gray = "#575757",
-			urgent = "#32882d",
+			urgent = "#CE9C9C",
 		},
 		shape = nil,
 	}

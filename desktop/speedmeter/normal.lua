@@ -34,7 +34,7 @@ local function default_style()
 		digits = 2,
 		image_gap = 20,
 		unit = { { "B", -1 }, { "KB", 1024 }, { "MB", 1024 ^ 2 }, { "GB", 1024 ^ 3 } },
-		color = { main = "#b1222b", wibox = "#161616", gray = "#404040" },
+		color = { main = "#C38F8F", wibox = "#161616", gray = "#404040" },
 	}
 	return modutil.table.merge(style, modutil.table.check(beautiful, "desktop.speedmeter.normal") or {})
 end

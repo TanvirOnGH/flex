@@ -28,7 +28,7 @@ local function default_style()
 		radius = 14,
 		iradius = 6,
 		step = 0.02,
-		color = { main = "#b1222b", gray = "#575757", icon = "#a0a0a0" },
+		color = { main = "#C38F8F", gray = "#575757", icon = "#a0a0a0" },
 	}
 	return modutil.table.merge(style, modutil.table.check(beautiful, "gauge.monitor.circle") or {})
 end

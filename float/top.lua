@@ -106,7 +106,7 @@ local function default_style()
 			border = "#575757",
 			text = "#aaaaaa",
 			highlight = "#eeeeee",
-			main = "#b1222b",
+			main = "#C38F8F",
 			bg = "#161616",
 			bg_second = "#181818",
 			wibox = "#202020",

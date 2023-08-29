@@ -33,7 +33,7 @@ local function default_style()
 		icon = { image = nil, margin = { 0, 20, 0, 0 }, full = false },
 		labels = {},
 		unit = { { "MB", -1 }, { "GB", 1024 } },
-		color = { main = "#b1222b", wibox = "#161616", gray = "#404040" },
+		color = { main = "#C38F8F", wibox = "#161616", gray = "#404040" },
 	}
 	return modutil.table.merge(style, modutil.table.check(beautiful, "desktop.multimeter") or {})
 end

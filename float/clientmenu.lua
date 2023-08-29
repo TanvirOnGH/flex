@@ -74,7 +74,7 @@ local function default_style()
 		enable_screen_switch = false,
 		enable_tagline = false,
 		tagline_mod_key = "Mod4",
-		color = { main = "#b1222b", icon = "#a0a0a0", gray = "#404040", highlight = "#eeeeee" },
+		color = { main = "#C38F8F", icon = "#a0a0a0", gray = "#404040", highlight = "#eeeeee" },
 	}
 	style.menu = {
 		ricon_margin = { 2, 2, 2, 2 },

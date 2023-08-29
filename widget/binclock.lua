@@ -26,7 +26,7 @@ local function default_style()
 		width = 60,
 		tooltip = {},
 		dot = { size = 5 },
-		color = { main = "#b1222b", gray = "#575757" },
+		color = { main = "#C38F8F", gray = "#575757" },
 	}
 	return modutil.table.merge(style, modutil.table.check(beautiful, "widget.binclock") or {})
 end

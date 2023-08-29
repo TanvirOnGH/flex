@@ -34,7 +34,7 @@ local function default_style()
 		height = { chart = 50 },
 		digits = 2,
 		unit = { { "B", -1 }, { "KB", 1024 }, { "MB", 1024 ^ 2 }, { "GB", 1024 ^ 3 } },
-		color = { main = "#b1222b", wibox = "#161616", gray = "#404040" },
+		color = { main = "#C38F8F", wibox = "#161616", gray = "#404040" },
 	}
 	return modutil.table.merge(style, modutil.table.check(beautiful, "desktop.speedmeter.compact") or {})
 end

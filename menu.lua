@@ -67,7 +67,7 @@ local function default_theme()
 			border = "#575757",
 			text = "#aaaaaa",
 			highlight = "#eeeeee",
-			main = "#b1222b",
+			main = "#C38F8F",
 			wibox = "#202020",
 			submenu_icon = nil,
 			right_icon = nil,

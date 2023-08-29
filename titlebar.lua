@@ -36,12 +36,12 @@ local default_style = {
 	font = "Fira Code 12 bold",
 	border_margin = { 0, 0, 0, 4 },
 	color = {
-		main = "#b1222b",
+		main = "#C38F8F",
 		wibox = "#202020",
 		gray = "#575757",
 		text = "#aaaaaa",
 		icon = "#a0a0a0",
-		urgent = "#32882d",
+		urgent = "#CE9C9C",
 	},
 }
 

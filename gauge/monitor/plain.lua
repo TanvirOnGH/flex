@@ -28,7 +28,7 @@ local function default_style()
 		label = "MON",
 		width = 100,
 		step = 0.05,
-		color = { main = "#b1222b", gray = "#575757", icon = "#a0a0a0" },
+		color = { main = "#C38F8F", gray = "#575757", icon = "#a0a0a0" },
 	}
 	return modutil.table.merge(style, modutil.table.check(beautiful, "gauge.monitor.plain") or {})
 end

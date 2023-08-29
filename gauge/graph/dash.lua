@@ -24,7 +24,7 @@ local function default_style()
 	local style = {
 		plain = false,
 		bar = { width = 4, num = 10 },
-		color = { main = "#b1222b", gray = "#404040" },
+		color = { main = "#C38F8F", gray = "#404040" },
 	}
 	return modutil.table.merge(style, modutil.table.check(beautiful, "gauge.graph.dash") or {})
 end
