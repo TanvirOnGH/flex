@@ -33,7 +33,7 @@ local function default_style()
 			text = "#a0a0a0",
 			icon = "#a0a0a0",
 			gray = "#575757",
-			main = "#b1222b",
+			main = "#C38F8F",
 		},
 		icons = {
 			poweroff = modutil.base.placeholder({ txt = "↯" }),

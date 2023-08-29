@@ -26,10 +26,10 @@ local function default_style()
 		width = 50,
 		base = { pad = 5, height = 12, thickness = 2 },
 		mark = { pad = 10, height = 4 },
-		color = { main = "#5906D3", gray = "#575757", icon = "#a0a0a0", urgent = "#864DDC" },
+		color = { main = "#C38F8F", gray = "#575757", icon = "#a0a0a0", urgent = "#CE9C9C" },
 	}
 
-	return modutil.table.merge(style, modutil.table.check(beautiful, "gauge.tag.purple") or {})
+	return modutil.table.merge(style, modutil.table.check(beautiful, "gauge.tag.rosybrown") or {})
 end
 
 -- Create a new tag widget

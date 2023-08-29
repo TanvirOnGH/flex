@@ -136,8 +136,8 @@ local function default_style()
 		color = {
 			border = "#575757",
 			text = "#aaaaaa",
-			main = "#b1222b",
-			urgent = "#32882d",
+			main = "#C38F8F",
+			urgent = "#CE9C9C",
 			wibox = "#202020",
 			icon = "#a0a0a0",
 			bg = "#161616",

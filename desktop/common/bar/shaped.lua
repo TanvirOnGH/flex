@@ -31,7 +31,7 @@ local function default_style()
 		show = { tooltip = false },
 		tooltip = {},
 		shape = "corner",
-		color = { main = "#b1222b", gray = "#404040" },
+		color = { main = "#C38F8F", gray = "#404040" },
 	}
 
 	return modutil.table.merge(style, modutil.table.check(beautiful, "desktop.common.bar.shaped") or {})

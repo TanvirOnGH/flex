@@ -28,10 +28,10 @@ local function default_style()
 		text_shift = 26,
 		point = { size = 4, space = 3, gap = 3 },
 		underline = { height = 20, thickness = 4, gap = 36, dh = 4 },
-		color = { main = "#5906D3", gray = "#575757", icon = "#a0a0a0", urgent = "#864DDC" },
+		color = { main = "#C38F8F", gray = "#575757", icon = "#a0a0a0", urgent = "#CE9C9C" },
 	}
 
-	return modutil.table.merge(style, modutil.table.check(beautiful, "gauge.task.purple") or {})
+	return modutil.table.merge(style, modutil.table.check(beautiful, "gauge.task.rosybrown") or {})
 end
 
 -- Create a new tag widget

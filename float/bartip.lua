@@ -44,7 +44,7 @@ local function default_style()
 		color = {
 			border = "#575757",
 			text = "#aaaaaa",
-			main = "#b1222b",
+			main = "#C38F8F",
 			wibox = "#202020",
 			gray = "#575757",
 			icon = "#a0a0a0",

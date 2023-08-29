@@ -21,7 +21,7 @@ local progressbar = { mt = {} }
 -----------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
-		color = { main = "#b1222b", gray = "#404040" },
+		color = { main = "#C38F8F", gray = "#404040" },
 	}
 	return modutil.table.merge(style, modutil.table.check(beautiful, "gauge.graph.bar") or {})
 end

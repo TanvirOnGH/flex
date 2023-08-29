@@ -27,7 +27,7 @@ local function default_style()
 		row_num = 3,
 		dot_size = 5,
 		dot_gap_h = 5,
-		color = { main = "#b1222b", gray = "#575757" },
+		color = { main = "#C38F8F", gray = "#575757" },
 	}
 	return modutil.table.merge(style, modutil.table.check(beautiful, "gauge.graph.dots") or {})
 end
