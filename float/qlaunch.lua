@@ -137,7 +137,7 @@ local function default_style()
 			border = "#575757",
 			text = "#aaaaaa",
 			main = "#C38F8F",
-			urgent = "#CE9C9C",
+			urgent = "#8DB8CD",
 			wibox = "#202020",
 			icon = "#a0a0a0",
 			bg = "#161616",

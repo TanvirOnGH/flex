@@ -27,7 +27,7 @@ local function default_style()
 		icon = modutil.base.placeholder(),
 		step = 0.05,
 		is_vertical = false,
-		color = { main = "#C38F8F", icon = "#a0a0a0", urgent = "#CE9C9C" },
+		color = { main = "#C38F8F", icon = "#a0a0a0", urgent = "#8DB8CD" },
 	}
 	return modutil.table.merge(style, modutil.table.check(beautiful, "gauge.icon.single") or {})
 end

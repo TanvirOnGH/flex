@@ -41,7 +41,7 @@ local default_style = {
 		gray = "#575757",
 		text = "#aaaaaa",
 		icon = "#a0a0a0",
-		urgent = "#CE9C9C",
+		urgent = "#8DB8CD",
 	},
 }
 

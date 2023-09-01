@@ -111,7 +111,7 @@ local function default_style()
 			highlight = "#eeeeee",
 			wibox = "#202020",
 			gray = "#575757",
-			urgent = "#CE9C9C",
+			urgent = "#8DB8CD",
 		},
 		shape = nil,
 	}
