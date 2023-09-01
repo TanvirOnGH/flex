@@ -114,7 +114,7 @@ local function default_style()
 			border = "#575757",
 			text = "#aaaaaa",
 			main = "#C38F8F",
-			preview_bg = "#CE9C9C",
+			preview_bg = "#8DB8CD",
 			wibox = "#202020",
 			icon = "#a0a0a0",
 			bg = "#161616",

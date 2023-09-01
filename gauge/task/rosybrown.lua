@@ -28,7 +28,7 @@ local function default_style()
 		text_shift = 26,
 		point = { size = 4, space = 3, gap = 3 },
 		underline = { height = 20, thickness = 4, gap = 36, dh = 4 },
-		color = { main = "#C38F8F", gray = "#575757", icon = "#a0a0a0", urgent = "#CE9C9C" },
+		color = { main = "#C38F8F", gray = "#575757", icon = "#a0a0a0", urgent = "#8DB8CD" },
 	}
 
 	return modutil.table.merge(style, modutil.table.check(beautiful, "gauge.task.rosybrown") or {})
