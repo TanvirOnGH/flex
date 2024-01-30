@@ -639,16 +639,16 @@ end
 -- CPU and memory usage formatted special for desktop widget
 --------------------------------------------------------------------------------
 function system.dformatted.cpumem(storage)
-    local mem = system.memory_info()
-    local cores = {}
-    for i, v in ipairs(system.cpu_usage(storage).core) do
-        table.insert(cores, { value = v, text = string.format("CORE%d %s%%", i - 1, v) })
-    end
+	local mem = system.memory_info()
+	local cores = {}
+	for i, v in ipairs(system.cpu_usage(storage).core) do
+		table.insert(cores, { value = v, text = string.format("CORE%d %s%%", i - 1, v) })
+	end
 
-    return {
-        bars = cores,
-        lines = { { mem.usep, mem.inuse }, { mem.swp.usep, mem.swp.inuse } },
-    }
+	return {
+		bars = cores,
+		lines = { { mem.usep, mem.inuse }, { mem.swp.usep, mem.swp.inuse } },
+	}
 end
 
 -- GPU usage formatted special for panel widget
