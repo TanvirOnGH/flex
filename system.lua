@@ -280,6 +280,35 @@ function system.gpu_usage()
 	return gpu_info
 end
 
+-- Get vram usage info
+-----------------------------------------------------------------------------------------------------------------------
+function system.vram_usage()
+	local vram_info = { used = 0, total = 0 }
+
+	-- Get used and total vram usage using nvidia-smi (NVIDIA GPUs only)
+	local used_command = "nvidia-smi --query-gpu=memory.used --format=csv,noheader,nounits"
+	local total_command = "nvidia-smi --query-gpu=memory.total --format=csv,noheader,nounits"
+
+	local used_handle = io.popen(used_command)
+	local used_output = used_handle:read("*a")
+	used_handle:close()
+
+	local total_handle = io.popen(total_command)
+	local total_output = total_handle:read("*a")
+	total_handle:close()
+
+	-- Parse the outputs to get VRAM usage and total
+	local used = tonumber(used_output)
+	local total = tonumber(total_output)
+
+	if used and total then
+		vram_info.used = used
+		vram_info.total = total
+	end
+
+	return vram_info
+end
+
 -- Get cpu usage info
 -----------------------------------------------------------------------------------------------------------------------
 --local storage = { cpu_total = {}, cpu_active = {} } -- storage structure
@@ -662,6 +691,22 @@ function system.pformatted.gpu(crit)
 			value = gpu_usage / 100,
 			text = gpu_usage .. "%",
 			alert = gpu_usage > crit,
+		}
+	end
+end
+
+-- VRAM usage formatted special for panel widget
+--------------------------------------------------------------------------------
+function system.pformatted.vram(crit)
+	crit = crit or 85
+
+	return function()
+		local vram_info = system.vram_usage()
+		local vram_usage = vram_info.used / vram_info.total * 100
+		return {
+			value = vram_usage / 100,
+			text = string.format("%.2f%%", vram_usage),
+			alert = vram_usage > crit,
 		}
 	end
 end
