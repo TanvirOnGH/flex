@@ -689,7 +689,7 @@ function system.pformatted.gpu(crit)
 		local gpu_usage = system.gpu_usage().usage
 		return {
 			value = gpu_usage / 100,
-			text = gpu_usage .. "%",
+			text = "GPU: " .. gpu_usage .. "%",
 			alert = gpu_usage > crit,
 		}
 	end
@@ -705,7 +705,7 @@ function system.pformatted.vram(crit)
 		local vram_usage = vram_info.used / vram_info.total * 100
 		return {
 			value = vram_usage / 100,
-			text = string.format("%.2f%%", vram_usage),
+			text = "VRAM: " .. string.format("%.2f%%", vram_usage),
 			alert = vram_usage > crit,
 		}
 	end
@@ -721,7 +721,7 @@ function system.pformatted.cpu(crit)
 		local usage = system.cpu_usage(storage).total
 		return {
 			value = usage / 100,
-			text = usage .. "%",
+			text = "CPU: " .. usage .. "%",
 			alert = usage > crit,
 		}
 	end
@@ -736,7 +736,7 @@ function system.pformatted.mem(crit)
 		local usage = system.memory_info().usep
 		return {
 			value = usage / 100,
-			text = usage .. "%",
+			text = "RAM: " .. usage .. "%",
 			alert = usage > crit,
 		}
 	end
