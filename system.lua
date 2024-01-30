@@ -260,6 +260,26 @@ function system.memory_info()
 	return mem
 end
 
+-- Get gpu usage info
+-----------------------------------------------------------------------------------------------------------------------
+function system.gpu_usage()
+	local gpu_info = { usage = 0 }
+
+	-- Get GPU usage using nvidia-smi (NVIDIA GPUs only)
+	local command = "nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits"
+	local handle = io.popen(command)
+	local output = handle:read("*a")
+	handle:close()
+
+	-- Parse the output to get GPU usage
+	local gpu_usage = tonumber(output)
+	if gpu_usage then
+		gpu_info.usage = gpu_usage
+	end
+
+	return gpu_info
+end
+
 -- Get cpu usage info
 -----------------------------------------------------------------------------------------------------------------------
 --local storage = { cpu_total = {}, cpu_active = {} } -- storage structure
@@ -619,16 +639,31 @@ end
 -- CPU and memory usage formatted special for desktop widget
 --------------------------------------------------------------------------------
 function system.dformatted.cpumem(storage)
-	local mem = system.memory_info()
-	local cores = {}
-	for i, v in ipairs(system.cpu_usage(storage).core) do
-		table.insert(cores, { value = v, text = string.format("CORE%d %s%%", i - 1, v) })
-	end
+    local mem = system.memory_info()
+    local cores = {}
+    for i, v in ipairs(system.cpu_usage(storage).core) do
+        table.insert(cores, { value = v, text = string.format("CORE%d %s%%", i - 1, v) })
+    end
 
-	return {
-		bars = cores,
-		lines = { { mem.usep, mem.inuse }, { mem.swp.usep, mem.swp.inuse } },
-	}
+    return {
+        bars = cores,
+        lines = { { mem.usep, mem.inuse }, { mem.swp.usep, mem.swp.inuse } },
+    }
+end
+
+-- GPU usage formatted special for panel widget
+--------------------------------------------------------------------------------
+function system.pformatted.gpu(crit)
+	crit = crit or 75
+
+	return function()
+		local gpu_usage = system.gpu_usage().usage
+		return {
+			value = gpu_usage / 100,
+			text = gpu_usage .. "%",
+			alert = gpu_usage > crit,
+		}
+	end
 end
 
 -- CPU usage formatted special for panel widget
