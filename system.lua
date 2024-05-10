@@ -702,10 +702,10 @@ function system.pformatted.vram(crit)
 
 	return function()
 		local vram_info = system.vram_usage()
-		local vram_usage = vram_info.used / vram_info.total * 100
+		local vram_usage = math.floor(vram_info.used / vram_info.total * 100)
 		return {
 			value = vram_usage / 100,
-			text = "VRAM: " .. string.format("%.2f%%", vram_usage),
+			text = "VRAM: " .. vram_usage .. "%",
 			alert = vram_usage > crit,
 		}
 	end
