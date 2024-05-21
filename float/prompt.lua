@@ -1,15 +1,4 @@
------------------------------------------------------------------------------------------------------------------------
---                                              flex promt widget                                                 --
------------------------------------------------------------------------------------------------------------------------
--- Promt widget with his own wibox placed on center of screen
------------------------------------------------------------------------------------------------------------------------
--- Some code was taken from
------- awful.widget.prompt v3.5.2
------- (c) 2009 Julien Danjou
------------------------------------------------------------------------------------------------------------------------
-
 -- Grab environment
------------------------------------------------------------------------------------------------------------------------
 local type = type
 local unpack = unpack or table.unpack
 
@@ -22,11 +11,9 @@ local modutil = require("flex.util")
 local decoration = require("flex.float.decoration")
 
 -- Initialize tables for module
------------------------------------------------------------------------------------------------------------------------
 local floatprompt = {}
 
 -- Generate default theme vars
------------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
 		geometry = { width = 620, height = 120 },
@@ -41,21 +28,18 @@ end
 
 -- Initialize prompt widget
 -- @param prompt Prompt to use
------------------------------------------------------------------------------------------------------------------------
 function floatprompt:init(args)
 	args = args or {}
 	local style = default_style()
 	self.style = style
 
 	-- Create prompt widget
-	--------------------------------------------------------------------------------
 	self.widget = wibox.widget.textbox()
 	self.widget:set_ellipsize("start")
 	self.prompt = args.prompt or " Run: "
 	self.decorated_widget = decoration.textfield(self.widget, style.field)
 
 	-- Create floating wibox for promt widget
-	--------------------------------------------------------------------------------
 	self.wibox = wibox({
 		ontop = true,
 		bg = style.color.wibox,
@@ -70,7 +54,6 @@ end
 
 -- Run method for prompt widget
 -- Wibox appears on call and hides after command entered
------------------------------------------------------------------------------------------------------------------------
 function floatprompt:run()
 	if not self.wibox then
 		self:init()
@@ -97,6 +80,4 @@ function floatprompt:run()
 	})
 end
 
--- End
------------------------------------------------------------------------------------------------------------------------
 return floatprompt

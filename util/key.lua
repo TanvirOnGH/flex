@@ -10,10 +10,7 @@ local key = {}
 key.ignored_mod = { "Unknown", "Mod2" }
 
 -- Functions
------------------------------------------------------------------------------------------------------------------------
-
 -- Build awful keys from reflat raw keys table
-------------------------------------------------------------
 function key.build(t)
 	local temp = {}
 
@@ -25,7 +22,6 @@ function key.build(t)
 end
 
 -- Check if flex raw key matched with awful prompt key
-------------------------------------------------------------
 function key.match_prompt(rawkey, mod, _key)
 	for m, _ in pairs(mod) do
 		if awful.util.table.hasitem(key.ignored_mod, m) then
@@ -46,7 +42,6 @@ function key.match_prompt(rawkey, mod, _key)
 end
 
 -- Check if flex raw key matched with awful prompt key
-------------------------------------------------------------
 function key.match_grabber(rawkey, mod, _key)
 	for i, m in ipairs(mod) do
 		if awful.util.table.hasitem(key.ignored_mod, m) then
@@ -62,6 +57,4 @@ function key.match_grabber(rawkey, mod, _key)
 	return modcheck and _key:lower() == rawkey[2]:lower()
 end
 
--- End
------------------------------------------------------------------------------------------------------------------------
 return key

@@ -1,16 +1,4 @@
------------------------------------------------------------------------------------------------------------------------
---                                            flex taglist widget                                                 --
------------------------------------------------------------------------------------------------------------------------
--- Custom widget used to display tag info
--- Separators added
------------------------------------------------------------------------------------------------------------------------
--- Some code was taken from
------- awful.widget.taglist v3.5.2
------- (c) 2008-2009 Julien Danjou
------------------------------------------------------------------------------------------------------------------------
-
 -- Grab environment
------------------------------------------------------------------------------------------------------------------------
 local setmetatable = setmetatable
 local pairs = pairs
 local ipairs = ipairs
@@ -26,11 +14,9 @@ local basetag = require("flex.gauge.tag")
 local tooltip = require("flex.float.tooltip")
 
 -- Initialize tables and vars for module
------------------------------------------------------------------------------------------------------------------------
 local taglist = { filter = {}, mt = {}, queue = setmetatable({}, { __mode = "k" }) }
 
 -- Generate default theme vars
------------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
 		tag = {},
@@ -43,10 +29,7 @@ local function default_style()
 end
 
 -- Support functions
------------------------------------------------------------------------------------------------------------------------
-
 -- Get info about tag
---------------------------------------------------------------------------------
 local function get_state(t)
 	local state = { focus = false, urgent = false, list = {} }
 	local client_list = t:clients()
@@ -70,13 +53,11 @@ local function get_state(t)
 end
 
 -- Generate tooltip string
---------------------------------------------------------------------------------
 local function make_tip(t)
 	return string.format("%s (%d apps)", t.name, #(t:clients()))
 end
 
 -- Find all tag to be shown
---------------------------------------------------------------------------------
 local function filtrate_tags(screen, filter)
 	local tags = {}
 	for _, t in ipairs(screen.tags) do
@@ -88,7 +69,6 @@ local function filtrate_tags(screen, filter)
 end
 
 -- Layout composition
---------------------------------------------------------------------------------
 local function base_pack(layout, widg, i, tags, style)
 	layout:add(widg)
 	if style.separator and i < #tags then
@@ -97,14 +77,12 @@ local function base_pack(layout, widg, i, tags, style)
 end
 
 -- Create a new taglist widget
------------------------------------------------------------------------------------------------------------------------
 function taglist.new(args, style)
 	if not taglist.queue then
 		taglist:init()
 	end
 
 	-- Initialize vars
-	--------------------------------------------------------------------------------
 	local cs = args.screen
 	local layout = args.layout or wibox.layout.fixed.horizontal()
 	local data = setmetatable({}, { __mode = "k" })
@@ -115,13 +93,11 @@ function taglist.new(args, style)
 	style = modutil.table.merge(default_style(), style or {})
 
 	-- Set tooltip
-	--------------------------------------------------------------------------------
 	if not taglist.tp then
 		taglist.tp = tooltip()
 	end
 
 	-- Update function
-	--------------------------------------------------------------------------------
 	local update = function(s)
 		if s ~= cs then
 			return
@@ -129,7 +105,6 @@ function taglist.new(args, style)
 		local tags = filtrate_tags(s, filter)
 
 		-- Construct taglist
-		------------------------------------------------------------
 		layout:reset()
 		for i, t in ipairs(tags) do
 			local cache = data[t]
@@ -162,7 +137,6 @@ function taglist.new(args, style)
 			-- add widget and separator to base layout
 			pack(layout, widg, i, tags, style)
 		end
-		------------------------------------------------------------
 
 		if taglist.queue[s] and taglist.queue[s].started then
 			taglist.queue[s]:stop()
@@ -170,7 +144,6 @@ function taglist.new(args, style)
 	end
 
 	-- Create timer to prevent multiply call
-	--------------------------------------------------------------------------------
 	taglist.queue[cs] = timer({ timeout = style.timeout })
 	taglist.queue[cs]:connect_signal("timeout", function()
 		update(cs)
@@ -188,7 +161,6 @@ function taglist.new(args, style)
 	end
 
 	-- Signals setup
-	--------------------------------------------------------------------------------
 	local tag_signals = {
 		"property::selected",
 		"property::icon",
@@ -219,7 +191,6 @@ function taglist.new(args, style)
 		update(cs)
 	end) -- dirty
 
-	--------------------------------------------------------------------------------
 	update(cs) -- create taglist widget
 	return layout -- return taglist widget
 end
@@ -227,7 +198,6 @@ end
 -- Filtering functions
 -- @param t The awful.tag
 -- @param args unused list of extra arguments
------------------------------------------------------------------------------------------------------------------------
 function taglist.filter.noempty(t) -- to include all nonempty tags on the screen.
 	return #t:clients() > 0 or t.selected
 end
@@ -237,7 +207,6 @@ function taglist.filter.all() -- to include all tags on the screen.
 end
 
 -- Config metatable to call taglist module as function
------------------------------------------------------------------------------------------------------------------------
 function taglist.mt:__call(...)
 	return taglist.new(...)
 end

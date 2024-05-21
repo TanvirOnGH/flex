@@ -1,17 +1,4 @@
------------------------------------------------------------------------------------------------------------------------
---                                                  flex tooltip                                                  --
------------------------------------------------------------------------------------------------------------------------
--- Slightly modded awful tooltip
--- padding added
--- Proper placement on every text update
------------------------------------------------------------------------------------------------------------------------
--- Some code was taken from
------- awful.tooltip v3.5.2
------- (c) 2009 Sébastien Gross
------------------------------------------------------------------------------------------------------------------------
-
 -- Grab environment
------------------------------------------------------------------------------------------------------------------------
 local setmetatable = setmetatable
 local ipairs = ipairs
 local wibox = require("wibox")
@@ -22,11 +9,9 @@ local timer = require("gears.timer")
 local modutil = require("flex.util")
 
 -- Initialize tables for module
------------------------------------------------------------------------------------------------------------------------
 local tooltip = { mt = {} }
 
 -- Generate default theme vars
------------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
 		padding = { vertical = 3, horizontal = 5 },
@@ -42,16 +27,13 @@ local function default_style()
 end
 
 -- Create a new tooltip
------------------------------------------------------------------------------------------------------------------------
 function tooltip.new(args, style)
 	-- Initialize vars
-	--------------------------------------------------------------------------------
 	args = args or {}
 	local objects = args.objects or {}
 	style = modutil.table.merge(default_style(), style or {})
 
 	-- Construct tooltip window with wibox and textbox
-	--------------------------------------------------------------------------------
 	local ttp = { wibox = wibox({ type = "tooltip" }), tip = nil }
 	local tb = wibox.widget.textbox()
 	tb:set_align("center")
@@ -70,7 +52,6 @@ function tooltip.new(args, style)
 	ttp.wibox:set_fg(style.color.text)
 
 	-- Tooltip size configurator
-	--------------------------------------------------------------------------------
 	function ttp:set_geometry()
 		local wibox_sizes = self.wibox:geometry()
 		local w, h = self.widget:get_preferred_size()
@@ -86,7 +67,6 @@ function tooltip.new(args, style)
 	end
 
 	-- Set timer to make delay before tooltip show
-	--------------------------------------------------------------------------------
 	local show_timer = timer({ timeout = style.timeout })
 	show_timer:connect_signal("timeout", function()
 		ttp:set_geometry()
@@ -101,7 +81,6 @@ function tooltip.new(args, style)
 	end)
 
 	-- Tooltip metods
-	--------------------------------------------------------------------------------
 	function ttp.show()
 		if not show_timer.started then
 			show_timer:start()
@@ -141,19 +120,16 @@ function tooltip.new(args, style)
 	end
 
 	-- Add tooltip to objects
-	--------------------------------------------------------------------------------
 	if objects then
 		for _, object in ipairs(objects) do
 			ttp:add_to_object(object)
 		end
 	end
 
-	--------------------------------------------------------------------------------
 	return ttp
 end
 
 -- Config metatable to call tooltip module as function
------------------------------------------------------------------------------------------------------------------------
 function tooltip.mt:__call(...)
 	return tooltip.new(...)
 end

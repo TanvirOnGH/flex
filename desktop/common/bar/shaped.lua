@@ -1,11 +1,4 @@
------------------------------------------------------------------------------------------------------------------------
---                                             flex corners widget                                                --
------------------------------------------------------------------------------------------------------------------------
--- Vertical progress indicator with custom shape
------------------------------------------------------------------------------------------------------------------------
-
 -- Grab environment
------------------------------------------------------------------------------------------------------------------------
 local setmetatable = setmetatable
 local math = math
 local wibox = require("wibox")
@@ -16,11 +9,9 @@ local modutil = require("flex.util")
 local tooltip = require("flex.float.tooltip")
 
 -- Initialize tables for module
------------------------------------------------------------------------------------------------------------------------
 local progressbar = { mt = {} }
 
 -- Generate default theme vars
------------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
 		chunk = { num = 10, line = 5, height = 10 },
@@ -38,8 +29,6 @@ local function default_style()
 end
 
 -- Cairo drawing functions
------------------------------------------------------------------------------------------------------------------------
-
 local function draw_corner(cr, width, height, gap, first_point, last_point, fill_color, style)
 	cr:set_source(color(fill_color))
 	for i = first_point, last_point do
@@ -69,10 +58,8 @@ end
 -- @param style.height Widget height (optional)
 -- @param style.autoscale Scaling received values, true by default
 -- @param style.maxm Scaling value if autoscale = false
------------------------------------------------------------------------------------------------------------------------
 function progressbar.new(style)
 	-- Initialize vars
-	--------------------------------------------------------------------------------
 	style = modutil.table.merge(default_style(), style or {})
 	local maxm = style.maxm
 
@@ -80,7 +67,6 @@ function progressbar.new(style)
 	local stn = style.chunk.num
 
 	-- Create custom widget
-	--------------------------------------------------------------------------------
 	local shapewidg = wibox.widget.base.make_widget()
 	shapewidg._data = { value = 0, cnum = 0 }
 
@@ -121,7 +107,6 @@ function progressbar.new(style)
 	end
 
 	-- Draw function
-	------------------------------------------------------------
 	function shapewidg:draw(_, cr, width, height)
 		self._data.cnum = math.ceil(stn * self._data.value)
 
@@ -136,12 +121,10 @@ function progressbar.new(style)
 		end
 	end
 
-	--------------------------------------------------------------------------------
 	return shapewidg
 end
 
 -- Config metatable to call progressbar module as function
------------------------------------------------------------------------------------------------------------------------
 function progressbar.mt:__call(...)
 	return progressbar.new(...)
 end

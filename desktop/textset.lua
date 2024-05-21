@@ -1,9 +1,3 @@
------------------------------------------------------------------------------------------------------------------------
---                                             flex desktop text widget                                           --
------------------------------------------------------------------------------------------------------------------------
--- Text widget with text update function
------------------------------------------------------------------------------------------------------------------------
-
 local setmetatable = setmetatable
 
 local textbox = require("wibox.widget.textbox")
@@ -16,11 +10,9 @@ local Pango = lgi.Pango
 local modutil = require("flex.util")
 
 -- Initialize tables and vars for module
------------------------------------------------------------------------------------------------------------------------
 local textset = { mt = {} }
 
 -- Generate default theme vars
------------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
 		font = "Fira Code 12",
@@ -34,10 +26,8 @@ end
 -- @param format The time format. Default is " %a %b %d, %H:%M ".
 -- @param timeout How often update the time. Default is 60.
 -- @return A textbox widget
------------------------------------------------------------------------------------------------------------------------
 function textset.new(args, style)
 	-- Initialize vars
-	--------------------------------------------------------------------------------
 	args = args or {}
 	--local funcarg = args.arg or {}
 	--local timeout = args.timeout or { 60 }
@@ -46,7 +36,6 @@ function textset.new(args, style)
 	style = modutil.table.merge(default_style(), style or {})
 
 	-- Create widget
-	--------------------------------------------------------------------------------
 	local widg = textbox()
 	widg:set_font(style.font)
 	widg:set_valign("top")
@@ -72,7 +61,6 @@ function textset.new(args, style)
 	end
 
 	-- Set update timers
-	--------------------------------------------------------------------------------
 	for i, block in ipairs(args) do
 		timers[i] = timer({ timeout = block.timeout or args[1].timeout })
 		if block.async then
@@ -92,12 +80,10 @@ function textset.new(args, style)
 		timers[i]:emit_signal("timeout")
 	end
 
-	--------------------------------------------------------------------------------
 	return widg
 end
 
 -- Config metatable to call textset module as function
------------------------------------------------------------------------------------------------------------------------
 function textset.mt:__call(...)
 	return textset.new(...)
 end

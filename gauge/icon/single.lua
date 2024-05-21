@@ -1,11 +1,4 @@
------------------------------------------------------------------------------------------------------------------------
---                                           flex indicator widget                                                --
------------------------------------------------------------------------------------------------------------------------
--- Image indicator
------------------------------------------------------------------------------------------------------------------------
-
 -- Grab environment
------------------------------------------------------------------------------------------------------------------------
 local setmetatable = setmetatable
 local math = math
 local string = string
@@ -17,11 +10,9 @@ local modutil = require("flex.util")
 local svgbox = require("flex.gauge.svgbox")
 
 -- Initialize tables for module
------------------------------------------------------------------------------------------------------------------------
 local gicon = { mt = {} }
 
 -- Generate default theme vars
------------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
 		icon = modutil.base.placeholder(),
@@ -33,7 +24,6 @@ local function default_style()
 end
 
 -- Support functions
------------------------------------------------------------------------------------------------------------------------
 local function pattern_string_v(height, value, c1, c2)
 	return string.format("linear:0,%s:0,0:0,%s:%s,%s:%s,%s:1,%s", height, c1, value, c1, value, c2, c2)
 end
@@ -44,15 +34,12 @@ end
 
 -- Create a new gicon widget
 -- @param style Table containing colors and geometry parameters for all elemets
------------------------------------------------------------------------------------------------------------------------
 function gicon.new(style)
 	-- Initialize vars
-	--------------------------------------------------------------------------------
 	style = modutil.table.merge(default_style(), style or {})
 	local pattern = style.is_vertical and pattern_string_v or pattern_string_h
 
 	-- Create widget
-	--------------------------------------------------------------------------------
 	local widg = wibox.container.background(svgbox(style.icon))
 	widg._data = {
 		color = style.color.main,
@@ -60,7 +47,6 @@ function gicon.new(style)
 	}
 
 	-- User functions
-	------------------------------------------------------------
 	function widg:set_value(x, force_redraw)
 		if x > 1 then
 			x = 1
@@ -86,12 +72,10 @@ function gicon.new(style)
 		end
 	end
 
-	--------------------------------------------------------------------------------
 	return widg
 end
 
 -- Config metatable to call gicon module as function
------------------------------------------------------------------------------------------------------------------------
 function gicon.mt:__call(...)
 	return gicon.new(...)
 end

@@ -5,10 +5,7 @@ local awful = require("awful")
 local table_ = {}
 
 -- Functions
------------------------------------------------------------------------------------------------------------------------
-
 -- Merge two table to new one
-------------------------------------------------------------
 function table_.merge(t1, t2)
 	local ret = awful.util.table.clone(t1)
 
@@ -24,7 +21,6 @@ function table_.merge(t1, t2)
 end
 
 -- Check if deep key exists
-------------------------------------------------------------
 function table_.check(t, s)
 	local v = t
 
@@ -39,6 +35,4 @@ function table_.check(t, s)
 	return v
 end
 
--- End
------------------------------------------------------------------------------------------------------------------------
 return table_

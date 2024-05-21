@@ -1,11 +1,4 @@
------------------------------------------------------------------------------------------------------------------------
---                                                flex chart widget                                               --
------------------------------------------------------------------------------------------------------------------------
--- History graph for desktop widgets
------------------------------------------------------------------------------------------------------------------------
-
 -- Grab environment
------------------------------------------------------------------------------------------------------------------------
 local setmetatable = setmetatable
 local table = table
 local ipairs = ipairs
@@ -17,11 +10,9 @@ local beautiful = require("beautiful")
 local modutil = require("flex.util")
 
 -- Initialize tables for module
------------------------------------------------------------------------------------------------------------------------
 local chart = { mt = {} }
 
 -- Generate default theme vars
------------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
 		maxm = 1,
@@ -39,10 +30,8 @@ end
 -- Create a new chart widget
 -- @param style Table containing chart geometry and style
 -- See block of local vars below for more details
------------------------------------------------------------------------------------------------------------------------
 function chart.new(style)
 	-- Initialize vars
-	--------------------------------------------------------------------------------
 	style = modutil.table.merge(default_style(), style or {})
 	local count = 0
 	local barnum
@@ -54,11 +43,9 @@ function chart.new(style)
 	}
 
 	-- Create custom widget
-	--------------------------------------------------------------------------------
 	local chartwidg = wibox.widget.base.make_widget()
 
 	-- User functions
-	------------------------------------------------------------
 	function chartwidg:set_value(x)
 		if barnum then
 			count = count % barnum + 1
@@ -68,13 +55,11 @@ function chart.new(style)
 	end
 
 	-- Fit function
-	------------------------------------------------------------
 	function chartwidg:fit(_, width, height)
 		return style.width or width, style.height or height
 	end
 
 	-- Draw function
-	------------------------------------------------------------
 	function chartwidg:draw(_, cr, width, height)
 		--scale
 		if style.autoscale then
@@ -110,12 +95,10 @@ function chart.new(style)
 		cr:fill()
 	end
 
-	--------------------------------------------------------------------------------
 	return chartwidg
 end
 
 -- Config metatable to call chart module as function
------------------------------------------------------------------------------------------------------------------------
 function chart.mt:__call(...)
 	return chart.new(...)
 end

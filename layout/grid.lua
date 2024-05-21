@@ -1,11 +1,4 @@
------------------------------------------------------------------------------------------------------------------------
---                                               flex grid layout                                                 --
------------------------------------------------------------------------------------------------------------------------
--- Floating layout with discrete geometry
------------------------------------------------------------------------------------------------------------------------
-
 -- Grab environment
------------------------------------------------------------------------------------------------------------------------
 local beautiful = require("beautiful")
 
 local ipairs = ipairs
@@ -20,7 +13,6 @@ local modutil = require("flex.util")
 local hasitem = awful.util.table.hasitem
 
 -- Initialize tables for module
------------------------------------------------------------------------------------------------------------------------
 local grid = { data = {} }
 grid.name = "grid"
 
@@ -227,13 +219,11 @@ grid.keys.resize = {
 grid.keys.all = awful.util.table.join(grid.keys.move, grid.keys.resize)
 
 -- Support functions
------------------------------------------------------------------------------------------------------------------------
 local function compare(a, b)
 	return a < b
 end
 
 -- Find all rails for given client
-------------------------------------------------------------
 local function get_rail(c)
 	local wa = screen[c.screen].workarea
 	local cls = awful.client.visible(c.screen)
@@ -271,7 +261,6 @@ local function update_rail(c)
 end
 
 -- Calculate cell geometry
-------------------------------------------------------------
 local function make_cell(wa, cellnum)
 	local cell = {
 		x = wa.width / cellnum.x,
@@ -286,13 +275,11 @@ local function make_cell(wa, cellnum)
 end
 
 -- Grid rounding
-------------------------------------------------------------
 local function round(a, n)
 	return n * math.floor((a + n / 2) / n)
 end
 
 -- Fit client into grid
-------------------------------------------------------------
 local function fit_cell(g, cell)
 	local ng = {}
 
@@ -304,7 +291,6 @@ local function fit_cell(g, cell)
 end
 
 -- Check geometry difference
-------------------------------------------------------------
 local function is_diff(g1, g2, cell)
 	for k, v in pairs(g1) do
 		if math.abs(g2[k] - v) >= cell[k] then
@@ -316,7 +302,6 @@ local function is_diff(g1, g2, cell)
 end
 
 -- Move client
------------------------------------------------------------------------------------------------------------------------
 function grid.move_to(dir, is_rail, k)
 	local ng = {}
 	local data = grid.data
@@ -383,7 +368,6 @@ function grid.move_to(dir, is_rail, k)
 end
 
 -- Resize client
------------------------------------------------------------------------------------------------------------------------
 grid.resize_to = function(dir, is_rail, is_reverse)
 	local ng = {}
 	local c = client.focus
@@ -461,7 +445,6 @@ grid.resize_to = function(dir, is_rail, is_reverse)
 end
 
 -- Keygrabber
------------------------------------------------------------------------------------------------------------------------
 grid.maingrabber = function(mod, key)
 	for _, k in ipairs(grid.keys.all) do
 		if modutil.key.match_grabber(k, mod, key) then
@@ -484,7 +467,6 @@ grid.key_handler = function(mod, key, event)
 end
 
 -- Tile function
------------------------------------------------------------------------------------------------------------------------
 function grid.arrange(p)
 	-- theme vars
 	local cellnum = beautiful.cellnum or { x = 100, y = 60 }
@@ -513,7 +495,6 @@ function grid.arrange(p)
 end
 
 -- Mouse moving function
------------------------------------------------------------------------------------------------------------------------
 function grid.move_handler(c, _, hints)
 	local g = modutil.client.fullgeometry(c)
 	local hg = { x = hints.x, y = hints.y, width = g.width, height = g.height }
@@ -523,7 +504,6 @@ function grid.move_handler(c, _, hints)
 end
 
 -- Mouse resizing function
------------------------------------------------------------------------------------------------------------------------
 function grid.mouse_resize_handler(c, corner)
 	local g = modutil.client.fullgeometry(c)
 	local cg = g
@@ -581,7 +561,6 @@ function grid.mouse_resize_handler(c, corner)
 end
 
 -- flex navigator support functions
------------------------------------------------------------------------------------------------------------------------
 function grid:set_keys(keys, layout)
 	layout = layout or "all"
 	if keys then
@@ -604,6 +583,4 @@ function grid.cleanup()
 	grid.data.last = nil
 end
 
--- End
------------------------------------------------------------------------------------------------------------------------
 return grid

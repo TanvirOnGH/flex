@@ -1,11 +1,4 @@
------------------------------------------------------------------------------------------------------------------------
---                                             flex calendar widget                                               --
------------------------------------------------------------------------------------------------------------------------
--- A stylable widget wrapping wibox.widget.calendar
------------------------------------------------------------------------------------------------------------------------
-
 -- Grab environment
------------------------------------------------------------------------------------------------------------------------
 local unpack = unpack or table.unpack
 
 local awful = require("awful")
@@ -24,11 +17,9 @@ local svgbox = require("flex.gauge.svgbox")
 local separator = require("flex.gauge.separator")
 
 -- Initialize tables for module
------------------------------------------------------------------------------------------------------------------------
 local calendar = {}
 
 -- Generate default theme vars
------------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
 		geometry = { width = 340, height = 420 },
@@ -86,13 +77,11 @@ local function default_style()
 end
 
 -- Initialize calendar widget
------------------------------------------------------------------------------------------------------------------------
 function calendar:init()
 	local style = default_style()
 	self.style = style
 
 	-- Initialize the current date
-	--------------------------------------------------------------------------------
 	local current_date = os.date("*t")
 	self.date = {
 		year = current_date.year,
@@ -101,7 +90,6 @@ function calendar:init()
 	}
 
 	-- Factory function to produce clickable buttons with icons and hover effect
-	--------------------------------------------------------------------------------
 	local function make_control_button(icon, action)
 		local button = svgbox(icon, nil, style.color.icon)
 		button:set_forced_width(style.controls_icon_size.width)
@@ -124,7 +112,6 @@ function calendar:init()
 	end
 
 	-- Estimate the required space width of a given text using a given font
-	--------------------------------------------------------------------------------
 	local function get_text_width_for_font(text, font)
 		local ctx = PangoCairo.font_map_get_default():create_context()
 		local layout = Pango.Layout.new(ctx)
@@ -136,7 +123,6 @@ function calendar:init()
 
 	-- Callback function to be passed as 'fn_embed' to wibox.widget.calendar.month,
 	-- called on each calendar element allowing to modify its style and layout
-	--------------------------------------------------------------------------------
 	local function decorate_calendar_cell(widget, flag, date)
 		if flag == "month" then
 			-- 'month' is the grid layout of the calendar wibox itself
@@ -212,7 +198,6 @@ function calendar:init()
 	end
 
 	-- Create calendar widget
-	--------------------------------------------------------------------------------
 	self.calendar = wibox.widget({
 		date = self.date,
 		font = style.fonts.days,
@@ -224,7 +209,6 @@ function calendar:init()
 	})
 
 	-- Prepare month and year labels for the date controls
-	--------------------------------------------------------------------------------
 	self.month_label = wibox.widget.textbox()
 	self.month_label.align = "center"
 	self.month_label.font = style.fonts.controls
@@ -249,7 +233,6 @@ function calendar:init()
 	self:update_controls()
 
 	-- Create clock and date display
-	--------------------------------------------------------------------------------
 	local datetime_panel = wibox.layout.fixed.vertical()
 	datetime_panel.spacing = style.spacing.datetime
 
@@ -278,7 +261,6 @@ function calendar:init()
 	self.update_datetime_timer:emit_signal("timeout")
 
 	-- Create button panel for month and year controls and labels
-	--------------------------------------------------------------------------------
 	local controls_panel = wibox.layout.align.horizontal()
 
 	local year_control = wibox.layout.fixed.horizontal()
@@ -317,7 +299,6 @@ function calendar:init()
 	layout:add(controls_panel)
 
 	-- Create floating wibox for calendar
-	--------------------------------------------------------------------------------
 	self.wibox = wibox({
 		ontop = true,
 		bg = style.color.wibox,
@@ -362,7 +343,6 @@ function calendar:switch_year(offset)
 end
 
 -- Show calendar widget or hide if visible
------------------------------------------------------------------------------------------------------------------------
 function calendar:show(geometry)
 	if not self.wibox then
 		self:init()
@@ -388,7 +368,6 @@ function calendar:show(geometry)
 end
 
 -- Hide calendar widget
------------------------------------------------------------------------------------------------------------------------
 function calendar:hide()
 	if self.update_datetime_timer.started then
 		self.update_datetime_timer:stop()
@@ -396,6 +375,4 @@ function calendar:hide()
 	self.wibox.visible = false
 end
 
--- End
------------------------------------------------------------------------------------------------------------------------
 return calendar

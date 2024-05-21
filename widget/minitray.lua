@@ -1,17 +1,4 @@
------------------------------------------------------------------------------------------------------------------------
---                                               flex minitray                                                    --
------------------------------------------------------------------------------------------------------------------------
--- Tray located on separate wibox
--- minitray:toggle() used to show/hide wibox
--- Widget with graphical counter to show how many apps placed in the system tray
------------------------------------------------------------------------------------------------------------------------
--- Some code was taken from
------- minitray
------- http://awesome.naquadah.org/wiki/Minitray
------------------------------------------------------------------------------------------------------------------------
-
 -- Grab environment
------------------------------------------------------------------------------------------------------------------------
 local setmetatable = setmetatable
 local table = table
 
@@ -24,11 +11,9 @@ local dotcount = require("flex.gauge.graph.dots")
 local tooltip = require("flex.float.tooltip")
 
 -- Initialize tables and wibox
------------------------------------------------------------------------------------------------------------------------
 local minitray = { widgets = {}, mt = {} }
 
 -- Generate default theme vars
------------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
 		dotcount = {},
@@ -43,10 +28,8 @@ local function default_style()
 end
 
 -- Initialize minitray floating window
------------------------------------------------------------------------------------------------------------------------
 function minitray:init(style)
 	-- Create wibox for tray
-	--------------------------------------------------------------------------------
 	local wargs = {
 		ontop = true,
 		bg = style.color.wibox,
@@ -63,11 +46,9 @@ function minitray:init(style)
 	self.set_position = style.set_position
 
 	-- Create tooltip
-	--------------------------------------------------------------------------------
 	self.tp = tooltip({}, style.tooltip)
 
 	-- Set tray
-	--------------------------------------------------------------------------------
 	local l = wibox.layout.align.horizontal()
 	self.tray = wibox.widget.systray()
 	l:set_middle(self.tray)
@@ -80,13 +61,9 @@ function minitray:init(style)
 end
 
 -- Show/hide functions for wibox
------------------------------------------------------------------------------------------------------------------------
-
 -- Update Geometry
---------------------------------------------------------------------------------
 function minitray:update_geometry()
 	-- Set wibox size and position
-	------------------------------------------------------------
 	local items = awesome.systray()
 	if items == 0 then
 		items = 1
@@ -105,20 +82,17 @@ function minitray:update_geometry()
 end
 
 -- Show
---------------------------------------------------------------------------------
 function minitray:show()
 	self:update_geometry()
 	self.wibox.visible = true
 end
 
 -- Hide
---------------------------------------------------------------------------------
 function minitray:hide()
 	self.wibox.visible = false
 end
 
 -- Toggle
---------------------------------------------------------------------------------
 function minitray:toggle()
 	if self.wibox.visible then
 		self:hide()
@@ -130,30 +104,24 @@ end
 -- Create a new tray widget
 -- @param args.timeout Update interval
 -- @param style Settings for dotcount widget
------------------------------------------------------------------------------------------------------------------------
 function minitray.new(_, style)
 	-- Initialize vars
-	--------------------------------------------------------------------------------
 	--	args = args or {} -- usesless now, leave it be for backward compatibility and future cases
 	style = modutil.table.merge(default_style(), style or {})
 
 	-- Initialize minitray window
-	--------------------------------------------------------------------------------
 	if not minitray.wibox then
 		minitray:init(style)
 	end
 
 	-- Create tray widget
-	--------------------------------------------------------------------------------
 	local widg = dotcount(style.dotcount)
 	table.insert(minitray.widgets, widg)
 
 	-- Set tooltip
-	--------------------------------------------------------------------------------
 	minitray.tp:add_to_object(widg)
 
 	-- Set update timer
-	--------------------------------------------------------------------------------
 	function widg:update()
 		local appcount = awesome.systray()
 		self:set_num(appcount)
@@ -164,12 +132,10 @@ function minitray.new(_, style)
 		widg:update()
 	end)
 
-	--------------------------------------------------------------------------------
 	return widg
 end
 
 -- Config metatable to call minitray module as function
------------------------------------------------------------------------------------------------------------------------
 function minitray.mt:__call(...)
 	return minitray.new(...)
 end

@@ -1,11 +1,4 @@
------------------------------------------------------------------------------------------------------------------------
---                                          flex hotkeys helper widget                                            --
------------------------------------------------------------------------------------------------------------------------
--- Widget with list of hotkeys
------------------------------------------------------------------------------------------------------------------------
-
 -- Grab environment
------------------------------------------------------------------------------------------------------------------------
 local math = math
 local unpack = unpack or table.unpack
 
@@ -18,7 +11,6 @@ local flex = require("flex")
 local modutil = require("flex.util")
 
 -- Initialize tables for module
------------------------------------------------------------------------------------------------------------------------
 local hotkeys = { keypack = {}, lastkey = nil, cache = {}, boxes = {} }
 local hasitem = awful.util.table.hasitem
 
@@ -26,7 +18,6 @@ local hasitem = awful.util.table.hasitem
 hotkeys.keys = { close = { "Escape" }, close_all = { "Super_L" } }
 
 -- Generate default theme vars
------------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
 		geometry = { width = 800 },
@@ -55,10 +46,7 @@ local function default_style()
 end
 
 -- Support functions
------------------------------------------------------------------------------------------------------------------------
-
 -- Calculate keytip length
---------------------------------------------------------------------------------
 local function check_key_len(k)
 	local res = k.key:len()
 	for _, v in pairs(k.mod) do
@@ -68,7 +56,6 @@ local function check_key_len(k)
 end
 
 -- Parse raw key table
---------------------------------------------------------------------------------
 local keysort = function(a, b)
 	if a.length ~= b.length then
 		return a.length < b.length
@@ -145,7 +132,6 @@ local function parse(rawkeys, columns)
 end
 
 -- Form hotkeys helper text
---------------------------------------------------------------------------------
 local function build_tip(pack, style, keypressed)
 	local text = {}
 
@@ -202,10 +188,8 @@ local function build_tip(pack, style, keypressed)
 end
 
 -- Initialize widget
------------------------------------------------------------------------------------------------------------------------
 function hotkeys:init()
 	-- Initialize vars
-	--------------------------------------------------------------------------------
 	local style = default_style()
 	self.style = style
 	self.tip = {}
@@ -221,7 +205,6 @@ function hotkeys:init()
 	local bm = style.border_margin
 
 	-- Create floating wibox for top widget
-	--------------------------------------------------------------------------------
 	self.wibox = wibox({
 		ontop = true,
 		bg = style.color.wibox,
@@ -233,7 +216,6 @@ function hotkeys:init()
 	self.wibox:geometry(style.geometry)
 
 	-- Widget layout setup
-	--------------------------------------------------------------------------------
 	self.layout = wibox.layout.flex.horizontal()
 
 	self.title = wibox.widget.textbox("Title")
@@ -269,7 +251,6 @@ function hotkeys:init()
 	})
 
 	-- Highlight timer
-	--------------------------------------------------------------------------------
 	local ltimer = timer({ timeout = style.ltimeout })
 	ltimer:connect_signal("timeout", function()
 		ltimer:stop()
@@ -277,7 +258,6 @@ function hotkeys:init()
 	end)
 
 	-- Keygrabber
-	--------------------------------------------------------------------------------
 	self.keygrabber = function(_, key, event)
 		if event == "release" then
 			if hasitem(self.keys.close, key) then
@@ -300,10 +280,7 @@ function hotkeys:init()
 end
 
 -- Keypack managment
------------------------------------------------------------------------------------------------------------------------
-
 -- Set new keypack
---------------------------------------------------------------------------------
 function hotkeys:set_pack(name, pack, columns, geometry, on_close)
 	if not self.wibox then
 		self:init()
@@ -322,7 +299,6 @@ function hotkeys:set_pack(name, pack, columns, geometry, on_close)
 end
 
 -- Remove current keypack
---------------------------------------------------------------------------------
 function hotkeys:remove_pack()
 	table.remove(self.keypack)
 	self.title:set_text(self.keypack[#self.keypack].name .. " hotkeys")
@@ -331,7 +307,6 @@ function hotkeys:remove_pack()
 end
 
 -- Calculate and set widget height
---------------------------------------------------------------------------------
 function hotkeys:update_geometry(predefined)
 	local height = 0
 	for _, column in ipairs(self.tip) do
@@ -342,7 +317,6 @@ function hotkeys:update_geometry(predefined)
 end
 
 -- Highlight key tip
---------------------------------------------------------------------------------
 function hotkeys:highlight()
 	self.tip = build_tip(self.keypack[#self.keypack].pack, self.style, self.lastkey)
 
@@ -360,8 +334,6 @@ function hotkeys:highlight()
 end
 
 -- Show/hide widget
------------------------------------------------------------------------------------------------------------------------
-
 -- show
 function hotkeys:show()
 	if not self.wibox then
@@ -385,6 +357,4 @@ function hotkeys:hide()
 	awful.keygrabber.stop(self.keygrabber)
 end
 
--- End
------------------------------------------------------------------------------------------------------------------------
 return hotkeys

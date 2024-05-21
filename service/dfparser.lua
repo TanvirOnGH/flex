@@ -1,15 +1,4 @@
------------------------------------------------------------------------------------------------------------------------
---                                           flex desctop file parser                                             --
------------------------------------------------------------------------------------------------------------------------
--- Create application menu analyzing .desktop files in given directories
------------------------------------------------------------------------------------------------------------------------
--- Some code was taken from
------- awful.menubar v3.5.2
------- (c) 2009, 2011-2012 Antonio Terceiro, Alexander Yakushev
------------------------------------------------------------------------------------------------------------------------
-
 -- Grab environment
------------------------------------------------------------------------------------------------------------------------
 local io = io
 local table = table
 local ipairs = ipairs
@@ -21,7 +10,6 @@ local modutil = require("flex.util")
 local gears = require("gears")
 
 -- Initialize tables and vars for module
------------------------------------------------------------------------------------------------------------------------
 local dfparser = {}
 local cache = {}
 
@@ -43,7 +31,6 @@ local all_icon_sizes = {
 }
 
 -- Generate default theme vars
------------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
 		icons = { custom_only = false, scalable_only = false, df_icon = nil, theme = nil },
@@ -63,10 +50,7 @@ local function default_style()
 end
 
 -- Support functions
------------------------------------------------------------------------------------------------------------------------
-
 -- Cache functions
---------------------------------------------------------------------------------
 local function check_cached(req)
 	for k, v in pairs(cache) do
 		local eq = #req == #k
@@ -81,7 +65,6 @@ local function check_cached(req)
 end
 
 -- Check whether the icon format is supported
---------------------------------------------------------------------------------
 local function is_format(icon_file, icon_formats)
 	for _, f in ipairs(icon_formats) do
 		if icon_file:match("%." .. f) then
@@ -92,7 +75,6 @@ local function is_format(icon_file, icon_formats)
 end
 
 -- Find all possible locations of the icon
---------------------------------------------------------------------------------
 local function all_icon_path(style)
 	local icon_theme_paths = {}
 
@@ -148,7 +130,6 @@ end
 -- @param style.custom_only Seach only custom theme icons, ignore system
 -- @param style.scalable_only Seach only svg type icons
 -- @return full name of the icon
------------------------------------------------------------------------------------------------------------------------
 function dfparser.lookup_icon(icon_file, style)
 	style = modutil.table.merge(default_style().icons, style or {})
 
@@ -210,13 +191,10 @@ function dfparser.lookup_icon(icon_file, style)
 end
 
 -- Main parsing functions
------------------------------------------------------------------------------------------------------------------------
-
 -- Parse a .desktop file
 -- @param file The .desktop file
 -- @param style Arguments for dfparser.lookup_icon
 -- @return A table with file entries
---------------------------------------------------------------------------------
 local function parse(file, style)
 	local program = { show = true, file = file }
 	local desktop_entry = false
@@ -301,7 +279,6 @@ end
 -- @param dir The directory
 -- @param style Arguments for dfparser.lookup_icon
 -- @return A table with all .desktop entries
---------------------------------------------------------------------------------
 local function parse_dir(dir, style)
 	local req = awful.util.table.join({ path = dir }, style.icons)
 	local programs = {}
@@ -329,12 +306,10 @@ end
 -- @param style.icons Arguments for dfparser.lookup_icon
 -- @param style.desktop_file_dirs Table containing all .desktop file directories
 -- @return Applications menu table
------------------------------------------------------------------------------------------------------------------------
 function dfparser.menu(style)
 	style = modutil.table.merge(default_style(), style or {})
 
 	-- Categories list
-	--------------------------------------------------------------------------------
 	local categories = {
 		{ app_type = "AudioVideo", name = "Multimedia", icon_name = "applications-multimedia" },
 		{ app_type = "Development", name = "Development", icon_name = "applications-development" },
@@ -349,13 +324,11 @@ function dfparser.menu(style)
 	}
 
 	-- Find icons for categories
-	--------------------------------------------------------------------------------
 	for _, v in ipairs(categories) do
 		v.icon = dfparser.lookup_icon(v.icon_name, style)
 	end
 
 	-- Find all visible menu items
-	--------------------------------------------------------------------------------
 	local prog_list = {}
 	for _, path in ipairs(style.desktop_file_dirs) do
 		local programs = parse_dir(path, style)
@@ -368,7 +341,6 @@ function dfparser.menu(style)
 	end
 
 	-- Sort menu items by category and create submenu
-	--------------------------------------------------------------------------------
 	local appmenu = {}
 	for _, menu_category in ipairs(categories) do
 		local catmenu = {}
@@ -389,7 +361,6 @@ function dfparser.menu(style)
 	end
 
 	-- Collect all items without category to "Other" submenu
-	--------------------------------------------------------------------------------
 	if #prog_list > 0 then
 		local catmenu = {}
 
@@ -407,7 +378,6 @@ end
 -- @param style.icons Arguments for dfparser.lookup_icon
 -- @param style.desktop_file_dirs Table containing all .desktop file directories
 -- @return Icon list
------------------------------------------------------------------------------------------------------------------------
 function dfparser.icon_list(style)
 	style = modutil.table.merge(default_style(), style or {})
 	local list = {}
@@ -435,7 +405,6 @@ end
 -- without sorting by categories
 -- @param style.icons Arguments for dfparser.lookup_icon
 -- @param style.desktop_file_dirs Table containing all .desktop file directories
------------------------------------------------------------------------------------------------------------------------
 function dfparser.program_list(style)
 	style = modutil.table.merge(default_style(), style or {})
 	local prog_list = {}
@@ -453,6 +422,4 @@ function dfparser.program_list(style)
 	return prog_list
 end
 
--- End
------------------------------------------------------------------------------------------------------------------------
 return dfparser

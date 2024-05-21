@@ -1,11 +1,4 @@
------------------------------------------------------------------------------------------------------------------------
---                                         flex titlebar helper widget                                            --
------------------------------------------------------------------------------------------------------------------------
--- Titlebar info widget
------------------------------------------------------------------------------------------------------------------------
-
 -- Grab environment
------------------------------------------------------------------------------------------------------------------------
 local unpack = unpack or table.unpack
 
 local beautiful = require("beautiful")
@@ -18,11 +11,9 @@ local modtip = require("flex.float.hotkeys")
 local svgbox = require("flex.gauge.svgbox")
 
 -- Initialize tables for module
------------------------------------------------------------------------------------------------------------------------
 local bartip = {}
 
 -- Generate default theme vars
------------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
 		geometry = { width = 400, height = 60 },
@@ -111,15 +102,12 @@ bartip.keys.action = {
 bartip.keys.all = awful.util.table.join(bartip.keys.bar, bartip.keys.action)
 
 -- Initialize widget
------------------------------------------------------------------------------------------------------------------------
 function bartip:init()
 	-- Initialize vars
-	--------------------------------------------------------------------------------
 	local style = default_style()
 	self.style = style
 
 	-- Create floating wibox for top widget
-	--------------------------------------------------------------------------------
 	self.wibox = wibox({
 		ontop = true,
 		bg = style.color.wibox,
@@ -131,7 +119,6 @@ function bartip:init()
 	self.wibox:geometry(style.geometry)
 
 	-- Widget layout setup
-	--------------------------------------------------------------------------------
 	self.label = wibox.widget.textbox()
 	self.label:set_align("center")
 	self.label:set_font(style.font)
@@ -150,7 +137,6 @@ function bartip:init()
 	})
 
 	-- Keygrabber
-	--------------------------------------------------------------------------------
 	self.keygrabber = function(mod, key, event)
 		if event == "release" then
 			for _, k in ipairs(self.keys.action) do
@@ -170,13 +156,10 @@ function bartip:init()
 	end
 
 	-- First run actions
-	--------------------------------------------------------------------------------
 	self:set_keys()
 end
 
 -- Widget actions
------------------------------------------------------------------------------------------------------------------------
-
 local function get_title_state(c)
 	if not c then
 		return "unknown"
@@ -189,7 +172,6 @@ local function get_title_state(c)
 end
 
 -- Update
---------------------------------------------------------------------------------
 function bartip:update()
 	local name = self.style.names[modtitle._index] or "Unknown"
 	local state, size = get_title_state(client.focus)
@@ -210,7 +192,6 @@ function bartip:update()
 end
 
 -- Show
---------------------------------------------------------------------------------
 function bartip:show()
 	if not self.wibox then
 		self:init()
@@ -234,7 +215,6 @@ function bartip:show()
 end
 
 -- Hide
---------------------------------------------------------------------------------
 function bartip:hide()
 	self.wibox.visible = false
 	awful.keygrabber.stop(self.keygrabber)
@@ -242,7 +222,6 @@ function bartip:hide()
 end
 
 -- Set user hotkeys
------------------------------------------------------------------------------------------------------------------------
 function bartip:set_keys(keys, layout)
 	layout = layout or "all"
 	if keys then
@@ -255,6 +234,4 @@ function bartip:set_keys(keys, layout)
 	self.tip = self.keys.all
 end
 
--- End
------------------------------------------------------------------------------------------------------------------------
 return bartip

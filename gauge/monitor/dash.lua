@@ -1,11 +1,4 @@
------------------------------------------------------------------------------------------------------------------------
---                                             flex monitor widget                                                --
------------------------------------------------------------------------------------------------------------------------
--- Widget with dash indicator
------------------------------------------------------------------------------------------------------------------------
-
 -- Grab environment
------------------------------------------------------------------------------------------------------------------------
 local setmetatable = setmetatable
 local math = math
 local wibox = require("wibox")
@@ -15,11 +8,9 @@ local color = require("gears.color")
 local modutil = require("flex.util")
 
 -- Initialize tables for module
------------------------------------------------------------------------------------------------------------------------
 local dashmon = { mt = {} }
 
 -- Generate default theme vars
------------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
 		width = 40,
@@ -31,14 +22,11 @@ end
 
 -- Create a new monitor widget
 -- @param style Table containing colors and geometry parameters for all elemets
------------------------------------------------------------------------------------------------------------------------
 function dashmon.new(style)
 	-- Initialize vars
-	--------------------------------------------------------------------------------
 	style = modutil.table.merge(default_style(), style or {})
 
 	-- Create custom widget
-	--------------------------------------------------------------------------------
 	local widg = wibox.widget.base.make_widget()
 	widg._data = { color = style.color.main, level = 0, alert = false }
 
@@ -47,7 +35,6 @@ function dashmon.new(style)
 	end
 
 	-- User functions
-	------------------------------------------------------------
 	function widg:set_value(x)
 		local value = x < 1 and x or 1
 		local level = math.ceil(style.line.num * value)
@@ -67,13 +54,11 @@ function dashmon.new(style)
 	end
 
 	-- Fit
-	------------------------------------------------------------
 	function widg:fit(_, width, height)
 		return width, height
 	end
 
 	-- Draw
-	------------------------------------------------------------
 	function widg:draw(_, cr, width, height)
 		local gap = (height - style.line.height * style.line.num) / (style.line.num - 1)
 		local dy = style.line.height + gap
@@ -85,12 +70,10 @@ function dashmon.new(style)
 		end
 	end
 
-	--------------------------------------------------------------------------------
 	return widg
 end
 
 -- Config metatable to call monitor module as function
------------------------------------------------------------------------------------------------------------------------
 function dashmon.mt:__call(...)
 	return dashmon.new(...)
 end

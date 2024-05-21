@@ -1,12 +1,4 @@
------------------------------------------------------------------------------------------------------------------------
---                                         flex dashpack desktop widget                                           --
------------------------------------------------------------------------------------------------------------------------
--- Multi monitoring widget
--- Several lines with progressbar, label and text
------------------------------------------------------------------------------------------------------------------------
-
 -- Grab environment
------------------------------------------------------------------------------------------------------------------------
 local setmetatable = setmetatable
 local string = string
 local unpack = unpack or table.unpack
@@ -20,11 +12,9 @@ local svgbox = require("flex.gauge.svgbox")
 local lines = require("flex.desktop.common.pack.lines")
 
 -- Initialize tables for module
------------------------------------------------------------------------------------------------------------------------
 local dashpack = { mt = {} }
 
 -- Generate default theme vars
------------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
 		icon = { image = nil, margin = { 0, 0, 0, 0 } },
@@ -41,10 +31,8 @@ end
 local default_args = { timeout = 60, sensors = {} }
 
 -- Create a new widget
------------------------------------------------------------------------------------------------------------------------
 function dashpack.new(args, style)
 	-- Initialize vars
-	--------------------------------------------------------------------------------
 	local dwidget = {}
 	args = modutil.table.merge(default_args, args or {})
 	style = modutil.table.merge(default_style(), style or {})
@@ -75,7 +63,6 @@ function dashpack.new(args, style)
 	end
 
 	-- Update info function
-	--------------------------------------------------------------------------------
 	local function set_raw_state(state, maxm, crit, i)
 		local alert = crit and state[1] > crit
 		local text_color = alert and style.color.main or style.color.gray
@@ -120,18 +107,15 @@ function dashpack.new(args, style)
 	end
 
 	-- Set update timer
-	--------------------------------------------------------------------------------
 	local t = timer({ timeout = args.timeout })
 	t:connect_signal("timeout", update)
 	t:start()
 	t:emit_signal("timeout")
 
-	--------------------------------------------------------------------------------
 	return dwidget
 end
 
 -- Config metatable to call module as function
------------------------------------------------------------------------------------------------------------------------
 function dashpack.mt:__call(...)
 	return dashpack.new(...)
 end

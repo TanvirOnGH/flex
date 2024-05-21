@@ -1,11 +1,4 @@
------------------------------------------------------------------------------------------------------------------------
---                                                flex map layout                                                 --
------------------------------------------------------------------------------------------------------------------------
--- Tiling with user defined geometry
------------------------------------------------------------------------------------------------------------------------
-
 -- Grab environment
------------------------------------------------------------------------------------------------------------------------
 local ipairs = ipairs
 local pairs = pairs
 local math = math
@@ -22,7 +15,6 @@ local rednotify = require("flex.float.notify")
 local hasitem = awful.util.table.hasitem
 
 -- Initialize tables for module
------------------------------------------------------------------------------------------------------------------------
 local map = { data = setmetatable({}, { __mode = "k" }), scheme = setmetatable({}, { __mode = "k" }), keys = {} }
 map.name = "usermap"
 map.notification = true
@@ -225,10 +217,7 @@ map.keys.resize = {
 map.keys.all = awful.util.table.join(map.keys.layout, map.keys.resize)
 
 -- Support functions
------------------------------------------------------------------------------------------------------------------------
-
 -- Layout action notifications
---------------------------------------------------------------------------------
 local function notify(txt)
 	if map.notification then
 		rednotify:show(modutil.table.merge({ text = txt }, map.notification_style))
@@ -236,7 +225,6 @@ local function notify(txt)
 end
 
 -- Calculate geometry for single client or group
---------------------------------------------------------------------------------
 local function cut_geometry(wa, is_vertical, size)
 	if is_vertical then
 		local g = { x = wa.x, y = wa.y, width = wa.width, height = size }
@@ -250,18 +238,15 @@ local function cut_geometry(wa, is_vertical, size)
 end
 
 -- Build container for single client or group
---------------------------------------------------------------------------------
 function map.construct_itempack(cls, wa, is_vertical, parent)
 	local pack = { items = {}, wa = wa, cls = { unpack(cls) }, is_vertical = is_vertical, parent = parent }
 
 	-- Create pack of items with base properties
-	------------------------------------------------------------
 	for i, c in ipairs(cls) do
 		pack.items[i] = { client = c, child = nil, factor = 1 }
 	end
 
 	-- Update pack clients
-	------------------------------------------------------------
 	function pack:set_cls(clist)
 		local current = { unpack(clist) }
 
@@ -284,7 +269,6 @@ function map.construct_itempack(cls, wa, is_vertical, parent)
 	end
 
 	-- Get current pack clients
-	------------------------------------------------------------
 	function pack:get_cls()
 		local clist = {}
 		for _, item in ipairs(self.items) do
@@ -296,13 +280,11 @@ function map.construct_itempack(cls, wa, is_vertical, parent)
 	end
 
 	-- Update pack geometry
-	------------------------------------------------------------
 	function pack:set_wa(workarea)
 		self.wa = workarea
 	end
 
 	-- Get number of items reserved for single client only
-	------------------------------------------------------------
 	function pack:get_places()
 		local n = 0
 		for _, item in ipairs(self.items) do
@@ -314,7 +296,6 @@ function map.construct_itempack(cls, wa, is_vertical, parent)
 	end
 
 	-- Get child index
-	------------------------------------------------------------
 	function pack:get_child_id(pack_)
 		for i, item in ipairs(self.items) do
 			if item.child == pack_ then
@@ -324,7 +305,6 @@ function map.construct_itempack(cls, wa, is_vertical, parent)
 	end
 
 	-- Check if container with inheritors keep any real client
-	------------------------------------------------------------
 	function pack:is_filled()
 		local filled = false
 		for _, item in ipairs(self.items) do
@@ -338,7 +318,6 @@ function map.construct_itempack(cls, wa, is_vertical, parent)
 	end
 
 	-- Increase window size factor for item with index
-	------------------------------------------------------------
 	function pack:incfacror(index, df, vertical)
 		if vertical == self.is_vertical then
 			self.items[index].factor = math.max(self.items[index].factor + df, 0.1)
@@ -349,7 +328,6 @@ function map.construct_itempack(cls, wa, is_vertical, parent)
 	end
 
 	-- Recalculate geometry for every item in container
-	------------------------------------------------------------
 	function pack:rebuild()
 		-- vars
 		local geometries = {}
@@ -387,14 +365,11 @@ function map.construct_itempack(cls, wa, is_vertical, parent)
 end
 
 -- Build layout tree
---------------------------------------------------------------------------------
 local function construct_tree(wa, t)
 	-- Initial structure on creation
-	------------------------------------------------------------
 	local tree = map.scheme[t] and map.scheme[t].construct(wa) or map.base_construct(wa)
 
 	-- Find pack contaner for client
-	------------------------------------------------------------
 	function tree:get_pack(c)
 		for _, pack in ipairs(self.set) do
 			for i, item in ipairs(pack.items) do
@@ -406,7 +381,6 @@ local function construct_tree(wa, t)
 	end
 
 	-- Create new contaner in place of client
-	------------------------------------------------------------
 	function tree:create_group(c, is_vertical)
 		local parent, index = self:get_pack(c)
 		local new_pack = map.construct_itempack({}, {}, is_vertical, parent)
@@ -420,7 +394,6 @@ local function construct_tree(wa, t)
 	end
 
 	-- Insert new contaner in before active
-	------------------------------------------------------------
 	function tree:insert_group(is_vertical)
 		local pack = self.set[self.active]
 		local new_pack = map.construct_itempack({}, pack.wa, is_vertical, pack.parent)
@@ -441,7 +414,6 @@ local function construct_tree(wa, t)
 	end
 
 	-- Destroy the given container
-	------------------------------------------------------------
 	function tree:delete_group(pack)
 		pack = pack or self.set[self.active]
 		local index = hasitem(self.set, pack)
@@ -486,7 +458,6 @@ local function construct_tree(wa, t)
 	end
 
 	-- Destroy all empty containers
-	------------------------------------------------------------
 	function tree:cleanup()
 		for i = #self.set, 1, -1 do
 			if #self.set[i].items == 0 then
@@ -499,7 +470,6 @@ local function construct_tree(wa, t)
 	end
 
 	-- Recalculate geometry for whole layout
-	------------------------------------------------------------
 	function tree:rebuild(clist)
 		local current = { unpack(clist) }
 		local geometries = {}
@@ -537,10 +507,7 @@ local function construct_tree(wa, t)
 end
 
 -- Layout manipulation functions
------------------------------------------------------------------------------------------------------------------------
-
 -- Change container placement direction
---------------------------------------------------------------------------------
 function map.swap_group()
 	local c = client.focus
 	if not c then
@@ -554,7 +521,6 @@ function map.swap_group()
 end
 
 -- Create new container for client
---------------------------------------------------------------------------------
 function map.new_group(is_vertical)
 	local c = client.focus
 	if not c then
@@ -579,7 +545,6 @@ function map.new_group(is_vertical)
 end
 
 -- Destroy active container
---------------------------------------------------------------------------------
 function map.delete_group()
 	local t = mouse.screen.selected_tag
 	map.data[t].autoaim = false
@@ -588,7 +553,6 @@ function map.delete_group()
 end
 
 -- Check if client exist in layout tree
---------------------------------------------------------------------------------
 function map.check_client(c)
 	if c.sticky then
 		return true
@@ -603,7 +567,6 @@ function map.check_client(c)
 end
 
 -- Remove client from layout tree and change tree structure
---------------------------------------------------------------------------------
 function map.clean_client(c)
 	for t, _ in pairs(map.data) do
 		local pack, index = map.data[t]:get_pack(c)
@@ -614,7 +577,6 @@ function map.clean_client(c)
 end
 
 -- Destroy all empty containers
---------------------------------------------------------------------------------
 function map.clean_groups()
 	local t = mouse.screen.selected_tag
 	map.data[t].autoaim = false
@@ -623,7 +585,6 @@ function map.clean_groups()
 end
 
 -- Set active container (new client will be allocated to this one)
---------------------------------------------------------------------------------
 function map.set_active(c)
 	c = c or client.focus
 	if not c then
@@ -641,7 +602,6 @@ function map.set_active(c)
 end
 
 -- Hilight active container (navigetor widget feature)
---------------------------------------------------------------------------------
 function map.hilight_active()
 	local t = mouse.screen.selected_tag
 	local pack = map.data[t].set[map.data[t].active]
@@ -649,7 +609,6 @@ function map.hilight_active()
 end
 
 -- Switch active container by index
---------------------------------------------------------------------------------
 function map.switch_active(n)
 	local t = mouse.screen.selected_tag
 	local na = map.data[t].active + n
@@ -663,7 +622,6 @@ function map.switch_active(n)
 end
 
 -- Move client to active container
---------------------------------------------------------------------------------
 function map.move_to_active(c)
 	c = c or client.focus
 	if not c then
@@ -679,7 +637,6 @@ function map.move_to_active(c)
 end
 
 -- Increase window size factor for client
---------------------------------------------------------------------------------
 function map.incfactor(c, df, is_vertical, on_group)
 	c = c or client.focus
 	if not c then
@@ -704,7 +661,6 @@ function map.incfactor(c, df, is_vertical, on_group)
 end
 
 -- Move element inside his container
---------------------------------------------------------------------------------
 function map.move_group(dn)
 	local t = mouse.screen.selected_tag
 	local pack = map.data[t].set[map.data[t].active]
@@ -720,7 +676,6 @@ function map.move_group(dn)
 end
 
 -- Insert new group before active
---------------------------------------------------------------------------------
 function map.insert_group(is_vertical)
 	local t = mouse.screen.selected_tag
 	map.data[t].autoaim = false
@@ -729,7 +684,6 @@ function map.insert_group(is_vertical)
 end
 
 -- Reset layout structure
---------------------------------------------------------------------------------
 function map.reset_tree()
 	local t = mouse.screen.selected_tag
 	map.data[t] = nil
@@ -737,7 +691,6 @@ function map.reset_tree()
 end
 
 -- Base layout scheme
------------------------------------------------------------------------------------------------------------------------
 -- TODO: fix unused arg
 function map.base_set_new_pack(cls, wa, _, parent, factor)
 	local pack = map.construct_itempack(cls, wa, true, parent)
@@ -766,7 +719,6 @@ function map.base_construct(wa)
 end
 
 -- Tile function
------------------------------------------------------------------------------------------------------------------------
 function map.arrange(p)
 	local wa = awful.util.table.clone(p.workarea)
 	local cls = p.clients
@@ -788,7 +740,6 @@ function map.arrange(p)
 end
 
 -- Keygrabber
------------------------------------------------------------------------------------------------------------------------
 map.maingrabber = function(mod, key)
 	for _, k in ipairs(map.keys.all) do
 		if modutil.key.match_grabber(k, mod, key) then
@@ -814,7 +765,6 @@ map.key_handler = function(mod, key, event)
 end
 
 -- flex navigator support functions
------------------------------------------------------------------------------------------------------------------------
 function map:set_keys(keys, layout)
 	layout = layout or "all"
 	if keys then
@@ -833,6 +783,4 @@ function map.startup()
 	end
 end
 
--- End
------------------------------------------------------------------------------------------------------------------------
 return map

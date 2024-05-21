@@ -1,11 +1,4 @@
------------------------------------------------------------------------------------------------------------------------
---                                       flex speed meter deskotp widget                                          --
------------------------------------------------------------------------------------------------------------------------
--- Network or disk i/o speed indicators
------------------------------------------------------------------------------------------------------------------------
-
 -- Grab environment
------------------------------------------------------------------------------------------------------------------------
 local setmetatable = setmetatable
 
 local wibox = require("wibox")
@@ -19,11 +12,9 @@ local dcommon = require("flex.desktop.common")
 local svgbox = require("flex.gauge.svgbox")
 
 -- Initialize tables for module
------------------------------------------------------------------------------------------------------------------------
 local speedmeter = { mt = {} }
 
 -- Generate default theme vars
------------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
 		icon = { margin = { 0, 0, 0, 0 } },
@@ -50,10 +41,7 @@ local default_args = {
 local default_maxspeed = { up = 10 * 1024, down = 10 * 1024 }
 
 -- Support functions
------------------------------------------------------------------------------------------------------------------------
-
 -- Construct chart with support elements
---------------------------------------------------------------------------------
 local function value_chart(style, image, maxspeed)
 	local chart = dcommon.chart(modutil.table.merge(style.chart, { maxm = maxspeed }))
 	local progressbar = dcommon.bar.plain(modutil.table.merge(style.progressbar, { maxm = maxspeed }))
@@ -95,10 +83,8 @@ local function value_chart(style, image, maxspeed)
 end
 
 -- Create a new speed meter widget
------------------------------------------------------------------------------------------------------------------------
 function speedmeter.new(args, style)
 	-- Initialize vars
-	--------------------------------------------------------------------------------
 	local dwidget = {}
 	local storage = {}
 	local last_state = { false, false }
@@ -114,7 +100,6 @@ function speedmeter.new(args, style)
 	dwidget.style = style
 
 	-- Construct indicators
-	--------------------------------------------------------------------------------
 	local widg = { {}, {} }
 	local placement = { "up", "down" }
 
@@ -130,7 +115,6 @@ function speedmeter.new(args, style)
 	})
 
 	-- Update info
-	--------------------------------------------------------------------------------
 	local function update()
 		local state = args.meter_function(args.interface, storage)
 
@@ -152,18 +136,15 @@ function speedmeter.new(args, style)
 	end
 
 	-- Set update timer
-	--------------------------------------------------------------------------------
 	local t = timer({ timeout = args.timeout })
 	t:connect_signal("timeout", update)
 	t:start()
 	t:emit_signal("timeout")
 
-	--------------------------------------------------------------------------------
 	return dwidget
 end
 
 -- Config metatable to call module as function
------------------------------------------------------------------------------------------------------------------------
 function speedmeter.mt:__call(...)
 	return speedmeter.new(...)
 end

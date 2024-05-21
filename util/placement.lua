@@ -6,7 +6,6 @@ local placement = {}
 local direction = { x = "width", y = "height" }
 
 -- Functions
------------------------------------------------------------------------------------------------------------------------
 function placement.add_gap(geometry, gap)
 	return {
 		x = geometry.x + gap,
@@ -97,6 +96,4 @@ placement.centered = setmetatable({}, {
 placement.centered.horizontal = centered_base(true, false)
 placement.centered.vertical = centered_base(false, true)
 
--- End
------------------------------------------------------------------------------------------------------------------------
 return placement

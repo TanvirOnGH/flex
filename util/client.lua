@@ -4,7 +4,6 @@ local awful = require("awful")
 local client = { floatset = {} }
 
 -- Functions
------------------------------------------------------------------------------------------------------------------------
 local function size_correction(c, geometry, is_restore)
 	local sign = is_restore and -1 or 1
 	local bg = sign * 2 * c.border_width
@@ -18,7 +17,6 @@ local function size_correction(c, geometry, is_restore)
 end
 
 -- Client geometry correction by border width
---------------------------------------------------------------------------------
 function client.fullgeometry(c, g)
 	local ng
 
@@ -42,7 +40,6 @@ function client.fullgeometry(c, g)
 end
 
 -- Smart swap include floating layout
---------------------------------------------------------------------------------
 function client.swap(c1, c2)
 	local lay = awful.layout.get(c1.screen)
 	if awful.util.table.hasitem(client.floatset, lay) then
@@ -55,6 +52,4 @@ function client.swap(c1, c2)
 	c1:swap(c2)
 end
 
--- End
------------------------------------------------------------------------------------------------------------------------
 return client

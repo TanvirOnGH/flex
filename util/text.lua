@@ -6,10 +6,7 @@ local string = string
 local text = {}
 
 -- Functions
------------------------------------------------------------------------------------------------------------------------
-
 -- Format string to number with minimum length
-------------------------------------------------------------
 function text.oformat(v, w)
 	local p = math.ceil(math.log10(v))
 	local prec = v <= 10 and w - 1 or p > w and 0 or w - p
@@ -17,7 +14,6 @@ function text.oformat(v, w)
 end
 
 -- Format output for destop widgets
-------------------------------------------------------------
 function text.dformat(value, unit, w, spacer)
 	w = w or 3
 	spacer = spacer or " "
@@ -34,6 +30,4 @@ function text.dformat(value, unit, w, spacer)
 	return text.oformat(res, w) .. spacer .. add
 end
 
--- End
------------------------------------------------------------------------------------------------------------------------
 return text

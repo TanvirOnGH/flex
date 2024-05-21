@@ -6,7 +6,6 @@ local awful = require("awful")
 local desktop = { build = {} }
 
 -- Functions
------------------------------------------------------------------------------------------------------------------------
 local function sum(t, n)
 	n = n or #t
 	local s = 0
@@ -28,7 +27,6 @@ local function wposition(grid, n, workarea, dir)
 end
 
 -- Calculate size and position for desktop widget
-------------------------------------------------------------
 function desktop.wgeometry(grid, place, workarea)
 	return {
 		x = wposition(grid, place[1], workarea, "width"),
@@ -39,7 +37,6 @@ function desktop.wgeometry(grid, place, workarea)
 end
 
 -- Edge constructor
-------------------------------------------------------------
 function desktop.edge(direction, zone)
 	local edge = { area = {} }
 
@@ -64,7 +61,6 @@ function desktop.edge(direction, zone)
 end
 
 -- Desktop widgets pack constructor
-------------------------------------------------------------
 function desktop.build.static(objects, buttons)
 	for _, object in ipairs(objects) do
 		object.wibox = wibox({ type = "desktop", visible = true, bg = object.body.style.color.wibox })
@@ -137,6 +133,4 @@ function desktop.build.dynamic(objects, s, bgimage, buttons)
 	end
 end
 
--- End
------------------------------------------------------------------------------------------------------------------------
 return desktop
