@@ -476,9 +476,7 @@ function grid.arrange(p)
 	local cls = p.clients
 
 	-- calculate cell
-	-- fix useless gap correction?
-	grid.data.cell =
-		make_cell({ width = wa.width + 2 * p.useless_gap, height = wa.height + 2 * p.useless_gap }, cellnum)
+	grid.data.cell = make_cell({ width = wa.width, height = wa.height }, cellnum)
 
 	-- nothing to tile here
 	if #cls == 0 then
@@ -486,10 +484,16 @@ function grid.arrange(p)
 	end
 
 	-- tile
-	for _, c in ipairs(cls) do
+	for i, c in ipairs(cls) do
 		local g = modutil.client.fullgeometry(c)
+		local x = wa.x + (i - 1) * grid.data.cell.x
+		local y = wa.y
 
-		g = fit_cell(g, grid.data.cell)
+		-- Ensure the client doesn't exceed the workarea boundaries
+		local width = math.min(grid.data.cell.x, wa.width - (x - wa.x))
+		local height = math.min(grid.data.cell.y, wa.height - (y - wa.y))
+
+		g = { x = x, y = y, width = width, height = height }
 		modutil.client.fullgeometry(c, g)
 	end
 end
