@@ -645,9 +645,12 @@ function map.incfactor(c, df, is_vertical, on_group)
 
 	local t = c.screen.selected_tag
 	local pack, index = map.data[t]:get_pack(c)
+
+	-- Handle case where client is not found in the layout tree
 	if not pack then
+		notify("Client not found in layout tree")
 		return
-	end -- fix this?
+	end
 
 	if on_group and pack.parent then
 		index = pack.parent:get_child_id(pack)
