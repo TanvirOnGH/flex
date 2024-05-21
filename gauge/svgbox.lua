@@ -24,9 +24,9 @@ local is_pixbuf_loaded = pcall(load_pixbuf)
 -- Initialize tables for module
 local svgbox = { mt = {} }
 
--- weak table is useless here
--- TODO: implement mechanics to clear cache
+-- Cache table and a counter for the number of cached images
 local cache = setmetatable({}, { __mode = "k" })
+local cache_count = 0
 
 -- Support functions
 -- Check if given argument is SVG file
@@ -46,6 +46,14 @@ end
 
 local function set_cache(file, width, height, surf)
 	cache[file .. "-" .. width .. "x" .. height] = surf
+	cache_count = cache_count + 1
+
+	-- Clear the cache if it grows too large (arbitrary limit)
+	if cache_count > 50 then
+		cache = setmetatable({}, { __mode = "k" })
+		cache_count = 0
+		print("svgbox cache cleared.")
+	end
 end
 
 -- Get cairo pattern
