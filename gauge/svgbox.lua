@@ -149,28 +149,25 @@ function svgbox.new(image, resize_allowed, newcolor)
 		local aspect = math.min(width / w, height / h)
 
 		cr:save()
-		-- let's scale the image so that it fits into (width, height)
+
+		-- Apply scaling for both raster and vector images
 		if need_scale(self, width, height) then
-			if self.is_svg and self.vector_resize_allowed and is_pixbuf_loaded then
-				-- for vector image
-				local pixbuf_ = pixbuf_from_svg(self.image_name, math.floor(w * aspect), math.floor(h * aspect))
-				cr:set_source_pixbuf(pixbuf_, 0, 0)
-			else
-				-- for raster image
-				cr:scale(aspect, aspect)
-				cr:set_source_surface(self._image, 0, 0)
-				cr:scale(1 / aspect, 1 / aspect) -- fix this !!!
-			end
+			cr:scale(aspect, aspect)
+		end
+
+		if self.is_svg and self.vector_resize_allowed and is_pixbuf_loaded then
+			-- for vector image
+			local pixbuf_ = pixbuf_from_svg(self.image_name, math.floor(w * aspect), math.floor(h * aspect))
+			cr:set_source_pixbuf(pixbuf_, 0, 0)
 		else
+			-- for raster image
 			cr:set_source_surface(self._image, 0, 0)
 		end
 
 		-- set icon color if need
 		if self.color then
 			local pattern = get_current_pattern(cr)
-			cr:scale(aspect, aspect) -- fix this !!!
 			cr:set_source(color(self.color))
-			cr:scale(1 / aspect, 1 / aspect) -- fix this !!!
 			cr:mask(pattern, 0, 0)
 		else
 			cr:paint()
