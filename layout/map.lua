@@ -349,7 +349,7 @@ function map.construct_itempack(cls, wa, is_vertical, parent)
 		for i, item in ipairs(self.items) do
 			if not item.child or item.child:is_filled() then
 				local size = self.wa[direction] / weight * item.factor
-				local g = cut_geometry(area, self.is_vertical, size, i)
+				local g = cut_geometry(area, self.is_vertical, size)
 				if item.child then
 					item.child:set_wa(g)
 				else
@@ -694,9 +694,8 @@ function map.reset_tree()
 end
 
 -- Base layout scheme
--- TODO: fix unused arg
-function map.base_set_new_pack(cls, wa, _, parent, factor)
-	local pack = map.construct_itempack(cls, wa, true, parent)
+function map.base_set_new_pack(cls, wa, is_vertical, parent, factor)
+	local pack = map.construct_itempack(cls, wa, is_vertical, parent)
 	table.insert(parent.items, { child = pack, factor = factor or 1 })
 	return pack
 end
