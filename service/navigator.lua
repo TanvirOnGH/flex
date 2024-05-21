@@ -312,7 +312,7 @@ function navigator:run()
 			tip_style.geometry,
 			self.style.keytip.base.exit and function()
 				flex.layout.common.action.exit()
-			end -- fix this?
+			end
 		)
 	end
 
@@ -326,7 +326,8 @@ function navigator:close()
 
 	awful.keygrabber.stop(self.grabber_settled)
 	if self.tip_settled then
-		modtip:remove_pack()
+		-- Remove the pack without triggering the exit function
+		modtip:remove_pack(true)
 	end
 
 	local l = client.focus and awful.layout.get(client.focus.screen)
