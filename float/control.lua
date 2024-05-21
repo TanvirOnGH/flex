@@ -1,11 +1,4 @@
------------------------------------------------------------------------------------------------------------------------
---                                        flex floating window manager                                            --
------------------------------------------------------------------------------------------------------------------------
--- Widget to control single flating window size and posioning
------------------------------------------------------------------------------------------------------------------------
-
 -- Grab environment
------------------------------------------------------------------------------------------------------------------------
 local unpack = unpack or table.unpack
 
 local beautiful = require("beautiful")
@@ -18,14 +11,12 @@ local modtip = require("flex.float.hotkeys")
 local svgbox = require("flex.gauge.svgbox")
 
 -- Initialize tables for module
------------------------------------------------------------------------------------------------------------------------
 local control = {}
 
 -- Resize mode alias
 local RESIZE_MODE = { FULL = 1, HORIZONTAL = 2, VERTICAL = 3 }
 
 -- Generate default theme vars
------------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
 		geometry = { width = 400, height = 60 },
@@ -171,7 +162,6 @@ control._fake_keys = {
 }
 
 -- Support function
------------------------------------------------------------------------------------------------------------------------
 local function control_off_screen(window)
 	local wa = screen[mouse.screen].workarea
 	local newg = window:geometry()
@@ -187,10 +177,8 @@ local function control_off_screen(window)
 end
 
 -- Initialize widget
------------------------------------------------------------------------------------------------------------------------
 function control:init()
 	-- Initialize vars
-	--------------------------------------------------------------------------------
 	local style = default_style()
 	self.style = style
 	self.client = nil
@@ -200,7 +188,6 @@ function control:init()
 	self.onscreen = style.onscreen
 
 	-- Create floating wibox for top widget
-	--------------------------------------------------------------------------------
 	self.wibox = wibox({
 		ontop = true,
 		bg = style.color.wibox,
@@ -212,7 +199,6 @@ function control:init()
 	self.wibox:geometry(style.geometry)
 
 	-- Widget layout setup
-	--------------------------------------------------------------------------------
 	self.label = wibox.widget.textbox()
 	self.label:set_align("center")
 	self.label:set_font(style.font)
@@ -231,7 +217,6 @@ function control:init()
 	})
 
 	-- Keygrabber
-	--------------------------------------------------------------------------------
 	self.keygrabber = function(mod, key, event)
 		if event == "release" then
 			for _, k in ipairs(self.keys.action) do
@@ -254,15 +239,11 @@ function control:init()
 	end
 
 	-- First run actions
-	--------------------------------------------------------------------------------
 	self:set_keys()
 end
 
 -- Window control
------------------------------------------------------------------------------------------------------------------------
-
 -- Put window at center of screen
---------------------------------------------------------------------------------
 function control:center()
 	if not self.client then
 		return
@@ -276,7 +257,6 @@ function control:center()
 end
 
 -- Change window size
---------------------------------------------------------------------------------
 function control:resize(is_shrinking)
 	if not self.client then
 		return
@@ -309,7 +289,6 @@ function control:resize(is_shrinking)
 end
 
 -- Move by direction
---------------------------------------------------------------------------------
 function control:move(direction)
 	if not self.client then
 		return
@@ -330,10 +309,7 @@ function control:move(direction)
 end
 
 -- Widget actions
------------------------------------------------------------------------------------------------------------------------
-
 -- Update
---------------------------------------------------------------------------------
 function control:update()
 	if not self.client then
 		return
@@ -354,7 +330,6 @@ function control:update()
 end
 
 -- Select move/resize step by index
---------------------------------------------------------------------------------
 function control:choose_step(index)
 	if self.style.steps[index] then
 		self.step = self.style.steps[index]
@@ -363,7 +338,6 @@ function control:choose_step(index)
 end
 
 -- Switch resize mode
---------------------------------------------------------------------------------
 function control:switch_resize_mode()
 	self.resize_mode = self.resize_mode + 1
 	if not awful.util.table.hasitem(RESIZE_MODE, self.resize_mode) then
@@ -374,7 +348,6 @@ function control:switch_resize_mode()
 end
 
 -- Switch onscreen mode
---------------------------------------------------------------------------------
 function control:switch_onscreen()
 	self.onscreen = not self.onscreen
 	self.onscreen_icon:set_color(self.onscreen and self.style.color.main or self.style.color.icon)
@@ -386,7 +359,6 @@ function control:switch_onscreen()
 end
 
 -- Show
---------------------------------------------------------------------------------
 function control:show()
 	if not self.wibox then
 		self:init()
@@ -423,7 +395,6 @@ function control:show()
 end
 
 -- Hide
---------------------------------------------------------------------------------
 function control:hide()
 	self.wibox.visible = false
 	awful.keygrabber.stop(self.keygrabber)
@@ -432,7 +403,6 @@ function control:hide()
 end
 
 -- Set user hotkeys
------------------------------------------------------------------------------------------------------------------------
 function control:set_keys(keys, layout)
 	layout = layout or "all"
 	if keys then
@@ -445,6 +415,4 @@ function control:set_keys(keys, layout)
 	self.tip = awful.util.table.join(self.keys.all, self._fake_keys)
 end
 
--- End
------------------------------------------------------------------------------------------------------------------------
 return control

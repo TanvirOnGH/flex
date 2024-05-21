@@ -1,11 +1,4 @@
------------------------------------------------------------------------------------------------------------------------
---                                           flex prefix hotkey manager                                           --
------------------------------------------------------------------------------------------------------------------------
--- Emacs like key key sequences
------------------------------------------------------------------------------------------------------------------------
-
 -- Grab environment
------------------------------------------------------------------------------------------------------------------------
 local string = string
 local table = table
 
@@ -18,7 +11,6 @@ local modutil = require("flex.util")
 local modtip = require("flex.float.hotkeys")
 
 -- Initialize tables and vars for module
------------------------------------------------------------------------------------------------------------------------
 local keychain = {}
 local tip_cache = {}
 
@@ -28,7 +20,6 @@ local label_pattern = { Mod1 = "A", Mod4 = "M", Control = "C", Shift = "S" }
 keychain.service = { close = { "Escape" }, help = { "F1" }, stepback = { "BackSpace" } }
 
 -- Generate default theme vars
------------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
 		geometry = { width = 220, height = 60 },
@@ -43,7 +34,6 @@ local function default_style()
 end
 
 -- Support functions
------------------------------------------------------------------------------------------------------------------------
 local function build_label(item)
 	if #item[1] == 0 then
 		return item[2]
@@ -90,13 +80,9 @@ local function build_fake_keys(keys)
 end
 
 -- Main widget
------------------------------------------------------------------------------------------------------------------------
-
 -- Initialize keychain widget
---------------------------------------------------------------------------------
 function keychain:init(style)
 	-- Init vars
-	------------------------------------------------------------
 	self.active = nil
 	self.parents = {}
 	self.sequence = ""
@@ -105,7 +91,6 @@ function keychain:init(style)
 	self.style = style
 
 	-- Wibox
-	------------------------------------------------------------
 	self.wibox = wibox({
 		ontop = true,
 		bg = style.color.wibox,
@@ -122,7 +107,6 @@ function keychain:init(style)
 	self.label:set_font(style.font)
 
 	-- Keygrabber
-	------------------------------------------------------------
 	self.keygrabber = function(mod, key, event)
 		if event == "press" then
 			return false
@@ -152,7 +136,6 @@ function keychain:init(style)
 end
 
 -- Set current key item
---------------------------------------------------------------------------------
 function keychain:activate(item, keytip)
 	if not self.wibox then
 		self:init()
@@ -190,7 +173,6 @@ function keychain:activate(item, keytip)
 end
 
 -- Deactivate last key item
---------------------------------------------------------------------------------
 function keychain:undo()
 	if #self.parents > 0 then
 		self.sequence = self.sequence:sub(1, -(#build_label(self.active) + 2))
@@ -204,7 +186,6 @@ function keychain:undo()
 end
 
 -- Hide widget
---------------------------------------------------------------------------------
 function keychain:hide()
 	self.wibox.visible = false
 	awful.keygrabber.stop(self.keygrabber)
@@ -214,6 +195,4 @@ function keychain:hide()
 	modtip:remove_pack()
 end
 
--- End
------------------------------------------------------------------------------------------------------------------------
 return keychain

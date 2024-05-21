@@ -1,11 +1,4 @@
------------------------------------------------------------------------------------------------------------------------
---                                             flex doublemonitor widget                                          --
------------------------------------------------------------------------------------------------------------------------
--- Widget with two progressbar and icon
------------------------------------------------------------------------------------------------------------------------
-
 -- Grab environment
------------------------------------------------------------------------------------------------------------------------
 local setmetatable = setmetatable
 local math = math
 local unpack = unpack or table.unpack
@@ -18,11 +11,9 @@ local modutil = require("flex.util")
 local svgbox = require("flex.gauge.svgbox")
 
 -- Initialize tables for module
------------------------------------------------------------------------------------------------------------------------
 local doublemonitor = { mt = {} }
 
 -- Generate default theme vars
------------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
 		line = { width = 4, v_gap = 6, gap = 4, num = 5 },
@@ -35,15 +26,12 @@ local function default_style()
 end
 
 -- Create progressbar widget
------------------------------------------------------------------------------------------------------------------------
 local function pbar(style)
 	-- Create custom widget
-	--------------------------------------------------------------------------------
 	local widg = wibox.widget.base.make_widget()
 	widg._data = { level = { 0, 0 } }
 
 	-- User functions
-	------------------------------------------------------------
 	function widg:set_value(value)
 		local level = {
 			math.ceil((value[1] < 1 and value[1] or 1) * style.line.num),
@@ -58,13 +46,11 @@ local function pbar(style)
 	end
 
 	-- Fit
-	------------------------------------------------------------
 	function widg:fit(_, width, height)
 		return width, height
 	end
 
 	-- Draw
-	------------------------------------------------------------
 	function widg:draw(_, cr, width, height)
 		local wd = (width + style.line.gap) / style.line.num - style.line.gap
 		local dy = (height - (2 * style.line.width + style.line.v_gap)) / 2
@@ -83,20 +69,16 @@ local function pbar(style)
 		end
 	end
 
-	--------------------------------------------------------------------------------
 	return widg
 end
 
 -- Cunstruct a new doublemonitor widget
 -- @param style Table containing colors and geometry parameters for all elemets
------------------------------------------------------------------------------------------------------------------------
 function doublemonitor.new(style)
 	-- Initialize vars
-	--------------------------------------------------------------------------------
 	style = modutil.table.merge(default_style(), style or {})
 
 	-- Construct layout
-	--------------------------------------------------------------------------------
 	local fixed = wibox.layout.fixed.horizontal()
 	fixed:set_forced_width(style.width)
 	local widg = pbar(style)
@@ -108,7 +90,6 @@ function doublemonitor.new(style)
 	fixed:add(wibox.container.margin(widg, unpack(style.dmargin)))
 
 	-- User functions
-	--------------------------------------------------------------------------------
 	function fixed:set_value(value)
 		widg:set_value(value)
 	end
@@ -117,12 +98,10 @@ function doublemonitor.new(style)
 		icon:set_color(alert and style.color.urgent or style.color.icon)
 	end
 
-	--------------------------------------------------------------------------------
 	return fixed
 end
 
 -- Config metatable to call doublemonitor module as function
------------------------------------------------------------------------------------------------------------------------
 function doublemonitor.mt:__call(...)
 	return doublemonitor.new(...)
 end

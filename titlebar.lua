@@ -1,16 +1,4 @@
------------------------------------------------------------------------------------------------------------------------
---                                                flex titlebar                                                   --
------------------------------------------------------------------------------------------------------------------------
--- model titlebar with two view: light and full
--- Only simple indicators avaliable, no buttons
------------------------------------------------------------------------------------------------------------------------
--- Some code was taken from
------- awful.titlebar v3.5.2
------- (c) 2012 Uli Schlachter
------------------------------------------------------------------------------------------------------------------------
-
 -- Grab environment
------------------------------------------------------------------------------------------------------------------------
 local error = error
 local table = table
 local unpack = unpack or table.unpack
@@ -24,12 +12,10 @@ local modutil = require("flex.util")
 local svgbox = require("flex.gauge.svgbox")
 
 -- Initialize tables for module
------------------------------------------------------------------------------------------------------------------------
 local titlebar = { mt = {}, widget = {}, _index = 1, _num = 1 }
 titlebar.list = setmetatable({}, { __mode = "k" })
 
 -- Generate default theme vars
------------------------------------------------------------------------------------------------------------------------
 local default_style = {
 	size = 8,
 	position = "top",
@@ -59,10 +45,8 @@ local default_button_style = {
 local positions = { "left", "right", "top", "bottom" }
 
 -- Support functions
------------------------------------------------------------------------------------------------------------------------
 
 -- Get titlebar function
-------------------------------------------------------------
 local function get_titlebar_function(c, position)
 	if position == "left" then
 		return c.titlebar_left
@@ -78,14 +62,12 @@ local function get_titlebar_function(c, position)
 end
 
 -- Get titlebar model
-------------------------------------------------------------
 function titlebar.get_model(c, position)
 	position = position or "top"
 	return titlebar.list[c] and titlebar.list[c][position] or nil
 end
 
 -- Get titlebar client list
-------------------------------------------------------------
 function titlebar.get_clients()
 	local cl = {}
 	for c, _ in pairs(titlebar.list) do
@@ -95,7 +77,6 @@ function titlebar.get_clients()
 end
 
 -- Build client titlebar
------------------------------------------------------------------------------------------------------------------------
 function titlebar.new(c, style)
 	if not titlebar.list[c] then
 		titlebar.list[c] = {}
@@ -144,10 +125,7 @@ function titlebar.new(c, style)
 end
 
 -- Titlebar functions
------------------------------------------------------------------------------------------------------------------------
-
 -- Show client titlebar
-------------------------------------------------------------
 function titlebar.show(c, position)
 	local model = titlebar.get_model(c, position)
 	if model and model.hidden then
@@ -157,7 +135,6 @@ function titlebar.show(c, position)
 end
 
 -- Hide client titlebar
-------------------------------------------------------------
 function titlebar.hide(c, position)
 	local model = titlebar.get_model(c, position)
 	if model and not model.hidden then
@@ -167,7 +144,6 @@ function titlebar.hide(c, position)
 end
 
 -- Toggle client titlebar
-------------------------------------------------------------
 function titlebar.toggle(c, position)
 	local all_positions = position and { position } or positions
 	for _, pos in ipairs(all_positions) do
@@ -180,7 +156,6 @@ function titlebar.toggle(c, position)
 end
 
 -- Add titlebar view model
-------------------------------------------------------------
 function titlebar.add_layout(c, position, layout, size)
 	local model = titlebar.get_model(c, position)
 	if not model then
@@ -205,7 +180,6 @@ function titlebar.add_layout(c, position, layout, size)
 end
 
 -- Switch titlebar view model
-------------------------------------------------------------
 function titlebar.switch(c, position, index)
 	local model = titlebar.get_model(c, position)
 	if not model or #model.layouts == 1 then
@@ -230,10 +204,7 @@ function titlebar.switch(c, position, index)
 end
 
 -- Titlebar mass actions
------------------------------------------------------------------------------------------------------------------------
-
 -- Temporary hide client titlebar
-------------------------------------------------------------
 function titlebar.cut_all(cl, position)
 	cl = cl or titlebar.get_clients()
 	--local cutted = {}
@@ -255,7 +226,6 @@ function titlebar.cut_all(cl, position)
 end
 
 -- Restore client titlebar if it was cutted
-------------------------------------------------------------
 function titlebar.restore_all(cl, position)
 	cl = cl or titlebar.get_clients()
 	local all_positions = position and { position } or positions
@@ -273,7 +243,6 @@ function titlebar.restore_all(cl, position)
 end
 
 -- Mass actions
-------------------------------------------------------------
 function titlebar.toggle_all(cl, position)
 	cl = cl or titlebar.get_clients()
 	for _, c in pairs(cl) do
@@ -303,7 +272,6 @@ function titlebar.hide_all(cl, position)
 end
 
 -- Global layout switch
-------------------------------------------------------------
 function titlebar.global_switch(index)
 	titlebar._index = index or titlebar._index + 1
 	if titlebar._index > titlebar._num then
@@ -318,12 +286,10 @@ function titlebar.global_switch(index)
 end
 
 -- Titlebar indicators
------------------------------------------------------------------------------------------------------------------------
 titlebar.mark = {}
 titlebar.button = {}
 
 -- Client mark blank
-------------------------------------------------------------
 function titlebar.mark.base(_, style)
 	-- build widget
 	local widg = wibox.widget.base.make_widget()
@@ -361,7 +327,6 @@ function titlebar.mark.base(_, style)
 end
 
 -- Client property indicator
-------------------------------------------------------------
 function titlebar.mark.property(c, prop, style)
 	local w = titlebar.mark.base(c, style)
 	w:set_active(c[prop])
@@ -372,7 +337,6 @@ function titlebar.mark.property(c, prop, style)
 end
 
 -- Client focus indicator
-------------------------------------------------------------
 function titlebar.mark.focus(c, style)
 	local w = titlebar.mark.base(c, style)
 	c:connect_signal("focus", function()
@@ -385,7 +349,6 @@ function titlebar.mark.focus(c, style)
 end
 
 -- Client button blank
-------------------------------------------------------------
 function titlebar.button.base(icon, style, is_inactive)
 	style = modutil.table.merge(default_button_style, style or {})
 
@@ -420,7 +383,6 @@ function titlebar.button.base(icon, style, is_inactive)
 end
 
 -- Client focus button
-------------------------------------------------------------
 function titlebar.button.focus(c, style)
 	local w = titlebar.button.base("focus", style, true)
 	c:connect_signal("focus", function()
@@ -433,7 +395,6 @@ function titlebar.button.focus(c, style)
 end
 
 -- Client property button
-------------------------------------------------------------
 function titlebar.button.property(c, prop, style)
 	local w = titlebar.button.base(prop, style)
 	w:set_active(c[prop])
@@ -447,7 +408,6 @@ function titlebar.button.property(c, prop, style)
 end
 
 -- Client close button
-------------------------------------------------------------
 function titlebar.button.close(c, style)
 	local w = titlebar.button.base("close", style)
 	w:buttons(awful.util.table.join(awful.button({}, 1, function()
@@ -457,7 +417,6 @@ function titlebar.button.close(c, style)
 end
 
 -- Client name indicator
-------------------------------------------------------------
 function titlebar.label(c, style, is_highlighted)
 	style = modutil.table.merge(default_style, style or {})
 	local w = wibox.widget.textbox()
@@ -487,13 +446,11 @@ function titlebar.label(c, style, is_highlighted)
 end
 
 -- Remove from list on close
------------------------------------------------------------------------------------------------------------------------
 client.connect_signal("unmanage", function(c)
 	titlebar.list[c] = nil
 end)
 
 -- Config metatable to call titlebar module as function
------------------------------------------------------------------------------------------------------------------------
 function titlebar.mt:__call(...)
 	return titlebar.new(...)
 end

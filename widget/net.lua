@@ -1,11 +1,4 @@
------------------------------------------------------------------------------------------------------------------------
---                                               flex network widget                                              --
------------------------------------------------------------------------------------------------------------------------
--- Network speed monitoring widget
------------------------------------------------------------------------------------------------------------------------
-
 -- Grab environment
------------------------------------------------------------------------------------------------------------------------
 local setmetatable = setmetatable
 local beautiful = require("beautiful")
 local timer = require("gears.timer")
@@ -16,7 +9,6 @@ local tooltip = require("flex.float.tooltip")
 local system = require("flex.system")
 
 -- Initialize tables and vars for module
------------------------------------------------------------------------------------------------------------------------
 local net = { mt = {} }
 
 local default_args = {
@@ -26,7 +18,6 @@ local default_args = {
 }
 
 -- Generate default theme vars
------------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
 		widget = monitor.new,
@@ -43,25 +34,20 @@ end
 -- @param args.speed.up Max upload speed in bytes
 -- @param args.speed.down Max download speed in bytes
 -- @param style Settings for doublebar widget
------------------------------------------------------------------------------------------------------------------------
 function net.new(args, style)
 	-- Initialize vars
-	--------------------------------------------------------------------------------
 	local storage = {}
 	local unit = { { "B", 1 }, { "KB", 1024 }, { "MB", 1024 ^ 2 }, { "GB", 1024 ^ 3 } }
 	args = modutil.table.merge(default_args, args or {})
 	style = modutil.table.merge(default_style(), style or {})
 
 	-- Create monitor widget
-	--------------------------------------------------------------------------------
 	local widg = style.widget(style.monitor)
 
 	-- Set tooltip
-	--------------------------------------------------------------------------------
 	local tp = tooltip({ objects = { widg } }, style.tooltip)
 
 	-- Set update timer
-	--------------------------------------------------------------------------------
 	local t = timer({ timeout = style.timeout })
 	t:connect_signal("timeout", function()
 		local state = system.net_speed(args.interface, storage)
@@ -91,12 +77,10 @@ function net.new(args, style)
 	t:start()
 	t:emit_signal("timeout")
 
-	--------------------------------------------------------------------------------
 	return widg
 end
 
 -- Config metatable to call net module as function
------------------------------------------------------------------------------------------------------------------------
 function net.mt:__call(...)
 	return net.new(...)
 end

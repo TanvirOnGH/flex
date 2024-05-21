@@ -1,11 +1,4 @@
------------------------------------------------------------------------------------------------------------------------
---                                                   flex tag widget                                              --
------------------------------------------------------------------------------------------------------------------------
--- Custom widget to display tag info
------------------------------------------------------------------------------------------------------------------------
-
 -- Grab environment
------------------------------------------------------------------------------------------------------------------------
 local setmetatable = setmetatable
 local math = math
 
@@ -16,11 +9,9 @@ local color = require("gears.color")
 local modutil = require("flex.util")
 
 -- Initialize tables for module
------------------------------------------------------------------------------------------------------------------------
 local purpletag = { mt = {} }
 
 -- Generate default theme vars
------------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
 		width = 50,
@@ -34,10 +25,8 @@ end
 
 -- Create a new tag widget
 -- @param style Table containing colors and geometry parameters for all elemets
------------------------------------------------------------------------------------------------------------------------
 function purpletag.new(style)
 	-- Initialize vars
-	--------------------------------------------------------------------------------
 	style = modutil.table.merge(default_style(), style or {})
 
 	-- updating values
@@ -46,11 +35,9 @@ function purpletag.new(style)
 	}
 
 	-- Create custom widget
-	--------------------------------------------------------------------------------
 	local widg = wibox.widget.base.make_widget()
 
 	-- User functions
-	------------------------------------------------------------
 	function widg:set_state(state)
 		data.state = state
 		self:emit_signal("widget::redraw_needed")
@@ -62,7 +49,6 @@ function purpletag.new(style)
 	end
 
 	-- Fit
-	------------------------------------------------------------
 	function widg:fit(_, width, height)
 		if data.width then
 			return math.min(width, data.width), height
@@ -72,7 +58,6 @@ function purpletag.new(style)
 	end
 
 	-- Draw
-	------------------------------------------------------------
 	function widg:draw(_, cr, width, height)
 		-- state
 		local cl = data.state.active and style.color.main or style.color.gray
@@ -103,12 +88,10 @@ function purpletag.new(style)
 		cr:fill()
 	end
 
-	--------------------------------------------------------------------------------
 	return widg
 end
 
 -- Config metatable to call purpletag module as function
------------------------------------------------------------------------------------------------------------------------
 function purpletag.mt:__call(...)
 	return purpletag.new(...)
 end

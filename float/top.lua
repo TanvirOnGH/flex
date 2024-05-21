@@ -1,11 +1,4 @@
------------------------------------------------------------------------------------------------------------------------
---                                                  flex top widget                                               --
------------------------------------------------------------------------------------------------------------------------
--- Widget with list of top processes
------------------------------------------------------------------------------------------------------------------------
-
 -- Grab environment
------------------------------------------------------------------------------------------------------------------------
 local unpack = unpack or table.unpack
 
 local awful = require("awful")
@@ -19,7 +12,6 @@ local decoration = require("flex.float.decoration")
 local modtip = require("flex.float.hotkeys")
 
 -- Initialize tables for module
------------------------------------------------------------------------------------------------------------------------
 local top = { keys = {} }
 
 -- key bindings
@@ -85,7 +77,6 @@ top._fake_keys = {
 }
 
 -- Generate default theme vars
------------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
 		timeout = 2,
@@ -117,10 +108,7 @@ local function default_style()
 end
 
 -- Support functions
------------------------------------------------------------------------------------------------------------------------
-
 -- Sort functions
---------------------------------------------------------------------------------
 local function sort_by_cpu(a, b)
 	return a.pcpu > b.pcpu
 end
@@ -130,7 +118,6 @@ local function sort_by_mem(a, b)
 end
 
 -- Fuction to build list item
---------------------------------------------------------------------------------
 local function construct_item(style)
 	local item = {}
 	item.label = {
@@ -146,7 +133,6 @@ local function construct_item(style)
 	local bg = style.color.bg
 
 	-- Construct item layouts
-	------------------------------------------------------------
 	local mem_label_with_gap = wibox.container.margin(item.label.mem, 0, style.list_side_gap)
 	local num_label_with_gap = wibox.container.margin(item.label.number, style.list_side_gap)
 
@@ -166,7 +152,6 @@ local function construct_item(style)
 	item.layout = wibox.container.background(item_horizontal, bg)
 
 	-- item functions
-	------------------------------------------------------------
 	function item:set_bg(color)
 		bg = color
 		item.layout:set_bg(color)
@@ -200,12 +185,10 @@ local function construct_item(style)
 		end
 	end
 
-	------------------------------------------------------------
 	return item
 end
 
 -- Fuction to build top list
---------------------------------------------------------------------------------
 local function list_construct(n, style, select_function)
 	local list = {}
 
@@ -228,10 +211,8 @@ local function list_construct(n, style, select_function)
 end
 
 -- Initialize top widget
------------------------------------------------------------------------------------------------------------------------
 function top:init()
 	-- Initialize vars
-	--------------------------------------------------------------------------------
 	local number_of_lines = 9 -- number of lines in process list
 	local selected = {}
 	local cpu_storage = { cpu_total = {}, cpu_active = {} }
@@ -241,7 +222,6 @@ function top:init()
 	self.style = style
 
 	-- Select process function
-	--------------------------------------------------------------------------------
 	local function select_item(i)
 		if selected.number and selected.number ~= i then
 			toplist.items[selected.number]:set_unselect()
@@ -252,7 +232,6 @@ function top:init()
 	end
 
 	-- Set sorting rule
-	--------------------------------------------------------------------------------
 	function self:set_sort(args)
 		if args == "cpu" then
 			sort_function = sort_by_cpu
@@ -264,7 +243,6 @@ function top:init()
 	end
 
 	-- Kill selected process
-	--------------------------------------------------------------------------------
 	function self.kill_selected()
 		if selected.number then
 			awful.spawn.with_shell("kill " .. selected.pid)
@@ -273,7 +251,6 @@ function top:init()
 	end
 
 	-- Widget keygrabber
-	--------------------------------------------------------------------------------
 	self.keygrabber = function(mod, key, event)
 		if event ~= "press" then
 			return
@@ -290,7 +267,6 @@ function top:init()
 	end
 
 	-- Build title
-	--------------------------------------------------------------------------------
 	title = construct_item(style)
 	title:set_bg("transparent")
 	title:set({ number = "#", name = "Process Name", cpu = "▾ CPU", mem = "Memory" })
@@ -307,11 +283,9 @@ function top:init()
 	end)))
 
 	-- Build top list
-	--------------------------------------------------------------------------------
 	toplist = list_construct(number_of_lines, style, select_item)
 
 	-- Update function
-	--------------------------------------------------------------------------------
 	function self:update_list()
 		local proc = system.proc_info(cpu_storage)
 		table.sort(proc, sort_function)
@@ -338,7 +312,6 @@ function top:init()
 	end
 
 	-- Construct widget layouts
-	--------------------------------------------------------------------------------
 	local buttonbox = wibox.widget.textbox("Kill")
 
 	local button_widget = decoration.button(buttonbox, self.kill_selected)
@@ -353,7 +326,6 @@ function top:init()
 	local list_layout = wibox.container.margin(area, unpack(style.border_margin))
 
 	-- Create floating wibox for top widget
-	--------------------------------------------------------------------------------
 	self.wibox = wibox({
 		ontop = true,
 		bg = style.color.wibox,
@@ -366,21 +338,18 @@ function top:init()
 	self.wibox:geometry(style.geometry)
 
 	-- Update timer
-	--------------------------------------------------------------------------------
 	self.update_timer = timer({ timeout = style.timeout })
 	self.update_timer:connect_signal("timeout", function()
 		self:update_list()
 	end)
 
 	-- First run actions
-	--------------------------------------------------------------------------------
 	self:set_keys()
 	self:set_sort("cpu")
 	self:update_list()
 end
 
 -- Hide top widget
------------------------------------------------------------------------------------------------------------------------
 function top:hide()
 	self.wibox.visible = false
 	self.update_timer:stop()
@@ -389,7 +358,6 @@ function top:hide()
 end
 
 -- Show top widget
------------------------------------------------------------------------------------------------------------------------
 function top:show(srt)
 	if not self.wibox then
 		self:init()
@@ -418,7 +386,6 @@ function top:show(srt)
 end
 
 -- Set user hotkeys
------------------------------------------------------------------------------------------------------------------------
 function top:set_keys(keys, layout)
 	layout = layout or "all"
 	if keys then
@@ -431,6 +398,4 @@ function top:set_keys(keys, layout)
 	self.tip = awful.util.table.join(self.keys.all, self._fake_keys)
 end
 
--- End
------------------------------------------------------------------------------------------------------------------------
 return top

@@ -1,7 +1,3 @@
------------------------------------------------------------------------------------------------------------------------
---                                             flex logout screen                                                 --
------------------------------------------------------------------------------------------------------------------------
-
 -- Grab environment
 local awful = require("awful")
 local wibox = require("wibox")
@@ -13,11 +9,9 @@ local modtip = require("flex.float.hotkeys")
 local svgbox = require("flex.gauge.svgbox")
 
 -- Initialize tables and vars for module
------------------------------------------------------------------------------------------------------------------------
 local logout = { entries = {}, action = {}, keys = {} }
 
 -- Generate default theme vars
------------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
 		button_size = { width = 128, height = 128 },
@@ -51,10 +45,7 @@ local function default_style()
 end
 
 -- Support functions
------------------------------------------------------------------------------------------------------------------------
-
 -- Gracefully closes down user-owned application processes
-------------------------------------------------------------
 local function gracefully_close(application)
 	if application.pid then
 		-- first try sending SIGTERM to the owning process
@@ -95,7 +86,6 @@ end
 -- Define all available logout options to be displayed
 -- maybe overwritten by user configs via logout:set_entries()
 -- order specified will determine order of the displayed buttons
------------------------------------------------------------------------------------------------------------------------
 logout.entries = {
 	{ -- Logout
 		callback = function()
@@ -140,7 +130,6 @@ logout.entries = {
 }
 
 -- Logout screen control functions
------------------------------------------------------------------------------------------------------------------------
 function logout.action.select_by_id(id)
 	local new_option = logout.options[id]
 	if not new_option then
@@ -181,7 +170,6 @@ function logout.action.hide()
 end
 
 -- Logout screen keygrabber keybindings
---------------------------------------------------------------------------------
 logout.keys = {
 	{
 		{},
@@ -239,10 +227,7 @@ for i = 1, 9 do
 end
 
 -- Logout screen UI build functions
------------------------------------------------------------------------------------------------------------------------
-
 -- Button for layout option
---------------------------------------------------------------------------------
 function logout:_make_button(icon_name)
 	local icon = self.style.icons[icon_name] or modutil.base.placeholder({ txt = "?" })
 
@@ -259,7 +244,6 @@ function logout:_make_button(icon_name)
 end
 
 -- Label for layout option
---------------------------------------------------------------------------------
 function logout:_make_label(title)
 	local label = wibox.widget.textbox(title)
 	label.font = self.style.label_font
@@ -270,7 +254,6 @@ function logout:_make_label(title)
 end
 
 -- Add new logout option to widget
------------------------------------------------------------------------------------------------------------------------
 function logout:add_option(id, action)
 	-- creating option structure
 	local option = { id = id, close_apps = action.close_apps, callback = action.callback, name = action.label }
@@ -326,10 +309,8 @@ function logout:add_option(id, action)
 end
 
 -- Main functions
------------------------------------------------------------------------------------------------------------------------
 function logout:init()
 	-- Style and base layout structure
-	------------------------------------------------------------
 	self.style = default_style()
 	self.options = {}
 
@@ -349,13 +330,11 @@ function logout:init()
 	base_layout:add(wibox.container.margin(self.counter, 0, 0, self.style.counter_top_margin))
 
 	-- Prepare all defined logout options
-	------------------------------------------------------------
 	for id, action in ipairs(self.entries) do
 		self:add_option(id, action)
 	end
 
 	-- Create keygrabber
-	------------------------------------------------------------
 	self.keygrabber = function(mod, key, event)
 		if event == "press" then
 			for _, k in ipairs(self.keys) do
@@ -368,7 +347,6 @@ function logout:init()
 	end
 
 	-- Main wibox
-	------------------------------------------------------------
 	--self.wibox = wibox({ widget = wibox.layout.stack(self.option_layout) })
 	self.wibox = wibox({ widget = base_layout })
 	self.wibox.type = "splash"
@@ -387,7 +365,6 @@ function logout:init()
 	))
 
 	-- Graceful shutdown counter
-	------------------------------------------------------------
 	local countdown = {}
 	-- Should this pattern be moved to theme variables?
 	countdown.pattern = '<span color="%s">%s</span> in %s... Closing apps (%s left).'
@@ -434,7 +411,6 @@ function logout:init()
 end
 
 -- Hide the logout screen without executing any action
---------------------------------------------------------------------------------
 function logout:hide()
 	awful.keygrabber.stop(self.keygrabber)
 	self.countdown:stop()
@@ -447,7 +423,6 @@ function logout:hide()
 end
 
 -- Display the logout screen
---------------------------------------------------------------------------------
 function logout:show()
 	if not self.wibox then
 		self:init()
@@ -463,7 +438,6 @@ function logout:show()
 end
 
 -- Logout widget setup methods
---------------------------------------------------------------------------------
 function logout:set_keys(keys)
 	self.keys = keys
 end
@@ -472,6 +446,4 @@ function logout:set_entries(entries)
 	self.entries = entries
 end
 
--- End
------------------------------------------------------------------------------------------------------------------------
 return logout

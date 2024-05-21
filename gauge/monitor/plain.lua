@@ -1,11 +1,4 @@
------------------------------------------------------------------------------------------------------------------------
---                                             flex monitor widget                                                --
------------------------------------------------------------------------------------------------------------------------
--- Widget with label and progressbar
------------------------------------------------------------------------------------------------------------------------
-
 -- Grab environment
------------------------------------------------------------------------------------------------------------------------
 local setmetatable = setmetatable
 local math = math
 local wibox = require("wibox")
@@ -15,11 +8,9 @@ local color = require("gears.color")
 local modutil = require("flex.util")
 
 -- Initialize tables for module
------------------------------------------------------------------------------------------------------------------------
 local monitor = { mt = {} }
 
 -- Generate default theme vars
------------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
 		line = { height = 4, y = 30 },
@@ -35,14 +26,11 @@ end
 
 -- Create a new monitor widget
 -- @param style Table containing colors and geometry parameters for all elemets
------------------------------------------------------------------------------------------------------------------------
 function monitor.new(style)
 	-- Initialize vars
-	--------------------------------------------------------------------------------
 	style = modutil.table.merge(default_style(), style or {})
 
 	-- Create custom widget
-	--------------------------------------------------------------------------------
 	local widg = wibox.widget.base.make_widget()
 	widg._data = { color = style.color.icon, level = 0, alert = false, label = style.label }
 
@@ -51,7 +39,6 @@ function monitor.new(style)
 	end
 
 	-- User functions
-	------------------------------------------------------------
 	function widg:set_value(x)
 		local value = x < 1 and x or 1
 		local level = math.floor(value / style.step) * style.step
@@ -78,13 +65,11 @@ function monitor.new(style)
 	end
 
 	-- Fit
-	------------------------------------------------------------
 	function widg:fit(_, width, height)
 		return width, height
 	end
 
 	-- Draw
-	------------------------------------------------------------
 	function widg:draw(_, cr, width)
 		-- label
 		cr:set_source(color(self._data.color))
@@ -100,12 +85,10 @@ function monitor.new(style)
 		end
 	end
 
-	--------------------------------------------------------------------------------
 	return widg
 end
 
 -- Config metatable to call monitor module as function
------------------------------------------------------------------------------------------------------------------------
 function monitor.mt:__call(...)
 	return monitor.new(...)
 end

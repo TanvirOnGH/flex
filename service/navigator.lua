@@ -1,11 +1,4 @@
------------------------------------------------------------------------------------------------------------------------
---                                            flex focus switch util                                              --
------------------------------------------------------------------------------------------------------------------------
--- Visual clinet managment helper
------------------------------------------------------------------------------------------------------------------------
-
 -- Grab environment
------------------------------------------------------------------------------------------------------------------------
 local math = math
 
 local awful = require("awful")
@@ -20,13 +13,11 @@ local modtip = require("flex.float.hotkeys")
 local rednotify = require("flex.float.notify")
 
 -- Initialize tables and vars for module
------------------------------------------------------------------------------------------------------------------------
 local navigator = { action = {}, data = {}, active = false }
 
 navigator.ignored = { "dock", "splash", "desktop" }
 
 -- Generate default theme vars
------------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
 		border_width = 2,
@@ -58,19 +49,14 @@ local function default_style()
 end
 
 -- Support functions
------------------------------------------------------------------------------------------------------------------------
-
 -- Check geometry intersection
---------------------------------------------------------------------------------
 local function is_intersect(a, b)
 	return (b.x < a.x + a.width and b.x + b.width > a.x and b.y < a.y + a.height and b.y + b.height > a.y)
 end
 
 -- Window painting
---------------------------------------------------------------------------------
 function navigator.make_paint(c)
 	-- Initialize vars
-	------------------------------------------------------------
 	local style = navigator.style
 	local widg = wibox.widget.base.make_widget()
 
@@ -80,7 +66,6 @@ function navigator.make_paint(c)
 	}
 
 	-- User functions
-	------------------------------------------------------------
 	function widg:set_client(client_)
 		if widg._data.client ~= client_ then
 			widg._data.client = client_
@@ -96,13 +81,11 @@ function navigator.make_paint(c)
 	end
 
 	-- Fit
-	------------------------------------------------------------
 	function widg:fit(_, width, height)
 		return width, height
 	end
 
 	-- Draw
-	------------------------------------------------------------
 	function widg:draw(_, cr, width, height)
 		if not widg._data.client then
 			return
@@ -160,18 +143,15 @@ function navigator.make_paint(c)
 		modutil.cairo.textcentre.full(cr, { width / 2, height / 2 + style.linegap / 2 }, g.width .. " x " .. g.height)
 	end
 
-	------------------------------------------------------------
 	return widg
 end
 
 -- Construct wibox
---------------------------------------------------------------------------------
 function navigator.make_decor(c)
 	local object = {}
 	local style = navigator.style
 
 	-- Create wibox
-	------------------------------------------------------------
 	object.wibox = wibox({
 		ontop = true,
 		bg = style.color.wibox,
@@ -186,7 +166,6 @@ function navigator.make_decor(c)
 	object.wibox:set_widget(object.widget)
 
 	-- User functions
-	------------------------------------------------------------
 	object.update = {
 		focus = function()
 			object.widget:emit_signal("widget::redraw_needed")
@@ -221,20 +200,16 @@ function navigator.make_decor(c)
 		end
 	end
 
-	------------------------------------------------------------
 	object:set_client(c)
 	return object
 end
 
 -- Main functions
------------------------------------------------------------------------------------------------------------------------
 function navigator:init()
 	-- Style
-	------------------------------------------------------------
 	self.style = default_style()
 
 	-- Hilight area
-	------------------------------------------------------------
 	self.hilight = {}
 
 	-- timer
@@ -386,6 +361,4 @@ function navigator:restart()
 	self.cls = newcls
 end
 
--- End
------------------------------------------------------------------------------------------------------------------------
 return navigator

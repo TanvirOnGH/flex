@@ -1,15 +1,4 @@
------------------------------------------------------------------------------------------------------------------------
---                                             flex appswitcher widget                                            --
------------------------------------------------------------------------------------------------------------------------
--- Advanced application switcher
------------------------------------------------------------------------------------------------------------------------
--- Some code was taken from
------- Familiar Alt Tab by Joren Heit
------- https://github.com/jorenheit/awesome_alttab
------------------------------------------------------------------------------------------------------------------------
-
 -- Grab environment
------------------------------------------------------------------------------------------------------------------------
 local type = type
 local math = math
 local unpack = unpack or table.unpack
@@ -33,7 +22,6 @@ local modutil = require("flex.util")
 local modtip = require("flex.float.hotkeys")
 
 -- Initialize tables and vars for module
------------------------------------------------------------------------------------------------------------------------
 local appswitcher = { clients_list = {}, index = 1, hotkeys = {}, svgsize = 256, keys = {} }
 
 local cache = {}
@@ -91,7 +79,6 @@ appswitcher._fake_keys = {
 }
 
 -- Generate default theme vars
------------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
 		wibox_height = 200,
@@ -127,10 +114,7 @@ local function default_style()
 end
 
 -- Support functions
------------------------------------------------------------------------------------------------------------------------
-
 -- Create icon visual for client
---------------------------------------------------------------------------------
 local function get_icon_visual(icon_db, c, size)
 	local surface, buf
 
@@ -155,7 +139,6 @@ local function get_icon_visual(icon_db, c, size)
 end
 
 -- Find all clients to be shown
---------------------------------------------------------------------------------
 local function clients_find(filter)
 	local clients = {}
 	for _, c in ipairs(client.get()) do
@@ -170,7 +153,6 @@ local function clients_find(filter)
 end
 
 -- Loop iterating through table
---------------------------------------------------------------------------------
 local function iterate(tabl, i, diff)
 	local nxt = i + diff
 
@@ -184,7 +166,6 @@ local function iterate(tabl, i, diff)
 end
 
 -- Select new focused window
---------------------------------------------------------------------------------
 local function focus_and_raise(c)
 	if c.minimized then
 		c.minimized = false
@@ -199,10 +180,8 @@ local function focus_and_raise(c)
 end
 
 -- Initialize appswitcher widget
------------------------------------------------------------------------------------------------------------------------
 function appswitcher:init()
 	-- Initialize style vars
-	--------------------------------------------------------------------------------
 	local style = default_style()
 	local icon_db = dfparser.icon_list(style.parser)
 	local iscf = 1 -- icon size correction factor
@@ -212,7 +191,6 @@ function appswitcher:init()
 	self:set_keys()
 
 	-- Create floating wibox for appswitcher widget
-	--------------------------------------------------------------------------------
 	self.wibox = wibox({
 		ontop = true,
 		bg = style.color.wibox,
@@ -222,7 +200,6 @@ function appswitcher:init()
 	})
 
 	-- Keygrabber
-	--------------------------------------------------------------------------------
 	local function focus_by_key(key)
 		self:switch({ index = awful.util.table.hasitem(style.hotkeys, key) })
 	end
@@ -245,7 +222,6 @@ function appswitcher:init()
 	end
 
 	-- Function to form title string for given client (name and tags)
-	--------------------------------------------------------------------------------
 	function self.title_generator(c)
 		local client_tags = {}
 
@@ -259,7 +235,6 @@ function appswitcher:init()
 	end
 
 	-- Function to correct wibox size for given namber of icons
-	--------------------------------------------------------------------------------
 	function self.size_correction(inum)
 		local w, h
 		inum = math.max(inum, style.min_icon_number)
@@ -301,17 +276,14 @@ function appswitcher:init()
 	end
 
 	-- Create custom widget to draw previews
-	--------------------------------------------------------------------------------
 	local widg = wibox.widget.base.make_widget()
 
 	-- Fit
-	------------------------------------------------------------
 	function widg:fit(_, width, height)
 		return width, height
 	end
 
 	-- Draw
-	------------------------------------------------------------
 	function widg.draw(_, _, cr, _, height)
 		-- calculate preview pattern size
 		local psize = {
@@ -386,7 +358,6 @@ function appswitcher:init()
 	end
 
 	-- Set widget and create title for wibox
-	--------------------------------------------------------------------------------
 	self.widget = widg
 
 	self.titlebox = wibox.widget.textbox("TEXT")
@@ -403,14 +374,12 @@ function appswitcher:init()
 	self.wibox:set_widget(wibox.container.margin(vertical_layout, unpack(style.border_margin)))
 
 	-- Set preview icons update timer
-	--------------------------------------------------------------------------------
 	self.update_timer = timer({ timeout = style.update_timeout })
 	self.update_timer:connect_signal("timeout", function()
 		self.widget:emit_signal("widget::redraw_needed")
 	end)
 
 	-- Restart switcher if any client was closed
-	--------------------------------------------------------------------------------
 	client.connect_signal("unmanage", function(c)
 		if self.wibox.visible and awful.util.table.hasitem(self.clients_list, c) then
 			self:hide(true)
@@ -420,7 +389,6 @@ function appswitcher:init()
 end
 
 -- Show appswitcher widget
------------------------------------------------------------------------------------------------------------------------
 function appswitcher:show(args)
 	args = args or {}
 	local filter = args.filter
@@ -461,7 +429,6 @@ function appswitcher:show(args)
 end
 
 -- Hide appswitcher widget
------------------------------------------------------------------------------------------------------------------------
 function appswitcher:hide(is_empty_call)
 	if not self.wibox then
 		self:init()
@@ -480,7 +447,6 @@ function appswitcher:hide(is_empty_call)
 end
 
 -- Toggle appswitcher widget
------------------------------------------------------------------------------------------------------------------------
 function appswitcher:switch(args)
 	args = args or {}
 
@@ -499,7 +465,6 @@ function appswitcher:switch(args)
 end
 
 -- Set user hotkeys
------------------------------------------------------------------------------------------------------------------------
 function appswitcher:set_keys(keys, layout)
 	layout = layout or "all"
 	if keys then
@@ -512,6 +477,4 @@ function appswitcher:set_keys(keys, layout)
 	self.tip = awful.util.table.join(self.keys.all, self._fake_keys)
 end
 
--- End
------------------------------------------------------------------------------------------------------------------------
 return appswitcher

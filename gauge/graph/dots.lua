@@ -1,12 +1,4 @@
------------------------------------------------------------------------------------------------------------------------
---                                               flex dotcount widget                                             --
------------------------------------------------------------------------------------------------------------------------
--- Simple graphical counter
--- Displaying current value by dots number
------------------------------------------------------------------------------------------------------------------------
-
 -- Grab environment
------------------------------------------------------------------------------------------------------------------------
 local setmetatable = setmetatable
 local math = math
 local wibox = require("wibox")
@@ -16,11 +8,9 @@ local color = require("gears.color")
 local modutil = require("flex.util")
 
 -- Initialize tables for module
------------------------------------------------------------------------------------------------------------------------
 local counter = { mt = {} }
 
 -- Generate default theme vars
------------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
 		column_num = { 2, 5 }, -- {min, max}
@@ -33,21 +23,17 @@ local function default_style()
 end
 
 -- Support functions
------------------------------------------------------------------------------------------------------------------------
 --local function round(x)
 --	return math.floor(x + 0.5)
 --end
 
 -- Create a new counter widget
 -- @param style Table containing colors and geometry parameters for all elemets
------------------------------------------------------------------------------------------------------------------------
 function counter.new(style)
 	-- Initialize vars
-	--------------------------------------------------------------------------------
 	style = modutil.table.merge(default_style(), style or {})
 
 	-- Create custom widget
-	--------------------------------------------------------------------------------
 	local widg = wibox.widget.base.make_widget()
 	widg._data = {
 		count_num = 0,
@@ -55,7 +41,6 @@ function counter.new(style)
 	}
 
 	-- User functions
-	------------------------------------------------------------
 	function widg:set_num(num)
 		if num ~= self._data.count_num then
 			self._data.count_num = num
@@ -66,14 +51,12 @@ function counter.new(style)
 	end
 
 	-- Fit
-	------------------------------------------------------------
 	function widg:fit(_, _, height)
 		local width = (style.dot_size + style.dot_gap_h) * self._data.column_num - style.dot_gap_h
 		return width, height
 	end
 
 	-- Draw
-	------------------------------------------------------------
 	function widg:draw(_, cr, width, height)
 		--		local maxnum = style.row_num * data.column_num
 		local gap_v = (height - style.row_num * style.dot_size) / (style.row_num - 1)
@@ -94,12 +77,10 @@ function counter.new(style)
 		end
 	end
 
-	--------------------------------------------------------------------------------
 	return widg
 end
 
 -- Config metatable to call dotcount module as function
------------------------------------------------------------------------------------------------------------------------
 function counter.mt:__call(...)
 	return counter.new(...)
 end

@@ -1,24 +1,4 @@
------------------------------------------------------------------------------------------------------------------------
---                                                  flex menu                                                     --
------------------------------------------------------------------------------------------------------------------------
--- awful.menu modification
--- Custom widget support added
--- Auto hide option added
--- Right icon support added to default item constructor
--- Icon margin added to default item constructor
--- Auto hotkeys for menu items added
-
--- Horizontal mode support removed
--- Add to index and delete item functions removed
--- menu:clients function removed
------------------------------------------------------------------------------------------------------------------------
--- Some code was taken from
------- awful.menu v3.5.2
------- (c) 2008, 2011 Damien Leone, Julien Danjou, dodo
------------------------------------------------------------------------------------------------------------------------
-
 -- Grab environment
------------------------------------------------------------------------------------------------------------------------
 local wibox = require("wibox")
 local awful = require("awful")
 local beautiful = require("beautiful")
@@ -38,13 +18,11 @@ local svgbox = require("flex.gauge.svgbox")
 local modtip = require("flex.float.hotkeys")
 
 -- Initialize tables for module
------------------------------------------------------------------------------------------------------------------------
 local menu = { mt = {}, action = {}, keys = {} }
 
 local _fake_context = { dpi = beautiful.xresources.get_dpi() } -- fix this
 
 -- Generate default theme vars
------------------------------------------------------------------------------------------------------------------------
 local function default_theme()
 	local style = {
 		border_width = 2,
@@ -79,11 +57,8 @@ local function default_theme()
 end
 
 -- Support functions
------------------------------------------------------------------------------------------------------------------------
-
 -- Check if any menu item connected with given key
 -- and run menu item command if found
---------------------------------------------------------------------------------
 local function check_access_key(_menu, key)
 	local num = awful.util.table.hasitem(_menu.keys, key)
 	if num then
@@ -93,13 +68,11 @@ local function check_access_key(_menu, key)
 end
 
 -- Get the elder parent of submenu
---------------------------------------------------------------------------------
 function menu:get_root()
 	return self.parent and menu.get_root(self.parent) or self
 end
 
 -- Setup case insensitive underline markup to given character in string
---------------------------------------------------------------------------------
 local function make_u(text, key)
 	local pos = key and string.find(string.lower(text), key) or nil
 
@@ -112,7 +85,6 @@ local function make_u(text, key)
 end
 
 -- Function to set menu or submenu in position
------------------------------------------------------------------------------------------------------------------------
 local function set_coords(_menu, screen_idx, m_coords)
 	local s_geometry = modutil.placement.add_gap(screen[screen_idx].workarea, _menu.theme.screen_gap)
 
@@ -161,10 +133,7 @@ end
 
 -- Menu keygrabber
 -- A new instance for every submenu should be used
------------------------------------------------------------------------------------------------------------------------
-
 -- Menu functions
---------------------------------------------------------------------------------
 function menu.action.up(_menu, sel)
 	local sel_new = sel - 1 < 1 and #_menu.items or sel - 1
 	_menu:item_enter(sel_new)
@@ -196,7 +165,6 @@ function menu.action.close(_menu)
 end
 
 -- Menu keys
---------------------------------------------------------------------------------
 menu.keys.move = {
 	{
 		{},
@@ -260,7 +228,6 @@ menu._fake_keys = {
 }
 
 -- Menu keygrabber
---------------------------------------------------------------------------------
 local grabber = function(_menu, mod, key, event)
 	if event ~= "press" then
 		return
@@ -278,7 +245,6 @@ local grabber = function(_menu, mod, key, event)
 end
 
 -- Execute menu item
------------------------------------------------------------------------------------------------------------------------
 function menu:exec(num)
 	local item = self.items[num]
 
@@ -304,10 +270,7 @@ function menu:exec(num)
 end
 
 -- Menu item selection functions
------------------------------------------------------------------------------------------------------------------------
-
 -- Select item
---------------------------------------------------------------------------------
 function menu:item_enter(num, opts)
 	opts = opts or {}
 	local item = self.items[num]
@@ -337,7 +300,6 @@ function menu:item_enter(num, opts)
 end
 
 -- Unselect item
---------------------------------------------------------------------------------
 function menu:item_leave(num)
 	if not num then
 		return
@@ -366,11 +328,8 @@ function menu:item_leave(num)
 end
 
 -- Menu show/hide functions
------------------------------------------------------------------------------------------------------------------------
-
 -- Show a menu popup.
 -- @param args.coords Menu position defaulting to mouse.coords()
---------------------------------------------------------------------------------
 local hotkeysHelper = nil
 
 local function createHotkeysHelper(self)
@@ -413,7 +372,6 @@ function menu:show(args)
 end
 
 -- Hide a menu popup.
---------------------------------------------------------------------------------
 function menu:hide()
 	if not self.wibox.visible then
 		return
@@ -437,7 +395,6 @@ function menu:hide()
 end
 
 -- Toggle menu visibility
---------------------------------------------------------------------------------
 function menu:toggle(args)
 	if self.wibox.visible then
 		self:hide()
@@ -447,7 +404,6 @@ function menu:toggle(args)
 end
 
 -- Set user hotkeys
---------------------------------------------------------------------------------
 function menu:set_keys(keys, layout)
 	layout = layout or "all"
 	if keys then
@@ -459,7 +415,6 @@ function menu:set_keys(keys, layout)
 end
 
 -- Clears all items from the menu
---------------------------------------------------------------------------------
 function menu:clear()
 	self.add_size = 0
 	self.layout:reset()
@@ -469,7 +424,6 @@ function menu:clear()
 end
 
 -- Clears and then refills the menu with the given items
---------------------------------------------------------------------------------
 function menu:replace_items(items)
 	self:clear()
 	for _, item in ipairs(items) do
@@ -483,7 +437,6 @@ end
 -- args.theme (Optional) The menu entry theme.
 -- args.* params needed for the menu entry constructor.
 -- @param args The item params
------------------------------------------------------------------------------------------------------------------------
 function menu:add(args)
 	if not args then
 		return
@@ -491,7 +444,6 @@ function menu:add(args)
 
 	-- If widget instead of text label recieved
 	-- just add it to layer, don't try to create menu item
-	------------------------------------------------------------
 	if type(args[1]) ~= "string" and args.widget then
 		local element = {}
 		element.width, element.height = args.widget:fit(_fake_context, -1, -1)
@@ -509,12 +461,10 @@ function menu:add(args)
 	end
 
 	-- Set theme for currents item
-	------------------------------------------------------------
 	local theme = modutil.table.merge(self.theme, args.theme or {})
 	args.theme = theme
 
 	-- Generate menu item
-	------------------------------------------------------------
 	args.new = args.new or menu.entry
 	local success, item = pcall(args.new, self, args)
 
@@ -535,12 +485,10 @@ function menu:add(args)
 	item._background:set_bg("transparent")
 
 	-- Add item widget to menu layout
-	------------------------------------------------------------
 	table.insert(self.items, item)
 	self.layout:add(item._background)
 
 	-- Create bindings
-	------------------------------------------------------------
 	local num = #self.items
 
 	local press_action = function()
@@ -565,7 +513,6 @@ function menu:add(args)
 	end)
 
 	-- Create submenu if needed
-	------------------------------------------------------------
 	if type(args[2]) == "table" then
 		if not self.items[#self.items].child then
 			self.items[#self.items].child = menu.new(args[2], self)
@@ -573,7 +520,6 @@ function menu:add(args)
 		end
 	end
 
-	------------------------------------------------------------
 	self.add_size = self.add_size + item.theme.height
 
 	return item
@@ -583,7 +529,6 @@ end
 -- @param parent The parent menu
 -- @param args the item params
 -- @return table with all the properties the user wants to change
------------------------------------------------------------------------------------------------------------------------
 function menu.entry(parent, args)
 	args = args or {}
 	args.text = args[1] or args.text or ""
@@ -592,12 +537,10 @@ function menu.entry(parent, args)
 	args.right_icon = args[4] or args.right_icon
 
 	-- Create the item label widget
-	------------------------------------------------------------
 	local label = wibox.widget.textbox()
 	label:set_font(args.theme.font)
 
 	-- Set hotkey if needed
-	------------------------------------------------------------
 	local key
 	local text = awful.util.escape(args.text)
 
@@ -621,7 +564,6 @@ function menu.entry(parent, args)
 	label:set_markup(make_u(text, key))
 
 	-- Set left icon if needed
-	------------------------------------------------------------
 	local iconbox
 	local margin = wibox.container.margin(label)
 
@@ -633,7 +575,6 @@ function menu.entry(parent, args)
 	end
 
 	-- Set right icon if needed
-	------------------------------------------------------------
 	local right_iconbox
 
 	if type(args.cmd) == "table" then
@@ -645,7 +586,6 @@ function menu.entry(parent, args)
 	end
 
 	-- Construct item layouts
-	------------------------------------------------------------
 	local left = wibox.layout.fixed.horizontal()
 
 	if iconbox ~= nil then
@@ -663,7 +603,6 @@ function menu.entry(parent, args)
 
 	local layout_const = wibox.container.constraint(layout, "exact", args.theme.width, args.theme.height)
 
-	------------------------------------------------------------
 	return {
 		label = label,
 		icon = iconbox,
@@ -674,12 +613,10 @@ function menu.entry(parent, args)
 end
 
 -- Create new menu
------------------------------------------------------------------------------------------------------------------------
 function menu.new(args, parent)
 	args = args or {}
 
 	-- Initialize menu object
-	------------------------------------------------------------
 	local _menu = {
 		item_enter = menu.item_enter,
 		item_leave = menu.item_leave,
@@ -701,7 +638,6 @@ function menu.new(args, parent)
 	}
 
 	-- Create items
-	------------------------------------------------------------
 	for _, v in ipairs(args) do
 		_menu:add(v)
 	end
@@ -717,7 +653,6 @@ function menu.new(args, parent)
 	end
 
 	-- create wibox
-	------------------------------------------------------------
 	_menu.wibox = wibox({
 		type = "popup_menu",
 		ontop = true,
@@ -738,7 +673,6 @@ function menu.new(args, parent)
 	_menu.wibox.height = total_height > 0 and total_height or 1
 
 	-- Set menu autohide timer
-	------------------------------------------------------------
 	if _menu.theme.hide_timeout > 0 then
 		local root = _menu:get_root()
 
@@ -762,12 +696,10 @@ function menu.new(args, parent)
 		end)
 	end
 
-	------------------------------------------------------------
 	return _menu
 end
 
 -- Config metatable to call menu module as function
------------------------------------------------------------------------------------------------------------------------
 function menu.mt:__call(...)
 	return menu.new(...)
 end

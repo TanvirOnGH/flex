@@ -1,11 +1,4 @@
------------------------------------------------------------------------------------------------------------------------
---                                        flex brightness control widget                                          --
------------------------------------------------------------------------------------------------------------------------
--- Brightness control using xbacklight or other tools
------------------------------------------------------------------------------------------------------------------------
-
 -- Grab environment
------------------------------------------------------------------------------------------------------------------------
 local string = string
 local awful = require("awful")
 local beautiful = require("beautiful")
@@ -14,7 +7,6 @@ local rednotify = require("flex.float.notify")
 local modutil = require("flex.util")
 
 -- Initialize tables and vars for module
------------------------------------------------------------------------------------------------------------------------
 local brightness = {}
 
 -- brightness control tools
@@ -32,7 +24,6 @@ brightness.variants.xbacklight = {
 --}
 
 -- Generate default theme and other settings
------------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
 		notify = {},
@@ -44,10 +35,7 @@ local default_args = { down = false, step = 2 }
 brightness.default_variant = brightness.variants.xbacklight
 
 -- Change brightness level
------------------------------------------------------------------------------------------------------------------------
-
 -- Parse command output and show brightness notification by result
-------------------------------------------------------------
 function brightness._notify_from_output(output)
 	if not brightness.style then
 		brightness.style = default_style()
@@ -62,7 +50,6 @@ function brightness._notify_from_output(output)
 end
 
 -- Change brightness
-------------------------------------------------------------
 function brightness:change(args, variant)
 	args = modutil.table.merge(default_args, args or {})
 	variant = variant or brightness.default_variant
@@ -75,7 +62,6 @@ function brightness:change(args, variant)
 end
 
 -- Build brightness change callback function depending on brightness tool
-------------------------------------------------------------
 function brightness:build_change_handler(variant)
 	if variant.update then
 		return function()
@@ -87,17 +73,13 @@ function brightness:build_change_handler(variant)
 end
 
 -- Show current brightness
-------------------------------------------------------------
 function brightness:notify_from_command(command)
 	awful.spawn.easy_async(command, self._notify_from_output)
 end
 
 -- DEPRECATED! Change brightness with xbacklight tool
-------------------------------------------------------------
 function brightness:change_with_xbacklight(args)
 	self:change(args, self.variants.xbacklight)
 end
 
--- End
------------------------------------------------------------------------------------------------------------------------
 return brightness

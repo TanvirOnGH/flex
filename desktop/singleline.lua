@@ -1,11 +1,4 @@
------------------------------------------------------------------------------------------------------------------------
---                                      flex simple line desktop widget                                           --
------------------------------------------------------------------------------------------------------------------------
--- Multi monitoring widget
------------------------------------------------------------------------------------------------------------------------
-
 -- Grab environment
------------------------------------------------------------------------------------------------------------------------
 local setmetatable = setmetatable
 local string = string
 
@@ -18,11 +11,9 @@ local svgbox = require("flex.gauge.svgbox")
 local textbox = require("flex.desktop.common.textbox")
 
 -- Initialize tables for module
------------------------------------------------------------------------------------------------------------------------
 local sline = { mt = {} }
 
 -- Generate default theme vars
------------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
 		lbox = { draw = "by_left", width = 50 },
@@ -39,10 +30,8 @@ end
 local default_args = { timeout = 60, sensors = {} }
 
 -- Create a new widget
------------------------------------------------------------------------------------------------------------------------
 function sline.new(args, style)
 	-- Initialize vars
-	--------------------------------------------------------------------------------
 	local dwidget = {}
 	args = modutil.table.merge(default_args, args or {})
 	style = modutil.table.merge(default_style(), style or {})
@@ -50,7 +39,6 @@ function sline.new(args, style)
 	dwidget.style = style
 
 	-- Initialize layouts
-	--------------------------------------------------------------------------------
 	dwidget.item = {}
 	dwidget.icon = {}
 	dwidget.area = wibox.layout.align.horizontal()
@@ -91,7 +79,6 @@ function sline.new(args, style)
 	dwidget.area:set_middle(mid)
 
 	-- Update info function
-	--------------------------------------------------------------------------------
 	local function set_raw_state(state, crit, i)
 		local text_color = crit and state[1] > crit and style.color.main or style.color.gray
 		local txt = modutil.text.dformat(state[2] or state[1], style.unit, style.digits)
@@ -124,18 +111,15 @@ function sline.new(args, style)
 	end
 
 	-- Set update timer
-	--------------------------------------------------------------------------------
 	local t = timer({ timeout = args.timeout })
 	t:connect_signal("timeout", update)
 	t:start()
 	t:emit_signal("timeout")
 
-	--------------------------------------------------------------------------------
 	return dwidget
 end
 
 -- Config metatable to call module as function
------------------------------------------------------------------------------------------------------------------------
 function sline.mt:__call(...)
 	return sline.new(...)
 end

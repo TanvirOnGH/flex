@@ -1,11 +1,4 @@
------------------------------------------------------------------------------------------------------------------------
---                                            flex progressbar widget                                             --
------------------------------------------------------------------------------------------------------------------------
--- Horizontal progresspar
------------------------------------------------------------------------------------------------------------------------
-
 -- Grab environment
------------------------------------------------------------------------------------------------------------------------
 local setmetatable = setmetatable
 local wibox = require("wibox")
 local beautiful = require("beautiful")
@@ -14,11 +7,9 @@ local color = require("gears.color")
 local modutil = require("flex.util")
 
 -- Initialize tables for module
------------------------------------------------------------------------------------------------------------------------
 local progressbar = { mt = {} }
 
 -- Generate default theme vars
------------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
 		color = { main = "#C38F8F", gray = "#404040" },
@@ -28,19 +19,15 @@ end
 
 -- Create a new progressbar widget
 -- @param style Table containing colors and geometry parameters for all elemets
------------------------------------------------------------------------------------------------------------------------
 function progressbar.new(style)
 	-- Initialize vars
-	--------------------------------------------------------------------------------
 	style = modutil.table.merge(default_style(), style or {})
 
 	-- Create custom widget
-	--------------------------------------------------------------------------------
 	local widg = wibox.widget.base.make_widget()
 	widg._data = { value = 0 }
 
 	-- User functions
-	------------------------------------------------------------
 	function widg:set_value(x)
 		local value = x < 1 and x or 1
 		if self._data.value ~= value then
@@ -50,13 +37,11 @@ function progressbar.new(style)
 	end
 
 	-- Fit
-	------------------------------------------------------------
 	function widg:fit(_, width, height)
 		return width, height
 	end
 
 	-- Draw
-	------------------------------------------------------------
 	function widg:draw(_, cr, width, height)
 		cr:set_source(color(style.color.gray))
 		cr:rectangle(0, 0, width, height)
@@ -66,12 +51,10 @@ function progressbar.new(style)
 		cr:fill()
 	end
 
-	--------------------------------------------------------------------------------
 	return widg
 end
 
 -- Config metatable to call progressbar module as function
------------------------------------------------------------------------------------------------------------------------
 function progressbar.mt:__call(...)
 	return progressbar.new(...)
 end

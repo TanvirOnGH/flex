@@ -1,11 +1,4 @@
------------------------------------------------------------------------------------------------------------------------
---                                              flex separatoe widget                                             --
------------------------------------------------------------------------------------------------------------------------
--- Simple graphical separator to decorate panel
------------------------------------------------------------------------------------------------------------------------
-
 -- Grab environment
------------------------------------------------------------------------------------------------------------------------
 local wibox = require("wibox")
 local beautiful = require("beautiful")
 local color = require("gears.color")
@@ -13,11 +6,9 @@ local color = require("gears.color")
 local modutil = require("flex.util")
 
 -- Initialize tables for module
------------------------------------------------------------------------------------------------------------------------
 local separator = {}
 
 -- Generate default theme vars
------------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
 		marginv = { 0, 0, 0, 0 },
@@ -29,21 +20,17 @@ end
 
 -- Create a new separator widget
 -- Total size two pixels bigger than sum of margins for general direction
------------------------------------------------------------------------------------------------------------------------
 local function separator_base(horizontal, style)
 	-- Initialize vars
-	--------------------------------------------------------------------------------
 	style = modutil.table.merge(default_style(), style or {})
 	if not style.margin then
 		style.margin = horizontal and style.marginh or style.marginv
 	end
 
 	-- Create custom widget
-	--------------------------------------------------------------------------------
 	local widg = wibox.widget.base.make_widget()
 
 	-- Fit
-	------------------------------------------------------------
 	function widg:fit(_, width, height)
 		if horizontal then
 			return width, 2 + style.margin[3] + style.margin[4]
@@ -53,7 +40,6 @@ local function separator_base(horizontal, style)
 	end
 
 	-- Draw
-	------------------------------------------------------------
 	function widg:draw(_, cr, width, height)
 		local w = width - style.margin[1] - style.margin[2]
 		local h = height - style.margin[3] - style.margin[4]
@@ -76,12 +62,10 @@ local function separator_base(horizontal, style)
 		cr:fill()
 	end
 
-	--------------------------------------------------------------------------------
 	return widg
 end
 
 -- Horizontal and vertial variants
------------------------------------------------------------------------------------------------------------------------
 function separator.vertical(style)
 	return separator_base(false, style)
 end
@@ -90,5 +74,4 @@ function separator.horizontal(style)
 	return separator_base(true, style)
 end
 
------------------------------------------------------------------------------------------------------------------------
 return separator

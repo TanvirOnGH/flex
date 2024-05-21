@@ -1,12 +1,4 @@
------------------------------------------------------------------------------------------------------------------------
---                                                flex notify widget                                              --
------------------------------------------------------------------------------------------------------------------------
--- Floating widget with icon, text, and progress bar
--- special for volume and brightness indication
------------------------------------------------------------------------------------------------------------------------
-
 -- Grab environment
------------------------------------------------------------------------------------------------------------------------
 local unpack = unpack or table.unpack
 local beautiful = require("beautiful")
 local wibox = require("wibox")
@@ -17,11 +9,9 @@ local svgbox = require("flex.gauge.svgbox")
 local progressbar = require("flex.gauge.graph.bar")
 
 -- Initialize tables for module
------------------------------------------------------------------------------------------------------------------------
 local notify = { last = {} }
 
 -- Generate default theme vars
------------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
 		geometry = { width = 480, height = 100 },
@@ -42,7 +32,6 @@ local function default_style()
 end
 
 -- Initialize notify widget
------------------------------------------------------------------------------------------------------------------------
 function notify:init()
 	local style = default_style()
 	-- local icon = style.icon
@@ -50,7 +39,6 @@ function notify:init()
 	self.style = style
 
 	-- Construct layouts
-	--------------------------------------------------------------------------------
 	local area = wibox.layout.align.horizontal()
 
 	local bar = progressbar(style.progressbar)
@@ -66,7 +54,6 @@ function notify:init()
 	area:set_middle(wibox.container.margin(align_vertical, unpack(style.elements_margin)))
 
 	-- Create floating wibox for notify widget
-	--------------------------------------------------------------------------------
 	self.wibox = wibox({
 		ontop = true,
 		bg = style.color.wibox,
@@ -79,7 +66,6 @@ function notify:init()
 	self.wibox:geometry(style.geometry)
 
 	-- Set info function
-	--------------------------------------------------------------------------------
 	function self:set(args)
 		args = args or {}
 		align_vertical:reset()
@@ -102,28 +88,24 @@ function notify:init()
 	end
 
 	-- Set autohide timer
-	--------------------------------------------------------------------------------
 	self.hidetimer = timer({ timeout = style.timeout })
 	self.hidetimer:connect_signal("timeout", function()
 		self:hide()
 	end)
 
 	-- Signals setup
-	--------------------------------------------------------------------------------
 	self.wibox:connect_signal("mouse::enter", function()
 		self:hide()
 	end)
 end
 
 -- Hide notify widget
------------------------------------------------------------------------------------------------------------------------
 function notify:hide()
 	self.wibox.visible = false
 	self.hidetimer:stop()
 end
 
 -- Show notify widget
------------------------------------------------------------------------------------------------------------------------
 function notify:show(args)
 	if not self.wibox then
 		self:init()
@@ -145,6 +127,4 @@ function notify:show(args)
 	self.hidetimer:again()
 end
 
--- End
------------------------------------------------------------------------------------------------------------------------
 return notify

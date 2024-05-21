@@ -1,19 +1,4 @@
------------------------------------------------------------------------------------------------------------------------
---                                             flex tasklist widget                                               --
------------------------------------------------------------------------------------------------------------------------
--- Custom widget used to show apps, see redtask.lua for more info
--- No icons; labels can be customized in beautiful theme file
--- Same class clients grouped into one object
--- Pop-up tooltip with task names
--- Pop-up menu with window state info
------------------------------------------------------------------------------------------------------------------------
--- Some code was taken from
------- awful.widget.tasklist v3.5.2
------- (c) 2008-2009 Julien Danjou
------------------------------------------------------------------------------------------------------------------------
-
 -- Grab environment
------------------------------------------------------------------------------------------------------------------------
 local setmetatable = setmetatable
 local pairs = pairs
 local ipairs = ipairs
@@ -36,7 +21,6 @@ local svgbox = require("flex.gauge.svgbox")
 local dfparser = require("flex.service.dfparser")
 
 -- Initialize tables and vars for module
------------------------------------------------------------------------------------------------------------------------
 local redtasklist = { filter = {}, winmenu = {}, tasktip = {}, action = {}, mt = {} }
 
 local last = {
@@ -49,7 +33,6 @@ local last = {
 }
 
 -- Generate default theme vars
------------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
 		appnames = {},
@@ -126,10 +109,7 @@ local function default_style()
 end
 
 -- Support functions
------------------------------------------------------------------------------------------------------------------------
-
 -- Get info about client group
---------------------------------------------------------------------------------
 local function get_state(c_group, style)
 	style = style or {}
 	local names = style.appnames or {}
@@ -154,7 +134,6 @@ local function get_state(c_group, style)
 end
 
 -- Function to build item list for submenu
---------------------------------------------------------------------------------
 local function tagmenu_items(action, style)
 	local items = {}
 	for _, t in ipairs(last.screen.tags) do
@@ -173,7 +152,6 @@ local function tagmenu_items(action, style)
 end
 
 -- Function to rebuild the submenu entries according to current screen's tags
---------------------------------------------------------------------------------
 local function tagmenu_rebuild(menu, submenu_index, style)
 	for _, index in ipairs(submenu_index) do
 		local new_items
@@ -187,7 +165,6 @@ local function tagmenu_rebuild(menu, submenu_index, style)
 end
 
 -- Function to update tag submenu icons
---------------------------------------------------------------------------------
 local function tagmenu_update(c, menu, submenu_index, style)
 	-- if the screen has changed (and thus the tags) since the last time the
 	-- tagmenu was built, rebuild it first
@@ -230,7 +207,6 @@ local function tagmenu_update(c, menu, submenu_index, style)
 end
 
 -- Function to construct menu line with state icons
---------------------------------------------------------------------------------
 local function state_line_construct(state_icons, setup_layout, style)
 	local stateboxes = {}
 
@@ -257,7 +233,6 @@ local function state_line_construct(state_icons, setup_layout, style)
 end
 
 -- Function to construct menu line with tag switches (for style.enable_tagline)
------------------------------------------------------------------------------------
 local function tagline_construct(setup_layout, style)
 	local tagboxes = {}
 	setup_layout:reset()
@@ -312,7 +287,6 @@ end
 
 -- Calculate menu position
 -- TODO: make variant when panel place on top of screen
---------------------------------------------------------------------------------
 local function coords_calc(menu, tip_wibox, gap)
 	local coords = {}
 
@@ -328,7 +302,6 @@ local function coords_calc(menu, tip_wibox, gap)
 end
 
 -- Create tasklist object
---------------------------------------------------------------------------------
 local function new_task(c_group, style)
 	local task = {}
 	task.widg = style.widget(style.task)
@@ -348,7 +321,6 @@ local function new_task(c_group, style)
 end
 
 -- Find all clients to be shown
---------------------------------------------------------------------------------
 local function visible_clients(filter, screen)
 	local clients = {}
 
@@ -364,7 +336,6 @@ local function visible_clients(filter, screen)
 end
 
 -- Split tasks into groups by class
---------------------------------------------------------------------------------
 local function group_task(clients, need_group)
 	local client_groups = {}
 	local classes = {}
@@ -387,7 +358,6 @@ local function group_task(clients, need_group)
 end
 
 -- Form ordered client list special for switch function
---------------------------------------------------------------------------------
 local function sort_list(client_groups)
 	local list = {}
 
@@ -403,7 +373,6 @@ local function sort_list(client_groups)
 end
 
 -- Create tasktip line
---------------------------------------------------------------------------------
 local function tasktip_line(style)
 	local line = {}
 
@@ -450,7 +419,6 @@ local function tasktip_line(style)
 end
 
 -- Switch task
---------------------------------------------------------------------------------
 local function switch_focus(list, is_reverse)
 	local diff = is_reverse and -1 or 1
 
@@ -476,7 +444,6 @@ local function client_group_sort_by_class(a, b)
 end
 
 -- Build or update tasklist.
---------------------------------------------------------------------------------
 local function tasklist_construct(client_groups, layout, data, buttons, style)
 	layout:reset()
 	local task_full_width = style.width + style.task_margin[1] + style.task_margin[2]
@@ -507,7 +474,6 @@ local function tasklist_construct(client_groups, layout, data, buttons, style)
 end
 
 -- Construct or update tasktip
---------------------------------------------------------------------------------
 local function construct_tasktip(c_group, layout, data, buttons, style)
 	layout:reset()
 	local tb_w, tb_h
@@ -564,10 +530,8 @@ local function construct_tasktip(c_group, layout, data, buttons, style)
 end
 
 -- Initialize window menu widget
------------------------------------------------------------------------------------------------------------------------
 function redtasklist.winmenu:init(style)
 	-- Window managment functions
-	--------------------------------------------------------------------------------
 	self.hide_check = function(action)
 		if style.hide_action[action] then
 			self.menu:hide()
@@ -590,7 +554,6 @@ function redtasklist.winmenu:init(style)
 
 	-- Create array of state icons
 	-- associate every icon with action and state indicator
-	--------------------------------------------------------------------------------
 	local function icon_table_ganerator(property)
 		return {
 			icon = style.icon[property] or style.icon.unknown,
@@ -613,10 +576,7 @@ function redtasklist.winmenu:init(style)
 	}
 
 	-- Construct menu
-	--------------------------------------------------------------------------------
-
 	-- Client class line (menu title) construction
-	------------------------------------------------------------
 	local classbox = wibox.widget.textbox()
 	classbox:set_font(style.titleline.font)
 	classbox:set_align("center")
@@ -624,7 +584,6 @@ function redtasklist.winmenu:init(style)
 	local classline = wibox.container.constraint(classbox, "exact", nil, style.titleline.height)
 
 	-- Window state line construction
-	------------------------------------------------------------
 
 	-- layouts
 	local stateline_horizontal = wibox.layout.flex.horizontal()
@@ -644,11 +603,9 @@ function redtasklist.winmenu:init(style)
 	end
 
 	-- Separators config
-	------------------------------------------------------------
 	local menusep = { widget = separator.horizontal(style.separator) }
 
 	-- Construct tag submenus ("move" and "add")
-	------------------------------------------------------------
 
 	-- menu item actions
 	self.movemenu_action = function(t)
@@ -706,14 +663,12 @@ function redtasklist.winmenu:init(style)
 	end
 
 	-- Create menu
-	------------------------------------------------------------
 	self.menu = modmenu({
 		theme = style.menu,
 		items = menu_items,
 	})
 
 	-- Widget update functions
-	--------------------------------------------------------------------------------
 	function self:update(c)
 		if self.menu.wibox.visible then
 			classbox:set_text(c.class or "Undefined")
@@ -729,7 +684,6 @@ function redtasklist.winmenu:init(style)
 	-- Signals setup
 	-- Signals which affect window menu only
 	-- and does not connected to tasklist
-	--------------------------------------------------------------------------------
 	local client_signals = {
 		"property::ontop",
 		"property::floating",
@@ -744,13 +698,11 @@ function redtasklist.winmenu:init(style)
 end
 
 -- Function to rebuild the tag line entirely if screen and tags have changed
---------------------------------------------------------------------------------
 function redtasklist.winmenu:tagline_rebuild(style)
 	self.tagboxes = tagline_construct(self.tagline_container, style)
 end
 
 -- Function to update the tag line's icon states
---------------------------------------------------------------------------------
 function redtasklist.winmenu:tagline_update(c, style)
 	if last.tag_screen ~= mouse.screen then
 		self:tagline_rebuild(style)
@@ -770,7 +722,6 @@ function redtasklist.winmenu:tagline_update(c, style)
 end
 
 -- Show window menu widget
------------------------------------------------------------------------------------------------------------------------
 function redtasklist.winmenu:show(c_group, gap)
 	-- do nothing if group of task received
 	-- show state only for single task
@@ -796,12 +747,10 @@ function redtasklist.winmenu:show(c_group, gap)
 end
 
 -- Initialize a tasktip
------------------------------------------------------------------------------------------------------------------------
 function redtasklist.tasktip:init(buttons, style)
 	local tippat = {}
 
 	-- Create wibox
-	--------------------------------------------------------------------------------
 	self.wibox = wibox({
 		type = "tooltip",
 		bg = style.color.wibox,
@@ -816,7 +765,6 @@ function redtasklist.tasktip:init(buttons, style)
 	self.wibox:set_widget(self.layout)
 
 	-- Update function
-	--------------------------------------------------------------------------------
 	function self:update(c_group)
 		if not self.wibox.visible then
 			return
@@ -827,7 +775,6 @@ function redtasklist.tasktip:init(buttons, style)
 	end
 
 	-- Set tasktip autohide timer
-	--------------------------------------------------------------------------------
 	self.hidetimer = timer({ timeout = style.timeout })
 	self.hidetimer:connect_signal("timeout", function()
 		self.wibox.visible = false
@@ -838,7 +785,6 @@ function redtasklist.tasktip:init(buttons, style)
 	self.hidetimer:emit_signal("timeout")
 
 	-- Signals setup
-	--------------------------------------------------------------------------------
 	self.wibox:connect_signal("mouse::enter", function()
 		if self.hidetimer.started then
 			self.hidetimer:stop()
@@ -859,7 +805,6 @@ function redtasklist.tasktip:init(buttons, style)
 end
 
 -- Show tasktip
------------------------------------------------------------------------------------------------------------------------
 function redtasklist.tasktip:show(c_group, parent_geo)
 	if self.hidetimer.started then
 		self.hidetimer:stop()
@@ -879,10 +824,8 @@ function redtasklist.tasktip:show(c_group, parent_geo)
 end
 
 -- Create a new tasklist widget
------------------------------------------------------------------------------------------------------------------------
 function redtasklist.new(args, style)
 	-- Initialize vars
-	--------------------------------------------------------------------------------
 	local cs = args.screen
 	local filter = args.filter or redtasklist.filter.currenttags
 
@@ -901,10 +844,7 @@ function redtasklist.new(args, style)
 	local data = {}
 
 	-- Update tasklist
-	--------------------------------------------------------------------------------
-
 	-- Tasklist update function
-	------------------------------------------------------------
 	local function tasklist_update()
 		local clients = visible_clients(filter, cs)
 		local client_groups = group_task(clients, style.need_group)
@@ -916,7 +856,6 @@ function redtasklist.new(args, style)
 	end
 
 	-- Full update including pop-up widgets
-	------------------------------------------------------------
 	local function update()
 		tasklist_update()
 		redtasklist.tasktip:update(last.group)
@@ -924,7 +863,6 @@ function redtasklist.new(args, style)
 	end
 
 	-- Create timer to prevent multiply call
-	--------------------------------------------------------------------------------
 	tasklist.queue = timer({ timeout = style.timeout })
 	tasklist.queue:connect_signal("timeout", function()
 		update(cs)
@@ -932,13 +870,12 @@ function redtasklist.new(args, style)
 	end)
 
 	-- Signals setup
-	--------------------------------------------------------------------------------
 	local client_signals = {
 		"property::urgent",
 		"property::sticky",
 		"property::minimized",
 		"property::name",
-		"  property::icon",
+		"property::icon",
 		"property::skip_taskbar",
 		"property::screen",
 		"property::hidden",
@@ -975,15 +912,12 @@ function redtasklist.new(args, style)
 	end)
 
 	-- Construct
-	--------------------------------------------------------------------------------
 	update()
 
 	return tasklist
 end
 
 -- Mouse action functions
------------------------------------------------------------------------------------------------------------------------
-
 -- checks whether the given client is visually occluded by any other window
 local function client_is_occluded(c)
 	local first = true
@@ -1068,22 +1002,18 @@ end
 -- Filtering functions
 -- @param c The client
 -- @param screen The screen we are drawing on
------------------------------------------------------------------------------------------------------------------------
 
 -- To include all clients
---------------------------------------------------------------------------------
 function redtasklist.filter.allscreen()
 	return true
 end
 
 -- To include the clients from all tags on the screen
---------------------------------------------------------------------------------
 function redtasklist.filter.alltags(c, screen)
 	return c.screen == screen
 end
 
 -- To include only the clients from currently selected tags
---------------------------------------------------------------------------------
 function redtasklist.filter.currenttags(c, screen)
 	if c.screen ~= screen then
 		return false
@@ -1110,7 +1040,6 @@ function redtasklist.filter.currenttags(c, screen)
 end
 
 -- To include only the minimized clients from currently selected tags
---------------------------------------------------------------------------------
 function redtasklist.filter.minimizedcurrenttags(c, screen)
 	if c.screen ~= screen then
 		return false
@@ -1140,13 +1069,11 @@ function redtasklist.filter.minimizedcurrenttags(c, screen)
 end
 
 -- To include only the currently focused client
---------------------------------------------------------------------------------
 function redtasklist.filter.focused(c, screen)
 	return c.screen == screen and client.focus == c
 end
 
 -- Config metatable to call redtasklist module as function
------------------------------------------------------------------------------------------------------------------------
 function redtasklist.mt:__call(...)
 	return redtasklist.new(...)
 end

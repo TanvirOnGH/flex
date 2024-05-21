@@ -1,17 +1,4 @@
------------------------------------------------------------------------------------------------------------------------
---                                             flex svg icon widget                                               --
------------------------------------------------------------------------------------------------------------------------
--- Imagebox widget modification
--- Use Gtk PixBuf API to resize svg image
--- Color setup added
------------------------------------------------------------------------------------------------------------------------
--- Some code was taken from
------- wibox.widget.imagebox v3.5.2
------- (c) 2010 Uli Schlachter
------------------------------------------------------------------------------------------------------------------------
-
 -- Grab environment
------------------------------------------------------------------------------------------------------------------------
 local setmetatable = setmetatable
 local string = string
 local type = type
@@ -35,7 +22,6 @@ end
 local is_pixbuf_loaded = pcall(load_pixbuf)
 
 -- Initialize tables for module
------------------------------------------------------------------------------------------------------------------------
 local svgbox = { mt = {} }
 
 -- weak table is useless here
@@ -43,8 +29,6 @@ local svgbox = { mt = {} }
 local cache = setmetatable({}, { __mode = "k" })
 
 -- Support functions
------------------------------------------------------------------------------------------------------------------------
-
 -- Check if given argument is SVG file
 local function is_svg(args)
 	return type(args) == "string" and string.match(args, "%.svg")
@@ -86,14 +70,11 @@ local function pixbuf_from_svg(file, width, height)
 end
 
 -- Returns a new svgbox
------------------------------------------------------------------------------------------------------------------------
 function svgbox.new(image, resize_allowed, newcolor)
 	-- Create custom widget
-	--------------------------------------------------------------------------------
 	local widg = base.make_widget()
 
 	-- User functions
-	------------------------------------------------------------
 	function widg:set_image(image_name)
 		local loaded_image
 
@@ -138,7 +119,6 @@ function svgbox.new(image, resize_allowed, newcolor)
 	end
 
 	-- Fit
-	------------------------------------------------------------
 	function widg:fit(_, width, height)
 		local fw, fh = self:get_forced_width(), self:get_forced_height()
 		if fw or fh then
@@ -160,7 +140,6 @@ function svgbox.new(image, resize_allowed, newcolor)
 	end
 
 	-- Draw
-	------------------------------------------------------------
 	function widg:draw(_, cr, width, height)
 		if width == 0 or height == 0 or not self._image then
 			return
@@ -200,7 +179,6 @@ function svgbox.new(image, resize_allowed, newcolor)
 		cr:restore()
 	end
 
-	--------------------------------------------------------------------------------
 	if resize_allowed ~= nil then
 		widg.resize_allowed = resize_allowed
 	else
@@ -218,7 +196,6 @@ function svgbox.new(image, resize_allowed, newcolor)
 end
 
 -- Config metatable to call svgbox module as function
------------------------------------------------------------------------------------------------------------------------
 function svgbox.mt:__call(...)
 	return svgbox.new(...)
 end

@@ -1,11 +1,4 @@
------------------------------------------------------------------------------------------------------------------------
---                                             flex ber pack widget                                               --
------------------------------------------------------------------------------------------------------------------------
--- Group of upright indicators placed in horizontal layout
------------------------------------------------------------------------------------------------------------------------
-
 -- Grab environment
------------------------------------------------------------------------------------------------------------------------
 local setmetatable = setmetatable
 
 local wibox = require("wibox")
@@ -14,13 +7,11 @@ local wibox = require("wibox")
 local progressbar = require("flex.desktop.common.bar.shaped")
 
 -- Initialize tables for module
------------------------------------------------------------------------------------------------------------------------
 local barpack = { mt = {} }
 
 -- Create a new barpack widget
 -- @param num Number of indicators
 -- @param style Style variables for flex shaped progressbar widget
------------------------------------------------------------------------------------------------------------------------
 function barpack.new(num, style)
 	local pack = {}
 	style = style or {}
@@ -67,7 +58,6 @@ function barpack.new(num, style)
 end
 
 -- Config metatable to call barpack module as function
------------------------------------------------------------------------------------------------------------------------
 function barpack.mt:__call(...)
 	return barpack.new(...)
 end

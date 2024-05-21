@@ -1,11 +1,4 @@
------------------------------------------------------------------------------------------------------------------------
---                                           flex indicator widget                                                --
------------------------------------------------------------------------------------------------------------------------
--- Double mage indicator
------------------------------------------------------------------------------------------------------------------------
-
 -- Grab environment
------------------------------------------------------------------------------------------------------------------------
 local setmetatable = setmetatable
 local string = string
 local math = math
@@ -17,11 +10,9 @@ local modutil = require("flex.util")
 local svgbox = require("flex.gauge.svgbox")
 
 -- Initialize tables for module
------------------------------------------------------------------------------------------------------------------------
 local dubgicon = { mt = {} }
 
 -- Generate default theme vars
------------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
 		icon1 = modutil.base.placeholder(),
@@ -35,7 +26,6 @@ local function default_style()
 end
 
 -- Support functions
------------------------------------------------------------------------------------------------------------------------
 local function pattern_string_v(height, value, c1, c2)
 	return string.format("linear:0,%s:0,0:0,%s:%s,%s:%s,%s:1,%s", height, c1, value, c1, value, c2, c2)
 end
@@ -46,15 +36,12 @@ end
 
 -- Create a new dubgicon widget
 -- @param style Table containing colors and geometry parameters for all elemets
------------------------------------------------------------------------------------------------------------------------
 function dubgicon.new(style)
 	-- Initialize vars
-	--------------------------------------------------------------------------------
 	style = modutil.table.merge(default_style(), style or {})
 	local pattern = style.is_vertical and pattern_string_v or pattern_string_h
 
 	-- Create widget
-	--------------------------------------------------------------------------------
 	local fixed = wibox.layout.fixed.horizontal()
 	local layout = wibox.container.constraint(fixed, "exact", style.width)
 	layout._icon1 = svgbox(style.icon1)
@@ -64,7 +51,6 @@ function dubgicon.new(style)
 	fixed:add(layout._icon2)
 
 	-- User functions
-	------------------------------------------------------------
 	function layout:set_value(value)
 		local level = {
 			math.floor((value[1] < 1 and value[1] or 1) / style.step) * style.step,
@@ -81,12 +67,10 @@ function dubgicon.new(style)
 		end
 	end
 
-	--------------------------------------------------------------------------------
 	return layout
 end
 
 -- Config metatable to call dubgicon module as function
------------------------------------------------------------------------------------------------------------------------
 function dubgicon.mt:__call(...)
 	return dubgicon.new(...)
 end

@@ -1,11 +1,4 @@
------------------------------------------------------------------------------------------------------------------------
---                                       flex desktop progressbar widget                                          --
------------------------------------------------------------------------------------------------------------------------
--- Dashed horizontal progress bar
------------------------------------------------------------------------------------------------------------------------
-
 -- Grab environment
------------------------------------------------------------------------------------------------------------------------
 local setmetatable = setmetatable
 local math = math
 local wibox = require("wibox")
@@ -15,11 +8,9 @@ local beautiful = require("beautiful")
 local modutil = require("flex.util")
 
 -- Initialize tables for module
------------------------------------------------------------------------------------------------------------------------
 local progressbar = { mt = {} }
 
 -- Generate default theme vars
------------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
 		maxm = 1,
@@ -34,8 +25,6 @@ local function default_style()
 end
 
 -- Cairo drawing functions
------------------------------------------------------------------------------------------------------------------------
-
 local function draw_progressbar(cr, width, height, gap, first_point, last_point, fill_color)
 	cr:set_source(color(fill_color))
 	for i = first_point, last_point do
@@ -51,10 +40,8 @@ end
 -- @param style.height Widget height (optional)
 -- @param style.autoscale Scaling received values, true by default
 -- @param style.maxm Scaling value if autoscale = false
------------------------------------------------------------------------------------------------------------------------
 function progressbar.new(style)
 	-- Initialize vars
-	--------------------------------------------------------------------------------
 	style = modutil.table.merge(default_style(), style or {})
 	local maxm = style.maxm
 
@@ -62,7 +49,6 @@ function progressbar.new(style)
 	local stg, stw = style.chunk.gap, style.chunk.width
 
 	-- Create custom widget
-	--------------------------------------------------------------------------------
 	local widg = wibox.widget.base.make_widget()
 	widg._data = { value = 0, chunks = 1, gap = 1, cnum = 0 }
 
@@ -93,7 +79,6 @@ function progressbar.new(style)
 	end
 
 	-- Draw function
-	------------------------------------------------------------
 	function widg:draw(_, cr, width, height)
 		-- progressbar
 		self._data.chunks = math.floor((width + stg) / (stw + stg))
@@ -103,13 +88,11 @@ function progressbar.new(style)
 		draw_progressbar(cr, stw, height, self._data.gap, 1, self._data.cnum, style.color.main)
 		draw_progressbar(cr, stw, height, self._data.gap, self._data.cnum + 1, self._data.chunks, style.color.gray)
 	end
-	--------------------------------------------------------------------------------
 
 	return widg
 end
 
 -- Config metatable to call progressbar module as function
------------------------------------------------------------------------------------------------------------------------
 function progressbar.mt:__call(...)
 	return progressbar.new(...)
 end

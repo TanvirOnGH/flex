@@ -1,12 +1,4 @@
------------------------------------------------------------------------------------------------------------------------
---                                     flex multi monitoring deskotp widget                                       --
------------------------------------------------------------------------------------------------------------------------
--- Multi monitoring widget
--- Pack of vertical indicators and two lines with labeled progressbar
------------------------------------------------------------------------------------------------------------------------
-
 -- Grab environment
------------------------------------------------------------------------------------------------------------------------
 local setmetatable = setmetatable
 --local awful = require("awful")
 local wibox = require("wibox")
@@ -19,11 +11,9 @@ local modutil = require("flex.util")
 local svgbox = require("flex.gauge.svgbox")
 
 -- Initialize tables for module
------------------------------------------------------------------------------------------------------------------------
 local multim = { mt = {} }
 
 -- Generate default theme vars
------------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
 		lines = {},
@@ -46,7 +36,6 @@ local default_args = {
 }
 
 -- Support functions
------------------------------------------------------------------------------------------------------------------------
 local function set_info(value, args, upright, lines, icon, last, style)
 	local upright_alert = value.alert
 
@@ -82,10 +71,8 @@ local function set_info(value, args, upright, lines, icon, last, style)
 end
 
 -- Create a new widget
------------------------------------------------------------------------------------------------------------------------
 function multim.new(args, style)
 	-- Initialize vars
-	--------------------------------------------------------------------------------
 	local dwidget = {}
 	local icon
 	local last = { alert = false }
@@ -100,7 +87,6 @@ function multim.new(args, style)
 	dwidget.style = style
 
 	-- Construct layouts
-	--------------------------------------------------------------------------------
 	local lines = dcommon.pack.lines(#args.lines, lines_style)
 	local upright = dcommon.pack.upright(args.topbars.num, upbar_style)
 	lines.layout:set_forced_height(style.height.lines)
@@ -137,7 +123,6 @@ function multim.new(args, style)
 	end
 
 	-- Update info function
-	--------------------------------------------------------------------------------
 	local function raw_set(state)
 		set_info(state, args, upright, lines, icon, last, style)
 	end
@@ -152,18 +137,15 @@ function multim.new(args, style)
 	end or update_plain
 
 	-- Set update timer
-	--------------------------------------------------------------------------------
 	local t = timer({ timeout = args.timeout })
 	t:connect_signal("timeout", update)
 	t:start()
 	t:emit_signal("timeout")
 
-	--------------------------------------------------------------------------------
 	return dwidget
 end
 
 -- Config metatable to call module as function
------------------------------------------------------------------------------------------------------------------------
 function multim.mt:__call(...)
 	return multim.new(...)
 end

@@ -1,12 +1,4 @@
------------------------------------------------------------------------------------------------------------------------
---                                          flex layout shared functions                                          --
------------------------------------------------------------------------------------------------------------------------
--- Hotkeys for layout manipulation
--- Handlers adapted for work with flex navigator widget
------------------------------------------------------------------------------------------------------------------------
-
 -- Grab environment
------------------------------------------------------------------------------------------------------------------------
 local awful = require("awful")
 local navigator = require("flex.service.navigator")
 
@@ -17,7 +9,6 @@ local modutil = require("flex.util")
 local modtip = require("flex.float.hotkeys")
 
 -- Initialize tables for module
------------------------------------------------------------------------------------------------------------------------
 local common = { handler = {}, last = {}, tips = {}, keys = {}, mouse = {} }
 
 common.wfactstep = 0.05
@@ -239,7 +230,6 @@ common.keys._fake = {
 }
 
 -- Common handler actions
------------------------------------------------------------------------------------------------------------------------
 common.action = {}
 
 function common.action.exit()
@@ -254,10 +244,7 @@ function common.action.kill()
 end
 
 -- Keys setup
------------------------------------------------------------------------------------------------------------------------
-
 -- Hotkey tips update functions
---------------------------------------------------------------------------------
 common.updates = {}
 
 local function build_base_tip()
@@ -321,7 +308,6 @@ common.updates.corner = function()
 end
 
 -- Keys setup function
---------------------------------------------------------------------------------
 function common:set_keys(keys, layout)
 	if keys then
 		common.keys[layout] = keys
@@ -332,11 +318,9 @@ function common:set_keys(keys, layout)
 end
 
 -- Shared keyboard handlers
------------------------------------------------------------------------------------------------------------------------
 common.grabbers = {}
 
 -- Base grabbers
---------------------------------------------------------------------------------
 common.grabbers.base = function(mod, key)
 	for _, k in ipairs(common.keys.base) do
 		if modutil.key.match_grabber(k, mod, key) then
@@ -405,7 +389,6 @@ common.grabbers.magnifier = function(mod, key)
 end
 
 -- Grabbers for awful layouts
---------------------------------------------------------------------------------
 local function fair_handler(mod, key, event)
 	if event == "press" then
 		return
@@ -461,7 +444,6 @@ local function corner_handler(mod, key, event)
 end
 
 -- Handlers table
------------------------------------------------------------------------------------------------------------------------
 common.handler[alayout.suit.fair] = fair_handler
 common.handler[alayout.suit.spiral] = fair_handler
 common.handler[alayout.suit.magnifier] = magnifier_handler
@@ -481,7 +463,6 @@ common.handler[alayout.suit.spiral.dwindle] = fair_handler
 common:set_keys(nil, "base")
 
 -- Slightly changed awful mouse move handler
------------------------------------------------------------------------------------------------------------------------
 function common.mouse.move(c, context, hints)
 	-- Quit if it isn't a mouse.move on a tiled layout, that's handled elsewhere (WHERE?)
 	if c.floating then
@@ -516,6 +497,4 @@ function common.mouse.move(c, context, hints)
 	end
 end
 
--- End
------------------------------------------------------------------------------------------------------------------------
 return common

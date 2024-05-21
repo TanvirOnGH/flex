@@ -1,11 +1,4 @@
------------------------------------------------------------------------------------------------------------------------
---                                           flex quick laucnher widget                                           --
------------------------------------------------------------------------------------------------------------------------
--- Quick application launch or switch
------------------------------------------------------------------------------------------------------------------------
-
 -- Grab environment
------------------------------------------------------------------------------------------------------------------------
 local table = table
 local unpack = unpack or table.unpack
 local string = string
@@ -23,7 +16,6 @@ local modutil = require("flex.util")
 local modtip = require("flex.float.hotkeys")
 
 -- Initialize tables and vars for module
------------------------------------------------------------------------------------------------------------------------
 local qlaunch = { history = {}, store = {}, keys = {} }
 
 local sw = flex.float.appswitcher
@@ -117,7 +109,6 @@ qlaunch._fake_keys = {
 }
 
 -- Generate default theme vars
------------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
 		df_icon = modutil.base.placeholder({ txt = "X" }),
@@ -150,10 +141,7 @@ local function default_style()
 end
 
 -- Support functions
------------------------------------------------------------------------------------------------------------------------
-
 -- Get list of clients with given class
-------------------------------------------------------------
 local function get_clients(app)
 	local clients = {}
 	for _, c in ipairs(client.get()) do
@@ -165,7 +153,6 @@ local function get_clients(app)
 end
 
 -- Set focus on given client
-------------------------------------------------------------
 local function focus_and_raise(c)
 	if c.minimized then
 		c.minimized = false
@@ -179,7 +166,6 @@ local function focus_and_raise(c)
 end
 
 -- Build filter for clients with given class
-------------------------------------------------------------
 local function build_filter(app)
 	return function(c)
 		return c.class:lower() == app
@@ -187,7 +173,6 @@ local function build_filter(app)
 end
 
 -- Check if file exist
-------------------------------------------------------------
 local function is_file_exists(file)
 	local f = io.open(file, "r")
 	if f then
@@ -199,13 +184,9 @@ local function is_file_exists(file)
 end
 
 -- Widget construction functions
------------------------------------------------------------------------------------------------------------------------
-
 -- Build application state indicator
---------------------------------------------------------------------------------
 local function build_state_indicator(style)
 	-- Initialize vars
-	------------------------------------------------------------
 	local widg = wibox.widget.base.make_widget()
 
 	local dx = style.state.size + style.state.gap
@@ -220,7 +201,6 @@ local function build_state_indicator(style)
 	}
 
 	-- User functions
-	------------------------------------------------------------
 	function widg:setup(clist)
 		data.state = {}
 		for _, c in ipairs(clist) do
@@ -230,13 +210,11 @@ local function build_state_indicator(style)
 	end
 
 	-- Fit
-	------------------------------------------------------------
 	function widg:fit(_, width, height)
 		return data.width or width, data.height or height
 	end
 
 	-- Draw
-	------------------------------------------------------------
 	function widg:draw(_, cr, width, height)
 		local n = #data.state
 		local x0 = (width - n * style.state.size - (n - 1) * style.state.gap) / 2
@@ -260,17 +238,14 @@ local function build_state_indicator(style)
 		end
 	end
 
-	------------------------------------------------------------
 	return widg
 end
 
 -- Build icon with label item
---------------------------------------------------------------------------------
 local function build_item(key, style)
 	local widg = {}
 
 	-- Label
-	------------------------------------------------------------
 	local label = wibox.widget({
 		markup = string.format('<span color="%s">%s</span>', style.color.text, key),
 		align = "center",
@@ -282,7 +257,6 @@ local function build_item(key, style)
 	widg.background = wibox.container.background(label, style.color.bg)
 
 	-- Icon
-	------------------------------------------------------------
 	widg.svgbox = flex.gauge.svgbox()
 	local icon_align = wibox.widget({
 		nil,
@@ -293,30 +267,24 @@ local function build_item(key, style)
 	})
 
 	-- State
-	------------------------------------------------------------
 	widg.state = build_state_indicator(style)
 
 	-- Layout setup
-	------------------------------------------------------------
 	widg.layout = wibox.layout.align.vertical()
 	widg.layout:set_top(widg.state)
 	widg.layout:set_middle(wibox.container.margin(icon_align, unpack(style.appline.igap)))
 	widg.layout:set_bottom(widg.background)
 
-	------------------------------------------------------------
 	return widg
 end
 
 -- Build widget with application list
---------------------------------------------------------------------------------
 local function build_switcher(keys, style)
 	-- Init vars
-	------------------------------------------------------------
 	local widg = { items = {}, selected = nil }
 	local middle_layout = wibox.layout.fixed.horizontal()
 
 	-- Sorted keys
-	------------------------------------------------------------
 	local sk = {}
 	for k in pairs(keys) do
 		table.insert(sk, k)
@@ -324,7 +292,6 @@ local function build_switcher(keys, style)
 	table.sort(sk)
 
 	-- Build icon row
-	------------------------------------------------------------
 	for _, key in ipairs(sk) do
 		widg.items[key] = build_item(key, style)
 		middle_layout:add(wibox.container.margin(widg.items[key].layout, unpack(style.appline.im)))
@@ -338,7 +305,6 @@ local function build_switcher(keys, style)
 	})
 
 	-- Winget functions
-	------------------------------------------------------------
 	function widg:update(store, idb)
 		self.selected = nil
 		for key, data in pairs(store) do
@@ -388,18 +354,13 @@ local function build_switcher(keys, style)
 		end
 	end
 
-	------------------------------------------------------------
 	return widg
 end
 
 -- Main widget
------------------------------------------------------------------------------------------------------------------------
-
 -- Build widget
---------------------------------------------------------------------------------
 function qlaunch:init(args, style)
 	-- Init vars
-	------------------------------------------------------------
 	args = args or {}
 	local keys = args.keys or switcher_keys
 
@@ -411,7 +372,6 @@ function qlaunch:init(args, style)
 	self:load_config()
 
 	-- Wibox
-	------------------------------------------------------------
 	self.wibox = wibox({
 		ontop = true,
 		bg = style.color.wibox,
@@ -423,7 +383,6 @@ function qlaunch:init(args, style)
 	modutil.placement.centered(self.wibox, nil, screen[mouse.screen].workarea)
 
 	-- Switcher widget
-	------------------------------------------------------------
 	self.switcher = build_switcher(self.store, style)
 	self.switcher:update(self.store, self.icon_db)
 
@@ -431,7 +390,6 @@ function qlaunch:init(args, style)
 	self:set_keys()
 
 	-- Keygrabber
-	------------------------------------------------------------
 	self.keygrabber = function(mod, key, event)
 		if event == "press" then
 			return false
@@ -446,7 +404,6 @@ function qlaunch:init(args, style)
 	end
 
 	-- Connect additional signals
-	------------------------------------------------------------
 	client.connect_signal("focus", function(c)
 		self:set_last(c)
 	end)
@@ -456,7 +413,6 @@ function qlaunch:init(args, style)
 end
 
 -- Widget show/hide
---------------------------------------------------------------------------------
 function qlaunch:show()
 	if not self.wibox then
 		self:init()
@@ -492,7 +448,6 @@ function qlaunch:run_and_hide(forced_run)
 end
 
 -- Switch to app
---------------------------------------------------------------------------------
 function qlaunch:run_or_raise(key, forced_run)
 	local app = self.store[key].app
 	if app == "" then
@@ -527,7 +482,6 @@ function qlaunch:run_or_raise(key, forced_run)
 end
 
 -- Bind new application to given hotkey
---------------------------------------------------------------------------------
 function qlaunch:set_new_app(key, c)
 	if not key then
 		return
@@ -550,7 +504,6 @@ function qlaunch:set_new_app(key, c)
 end
 
 -- Save information about last focused client in widget store
---------------------------------------------------------------------------------
 function qlaunch:set_last(c)
 	if not c.class then
 		return
@@ -564,7 +517,6 @@ function qlaunch:set_last(c)
 end
 
 -- Application list save/load
---------------------------------------------------------------------------------
 function qlaunch:load_config(need_reset)
 	if is_file_exists(self.style.configfile) then
 		for line in io.lines(self.style.configfile) do
@@ -596,7 +548,6 @@ function qlaunch:save_config()
 end
 
 -- Set user hotkeys
------------------------------------------------------------------------------------------------------------------------
 function qlaunch:set_keys(keys, layout)
 	layout = layout or "all"
 	if keys then
@@ -610,6 +561,4 @@ function qlaunch:set_keys(keys, layout)
 	self.tip = awful.util.table.join(self.keys.all, self._fake_keys)
 end
 
--- End
------------------------------------------------------------------------------------------------------------------------
 return qlaunch

@@ -1,11 +1,4 @@
------------------------------------------------------------------------------------------------------------------------
---                                               flex barpack widget                                              --
------------------------------------------------------------------------------------------------------------------------
--- Group of indicators with progressbar, label and text in every line
------------------------------------------------------------------------------------------------------------------------
-
 -- Grab environment
------------------------------------------------------------------------------------------------------------------------
 local setmetatable = setmetatable
 local wibox = require("wibox")
 local beautiful = require("beautiful")
@@ -15,11 +8,9 @@ local dcommon = require("flex.desktop.common")
 local tooltip = require("flex.float.tooltip")
 
 -- Initialize tables for module
------------------------------------------------------------------------------------------------------------------------
 local barpack = { mt = {} }
 
 -- Generate default theme vars
------------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
 		label = {},
@@ -35,7 +26,6 @@ local function default_style()
 end
 
 -- Create a new barpack widget
------------------------------------------------------------------------------------------------------------------------
 function barpack.new(num, style)
 	local pack = {}
 	style = modutil.table.merge(default_style(), style or {})
@@ -44,7 +34,6 @@ function barpack.new(num, style)
 	local text_style = modutil.table.merge(style.text, { color = style.color.gray })
 
 	-- Construct group of lines
-	--------------------------------------------------------------------------------
 	pack.layout = wibox.layout.align.vertical()
 	local flex_vertical = wibox.layout.flex.vertical()
 	local lines = {}
@@ -87,8 +76,6 @@ function barpack.new(num, style)
 	pack.layout:set_middle(flex_vertical)
 
 	-- Setup functions
-	--------------------------------------------------------------------------------
-
 	function pack:set_values(value, index)
 		lines[index].bar:set_value(value)
 	end
@@ -122,12 +109,10 @@ function barpack.new(num, style)
 		end
 	end
 
-	--------------------------------------------------------------------------------
 	return pack
 end
 
 -- Config metatable to call barpack module as function
------------------------------------------------------------------------------------------------------------------------
 function barpack.mt:__call(...)
 	return barpack.new(...)
 end

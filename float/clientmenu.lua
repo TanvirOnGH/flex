@@ -1,18 +1,4 @@
------------------------------------------------------------------------------------------------------------------------
---                                         flex client menu widget                                               --
------------------------------------------------------------------------------------------------------------------------
--- Custom float widget that provides client actions like the tasklist's window
--- menu but may be used outside of the tasklist context on any client. Useful
--- for titlebar click action or other custom client-related keybindings for
--- faster access of client actions without traveling to the tasklist.
------------------------------------------------------------------------------------------------------------------------
--- Authored by M4he
--- Some code was taken from
------- flex.widget.tasklist
------------------------------------------------------------------------------------------------------------------------
-
 -- Grab environment
------------------------------------------------------------------------------------------------------------------------
 local setmetatable = setmetatable
 local ipairs = ipairs
 local table = table
@@ -28,7 +14,6 @@ local modmenu = require("flex.menu")
 local svgbox = require("flex.gauge.svgbox")
 
 -- Initialize tables and vars for module
------------------------------------------------------------------------------------------------------------------------
 local clientmenu = { mt = {} }
 
 local last = {
@@ -38,7 +23,6 @@ local last = {
 }
 
 -- Generate default theme vars
------------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
 		icon = {
@@ -87,10 +71,7 @@ local function default_style()
 end
 
 -- Support functions
------------------------------------------------------------------------------------------------------------------------
-
 -- Function to build item list for submenu
---------------------------------------------------------------------------------
 local function tagmenu_items(action, style)
 	local items = {}
 	for _, t in ipairs(last.screen.tags) do
@@ -109,7 +90,6 @@ local function tagmenu_items(action, style)
 end
 
 -- Function to rebuild the submenu entries according to current screen's tags
---------------------------------------------------------------------------------
 local function tagmenu_rebuild(menu, submenu_index, style)
 	for _, index in ipairs(submenu_index) do
 		local new_items
@@ -123,7 +103,6 @@ local function tagmenu_rebuild(menu, submenu_index, style)
 end
 
 -- Function to update tag submenu icons
---------------------------------------------------------------------------------
 local function tagmenu_update(c, menu, submenu_index, style)
 	-- if the screen has changed (and thus the tags) since the last time the
 	-- tagmenu was built, rebuild it first
@@ -166,7 +145,6 @@ local function tagmenu_update(c, menu, submenu_index, style)
 end
 
 -- Function to construct menu line with state icons
---------------------------------------------------------------------------------
 local function state_line_construct(state_icons, setup_layout, style)
 	local stateboxes = {}
 
@@ -193,7 +171,6 @@ local function state_line_construct(state_icons, setup_layout, style)
 end
 
 -- Function to construct menu line with action icons (minimize, close)
---------------------------------------------------------------------------------
 local function action_line_construct(setup_layout, style)
 	local sep = separator.vertical(style.separator)
 
@@ -267,7 +244,6 @@ local function action_line_construct(setup_layout, style)
 end
 
 -- Function to construct menu line with tag switches (for style.enable_tagline)
------------------------------------------------------------------------------------
 local function tag_line_construct(setup_layout, style)
 	local tagboxes = {}
 	setup_layout:reset()
@@ -321,7 +297,6 @@ local function tag_line_construct(setup_layout, style)
 end
 
 -- Calculate menu position
---------------------------------------------------------------------------------
 local function coords_calc(menu)
 	local coords = mouse.coords()
 	coords.x = coords.x - menu.wibox.width / 2 - menu.wibox.border_width
@@ -330,7 +305,6 @@ local function coords_calc(menu)
 end
 
 -- Initialize window menu widget
------------------------------------------------------------------------------------------------------------------------
 function clientmenu:init()
 	local style = self._prebuilt_style or default_style()
 
@@ -342,7 +316,6 @@ function clientmenu:init()
 
 	-- Create array of state icons
 	-- associate every icon with action and state indicator
-	--------------------------------------------------------------------------------
 	local function icon_table_generator_prop(property)
 		return {
 			icon = style.icon[property] or style.icon.unknown,
@@ -365,19 +338,13 @@ function clientmenu:init()
 	}
 
 	-- Construct menu
-	--------------------------------------------------------------------------------
-
 	-- Window action line construction
-	------------------------------------------------------------
-
 	local actionline_horizontal = wibox.layout.align.horizontal()
 	actionline_horizontal:set_expand("outside")
 	local actionline = wibox.container.constraint(actionline_horizontal, "exact", nil, style.actionline.height)
 	action_line_construct(actionline_horizontal, style)
 
 	-- Window state line construction
-	------------------------------------------------------------
-
 	-- layouts
 	local stateline_horizontal = wibox.layout.flex.horizontal()
 	local stateline_vertical = wibox.layout.align.vertical()
@@ -396,7 +363,6 @@ function clientmenu:init()
 	end
 
 	-- Separators config
-	------------------------------------------------------------
 	local menusep = { widget = separator.horizontal(style.separator) }
 
 	-- menu item actions
@@ -440,14 +406,12 @@ function clientmenu:init()
 	table.insert(menu_items, { widget = stateline, focus = true })
 
 	-- Create menu
-	------------------------------------------------------------
 	self.menu = modmenu({
 		theme = style.menu,
 		items = menu_items,
 	})
 
 	-- Widget update functions
-	--------------------------------------------------------------------------------
 	function self:update(c)
 		if self.menu.wibox.visible then
 			stateboxes_update(c, state_icons, stateboxes)
@@ -460,7 +424,6 @@ function clientmenu:init()
 	end
 
 	-- Signals setup
-	--------------------------------------------------------------------------------
 	local client_signals = {
 		"property::ontop",
 		"property::floating",
@@ -477,13 +440,11 @@ function clientmenu:init()
 end
 
 -- Function to rebuild the tag line entirely if screen and tags have changed
---------------------------------------------------------------------------------
 function clientmenu:tagline_rebuild(style)
 	self.tagboxes = tag_line_construct(self.tagline_container, style)
 end
 
 -- Function to update the tag line's icon states
---------------------------------------------------------------------------------
 function clientmenu:tagline_update(c, style)
 	if last.tag_screen ~= mouse.screen then
 		self:tagline_rebuild(style)
@@ -503,13 +464,11 @@ function clientmenu:tagline_update(c, style)
 end
 
 -- Style setup
---------------------------------------------------------------------------------
 function clientmenu:set_style(style)
 	self._prebuilt_style = modutil.table.merge(default_style(), style or {})
 end
 
 -- Show window menu widget
------------------------------------------------------------------------------------------------------------------------
 function clientmenu:show(c)
 	-- init menu if needed
 	if not self.menu then

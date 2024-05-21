@@ -1,11 +1,4 @@
------------------------------------------------------------------------------------------------------------------------
---                                            flex dashcontrol widget                                             --
------------------------------------------------------------------------------------------------------------------------
--- Horizontal progresspar with stairs form
------------------------------------------------------------------------------------------------------------------------
-
 -- Grab environment
------------------------------------------------------------------------------------------------------------------------
 local setmetatable = setmetatable
 local math = math
 local wibox = require("wibox")
@@ -15,11 +8,9 @@ local color = require("gears.color")
 local modutil = require("flex.util")
 
 -- Initialize tables for module
------------------------------------------------------------------------------------------------------------------------
 local dashcontrol = { mt = {} }
 
 -- Generate default theme vars
------------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
 		plain = false,
@@ -31,19 +22,15 @@ end
 
 -- Create a new dashcontrol widget
 -- @param style Table containing colors and geometry parameters for all elemets
------------------------------------------------------------------------------------------------------------------------
 function dashcontrol.new(style)
 	-- Initialize vars
-	--------------------------------------------------------------------------------
 	style = modutil.table.merge(default_style(), style or {})
 
 	-- Create custom widget
-	--------------------------------------------------------------------------------
 	local widg = wibox.widget.base.make_widget()
 	widg._data = { value = 0, cnum = 0 }
 
 	-- User functions
-	------------------------------------------------------------
 	function widg:set_value(x)
 		self._data.value = x < 1 and x or 1
 		local num = math.ceil(widg._data.value * style.bar.num)
@@ -55,13 +42,11 @@ function dashcontrol.new(style)
 	end
 
 	-- Fit
-	------------------------------------------------------------
 	function widg:fit(_, width, height)
 		return width, height
 	end
 
 	-- Draw
-	------------------------------------------------------------
 	function widg:draw(_, cr, width, height)
 		local wstep = (width - style.bar.width) / (style.bar.num - 1)
 		local hstep = height / style.bar.num
@@ -74,12 +59,10 @@ function dashcontrol.new(style)
 		end
 	end
 
-	--------------------------------------------------------------------------------
 	return widg
 end
 
 -- Config metatable to call dashcontrol module as function
------------------------------------------------------------------------------------------------------------------------
 function dashcontrol.mt:__call(...)
 	return dashcontrol.new(...)
 end

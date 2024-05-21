@@ -1,16 +1,4 @@
------------------------------------------------------------------------------------------------------------------------
---                                            flex layoutbox widget                                               --
------------------------------------------------------------------------------------------------------------------------
--- Paintbox widget used to display layout
--- Layouts menu added
------------------------------------------------------------------------------------------------------------------------
--- Some code was taken from
------- awful.widget.layoutbox v3.5.2
------- (c) 2009 Julien Danjou
------------------------------------------------------------------------------------------------------------------------
-
 -- Grab environment
------------------------------------------------------------------------------------------------------------------------
 local setmetatable = setmetatable
 local ipairs = ipairs
 local table = table
@@ -24,13 +12,11 @@ local modutil = require("flex.util")
 local svgbox = require("flex.gauge.svgbox")
 
 -- Initialize tables and vars for module
------------------------------------------------------------------------------------------------------------------------
 local layoutbox = { mt = {} }
 
 local last_tag
 
 -- Generate default theme vars
------------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
 		icon = { unknown = modutil.base.placeholder() },
@@ -46,16 +32,13 @@ local function default_style()
 end
 
 -- Initialize layoutbox
------------------------------------------------------------------------------------------------------------------------
 function layoutbox:init(layouts, style)
 	style = style or default_style()
 
 	-- Set tooltip
-	------------------------------------------------------------
 	layoutbox.tp = tooltip({})
 
 	-- Construct layout list
-	------------------------------------------------------------
 	local items = {}
 	for _, l in ipairs(layouts) do
 		local layout_name = layout.getname(l)
@@ -72,13 +55,11 @@ function layoutbox:init(layouts, style)
 	end
 
 	-- Update tooltip function
-	------------------------------------------------------------
 	function self:update_tooltip(layout_name)
 		self.tp:set_text(style.name_alias[layout_name] or layout_name)
 	end
 
 	-- Update menu function
-	------------------------------------------------------------
 	function self:update_menu(t)
 		local cl = awful.tag.getproperty(t, "layout")
 		for i, l in ipairs(layouts) do
@@ -90,12 +71,10 @@ function layoutbox:init(layouts, style)
 	end
 
 	-- Initialize menu
-	------------------------------------------------------------
 	self.menu = modmenu({ theme = style.menu, items = items })
 end
 
 -- Show layout menu
------------------------------------------------------------------------------------------------------------------------
 function layoutbox:toggle_menu(t)
 	if self.menu.wibox.visible and t == last_tag then
 		self.menu:hide()
@@ -115,10 +94,8 @@ end
 -- Create a layoutbox widge
 -- @param screen The screen number that the layout will be represented for
 -- @param layouts List of layouts
------------------------------------------------------------------------------------------------------------------------
 function layoutbox.new(args, style)
 	-- Initialize vars
-	--------------------------------------------------------------------------------
 	args = args or {}
 	local layouts = args.layouts or awful.layout.layouts
 	local s = args.screen or 1
@@ -131,11 +108,9 @@ function layoutbox.new(args, style)
 	end
 
 	-- Set tooltip
-	--------------------------------------------------------------------------------
 	layoutbox.tp:add_to_object(w)
 
 	-- Update function
-	--------------------------------------------------------------------------------
 	local function update()
 		local layout_name = layout.getname(layout.get(s))
 		w:set_image(style.icon[layout_name] or style.icon.unknown)
@@ -147,7 +122,6 @@ function layoutbox.new(args, style)
 	end
 
 	-- Set signals
-	--------------------------------------------------------------------------------
 	tag.connect_signal("property::selected", update)
 	tag.connect_signal("property::layout", update)
 	w:connect_signal("mouse::enter", function()
@@ -160,13 +134,11 @@ function layoutbox.new(args, style)
 		end
 	end)
 
-	--------------------------------------------------------------------------------
 	update()
 	return w
 end
 
 -- Config metatable to call layoutbox module as function
------------------------------------------------------------------------------------------------------------------------
 function layoutbox.mt:__call(...)
 	return layoutbox.new(...)
 end

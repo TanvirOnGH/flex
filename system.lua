@@ -1,18 +1,4 @@
------------------------------------------------------------------------------------------------------------------------
---                                                   flex system                                                  --
------------------------------------------------------------------------------------------------------------------------
--- System monitoring functions collected here
------------------------------------------------------------------------------------------------------------------------
--- Some code was taken from
------- vicious module
------- (c) 2010, 2011 Adrian C. <anrxc@sysphere.org>
------- (c) 2009, Lucas de Vries <lucas@glacicle.com>
------- (c) 2011, Jörg T. <jthalheim@gmail.com>
------- (c) 2011, Adrian C. <anrxc@sysphere.org>
------------------------------------------------------------------------------------------------------------------------
-
 -- Grab environment
------------------------------------------------------------------------------------------------------------------------
 local tonumber = tonumber
 local io = io
 local os = os
@@ -24,11 +10,9 @@ local awful = require("awful")
 local modutil = require("flex.util")
 
 -- Initialize tables for module
------------------------------------------------------------------------------------------------------------------------
 local system = { thermal = {}, dformatted = {}, pformatted = {} }
 
 -- Async settlers generator
------------------------------------------------------------------------------------------------------------------------
 function system.simple_async(command, pattern)
 	return function(setup)
 		awful.spawn.easy_async_with_shell(command, function(output)
@@ -39,28 +23,23 @@ function system.simple_async(command, pattern)
 end
 
 -- Disk usage
------------------------------------------------------------------------------------------------------------------------
 function system.fs_info(args)
 	local fs_info = {}
 	args = args or "/"
 
 	-- Get data from df
-	------------------------------------------------------------
 	local line = modutil.read.output("LC_ALL=C df -kP " .. args .. " | tail -1")
 
 	-- Parse data
-	------------------------------------------------------------
 	fs_info.size = string.match(line, "^.-[%s]([%d]+)")
 	fs_info.mount = string.match(line, "%%[%s]([%p%w]+)")
 	fs_info.used, fs_info.avail, fs_info.use_p = string.match(line, "([%d]+)[%D]+([%d]+)[%D]+([%d]+)%%")
 
 	-- Format output special for flex desktop widget
-	------------------------------------------------------------
 	return { tonumber(fs_info.use_p) or 0, tonumber(fs_info.used) or 0 }
 end
 
 -- Qemu image check
------------------------------------------------------------------------------------------------------------------------
 local function q_format(size, k)
 	if not size or not k then
 		return 0
@@ -72,11 +51,9 @@ function system.qemu_image_size(args)
 	local img_info = {}
 
 	-- Get data from qemu-ima
-	------------------------------------------------------------
 	local line = modutil.read.output("LC_ALL=C qemu-img info " .. args)
 
 	-- Parse data
-	------------------------------------------------------------
 	local size, k = string.match(line, "disk%ssize:%s([%.%d]+)%s(%w)")
 	img_info.size = q_format(size, k)
 	local vsize, vk = string.match(line, "virtual%ssize:%s([%.%d]+)%s(%w)")
@@ -84,12 +61,10 @@ function system.qemu_image_size(args)
 	img_info.use_p = img_info.virtual_size > 0 and math.floor(img_info.size / img_info.virtual_size * 100) or 0
 
 	-- Format output special for flex desktop widget
-	------------------------------------------------------------
 	return { img_info.use_p, img_info.size, off = img_info.size == 0 }
 end
 
 -- Traffic check with vnstat (async)
------------------------------------------------------------------------------------------------------------------------
 local vnstat_pattern = "%s+(%d+,%d+)%s(%w+)%s+%|%s+(%d+,%d+)%s(%w+)%s+%|%s+(%d+,%d+)%s(%w+)%s+%|%s+.+"
 local vnstat_index = { rx = 1, tx = 3, total = 5 }
 
@@ -127,18 +102,15 @@ function system.vnstat_check(args)
 end
 
 -- Get network speed
------------------------------------------------------------------------------------------------------------------------
 function system.net_speed(interface, storage)
 	local up, down = 0, 0
 
 	-- Get network info
-	--------------------------------------------------------------------------------
 	for line in io.lines("/proc/net/dev") do
 		-- Match wmaster0 as well as rt0 (multiple leading spaces)
 		local name = string.match(line, "^[%s]?[%s]?[%s]?[%s]?([%w]+):")
 
 		-- Calculate speed for given interface
-		------------------------------------------------------------
 		if name == interface then
 			-- received bytes, first value after the name
 			local recv = tonumber(string.match(line, ":[%s]*([%d]+)"))
@@ -168,24 +140,20 @@ function system.net_speed(interface, storage)
 		end
 	end
 
-	--------------------------------------------------------------------------------
 	return { up, down }
 end
 
 -- Get disk speed
------------------------------------------------------------------------------------------------------------------------
 function system.disk_speed(disk, storage)
 	local up, down = 0, 0
 
 	-- Get i/o info
-	--------------------------------------------------------------------------------
 	for line in io.lines("/proc/diskstats") do
 		-- parse info
 		-- linux kernel documentation: Documentation/iostats.txt
 		local device, read, write = string.match(line, "([^%s]+) %d+ %d+ (%d+) %d+ %d+ %d+ (%d+)")
 
 		-- Calculate i/o for given device
-		------------------------------------------------------------
 		if device == disk then
 			local now = os.time()
 			local stats = { read, write }
@@ -216,17 +184,14 @@ function system.disk_speed(disk, storage)
 		end
 	end
 
-	--------------------------------------------------------------------------------
 	return { up, down }
 end
 
 -- Get MEM info
------------------------------------------------------------------------------------------------------------------------
 function system.memory_info()
 	local mem = { buf = {}, swp = {} }
 
 	-- Get MEM info
-	------------------------------------------------------------
 	for line in io.lines("/proc/meminfo") do
 		for k, v in string.gmatch(line, "([%a]+):[%s]+([%d]+).+") do
 			if k == "MemTotal" then
@@ -246,7 +211,6 @@ function system.memory_info()
 	end
 
 	-- Calculate memory percentage
-	------------------------------------------------------------
 	mem.free = mem.buf.f + mem.buf.b + mem.buf.c
 	mem.inuse = mem.total - mem.free
 	mem.bcuse = mem.total - mem.buf.f
@@ -256,12 +220,10 @@ function system.memory_info()
 	mem.swp.inuse = mem.swp.t - mem.swp.f
 	mem.swp.usep = mem.swp.t > 0 and math.floor(mem.swp.inuse / mem.swp.t * 100) or 0
 
-	------------------------------------------------------------
 	return mem
 end
 
 -- Get gpu usage info
------------------------------------------------------------------------------------------------------------------------
 function system.gpu_usage()
 	local gpu_info = { usage = 0 }
 
@@ -281,7 +243,6 @@ function system.gpu_usage()
 end
 
 -- Get vram usage info
------------------------------------------------------------------------------------------------------------------------
 function system.vram_usage()
 	local vram_info = { used = 0, total = 0 }
 
@@ -310,7 +271,6 @@ function system.vram_usage()
 end
 
 -- Get cpu usage info
------------------------------------------------------------------------------------------------------------------------
 --local storage = { cpu_total = {}, cpu_active = {} } -- storage structure
 
 function system.cpu_usage(storage)
@@ -319,7 +279,6 @@ function system.cpu_usage(storage)
 	local diff_time_total
 
 	-- Get CPU stats
-	------------------------------------------------------------
 	for line in io.lines("/proc/stat") do
 		if string.sub(line, 1, 3) == "cpu" then
 			local digits_in_line = {}
@@ -333,7 +292,6 @@ function system.cpu_usage(storage)
 	end
 
 	-- Calculate usage
-	------------------------------------------------------------
 	for i, line in ipairs(cpu_lines) do
 		-- calculate totals
 		local total_new = 0
@@ -362,7 +320,6 @@ function system.cpu_usage(storage)
 	end
 
 	-- Format output special for flex widgets and other system functions
-	------------------------------------------------------------
 	local total_usage = cpu_usage[1]
 	local core_usage = awful.util.table.clone(cpu_usage)
 	table.remove(core_usage, 1)
@@ -371,10 +328,7 @@ function system.cpu_usage(storage)
 end
 
 -- Temperature measure
------------------------------------------------------------------------------------------------------------------------
-
 -- Using lm-sensors
-------------------------------------------------------------
 system.lmsensors = { storage = {}, patterns = {}, delay = 1, time = 0 }
 
 function system.lmsensors:update(output)
@@ -429,7 +383,6 @@ function system.lmsensors.get(name)
 end
 
 -- Legacy
-------------------------------------------------------------
 --function system.thermal.sensors(args)
 --	local args = args or "'Physical id 0'"
 --	local output = modutil.read.output("sensors | grep " .. args)
@@ -455,7 +408,6 @@ end
 --end
 
 -- Using hddtemp
-------------------------------------------------------------
 function system.thermal.hddtemp(args)
 	args = args or {}
 	local port = args.port or "7634"
@@ -474,7 +426,6 @@ end
 
 -- Using nvidia-settings on sysmem with optimus (bumblebee)
 -- Async
-------------------------------------------------------------
 function system.thermal.nvoptimus(setup)
 	local nvidia_on = string.find(modutil.read.output("cat /proc/acpi/bbswitch"), "ON")
 	if not nvidia_on then
@@ -491,7 +442,6 @@ function system.thermal.nvoptimus(setup)
 end
 
 -- Direct call of nvidia-smi
-------------------------------------------------------------
 function system.thermal.nvsmi()
 	local temp =
 		string.match(modutil.read.output("nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader"), "%d%d")
@@ -500,7 +450,6 @@ function system.thermal.nvsmi()
 end
 
 -- Using nvidia-smi on sysmem with optimus (nvidia-prime)
-------------------------------------------------------------
 function system.thermal.nvprime()
 	local temp = 0
 	local nvidia_on = string.find(modutil.read.output("prime-select query"), "nvidia")
@@ -515,28 +464,23 @@ end
 
 -- Get info from transmission-remote client
 -- This function adapted special for async reading
------------------------------------------------------------------------------------------------------------------------
 system.transmission = {}
 
 -- Check if transmission client running
---------------------------------------------------------------------------------
 function system.transmission.is_running(args)
 	local t_client = args or "transmission-gtk"
 	return modutil.read.output("pidof -x " .. t_client) ~= ""
 end
 
 -- Function for torrents sorting (downloading and paused first)
---------------------------------------------------------------------------------
 function system.transmission.sort_torrent(a, b)
 	return a.status == "Downloading" and b.status ~= "Downloading"
 		or a.status == "Stopped" and b.status ~= "Stopped" and b.status ~= "Downloading"
 end
 
 -- Function to parse 'transmission-remote -l' output
---------------------------------------------------------------------------------
 function system.transmission.parse(output, show_active_only)
 	-- Initialize vars
-	------------------------------------------------------------
 	local torrent = {
 		seed = { num = 0, speed = 0 },
 		dnld = { num = 0, speed = 0 },
@@ -545,7 +489,6 @@ function system.transmission.parse(output, show_active_only)
 
 	-- Find state and progress for every torrent
 	-- and total upload and downoad speed
-	------------------------------------------------------------
 	--local status_pos = string.find(output, "Status")
 
 	-- assuming "Up & Down" and "Downloading" is the same thing
@@ -581,14 +524,12 @@ function system.transmission.parse(output, show_active_only)
 	end
 
 	-- Sort torrents
-	------------------------------------------------------------
 	-- do not need to sort active as transmission-remote automatically sorts
 	if not show_active_only then
 		table.sort(torrent.list, system.transmission.sort_torrent)
 	end
 
 	-- Format output special for flex desktop widget
-	------------------------------------------------------------
 	local sorted_prog = {}
 	for _, t in ipairs(torrent.list) do
 		table.insert(sorted_prog, { value = t.prog, text = string.format("%d%% %s", t.prog, t.name) })
@@ -602,7 +543,6 @@ function system.transmission.parse(output, show_active_only)
 end
 
 -- Async transmission meter function
---------------------------------------------------------------------------------
 function system.transmission.info(setup, args)
 	local command = args.command or "transmission-remote localhost -l"
 
@@ -624,7 +564,6 @@ function system.transmission.info(setup, args)
 end
 
 -- Get processes list and cpu and memory usage for every process
------------------------------------------------------------------------------------------------------------------------
 local proc_storage = {}
 
 function system.proc_info(cpu_storage)
@@ -663,10 +602,7 @@ function system.proc_info(cpu_storage)
 end
 
 -- Output format functions
------------------------------------------------------------------------------------------------------------------------
-
 -- CPU and memory usage formatted special for desktop widget
---------------------------------------------------------------------------------
 function system.dformatted.cpumem(storage)
 	local mem = system.memory_info()
 	local cores = {}
@@ -681,7 +617,6 @@ function system.dformatted.cpumem(storage)
 end
 
 -- GPU usage formatted special for panel widget
---------------------------------------------------------------------------------
 function system.pformatted.gpu(crit)
 	crit = crit or 75
 
@@ -696,7 +631,6 @@ function system.pformatted.gpu(crit)
 end
 
 -- VRAM usage formatted special for panel widget
---------------------------------------------------------------------------------
 function system.pformatted.vram(crit)
 	crit = crit or 85
 
@@ -712,7 +646,6 @@ function system.pformatted.vram(crit)
 end
 
 -- CPU usage formatted special for panel widget
---------------------------------------------------------------------------------
 function system.pformatted.cpu(crit)
 	crit = crit or 75
 	local storage = { cpu_total = {}, cpu_active = {} }
@@ -728,7 +661,6 @@ function system.pformatted.cpu(crit)
 end
 
 -- Memory usage formatted special for panel widget
---------------------------------------------------------------------------------
 function system.pformatted.mem(crit)
 	crit = crit or 75
 
@@ -742,6 +674,4 @@ function system.pformatted.mem(crit)
 	end
 end
 
--- End
------------------------------------------------------------------------------------------------------------------------
 return system

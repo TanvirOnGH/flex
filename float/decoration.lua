@@ -1,11 +1,4 @@
------------------------------------------------------------------------------------------------------------------------
---                                                flex decorations                                                --
------------------------------------------------------------------------------------------------------------------------
---
------------------------------------------------------------------------------------------------------------------------
-
 -- Grab environment
------------------------------------------------------------------------------------------------------------------------
 local awful = require("awful")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
@@ -13,11 +6,9 @@ local beautiful = require("beautiful")
 local modutil = require("flex.util")
 
 -- Initialize tables for module
------------------------------------------------------------------------------------------------------------------------
 local decor = {}
 
 -- Generate default theme vars
------------------------------------------------------------------------------------------------------------------------
 local function button_style()
 	local style = {
 		color = {
@@ -39,12 +30,10 @@ local function field_style()
 end
 
 -- Button element
------------------------------------------------------------------------------------------------------------------------
 function decor.button(textbox, action, style)
 	style = modutil.table.merge(button_style(), style or {})
 
 	-- Widget and layouts
-	--------------------------------------------------------------------------------
 	textbox:set_align("center")
 	local button_widget = wibox.container.background(textbox, style.color.button)
 	button_widget:set_fg(style.color.text)
@@ -53,7 +42,6 @@ function decor.button(textbox, action, style)
 	local bord2 = wibox.container.background(wibox.container.margin(bord1, 1, 1, 1, 1), style.color.shadow3)
 
 	-- Button
-	--------------------------------------------------------------------------------
 	local press_func = function()
 		button_widget:set_bg(style.color.pressed)
 	end
@@ -65,17 +53,14 @@ function decor.button(textbox, action, style)
 	button_widget:buttons(awful.button({}, 1, press_func, release_func))
 
 	-- Signals
-	--------------------------------------------------------------------------------
 	button_widget:connect_signal("mouse::leave", function()
 		button_widget:set_bg(style.color.button)
 	end)
 
-	--------------------------------------------------------------------------------
 	return bord2
 end
 
 -- Input text field
------------------------------------------------------------------------------------------------------------------------
 function decor.textfield(textbox, style)
 	style = modutil.table.merge(field_style(), style or {})
 	local field = wibox.container.background(textbox, style.color.bg)
@@ -84,6 +69,4 @@ function decor.textfield(textbox, style)
 	return bord2
 end
 
--- End
------------------------------------------------------------------------------------------------------------------------
 return decor

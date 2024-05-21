@@ -8,12 +8,7 @@ local surface = require("gears.surface")
 local base = {}
 
 -- Functions
------------------------------------------------------------------------------------------------------------------------
-
 -- Advanced buttons setup
--- Copypasted from awful.widget.common
--- (c) 2008-2009 Julien Danjou
---------------------------------------------------------------------------------
 function base.buttons(buttons, object)
 	if buttons then
 		local btns = {}
@@ -38,7 +33,6 @@ function base.buttons(buttons, object)
 end
 
 -- Create cairo surface from text (useful for themed icons replacement)
---------------------------------------------------------------------------------
 function base.placeholder(args)
 	args = args or {}
 	local tb = wibox.widget({
@@ -52,7 +46,6 @@ function base.placeholder(args)
 end
 
 -- Create rectangle cairo surface image
---------------------------------------------------------------------------------
 function base.image(width, height, geometry, color)
 	local image = cairo.ImageSurface.create(cairo.Format.ARGB32, width, height)
 	local cr = cairo.Context(image)
@@ -63,6 +56,4 @@ function base.image(width, height, geometry, color)
 	return image
 end
 
--- End
------------------------------------------------------------------------------------------------------------------------
 return base

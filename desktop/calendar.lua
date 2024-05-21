@@ -1,11 +1,4 @@
------------------------------------------------------------------------------------------------------------------------
---                                       Red Flat calendar desktop widget                                            --
------------------------------------------------------------------------------------------------------------------------
--- Multi monitoring widget
------------------------------------------------------------------------------------------------------------------------
-
 -- Grab environment
------------------------------------------------------------------------------------------------------------------------
 local os = os
 local string = string
 local setmetatable = setmetatable
@@ -18,11 +11,9 @@ local timer = require("gears.timer")
 local modutil = require("flex.util")
 
 -- Initialize tables for module
------------------------------------------------------------------------------------------------------------------------
 local calendar = { mt = {} }
 
 -- Generate default theme vars
------------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
 		show_pointer = true,
@@ -36,16 +27,13 @@ end
 local days_in_month = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 }
 
 -- Support functions
------------------------------------------------------------------------------------------------------------------------
 local function is_leap_year(year)
 	return year % 4 == 0 and (year % 100 ~= 0 or year % 400 == 0)
 end
 
 -- Drawing function
------------------------------------------------------------------------------------------------------------------------
 local function daymarks(style)
 	-- Create custom widget
-	--------------------------------------------------------------------------------
 	local widg = wibox.widget.base.make_widget()
 
 	widg._data = {
@@ -60,7 +48,6 @@ local function daymarks(style)
 	}
 
 	-- User functions
-	------------------------------------------------------------
 	function widg:update_data()
 		local date = os.date("*t")
 		local first_week_day = os.date("%w", os.time({ year = date.year, month = date.month, day = 1 }))
@@ -86,13 +73,11 @@ local function daymarks(style)
 	end
 
 	-- Fit
-	------------------------------------------------------------
 	function widg:fit(_, width, height)
 		return width, height
 	end
 
 	-- Draw
-	------------------------------------------------------------
 	function widg:draw(_, cr, width, height)
 		-- main draw
 		self._data.gap = (height - self._data.days * style.mark.height) / (self._data.days - 1)
@@ -129,15 +114,12 @@ local function daymarks(style)
 		end
 	end
 
-	--------------------------------------------------------------------------------
 	return widg
 end
 
 -- Create a new widget
------------------------------------------------------------------------------------------------------------------------
 function calendar.new(args, style)
 	-- Initialize vars
-	--------------------------------------------------------------------------------
 	local dwidget = {}
 	args = args or {}
 	style = modutil.table.merge(default_style(), style or {})
@@ -146,12 +128,10 @@ function calendar.new(args, style)
 	dwidget.style = style
 
 	-- Create calendar widget
-	--------------------------------------------------------------------------------
 	dwidget.calendar = daymarks(style)
 	dwidget.area = wibox.container.margin(dwidget.calendar)
 
 	-- Set update timer
-	--------------------------------------------------------------------------------
 	local t = timer({ timeout = timeout })
 	t:connect_signal("timeout", function()
 		dwidget.calendar:update_data()
@@ -160,7 +140,6 @@ function calendar.new(args, style)
 	t:emit_signal("timeout")
 
 	-- Drawing date label under mouse
-	--------------------------------------------------------------------------------
 	function dwidget:activate_wibox(wbox)
 		if style.show_pointer then
 			wbox:connect_signal("mouse::move", function(_, x, y)
@@ -191,12 +170,10 @@ function calendar.new(args, style)
 		end
 	end
 
-	--------------------------------------------------------------------------------
 	return dwidget
 end
 
 -- Config metatable to call module as function
------------------------------------------------------------------------------------------------------------------------
 function calendar.mt:__call(...)
 	return calendar.new(...)
 end

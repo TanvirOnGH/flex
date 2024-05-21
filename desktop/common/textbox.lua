@@ -1,11 +1,4 @@
------------------------------------------------------------------------------------------------------------------------
---                                              flex textbox widget                                               --
------------------------------------------------------------------------------------------------------------------------
--- Custom textbox for desktop widgets
------------------------------------------------------------------------------------------------------------------------
-
 -- Grab environment
------------------------------------------------------------------------------------------------------------------------
 local setmetatable = setmetatable
 local wibox = require("wibox")
 local color = require("gears.color")
@@ -14,11 +7,9 @@ local beautiful = require("beautiful")
 local modutil = require("flex.util")
 
 -- Initialize tables for module
------------------------------------------------------------------------------------------------------------------------
 local textbox = { mt = {} }
 
 -- Generate default theme vars
------------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
 		width = nil,
@@ -33,7 +24,6 @@ local function default_style()
 end
 
 -- Text alignment functions
------------------------------------------------------------------------------------------------------------------------
 local align = {}
 
 function align.by_left(cr, _, _, text)
@@ -87,15 +77,12 @@ end
 -- @param style.draw Text align method
 -- @param style.width Widget width (optional)
 -- @param style.height Widget height (optional)
------------------------------------------------------------------------------------------------------------------------
 function textbox.new(txt, style)
 	-- Initialize vars
-	--------------------------------------------------------------------------------
 	style = modutil.table.merge(default_style(), style or {})
 	--	local textdraw = align[style.draw] or align.by_left
 
 	-- Create custom widget
-	--------------------------------------------------------------------------------
 	local textwidg = wibox.widget.base.make_widget()
 	textwidg._data = {
 		text = txt or "",
@@ -104,7 +91,6 @@ function textbox.new(txt, style)
 	}
 
 	-- User functions
-	------------------------------------------------------------
 	function textwidg:set_text(text)
 		if self._data.text ~= text then
 			self._data.text = text
@@ -127,7 +113,6 @@ function textbox.new(txt, style)
 	end
 
 	-- Fit
-	------------------------------------------------------------
 	function textwidg:fit(_, width, height)
 		local w = self._data.width and math.min(self._data.width, width) or width
 		local h = style.height and math.min(style.height, height) or height
@@ -135,7 +120,6 @@ function textbox.new(txt, style)
 	end
 
 	-- Draw
-	------------------------------------------------------------
 	function textwidg:draw(_, cr, width, height)
 		cr:set_source(color(self._data.color))
 		modutil.cairo.set_font(cr, style.font)
@@ -143,12 +127,10 @@ function textbox.new(txt, style)
 		align[style.draw](cr, width, height, self._data.text, style)
 	end
 
-	--------------------------------------------------------------------------------
 	return textwidg
 end
 
 -- Config metatable to call textbox module as function
------------------------------------------------------------------------------------------------------------------------
 function textbox.mt:__call(...)
 	return textbox.new(...)
 end

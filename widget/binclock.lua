@@ -1,9 +1,3 @@
------------------------------------------------------------------------------------------------------------------------
---                                        flex binary clock widget                                                --
------------------------------------------------------------------------------------------------------------------------
--- Why not?
------------------------------------------------------------------------------------------------------------------------
-
 local setmetatable = setmetatable
 local os = os
 
@@ -16,11 +10,9 @@ local tooltip = require("flex.float.tooltip")
 local modutil = require("flex.util")
 
 -- Initialize tables and vars for module
------------------------------------------------------------------------------------------------------------------------
 local binclock = { mt = {} }
 
 -- Generate default theme vars
------------------------------------------------------------------------------------------------------------------------
 local function default_style()
 	local style = {
 		width = 60,
@@ -32,7 +24,6 @@ local function default_style()
 end
 
 -- Support functions
------------------------------------------------------------------------------------------------------------------------
 local function binary_time(num)
 	local binary = {}
 	for i = 6, 1, -1 do
@@ -44,16 +35,13 @@ local function binary_time(num)
 end
 
 -- Create widget.
------------------------------------------------------------------------------------------------------------------------
 function binclock.new(args, style)
 	-- Initialize vars
-	--------------------------------------------------------------------------------
 	args = args or {}
 	local timeout = args.timeout or 60
 	style = modutil.table.merge(default_style(), style or {})
 
 	-- Create widget
-	--------------------------------------------------------------------------------
 	local widg = wibox.widget.base.make_widget()
 
 	widg._data = {
@@ -62,7 +50,6 @@ function binclock.new(args, style)
 	}
 
 	-- User functions
-	------------------------------------------------------------
 	function widg:update()
 		local date = os.date("*t")
 		self._data.time = { binary_time(date.hour), binary_time(date.min), binary_time(date.sec) }
@@ -71,7 +58,6 @@ function binclock.new(args, style)
 	end
 
 	-- Fit
-	------------------------------------------------------------
 	function widg:fit(_, width, height)
 		if self._data.width then
 			return math.min(width, self._data.width), height
@@ -94,14 +80,12 @@ function binclock.new(args, style)
 	end
 
 	-- Set tooltip if need
-	--------------------------------------------------------------------------------
 	local tp
 	if args.dateformat then
 		tp = tooltip({ objects = { widg } }, style.tooltip)
 	end
 
 	-- Set update timer
-	--------------------------------------------------------------------------------
 	local timer = gears.timer({ timeout = timeout })
 	timer:connect_signal("timeout", function()
 		widg:update()
@@ -112,12 +96,10 @@ function binclock.new(args, style)
 	timer:start()
 	timer:emit_signal("timeout")
 
-	--------------------------------------------------------------------------------
 	return widg
 end
 
 -- Config metatable to call textclock module as function
------------------------------------------------------------------------------------------------------------------------
 function binclock.mt:__call(...)
 	return binclock.new(...)
 end
