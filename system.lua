@@ -564,36 +564,62 @@ function system.transmission.info(setup, args)
 end
 
 -- Get processes list and cpu and memory usage for every process
+-- TODO: Broken function, need to be fixed or removed
 local proc_storage = {}
 
 function system.proc_info(cpu_storage)
 	local process = {}
 	local mem_page_size = 4
 
-	-- get processes list directly from /proc filesystem
-	for pid_entry in io.popen("ls -d /proc/[0-9]*/"):lines() do
-		local pid = tonumber(pid_entry:match("/proc/(%d+)/"))
+	local function get_process_list()
+		local pids = {}
+		local proc_dir = "/proc/"
+		for pid in io.popen('ls -1 ' .. proc_dir):lines() do
+			if tonumber(pid) then
+				table.insert(pids, tonumber(pid))
+			end
+		end
+		return pids
+	end
 
-		-- read process status file directly
+	local pids = get_process_list()
+
+	local cpu_diff = system.cpu_usage(cpu_storage).diff
+
+	for _, pid in ipairs(pids) do
+		-- try to get info from /proc
 		local stat = modutil.read.file("/proc/" .. pid .. "/stat")
+		local statm = modutil.read.file("/proc/" .. pid .. "/statm")
 
-		if stat then
-			local name = stat:match(".+%((.-)%)")
+		if stat and statm then
+			-- get process name
+			local name = string.match(stat, ".+%((.+)%).+")
 			local proc_stat = { name }
 
 			stat = stat:gsub("%s%(.+%)", "", 1)
 
+			-- the rest of 'stat' data can be splitted by whitespaces
+			-- first chunk is pid so just skip it
 			for m in string.gmatch(stat, "[%s]+([^%s]+)") do
 				table.insert(proc_stat, m)
 			end
 
-			local mem = proc_stat[24] * mem_page_size -- Adjusted index for memory usage
+			-- get memory usage from statm file
+			local statm_values = {}
+			for value in string.gmatch(statm, "%S+") do
+				table.insert(statm_values, tonumber(value))
+			end
 
-			local proc_time = proc_stat[14] + proc_stat[15] -- Adjusted indices for proc_time
+			local mem = (statm_values[2] - statm_values[3]) * mem_page_size
+
+			-- calculate cpu usage for process
+			local proc_time = proc_stat[13] + proc_stat[14]
 			local pcpu = (proc_time - (proc_storage[pid] or 0)) / cpu_diff
 
+			-- save current cpu time for future
 			proc_storage[pid] = proc_time
 
+			-- save results
 			table.insert(process, { pid = pid, name = name, mem = mem, pcpu = pcpu })
 		end
 	end
