@@ -574,7 +574,7 @@ function system.proc_info(cpu_storage)
 	local function get_process_list()
 		local pids = {}
 		local proc_dir = "/proc/"
-		for pid in io.popen('ls -1 ' .. proc_dir):lines() do
+		for pid in io.popen("ls -1 " .. proc_dir):lines() do
 			if tonumber(pid) then
 				table.insert(pids, tonumber(pid))
 			end
