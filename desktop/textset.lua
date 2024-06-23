@@ -23,7 +23,7 @@ local function default_style()
 end
 
 -- Create a textset widget. It draws the time it is in a textbox.
--- @param format The time format. Default is " %a %b %d, %H:%M ".
+-- @param format The time format. Default is " %a %b %d, %I:%M %p ".
 -- @param timeout How often update the time. Default is 60.
 -- @return A textbox widget
 function textset.new(args, style)
