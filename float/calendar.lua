@@ -61,7 +61,7 @@ local function default_style()
 			next = modutil.base.placeholder({ txt = "►" }),
 			prev = modutil.base.placeholder({ txt = "◄" }),
 		},
-		clock_format = "%H:%M",
+		clock_format = "%I:%M %p",
 		date_format = "%A, %d. %B",
 		clock_refresh_seconds = 60,
 		weeks_start_sunday = false,

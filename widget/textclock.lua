@@ -21,13 +21,13 @@ local function default_style()
 end
 
 -- Create a textclock widget. It draws the time it is in a textbox.
--- @param format The time format. Default is " %a %b %d, %H:%M ".
+-- @param format The time format. Default is " %a %b %d, %I:%M %p ".
 -- @param timeout How often update the time. Default is 60.
 -- @return A textbox widget
 function textclock.new(args, style)
 	-- Initialize vars
 	args = args or {}
-	local timeformat = args.timeformat or " %a %b %d, %H:%M "
+	local timeformat = args.timeformat or " %a %b %d, %I:%M %p "
 	local timeout = args.timeout or 60
 	style = modutil.table.merge(default_style(), style or {})
 
