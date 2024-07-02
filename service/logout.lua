@@ -97,7 +97,7 @@ logout.entries = {
 	},
 	{ -- Lock screen
 		callback = function()
-			awful.spawn.with_shell("sleep 0.5 && xscreensaver-command -l")
+			awful.spawn.with_shell("sleep 1 && i3lock-fancy-rapid 5 5")
 		end,
 		icon_name = "lock",
 		label = "Lock",
