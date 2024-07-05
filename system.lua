@@ -403,31 +403,6 @@ function system.lmsensors.get(name)
 	return system.lmsensors.storage[name] or { 0 }
 end
 
--- Legacy
---function system.thermal.sensors(args)
---	local args = args or "'Physical id 0'"
---	local output = modutil.read.output("sensors | grep " .. args)
---
---	local temp = string.match(output, "%+(%d+%.%d)°[CF]")
---
---	return temp and { math.floor(tonumber(temp)) } or { 0 }
---end
---
---local sensors_store
---
---function system.thermal.sensors_core(args)
---	args = args or {}
---	local index = args.index or 0
---
---	if args.main then sensors_store = modutil.read.output("sensors | grep Core") end
---	local line = string.match(sensors_store, "Core " .. index .."(.-)\r?\n")
---
---	if not line then return { 0 } end
---
---	local temp = string.match(line, "%+(%d+%.%d)°[CF]")
---	return temp and { math.floor(tonumber(temp)) } or { 0 }
---end
-
 -- Using hddtemp
 function system.thermal.hddtemp(args)
 	args = args or {}
