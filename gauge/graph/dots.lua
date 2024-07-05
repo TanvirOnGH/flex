@@ -22,11 +22,6 @@ local function default_style()
 	return modutil.table.merge(style, modutil.table.check(beautiful, "gauge.graph.dots") or {})
 end
 
--- Support functions
---local function round(x)
---	return math.floor(x + 0.5)
---end
-
 -- Create a new counter widget
 -- @param style Table containing colors and geometry parameters for all elemets
 function counter.new(style)

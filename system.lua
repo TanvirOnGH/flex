@@ -293,7 +293,6 @@ end
 
 -- Get cpu usage info
 --local storage = { cpu_total = {}, cpu_active = {} } -- storage structure
-
 function system.cpu_usage(storage)
 	local cpu_lines = {}
 	local cpu_usage = {}
