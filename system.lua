@@ -223,6 +223,27 @@ function system.memory_info()
 	return mem
 end
 
+-- Get swap usage info
+function system.swap_usage()
+	local swap_info = { used = 0, total = 0 }
+
+	-- Get Swap info from /proc/meminfo
+	for line in io.lines("/proc/meminfo") do
+		for k, v in string.gmatch(line, "([%a]+):[%s]+([%d]+).+") do
+			if k == "SwapTotal" then
+				swap_info.total = math.floor(v / 1024)
+			elseif k == "SwapFree" then
+				swap_info.free = math.floor(v / 1024)
+			end
+		end
+	end
+
+	-- Calculate used swap
+	swap_info.used = swap_info.total - swap_info.free
+
+	return swap_info
+end
+
 -- Get gpu usage info
 function system.gpu_usage()
 	local gpu_info = { usage = 0 }
@@ -696,6 +717,21 @@ function system.pformatted.mem(crit)
 			value = usage / 100,
 			text = "RAM: " .. usage .. "%",
 			alert = usage > crit,
+		}
+	end
+end
+
+-- SWAP usage formatted special for panel widget
+function system.pformatted.swap(crit)
+	crit = crit or 50
+
+	return function()
+		local swap_info = system.swap_usage()
+		local swap_usage = math.floor(swap_info.used / swap_info.total * 100)
+		return {
+			value = swap_usage / 100,
+			text = "SWAP: " .. swap_usage .. "%",
+			alert = swap_usage > crit,
 		}
 	end
 end
