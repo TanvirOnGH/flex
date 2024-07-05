@@ -43,7 +43,7 @@ local function default_style()
 			-- '/usr/local/share/applications/',
 			"~/.local/share/applications/",
 			"~/.local/share/flatpak/exports/share/applications/", -- user installed flatpak apps
-			"/var/lib/flatpak/exports/share/applications/" -- system wide installed flatpak apps
+			"/var/lib/flatpak/exports/share/applications/", -- system wide installed flatpak apps
 		},
 		wm_name = nil,
 	}
