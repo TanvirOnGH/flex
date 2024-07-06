@@ -9,7 +9,7 @@ Extension module for [awesome window manager](https://awesomewm.org), providing 
   - `layoutbox`:  Widget for easy layout switching.
   - `minitray`: Minimalist system tray widget.
   - `net`: Network speed indicator widget.
-  - `sysmon`: System monitor widget (supports CPU, RAM, SWAP, GPU, VRAM).
+  - `sysmon`: System monitor widget (supports CPU, RAM, SWAP, GPU, VRAM, DISK).
   - `taglist`: Enhanced tag list widget.
   - `tasklist`: Task list widget with client grouping and optional tooltip.
   - `textclock`: Basic text-based clock widget.
