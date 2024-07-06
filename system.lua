@@ -347,6 +347,23 @@ function system.cpu_usage(storage)
 	return { total = total_usage, core = core_usage, diff = diff_time_total }
 end
 
+-- Get disk usage info
+function system.disk_usage(args)
+	args = args or "/"
+	local disk_info = {}
+
+	-- Get disk info
+	local line = modutil.read.output("LC_ALL=C df -kP " .. args .. " | tail -1")
+
+	-- Parse data
+	disk_info.size = string.match(line, "^.-[%s]([%d]+)")
+	disk_info.mount = string.match(line, "%%[%s]([%p%w]+)")
+	disk_info.used, disk_info.avail, disk_info.use_p = string.match(line, "([%d]+)[%D]+([%d]+)[%D]+([%d]+)%%")
+
+	-- Format output special for flex desktop widget
+	return { tonumber(disk_info.use_p) or 0, tonumber(disk_info.used) or 0 }
+end
+
 -- Temperature measure
 -- Using lm-sensors
 system.lmsensors = { storage = {}, patterns = {}, delay = 1, time = 0 }
@@ -605,6 +622,20 @@ function system.pformatted.swap(crit)
 			value = swap_usage / 100,
 			text = "SWAP: " .. swap_usage .. "%",
 			alert = swap_usage > crit,
+		}
+	end
+end
+
+-- DISK usage formatted special for panel widget
+function system.pformatted.disk(crit)
+	crit = crit or 85
+
+	return function()
+		local disk_info = system.disk_usage()
+		return {
+			value = disk_info[1] / 100,
+			text = "DISK: " .. disk_info[1] .. "%",
+			alert = disk_info[1] > crit,
 		}
 	end
 end
