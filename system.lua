@@ -77,6 +77,7 @@ local function vnstat_format(value, unit)
 		or unit == "KiB" and v * 1024
 		or unit == "MiB" and v * 1024 ^ 2
 		or unit == "GiB" and v * 1024 ^ 3
+		or 0 -- Default to 0 for unknown units
 end
 
 local function vnstat_parse(output, traffic)
