@@ -82,7 +82,8 @@ function progressbar.new(style)
 	function widg:draw(_, cr, width, height)
 		-- progressbar
 		self._data.chunks = math.floor((width + stg) / (stw + stg))
-		self._data.gap = stg + (width - (self._data.chunks - 1) * (stw + stg) - stw) / (self._data.chunks - 1)
+		local divisor = math.max(self._data.chunks - 1, 1)
+		self._data.gap = stg + (width - (self._data.chunks - 1) * (stw + stg) - stw) / divisor
 		self._data.cnum = math.ceil(self._data.chunks * self._data.value)
 
 		draw_progressbar(cr, stw, height, self._data.gap, 1, self._data.cnum, style.color.main)
