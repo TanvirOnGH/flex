@@ -471,8 +471,7 @@ function qlaunch:run_or_raise(key, forced_run)
 			sw:show({ filter = build_filter(app), noaction = true })
 		else
 			-- switch to last focused if availible or first in list otherwise
-			local last = awful.util.table.hasitem(clients, self.history[app])
-			if last then
+			if self.history[app] then
 				focus_and_raise(self.history[app])
 			else
 				focus_and_raise(clients[1])
