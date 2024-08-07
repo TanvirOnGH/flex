@@ -145,7 +145,7 @@ function keychain:activate(item, keytip)
 	if type(item[3]) == "function" then
 		item[3]()
 		self:hide()
-	else
+	elseif type(item[3]) == "table" then
 		if not self.active then
 			modutil.placement.centered(self.wibox, nil, mouse.screen.workarea)
 			self.wibox.visible = true
@@ -158,6 +158,8 @@ function keychain:activate(item, keytip)
 		local label = build_label(self.active)
 		self.sequence = self.sequence == "" and label or self.sequence .. " " .. label
 		self.label:set_text(self.sequence)
+	else
+		print("Error: Invalid action type in keychain:activate")
 	end
 
 	-- build keys helper tip
