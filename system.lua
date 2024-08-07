@@ -73,7 +73,7 @@ local function vnstat_format(value, unit)
 		return 0
 	end
 	local v = value:gsub(",", ".")
-	return unit == "B" and tonumber(v)
+	return unit == "B" and (v == "0" and 0 or tonumber(v))
 		or unit == "KiB" and v * 1024
 		or unit == "MiB" and v * 1024 ^ 2
 		or unit == "GiB" and v * 1024 ^ 3
