@@ -436,42 +436,12 @@ function system.thermal.hddtemp(args)
 	return { 0 }
 end
 
--- Using nvidia-settings on sysmem with optimus (bumblebee)
--- Async
-function system.thermal.nvoptimus(setup)
-	local nvidia_on = string.find(modutil.read.output("cat /proc/acpi/bbswitch"), "ON")
-	if not nvidia_on then
-		setup({ 0, off = true })
-	else
-		awful.spawn.easy_async_with_shell(
-			"optirun -b none nvidia-settings -c :8 -q gpucoretemp -t | tail -1",
-			function(output)
-				local value = tonumber(string.match(output, "[^\n]+"))
-				setup({ value or 0, off = false })
-			end
-		)
-	end
-end
-
 -- Direct call of nvidia-smi
 function system.thermal.nvsmi()
 	local temp =
 		string.match(modutil.read.output("nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader"), "%d%d")
 	-- checks that local temp is not null then returns the convert string to number or if fails returns null
 	return temp and { tonumber(temp) } or { 0 }
-end
-
--- Using nvidia-smi on sysmem with optimus (nvidia-prime)
-function system.thermal.nvprime()
-	local temp = 0
-	local nvidia_on = string.find(modutil.read.output("prime-select query"), "nvidia")
-
-	if nvidia_on ~= nil then
-		-- reuse function nvsmi
-		temp = system.thermal.nvsmi()[1]
-	end
-
-	return { temp, off = nvidia_on == nil }
 end
 
 -- Get processes list and cpu and memory usage for every process
