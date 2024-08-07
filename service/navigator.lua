@@ -342,7 +342,9 @@ end
 function navigator:restart()
 	-- update decoration
 	for i, _ in ipairs(self.cls) do
-		self.data[i]:clear(true)
+		if self.data[i] then
+			self.data[i]:clear(true)
+		end
 	end
 	local newcls = awful.client.tiled(mouse.screen)
 	for i = 1, math.max(#self.cls, #newcls) do
@@ -354,7 +356,7 @@ function navigator:restart()
 			end
 
 			self.data[i].wibox.visible = true
-		else
+		elseif self.data[i] then
 			self.data[i].wibox.visible = false
 		end
 	end
