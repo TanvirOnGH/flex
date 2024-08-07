@@ -270,7 +270,12 @@ function appswitcher:init()
 
 			w = max_width
 			h = corrected_height
-			iscf = (corrected_height - expen_v) / (style.wibox_height - expen_v)
+
+			if style.wibox_height - expen_v ~= 0 then
+				iscf = (corrected_height - expen_v) / (style.wibox_height - expen_v)
+			else
+				iscf = 1 -- Fallback to prevent error
+			end
 		end
 
 		-- set wibox size
