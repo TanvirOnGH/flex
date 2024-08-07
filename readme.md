@@ -20,7 +20,6 @@ Extension module for [awesome window manager](https://awesomewm.org), providing 
   - `apprunner`: Application launcher with quick search and filtering.
   - `appswitcher`: Visual application switcher with window previews.
   - `bartip`: Informative tooltip for titlebar settings.
-  - `brightness`: Brightness control widget with notifications.
   - `calendar`: Customizable calendar widget.
   - `clientmenu`: Enhanced client context menu.
   - `control`: Floating widget for window resizing and positioning.
