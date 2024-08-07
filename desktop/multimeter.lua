@@ -55,11 +55,13 @@ local function set_info(value, args, upright, lines, icon, last, style)
 
 	-- set upright value
 	for i = 1, args.topbars.num do
-		local v = value.bars[i] and value.bars[i].value or 0
-		local tip = value.bars[i] and value.bars[i].text or nil
-		upright:set_values(v / args.topbars.maxm, i, tip)
-		if args.topbars.crit then
-			upright_alert = upright_alert or v > args.topbars.crit
+		if value.bars[i] then
+			local v = value.bars[i].value or 0
+			local tip = value.bars[i].text or nil
+			upright:set_values(v / args.topbars.maxm, i, tip)
+			if args.topbars.crit then
+				upright_alert = upright_alert or v > args.topbars.crit
+			end
 		end
 	end
 
