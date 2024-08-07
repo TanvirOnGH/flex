@@ -426,6 +426,9 @@ function logout:hide()
 		self.selected:deselect()
 	end
 
+	-- clear qlaunch history to prevent potential memory leak
+	qlaunch.history = {}
+
 	modtip:remove_pack()
 	self.wibox.visible = false
 end
