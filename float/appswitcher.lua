@@ -131,8 +131,10 @@ local function get_icon_visual(icon_db, c, size)
 		else
 			surface = gears.surface(icon)
 		end
+	elseif c.icon then
+		surface = gears.surface(c.icon)
 	else
-		surface = c.icon and gears.surface(c.icon) or _empty_surface
+		surface = _empty_surface
 	end
 
 	return surface, buf
