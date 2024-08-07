@@ -443,10 +443,12 @@ local function client_group_sort_by_class(a, b)
 	return (a[1].class or "Undefined") < (b[1].class or "Undefined")
 end
 
--- Build or update tasklist.
+-- Build or update tasklist
 local function tasklist_construct(client_groups, layout, data, buttons, style)
 	layout:reset()
-	local task_full_width = style.width + style.task_margin[1] + style.task_margin[2]
+	local margin_left = style.task_margin[1] or 0
+	local margin_right = style.task_margin[2] or 0
+	local task_full_width = style.width + margin_left + margin_right
 	layout:set_max_widget_size(task_full_width)
 	layout:set_forced_width(task_full_width * #client_groups)
 
