@@ -209,15 +209,17 @@ end
 -- Function to filter application list by quick search input
 local function list_filtrate(query)
 	if lastquery ~= query then
-		programs.current = {}
+		local filtered_programs = {}
 
 		for _, p in ipairs(programs.all) do
 			if string.match(string.lower(p.Name), query) then
-				table.insert(programs.current, p)
+				table.insert(filtered_programs, p)
 			end
 		end
 
-		sort_by_query(programs.current, query)
+		sort_by_query(filtered_programs, query)
+
+		programs.current = filtered_programs
 
 		apprunner.applist.position = 1
 		apprunner.applist:update(programs.current)
