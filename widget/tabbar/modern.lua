@@ -5,7 +5,7 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 local xresources = require("beautiful.xresources")
 local dpi = xresources.apply_dpi
-local helpers = require(tostring(...):match(".*bling") .. ".helpers")
+local helpers = require("flex.helpers")
 
 local bg_normal = beautiful.tabbar_bg_normal or beautiful.bg_normal or "#ffffff"
 local fg_normal = beautiful.tabbar_fg_normal or beautiful.fg_normal or "#000000"
