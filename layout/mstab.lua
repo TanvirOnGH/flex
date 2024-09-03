@@ -14,7 +14,7 @@ local tabbar_padding = beautiful.mstab_bar_padding or "default"
 local border_radius = beautiful.mstab_border_radius or beautiful.border_radius or 0
 local tabbar_position = beautiful.mstab_tabbar_position or beautiful.tabbar_position or "top"
 
-local bar_style = beautiful.mstab_tabbar_style or beautiful.tabbar_style or "default"
+local bar_style = beautiful.mstab_tabbar_style or beautiful.tabbar_style or "modern"
 local bar = require("flex.widget.tabbar." .. bar_style)
 local tabbar_size = bar.size or beautiful.mstab_bar_height or beautiful.tabbar_size or 40
 local dont_resize_slaves = beautiful.mstab_dont_resize_slaves or false
