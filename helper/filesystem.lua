@@ -10,7 +10,7 @@ local _filesystem = {}
 -- @tparam[opt] table exts Specific extensions to limit the search to. eg:`{ "jpg", "png" }`
 --   If ommited, all files are considered.
 -- @bool[opt=false] recursive List files from subdirectories
--- @staticfct bling.helpers.filesystem.get_random_file_from_dir
+-- @staticfct flex.helper.filesystem.get_random_file_from_dir
 function _filesystem.list_directory_files(path, exts, recursive)
 	recursive = recursive or false
 	local files, valid_exts = {}, {}

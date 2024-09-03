@@ -5,7 +5,7 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 local xresources = require("beautiful.xresources")
 local dpi = xresources.apply_dpi
-local helpers = require("flex.helpers")
+local helper = require("flex.helper")
 
 local bg_normal = beautiful.tabbar_bg_normal or beautiful.bg_normal or "#ffffff"
 local fg_normal = beautiful.tabbar_fg_normal or beautiful.fg_normal or "#000000"
@@ -146,29 +146,29 @@ local function create(c, focused_bool, buttons, inactive_bool)
 			{
 				tab_content,
 				bg = bg_temp,
-				shape = helpers.shape.prrect(border_radius, true, true, false, false),
+				shape = helper.shape.prrect(border_radius, true, true, false, false),
 				widget = wibox.container.background,
 			},
 			top = dpi(8),
 			widget = wibox.container.margin,
 		})
 
-		left_shape = helpers.shape.prrect(border_radius, false, false, true, false)
-		right_shape = helpers.shape.prrect(border_radius, false, false, false, true)
+		left_shape = helper.shape.prrect(border_radius, false, false, true, false)
+		right_shape = helper.shape.prrect(border_radius, false, false, false, true)
 	else
 		main_content = wibox.widget({
 			{
 				tab_content,
 				bg = bg_temp,
-				shape = helpers.shape.prrect(border_radius, false, false, true, true),
+				shape = helper.shape.prrect(border_radius, false, false, true, true),
 				widget = wibox.container.background,
 			},
 			bottom = dpi(8),
 			widget = wibox.container.margin,
 		})
 
-		left_shape = helpers.shape.prrect(border_radius, false, true, false, false)
-		right_shape = helpers.shape.prrect(border_radius, true, false, false, false)
+		left_shape = helper.shape.prrect(border_radius, false, true, false, false)
+		right_shape = helper.shape.prrect(border_radius, true, false, false, false)
 	end
 
 	local wid_temp = wibox.widget({
