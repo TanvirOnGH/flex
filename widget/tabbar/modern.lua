@@ -19,9 +19,9 @@ local font = beautiful.tabbar_font or beautiful.font or "Fira Code 13"
 local size = beautiful.tabbar_size or dpi(40)
 local border_radius = beautiful.mstab_border_radius or beautiful.border_radius or 6
 local position = beautiful.tabbar_position or "top"
-local close_color = beautiful.tabbar_color_close or beautiful.xcolor1 or "#C38F8F"
-local min_color = beautiful.tabbar_color_min or beautiful.xcolor3 or "#a0a0a0"
-local float_color = beautiful.tabbar_color_float or beautiful.xcolor5 or "#8DB8CD"
+local close_color = beautiful.tabbar_color_close or beautiful.xcolor1 or "#E93D00"
+local min_color = beautiful.tabbar_color_min or beautiful.xcolor3 or "#D30E4A"
+local float_color = beautiful.tabbar_color_float or beautiful.xcolor5 or "#68389D"
 
 -- Helper to create buttons
 local function create_title_button(c, color_focus, color_unfocus)
