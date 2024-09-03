@@ -41,6 +41,6 @@ Extension module for [awesome window manager](https://awesomewm.org), providing 
 
 This project builds upon the [redflat](https://github.com/worron/redflat) extension module by [worron](https://github.com/worron).
 
-Some layouts (deck, mstab, vertical, horizontal, centered, equalarea), helper utilities and the tabbar widget are adapted from the [bling](https://github.com/BlingCorp/bling) extension module by [javacafe01](https://github.com/javacafe01).
+Some layouts (deck, mstab, vertical, horizontal, centered, equalarea), helper utility (shape) and the tabbar widget are adapted from the [bling](https://github.com/BlingCorp/bling) extension module by [javacafe01](https://github.com/javacafe01).
 
 Special thanks to the AwesomeWM community for their support and contributions.
