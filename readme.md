@@ -13,6 +13,8 @@ Extension module for [awesome window manager](https://awesomewm.org), providing 
   - `taglist`: Enhanced tag list widget.
   - `tasklist`: Task list widget with client grouping and optional tooltip.
   - `textclock`: Basic text-based clock widget.
+  - `tabbar`: Tab bar widget with different styles for managing clients.
+    - Styles: `boxes`, `default`, `modern`, `pure`
 - **Layouts:**
   - `grid`: Arranges clients in a fixed grid with customizable cell sizes.
   - `map`: Flexible user-defined layout structure with support for nested containers.
@@ -37,6 +39,8 @@ Extension module for [awesome window manager](https://awesomewm.org), providing 
 
 ## Acknowledgements
 
-This project is based on the [redflat](https://github.com/worron/redflat) extension module by [worron](https://github.com/worron).
+This project builds upon the [redflat](https://github.com/worron/redflat) extension module by [worron](https://github.com/worron).
 
-Thanks to the AwesomeWM community for their support and contributions.
+Some layouts (deck, mstab, vertical, horizontal, centered, equalarea) and the tabbar widget are adapted from the [bling](https://github.com/BlingCorp/bling) extension module by [javacafe01](https://github.com/javacafe01).
+
+Special thanks to the AwesomeWM community for their support and contributions.
