@@ -37,7 +37,7 @@ end
 function net.new(args, style)
 	-- Initialize vars
 	local storage = {}
-	local unit = { { "B", 1 }, { "KB", 1024 }, { "MB", 1024 ^ 2 }, { "GB", 1024 ^ 3 } }
+	local unit = { { "B/s", 1 }, { "KB/s", 1024 }, { "MB/s", 1024 ^ 2 }, { "GB/s", 1024 ^ 3 } }
 	args = modutil.table.merge(default_args, args or {})
 	style = modutil.table.merge(default_style(), style or {})
 
