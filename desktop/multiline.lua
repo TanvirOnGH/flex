@@ -22,7 +22,7 @@ local function default_style()
 		margin = { 0, 0, 0, 0 },
 		digits = 3,
 		dislabel = "OFF",
-		unit = { { "B/s", -1 }, { "KB/s", 1024 }, { "MB/s", 1024 ^ 2 }, { "GB/s", 1024 ^ 3 } },
+		unit = { { "B", -1 }, { "KB", 1024 }, { "MB", 1024 ^ 2 }, { "GB", 1024 ^ 3 } },
 		color = { main = "#C38F8F", wibox = "#161616", gray = "#404040" },
 	}
 	return modutil.table.merge(style, modutil.table.check(beautiful, "desktop.multiline") or {})
