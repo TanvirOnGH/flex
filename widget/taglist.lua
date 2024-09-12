@@ -34,7 +34,10 @@ local function visible_clients(t, ignored)
 	local clients = {}
 
 	for _, c in pairs(t:clients()) do
-		local hidden = c.hidden or c.type == "splash" or c.type == "dock" or c.type == "desktop"
+		local hidden = c.hidden
+			or c.type == "splash"
+			or c.type == "dock"
+			or c.type == "desktop"
 			or (c.class and awful.util.table.hasitem(ignored, c.class))
 
 		if not hidden then

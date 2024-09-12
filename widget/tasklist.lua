@@ -325,7 +325,11 @@ local function visible_clients(filter, screen, ignored)
 	local clients = {}
 
 	for _, c in ipairs(client.get()) do
-		local hidden = c.skip_taskbar or c.hidden or c.type == "splash" or c.type == "dock" or c.type == "desktop"
+		local hidden = c.skip_taskbar
+			or c.hidden
+			or c.type == "splash"
+			or c.type == "dock"
+			or c.type == "desktop"
 			or (c.class and awful.util.table.hasitem(ignored, c.class))
 
 		if not hidden and filter(c, screen) then
