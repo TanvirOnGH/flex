@@ -321,11 +321,12 @@ local function new_task(c_group, style)
 end
 
 -- Find all clients to be shown
-local function visible_clients(filter, screen)
+local function visible_clients(filter, screen, ignored)
 	local clients = {}
 
 	for _, c in ipairs(client.get()) do
 		local hidden = c.skip_taskbar or c.hidden or c.type == "splash" or c.type == "dock" or c.type == "desktop"
+			or (c.class and awful.util.table.hasitem(ignored, c.class))
 
 		if not hidden and filter(c, screen) then
 			table.insert(clients, c)
@@ -848,7 +849,7 @@ function redtasklist.new(args, style)
 	-- Update tasklist
 	-- Tasklist update function
 	local function tasklist_update()
-		local clients = visible_clients(filter, cs)
+		local clients = visible_clients(filter, cs, args.ignored or {})
 		local client_groups = group_task(clients, style.need_group)
 
 		table.sort(client_groups, client_group_sort_by_class)
