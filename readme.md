@@ -2,6 +2,8 @@
 
 Extension module for [awesome window manager](https://awesomewm.org), providing a collection of visually consistent and functional widgets, layout enhancements, and utilities used within [my awesomewm configuration](https://github.com/TanvirOnGH/awesomewm-config). It is designed to seamlessly integrate with the overall aesthetic and functionality of my setup.
 
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/TanvirOnGH/flex)
+
 ## Features
 
 - **Widgets:**
