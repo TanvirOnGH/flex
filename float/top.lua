@@ -92,7 +92,7 @@ local function default_style()
 		button_margin = { 140, 140, 22, 22 },
 		keytip = { geometry = { width = 400 } },
 		title_font = "Fira Code 14 bold",
-		unit = { { "KB/s", -1 }, { "MB/s", 1024 }, { "GB/s", 1024 ^ 2 } },
+		unit = { { "KB", -1 }, { "MB", 1024 }, { "GB", 1024 ^ 2 } },
 		color = {
 			border = "#575757",
 			text = "#aaaaaa",
